@@ -3,9 +3,15 @@
 import { Moon, Sun, Monitor } from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  // Prevent hydration mismatch by only rendering after mount
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return <div className="h-9 w-24 rounded-full border bg-muted/30" />;
 
   const modes = [
     { key: "light" as const, icon: Sun, label: "Light" },
@@ -14,21 +20,21 @@ export function ThemeToggle() {
   ];
 
   return (
-    <div className="flex items-center gap-1 rounded-full border bg-muted/50 p-1">
+    <div className="flex items-center gap-1 rounded-full border border-border/50 bg-muted/30 p-1 backdrop-blur-sm">
       {modes.map(({ key, icon: Icon, label }) => (
         <button
           key={key}
           onClick={() => setTheme(key)}
           className={cn(
-            "inline-flex h-7 w-7 items-center justify-center rounded-full transition-all duration-200",
+            "relative inline-flex h-7 w-7 items-center justify-center rounded-full transition-all duration-300 ease-out",
             theme === key
-              ? "bg-background text-foreground shadow-sm"
-              : "text-muted-foreground hover:text-foreground"
+              ? "bg-background text-foreground shadow-sm ring-1 ring-border"
+              : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
           )}
           aria-label={`Switch to ${label} mode`}
           title={label}
         >
-          <Icon className="h-3.5 w-3.5" />
+          <Icon className={cn("h-3.5 w-3.5 transition-transform", theme === key ? "scale-100" : "scale-90")} />
         </button>
       ))}
     </div>

@@ -38,40 +38,58 @@ const features = [
 
 export default function HomePage() {
   return (
-    <main className="flex min-h-screen flex-col">
+    <main className="flex min-h-screen flex-col items-center">
+      {/* Decorative Background Glow */}
+      <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] dark:bg-[radial-gradient(#1f2937_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+      
       {/* Hero */}
-      <section className="relative flex flex-col items-center justify-center px-6 py-24 text-center md:py-32">
+      <section className="relative flex w-full flex-col items-center justify-center px-6 pt-32 pb-16 text-center md:pt-48 md:pb-24">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="max-w-4xl"
         >
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-            <span className="bg-gradient-to-r from-zinc-200 via-zinc-400 to-zinc-600 bg-clip-text text-transparent dark:from-zinc-100 dark:via-zinc-300 dark:to-zinc-500">
-              RobustLens
+          <div className="mb-6 flex items-center justify-center gap-2">
+            <span className="rounded-full bg-blue-500/10 px-3 py-1 text-sm font-semibold text-blue-600 dark:bg-blue-400/10 dark:text-blue-400">
+              Research & Evaluation Framework
+            </span>
+          </div>
+          
+          <h1 className="text-5xl font-extrabold tracking-tight sm:text-6xl md:text-7xl lg:text-8xl">
+            <span className="bg-gradient-to-br from-gray-900 via-gray-700 to-gray-500 bg-clip-text text-transparent dark:from-white dark:via-gray-200 dark:to-gray-500">
+              See How Models
+            </span>
+            <br />
+            <span className="bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-violet-400">
+              Actually Break.
             </span>
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground sm:text-xl">
-            How robust are modern vision models? A rigorous statistical evaluation
-            under distribution shift.
+          
+          <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground sm:text-xl leading-relaxed">
+            RobustLens is a rigorous statistical evaluation pipeline designed to test modern vision models under realistic distribution shifts. 
+            Stop guessing if one model is better than another—prove it.
           </p>
         </motion.div>
 
         <motion.div
-          className="mt-8 flex flex-wrap justify-center gap-4"
-          initial={{ opacity: 0, y: 10 }}
+          className="mt-10 flex flex-wrap justify-center gap-4"
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+          transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
         >
           <Link
             href="/leaderboard"
-            className="inline-flex h-11 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90"
+            className="group relative inline-flex h-12 items-center justify-center overflow-hidden rounded-full bg-primary px-8 text-sm font-semibold text-primary-foreground shadow-lg transition-all hover:scale-105 hover:shadow-primary/25"
           >
-            View Leaderboard
+            <span className="relative z-10 flex items-center gap-2">
+              Explore the Data
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-1"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </span>
           </Link>
           <Link
             href="/methods"
-            className="inline-flex h-11 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground"
+            className="inline-flex h-12 items-center justify-center rounded-full border border-input bg-background/50 backdrop-blur-sm px-8 text-sm font-semibold text-foreground shadow-sm transition-all hover:bg-accent hover:text-accent-foreground"
           >
             Methodology
           </Link>

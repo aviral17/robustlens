@@ -19,14 +19,14 @@ RobustLens is an end-to-end pipeline + interactive web app that evaluates pretra
 
 ## Models Evaluated
 
-| Model | Architecture | Parameters | ImageNet Top-1 |
-|-------|-------------|------------|----------------|
-| ResNet-50 | CNN | 25.6M | 76.1% |
-| ConvNeXt-Tiny | Modern CNN | 28.6M | 82.1% |
-| ViT-B/16 | Transformer | 86.6M | 81.1% |
-| Swin-Tiny | Transformer | 28.3M | 81.3% |
+| Model | Architecture | Parameters | ImageNet Top-1 | Est. Inference Speed (CPU)* |
+|-------|-------------|------------|----------------|--------------------------|
+| ResNet-50 (`resnet50.a1_in1k`) | CNN | 25.6M | 76.1% | ~25 img/s |
+| ConvNeXt-Tiny (`convnext_tiny.in12k_ft_in1k`) | Modern CNN | 28.6M | 82.1% | ~15 img/s |
+| ViT-B/16 (`vit_base_patch16_224.augreg_in21k_ft_in1k`) | Transformer | 86.6M | 81.1% | ~8 img/s |
+| Swin-Tiny (`swin_tiny_patch4_window7_224.ms_in1k`) | Transformer | 28.3M | 81.3% | ~10 img/s |
 
-> Results will be populated after Phase 3 evaluation runs.
+> *Speed benchmarks run during Phase 2. Full statistical evaluation results will be populated after Phase 3 on Kaggle GPU.*
 
 ## Project Structure
 

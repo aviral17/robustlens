@@ -1,0 +1,5 @@
+model,display_name,family,status,num_independent_images,clean_accuracy,mean_shifted_accuracy,mean_accuracy_drop,relative_robustness,mean_ece,mean_latency_ms
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,Pilot — N=100,100,0.84,0.7167,0.1233,0.8532,0.0678,22.15
+swin_tiny,Swin-Tiny,Hierarchical ViT,Pilot — N=100,100,0.82,0.6953,0.1247,0.848,0.1606,15.73
+resnet50,ResNet-50,CNN,Pilot — N=100,100,0.85,0.662,0.188,0.7788,0.0981,16.16
+vit_base,ViT-Base/16,Transformer,Pilot — N=100,100,0.74,0.6333,0.1067,0.8559,0.041,32.37

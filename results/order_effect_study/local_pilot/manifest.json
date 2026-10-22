@@ -1,0 +1,43 @@
+{
+  "benchmark": "RobustLens Order Effects Local Fallback Pilot",
+  "version": "1.0.0",
+  "date": "2026-10-17T16:47:04.087650+00:00",
+  "runtime_seconds": 438.32,
+  "hardware": {
+    "device": "cpu"
+  },
+  "dataset": {
+    "name": "johnowhitaker/imagenette2-320",
+    "split": "validation (rows 9469..13393)",
+    "n_images": 10
+  },
+  "parameters": {
+    "permutations": [
+      "NBJ",
+      "NJB",
+      "BNJ",
+      "BJN",
+      "JNB",
+      "JBN"
+    ],
+    "severities": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "n_conditions_per_image": 31,
+    "n_models": 4,
+    "n_total_predictions": 1240,
+    "random_seed": 42
+  },
+  "artifacts": {
+    "all_predictions": "all_order_predictions.csv",
+    "summary": "order_effects_summary.csv",
+    "leaderboard": "order_effects_leaderboard.csv",
+    "pairwise_significance": "order_pairwise_significance.csv",
+    "omnibus_tests": "order_omnibus_tests.json",
+    "distortion_ancova": "distortion_ancova.csv"
+  }
+}

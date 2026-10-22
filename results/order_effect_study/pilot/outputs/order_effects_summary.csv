@@ -1,0 +1,125 @@
+model,model_name,model_family,order,severity,accuracy,mean_confidence,ece,mean_entropy,mean_psnr,mean_ssim,n_samples
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,BJN,1,0.78,0.6924,0.1275,1.9782,26.13,0.626,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,BJN,2,0.6,0.5852,0.1224,2.6725,20.81,0.344,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,BJN,3,0.38,0.4004,0.0996,3.7029,17.74,0.205,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,BJN,4,0.18,0.2383,0.0812,4.7647,14.86,0.118,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,BJN,5,0.06,0.117,0.0967,5.6458,12.35,0.071,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,BNJ,1,0.78,0.7137,0.0928,1.8127,28.64,0.775,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,BNJ,2,0.61,0.6278,0.0905,2.1802,23.34,0.491,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,BNJ,3,0.44,0.493,0.1449,2.9114,20.42,0.321,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,BNJ,4,0.21,0.3267,0.1327,3.8561,17.75,0.2,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,BNJ,5,0.11,0.2104,0.1079,4.69,16.06,0.146,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,JBN,1,0.78,0.6968,0.1435,1.955,26.27,0.632,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,JBN,2,0.6,0.5885,0.1196,2.6384,20.82,0.345,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,JBN,3,0.39,0.4048,0.1132,3.6706,17.75,0.205,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,JBN,4,0.18,0.2392,0.1049,4.7495,14.86,0.118,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,JBN,5,0.07,0.1229,0.0977,5.6041,12.35,0.071,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,JNB,1,0.8,0.7068,0.1142,1.9384,30.26,0.866,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,JNB,2,0.7,0.657,0.1142,2.1559,26.28,0.758,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,JNB,3,0.59,0.6043,0.1129,2.3681,24.17,0.678,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,JNB,4,0.47,0.5218,0.1223,2.8472,22.49,0.613,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,JNB,5,0.34,0.3884,0.0859,3.5328,20.86,0.561,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,NBJ,1,0.76,0.7202,0.0646,1.7924,30.44,0.884,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,NBJ,2,0.71,0.6639,0.1519,2.0311,26.4,0.771,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,NBJ,3,0.59,0.606,0.1452,2.3071,24.21,0.684,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,NBJ,4,0.46,0.5252,0.1604,2.7245,22.5,0.613,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,NBJ,5,0.34,0.4159,0.1438,3.3707,20.85,0.555,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,NJB,1,0.78,0.7129,0.0724,1.8303,30.75,0.892,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,NJB,2,0.71,0.6729,0.1215,1.9988,26.43,0.775,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,NJB,3,0.61,0.6281,0.0883,2.2141,24.21,0.688,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,NJB,4,0.5,0.5528,0.1053,2.5793,22.46,0.618,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,NJB,5,0.35,0.442,0.1256,3.1944,20.81,0.565,100
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,clean,0,0.84,0.7653,0.1203,1.531,100.0,1.0,100
+resnet50,ResNet-50,CNN,BJN,1,0.72,0.8136,0.1374,0.8674,26.13,0.626,100
+resnet50,ResNet-50,CNN,BJN,2,0.51,0.6506,0.1678,1.7967,20.81,0.344,100
+resnet50,ResNet-50,CNN,BJN,3,0.26,0.4186,0.1586,3.2362,17.74,0.205,100
+resnet50,ResNet-50,CNN,BJN,4,0.07,0.2583,0.1883,4.3862,14.86,0.118,100
+resnet50,ResNet-50,CNN,BJN,5,0.03,0.1973,0.1771,4.9478,12.35,0.071,100
+resnet50,ResNet-50,CNN,BNJ,1,0.71,0.7931,0.1112,0.9456,28.64,0.775,100
+resnet50,ResNet-50,CNN,BNJ,2,0.55,0.6406,0.1759,1.8567,23.34,0.491,100
+resnet50,ResNet-50,CNN,BNJ,3,0.3,0.4077,0.1352,3.123,20.42,0.321,100
+resnet50,ResNet-50,CNN,BNJ,4,0.12,0.2578,0.1378,4.1344,17.75,0.2,100
+resnet50,ResNet-50,CNN,BNJ,5,0.03,0.1536,0.1273,4.8443,16.06,0.146,100
+resnet50,ResNet-50,CNN,JBN,1,0.72,0.8222,0.1235,0.8328,26.27,0.632,100
+resnet50,ResNet-50,CNN,JBN,2,0.53,0.6613,0.1977,1.7194,20.82,0.345,100
+resnet50,ResNet-50,CNN,JBN,3,0.26,0.4022,0.1633,3.296,17.75,0.205,100
+resnet50,ResNet-50,CNN,JBN,4,0.07,0.2578,0.1878,4.3782,14.86,0.118,100
+resnet50,ResNet-50,CNN,JBN,5,0.01,0.1943,0.1843,4.9676,12.35,0.071,100
+resnet50,ResNet-50,CNN,JNB,1,0.82,0.828,0.1007,0.8639,30.26,0.866,100
+resnet50,ResNet-50,CNN,JNB,2,0.63,0.7289,0.1455,1.3477,26.28,0.758,100
+resnet50,ResNet-50,CNN,JNB,3,0.5,0.6226,0.181,2.0062,24.17,0.678,100
+resnet50,ResNet-50,CNN,JNB,4,0.4,0.4986,0.1433,2.7362,22.49,0.613,100
+resnet50,ResNet-50,CNN,JNB,5,0.25,0.3555,0.1246,3.6407,20.86,0.561,100
+resnet50,ResNet-50,CNN,NBJ,1,0.75,0.8274,0.1278,0.8221,30.44,0.884,100
+resnet50,ResNet-50,CNN,NBJ,2,0.61,0.7349,0.1598,1.3159,26.4,0.771,100
+resnet50,ResNet-50,CNN,NBJ,3,0.47,0.6383,0.208,1.9243,24.21,0.684,100
+resnet50,ResNet-50,CNN,NBJ,4,0.35,0.4659,0.1508,2.9607,22.5,0.613,100
+resnet50,ResNet-50,CNN,NBJ,5,0.17,0.2453,0.1332,4.4042,20.85,0.555,100
+resnet50,ResNet-50,CNN,NJB,1,0.79,0.8268,0.1117,0.8451,30.75,0.892,100
+resnet50,ResNet-50,CNN,NJB,2,0.64,0.7427,0.1818,1.2821,26.43,0.775,100
+resnet50,ResNet-50,CNN,NJB,3,0.51,0.6342,0.1524,1.9548,24.21,0.688,100
+resnet50,ResNet-50,CNN,NJB,4,0.39,0.4917,0.1563,2.7625,22.46,0.618,100
+resnet50,ResNet-50,CNN,NJB,5,0.24,0.3859,0.1861,3.47,20.81,0.565,100
+resnet50,ResNet-50,CNN,clean,0,0.85,0.8975,0.1013,0.4396,100.0,1.0,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,BJN,1,0.75,0.5991,0.1644,2.6362,26.13,0.626,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,BJN,2,0.59,0.4237,0.1925,3.8006,20.81,0.344,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,BJN,3,0.49,0.2975,0.1925,4.6444,17.74,0.205,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,BJN,4,0.31,0.1332,0.1768,5.8464,14.86,0.118,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,BJN,5,0.14,0.0286,0.1192,6.67,12.35,0.071,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,BNJ,1,0.7,0.6545,0.0994,2.1406,28.64,0.775,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,BNJ,2,0.6,0.521,0.1245,2.8078,23.34,0.491,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,BNJ,3,0.39,0.4273,0.1032,3.3175,20.42,0.321,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,BNJ,4,0.24,0.3406,0.131,3.8082,17.75,0.2,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,BNJ,5,0.1,0.2484,0.1591,4.199,16.06,0.146,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,JBN,1,0.76,0.6092,0.1582,2.5798,26.27,0.632,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,JBN,2,0.63,0.4263,0.2285,3.7903,20.82,0.345,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,JBN,3,0.47,0.2965,0.1984,4.6499,17.75,0.205,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,JBN,4,0.31,0.1323,0.1777,5.8535,14.86,0.118,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,JBN,5,0.15,0.03,0.1279,6.6652,12.35,0.071,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,JNB,1,0.76,0.6622,0.123,2.1691,30.26,0.866,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,JNB,2,0.68,0.6073,0.1469,2.4084,26.28,0.758,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,JNB,3,0.59,0.5446,0.086,2.6424,24.17,0.678,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,JNB,4,0.5,0.4835,0.1122,3.0102,22.49,0.613,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,JNB,5,0.36,0.3871,0.1507,3.606,20.86,0.561,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,NBJ,1,0.76,0.6944,0.1248,1.8792,30.44,0.884,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,NBJ,2,0.65,0.6172,0.0702,2.2179,26.4,0.771,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,NBJ,3,0.53,0.551,0.1122,2.5352,24.21,0.684,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,NBJ,4,0.45,0.5098,0.0926,2.8247,22.5,0.613,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,NBJ,5,0.35,0.4513,0.1321,3.2076,20.85,0.555,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,NJB,1,0.76,0.627,0.1566,2.4165,30.75,0.892,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,NJB,2,0.67,0.5631,0.1224,2.7583,26.43,0.775,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,NJB,3,0.58,0.4882,0.1502,3.1104,24.21,0.688,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,NJB,4,0.5,0.4268,0.133,3.4753,22.46,0.618,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,NJB,5,0.33,0.3316,0.1221,4.0809,20.81,0.565,100
+swin_tiny,Swin-Tiny,Hierarchical ViT,clean,0,0.82,0.7456,0.1169,1.5955,100.0,1.0,100
+vit_base,ViT-Base/16,Transformer,BJN,1,0.67,0.6959,0.1059,1.3058,26.13,0.626,100
+vit_base,ViT-Base/16,Transformer,BJN,2,0.49,0.6033,0.1685,1.9027,20.81,0.344,100
+vit_base,ViT-Base/16,Transformer,BJN,3,0.4,0.4632,0.118,2.7163,17.74,0.205,100
+vit_base,ViT-Base/16,Transformer,BJN,4,0.25,0.2994,0.123,3.7862,14.86,0.118,100
+vit_base,ViT-Base/16,Transformer,BJN,5,0.07,0.1413,0.0921,4.9656,12.35,0.071,100
+vit_base,ViT-Base/16,Transformer,BNJ,1,0.62,0.6857,0.111,1.3307,28.64,0.775,100
+vit_base,ViT-Base/16,Transformer,BNJ,2,0.48,0.5657,0.1147,2.0802,23.34,0.491,100
+vit_base,ViT-Base/16,Transformer,BNJ,3,0.33,0.4301,0.1332,2.9197,20.42,0.321,100
+vit_base,ViT-Base/16,Transformer,BNJ,4,0.16,0.2489,0.1224,4.0695,17.75,0.2,100
+vit_base,ViT-Base/16,Transformer,BNJ,5,0.1,0.1333,0.0591,4.9212,16.06,0.146,100
+vit_base,ViT-Base/16,Transformer,JBN,1,0.67,0.701,0.1128,1.2832,26.27,0.632,100
+vit_base,ViT-Base/16,Transformer,JBN,2,0.48,0.5993,0.1577,1.9106,20.82,0.345,100
+vit_base,ViT-Base/16,Transformer,JBN,3,0.45,0.4687,0.0921,2.6903,17.75,0.205,100
+vit_base,ViT-Base/16,Transformer,JBN,4,0.26,0.3112,0.16,3.7306,14.86,0.118,100
+vit_base,ViT-Base/16,Transformer,JBN,5,0.07,0.1455,0.0958,4.9165,12.35,0.071,100
+vit_base,ViT-Base/16,Transformer,JNB,1,0.7,0.721,0.1038,1.1711,30.26,0.866,100
+vit_base,ViT-Base/16,Transformer,JNB,2,0.59,0.6208,0.1136,1.6786,26.28,0.758,100
+vit_base,ViT-Base/16,Transformer,JNB,3,0.47,0.5904,0.1626,1.8622,24.17,0.678,100
+vit_base,ViT-Base/16,Transformer,JNB,4,0.46,0.5375,0.1409,2.1758,22.49,0.613,100
+vit_base,ViT-Base/16,Transformer,JNB,5,0.37,0.4458,0.1338,2.6877,20.86,0.561,100
+vit_base,ViT-Base/16,Transformer,NBJ,1,0.68,0.7196,0.121,1.1642,30.44,0.884,100
+vit_base,ViT-Base/16,Transformer,NBJ,2,0.58,0.6362,0.1519,1.5936,26.4,0.771,100
+vit_base,ViT-Base/16,Transformer,NBJ,3,0.45,0.5772,0.1661,1.896,24.21,0.684,100
+vit_base,ViT-Base/16,Transformer,NBJ,4,0.45,0.5476,0.1508,2.1432,22.5,0.613,100
+vit_base,ViT-Base/16,Transformer,NBJ,5,0.32,0.4463,0.1273,2.7613,20.85,0.555,100
+vit_base,ViT-Base/16,Transformer,NJB,1,0.68,0.7085,0.1121,1.2243,30.75,0.892,100
+vit_base,ViT-Base/16,Transformer,NJB,2,0.56,0.6413,0.1234,1.5886,26.43,0.775,100
+vit_base,ViT-Base/16,Transformer,NJB,3,0.52,0.5835,0.1091,1.8827,24.21,0.688,100
+vit_base,ViT-Base/16,Transformer,NJB,4,0.5,0.5602,0.1216,2.0759,22.46,0.618,100
+vit_base,ViT-Base/16,Transformer,NJB,5,0.39,0.4878,0.1406,2.5188,20.81,0.565,100
+vit_base,ViT-Base/16,Transformer,clean,0,0.74,0.7627,0.0922,0.9474,100.0,1.0,100

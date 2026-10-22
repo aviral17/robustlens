@@ -5,7 +5,7 @@ description = "Robustness evaluation of pretrained vision models under distribut
 requires-python = ">=3.11"
 readme = "README.md"
 license = {text = "MIT"}
-authors = [{name = "Avi"}]
+authors = [{name = "Aviral Choudhary"}]
 dependencies = [
     "torch>=2.0",
     "torchvision>=0.15",
@@ -22,6 +22,7 @@ dependencies = [
     "tqdm>=4.66",
     "huggingface-hub>=1.33.0",
     "nbformat>=5.11.1",
+    "kaggle>=1.6.0",
 ]
 
 [project.optional-dependencies]
@@ -44,3 +45,8 @@ select = ["E", "F", "I", "N", "W", "UP"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[dependency-groups]
+dev = [
+    "reportlab",
+]

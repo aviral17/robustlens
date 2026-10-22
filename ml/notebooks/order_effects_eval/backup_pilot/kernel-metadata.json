@@ -1,0 +1,13 @@
+{
+  "id": "aviral199/robustlens-order-effects-evaluation",
+  "title": "RobustLens Order Effects Evaluation",
+  "code_file": "01_order_effects_benchmark.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": "true",
+  "enable_gpu": "true",
+  "enable_internet": "true",
+  "dataset_sources": [],
+  "competition_sources": [],
+  "kernel_sources": []
+}

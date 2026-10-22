@@ -1,0 +1,5 @@
+model,model_name,model_family,clean_accuracy,compound_accuracy,order_accuracy_variance,order_max_accuracy_gap,mean_compound_ece
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,0.8713,0.5811,0.000414,0.0467,0.0653
+swin_tiny,Swin-Tiny,Hierarchical ViT,0.8604,0.5627,0.002317,0.1168,0.1039
+vit_base,ViT-Base/16,Transformer,0.8025,0.5331,0.001288,0.1003,0.042
+resnet50,ResNet-50,CNN,0.8736,0.4847,0.000601,0.059,0.0919

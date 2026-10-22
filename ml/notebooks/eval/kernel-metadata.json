@@ -1,0 +1,13 @@
+{
+  "id": "aviral199/robustlens-robustness-evaluation",
+  "title": "RobustLens Robustness Evaluation",
+  "code_file": "02_robustness_eval.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": "true",
+  "enable_gpu": "true",
+  "enable_internet": "true",
+  "dataset_sources": [],
+  "competition_sources": [],
+  "kernel_sources": []
+}

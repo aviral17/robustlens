@@ -1,0 +1,45 @@
+[{"stream_name":"stderr","time":7.67621943,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":7.676263681,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":7.676268804,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":7.676271221,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stderr","time":8.291071675,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":8.291118729,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":8.291124413,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":8.291128423,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stdout","time":32.929569891,"data":"PyTorch version: 2.11.0+cu128\n"}
+,{"stream_name":"stdout","time":32.929606012,"data":"Compute Device: cuda (Tesla T4)\n"}
+,{"stream_name":"stdout","time":32.952796567,"data":"Configured: SUBSET_SIZE=100, BATCH_SIZE=32, SEED=42\n"}
+,{"stream_name":"stderr","time":34.896864505,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stderr","time":34.896888846,"data":"\n"}
+,{"stream_name":"stderr","time":34.89689334,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stdout","time":34.929398346,"data":"Loading Imagenette validation split from Parquet...\n"}
+,{"stream_name":"stdout","time":40.812178681,"data":"Validation dataset size: 3925 images.\n"}
+,{"stream_name":"stdout","time":40.812219829,"data":"Selecting 100 validation images (Deterministic Seed: 42).\n"}
+,{"stream_name":"stdout","time":40.837269964,"data":"Preloaded 100 images into memory.\n"}
+,{"stream_name":"stdout","time":41.602064476,"data":"\n"}
+,{"stream_name":"stdout","time":41.602098263,"data":"Evaluating ResNet-50 (resnet50.a1_in1k)...\n"}
+,{"stream_name":"stdout","time":50.607086738,"data":"\n"}
+,{"stream_name":"stdout","time":50.607128488,"data":"Evaluating ConvNeXt-Tiny (convnext_tiny.in12k_ft_in1k)...\n"}
+,{"stream_name":"stdout","time":63.851390725,"data":"\n"}
+,{"stream_name":"stdout","time":63.851426781,"data":"Evaluating ViT-Base/16 (vit_base_patch16_224.augreg_in21k_ft_in1k)...\n"}
+,{"stream_name":"stdout","time":85.828884633,"data":"\n"}
+,{"stream_name":"stdout","time":85.828945514,"data":"Evaluating Swin-Tiny (swin_tiny_patch4_window7_224.ms_in1k)...\n"}
+,{"stream_name":"stdout","time":95.881843706,"data":"\n"}
+,{"stream_name":"stdout","time":95.881885359,"data":"Evaluation complete in 54.48s (117.47 passes/sec). Total records: 6400\n"}
+,{"stream_name":"stdout","time":98.795792621,"data":"\n"}
+,{"stream_name":"stdout","time":98.795821586,"data":"Saved all evaluation artifacts to outputs/:\n"}
+,{"stream_name":"stdout","time":98.795827629,"data":" - all_predictions.json (4208.5 KB)\n"}
+,{"stream_name":"stdout","time":98.795832571,"data":" - manifest.json (1.9 KB)\n"}
+,{"stream_name":"stdout","time":98.795837206,"data":" - leaderboard_summary.csv (0.5 KB)\n"}
+,{"stream_name":"stdout","time":98.795841894,"data":" - pairwise_significance.csv (1.9 KB)\n"}
+,{"stream_name":"stdout","time":98.79584645,"data":" - detailed_breakdown.csv (26.9 KB)\n"}
+,{"stream_name":"stdout","time":98.795863039,"data":" - benchmark_report.json (69.6 KB)\n"}
+,{"stream_name":"stderr","time":103.960132452,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":103.960162957,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":104.121449709,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":104.121476579,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":104.844525561,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to notebook\n"}
+,{"stream_name":"stderr","time":104.937647146,"data":"[NbConvertApp] Writing 189483 bytes to __notebook__.ipynb\n"}
+,{"stream_name":"stderr","time":107.345434868,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to html\n"}
+,{"stream_name":"stderr","time":108.002899084,"data":"[NbConvertApp] Writing 526556 bytes to __results__.html\n"}
+]

@@ -1,0 +1,5 @@
+model,display_name,family,clean_accuracy,mean_shifted_accuracy,mean_accuracy_drop,relative_robustness,mean_ece,mean_latency_ms
+vit_base,ViT-Base/16,Transformer,0.8,0.7778,0.0222,0.9722,0.2544,615.16
+convnext_tiny,ConvNeXt-Tiny,Modern CNN,0.8,0.7444,0.0556,0.9306,0.2134,154.34
+resnet50,ResNet-50,CNN,0.8,0.7,0.1,0.875,0.2692,125.42
+swin_tiny,Swin-Tiny,Hierarchical ViT,0.8,0.6889,0.1111,0.8611,0.3038,223.05

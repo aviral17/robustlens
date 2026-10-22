@@ -1,0 +1,5 @@
+model,nominal_mean_acc,matched_mean_acc,nominal_gap,matched_gap,gap_contraction_pct,var_reduction_pct,rank_rho
+convnext_tiny,0.5614,0.5811,0.2045,0.0467,77.15,95.94,-0.3143
+swin_tiny,0.552,0.5627,0.1713,0.1168,31.79,55.11,-0.5429
+vit_base,0.5023,0.5331,0.2037,0.1003,50.75,86.92,0.1429
+resnet50,0.4606,0.4847,0.2155,0.059,72.62,94.88,-0.5429

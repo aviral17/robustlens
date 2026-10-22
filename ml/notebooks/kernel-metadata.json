@@ -1,0 +1,13 @@
+{
+  "id": "aviral199/robustlens-gpu-smoke-test",
+  "title": "RobustLens GPU Smoke Test",
+  "code_file": "01_gpu_smoke_test.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": "true",
+  "enable_gpu": "true",
+  "enable_internet": "true",
+  "dataset_sources": [],
+  "competition_sources": [],
+  "kernel_sources": []
+}

@@ -1,0 +1,1765 @@
+{
+  "report_generated_at": "2026-10-17T00:53:49.478408+00:00",
+  "configuration": {
+    "num_records": 400,
+    "models_evaluated": [
+      "convnext_tiny",
+      "resnet50",
+      "swin_tiny",
+      "vit_base"
+    ],
+    "corruptions_evaluated": [
+      "defocus_blur",
+      "gaussian_noise",
+      "jpeg_compression"
+    ],
+    "severities_evaluated": [
+      1,
+      3,
+      5
+    ],
+    "n_bootstraps": 1000,
+    "significance_alpha": 0.05,
+    "random_seed": 42
+  },
+  "leaderboard": [
+    {
+      "model": "vit_base",
+      "display_name": "ViT-Base/16",
+      "family": "Transformer",
+      "clean_accuracy": 0.8,
+      "mean_shifted_accuracy": 0.7778,
+      "mean_accuracy_drop": 0.0222,
+      "relative_robustness": 0.9722,
+      "mean_ece": 0.2544,
+      "mean_latency_ms": 615.16
+    },
+    {
+      "model": "convnext_tiny",
+      "display_name": "ConvNeXt-Tiny",
+      "family": "Modern CNN",
+      "clean_accuracy": 0.8,
+      "mean_shifted_accuracy": 0.7444,
+      "mean_accuracy_drop": 0.0556,
+      "relative_robustness": 0.9306,
+      "mean_ece": 0.2134,
+      "mean_latency_ms": 154.34
+    },
+    {
+      "model": "resnet50",
+      "display_name": "ResNet-50",
+      "family": "CNN",
+      "clean_accuracy": 0.8,
+      "mean_shifted_accuracy": 0.7,
+      "mean_accuracy_drop": 0.1,
+      "relative_robustness": 0.875,
+      "mean_ece": 0.2692,
+      "mean_latency_ms": 125.42
+    },
+    {
+      "model": "swin_tiny",
+      "display_name": "Swin-Tiny",
+      "family": "Hierarchical ViT",
+      "clean_accuracy": 0.8,
+      "mean_shifted_accuracy": 0.6889,
+      "mean_accuracy_drop": 0.1111,
+      "relative_robustness": 0.8611,
+      "mean_ece": 0.3038,
+      "mean_latency_ms": 223.05
+    }
+  ],
+  "pairwise_significance": [
+    {
+      "model_1": "convnext_tiny",
+      "model_1_name": "ConvNeXt-Tiny",
+      "model_2": "resnet50",
+      "model_2_name": "ResNet-50",
+      "num_comparisons": 100,
+      "acc_model_1": 0.75,
+      "acc_model_2": 0.71,
+      "accuracy_difference": 0.04,
+      "paired_ci_95_lower": -0.01,
+      "paired_ci_95_upper": 0.09,
+      "mcnemar_p_value": 0.2888443663464818,
+      "paired_boot_p_value": 0.226,
+      "holm_significant": false,
+      "benjamini_hochberg_significant": false
+    },
+    {
+      "model_1": "convnext_tiny",
+      "model_1_name": "ConvNeXt-Tiny",
+      "model_2": "swin_tiny",
+      "model_2_name": "Swin-Tiny",
+      "num_comparisons": 100,
+      "acc_model_1": 0.75,
+      "acc_model_2": 0.7,
+      "accuracy_difference": 0.05,
+      "paired_ci_95_lower": -0.01,
+      "paired_ci_95_upper": 0.12,
+      "mcnemar_p_value": 0.22779999398822554,
+      "paired_boot_p_value": 0.114,
+      "holm_significant": false,
+      "benjamini_hochberg_significant": false
+    },
+    {
+      "model_1": "convnext_tiny",
+      "model_1_name": "ConvNeXt-Tiny",
+      "model_2": "vit_base",
+      "model_2_name": "ViT-Base/16",
+      "num_comparisons": 100,
+      "acc_model_1": 0.75,
+      "acc_model_2": 0.78,
+      "accuracy_difference": -0.03,
+      "paired_ci_95_lower": -0.09,
+      "paired_ci_95_upper": 0.03,
+      "mcnemar_p_value": 0.5049850750938457,
+      "paired_boot_p_value": 1.0,
+      "holm_significant": false,
+      "benjamini_hochberg_significant": false
+    },
+    {
+      "model_1": "resnet50",
+      "model_1_name": "ResNet-50",
+      "model_2": "swin_tiny",
+      "model_2_name": "Swin-Tiny",
+      "num_comparisons": 100,
+      "acc_model_1": 0.71,
+      "acc_model_2": 0.7,
+      "accuracy_difference": 0.01,
+      "paired_ci_95_lower": -0.05,
+      "paired_ci_95_upper": 0.08,
+      "mcnemar_p_value": 1.0,
+      "paired_boot_p_value": 0.828,
+      "holm_significant": false,
+      "benjamini_hochberg_significant": false
+    },
+    {
+      "model_1": "resnet50",
+      "model_1_name": "ResNet-50",
+      "model_2": "vit_base",
+      "model_2_name": "ViT-Base/16",
+      "num_comparisons": 100,
+      "acc_model_1": 0.71,
+      "acc_model_2": 0.78,
+      "accuracy_difference": -0.07,
+      "paired_ci_95_lower": -0.14,
+      "paired_ci_95_upper": 0.0,
+      "mcnemar_p_value": 0.0960923294556734,
+      "paired_boot_p_value": 1.0,
+      "holm_significant": false,
+      "benjamini_hochberg_significant": false
+    },
+    {
+      "model_1": "swin_tiny",
+      "model_1_name": "Swin-Tiny",
+      "model_2": "vit_base",
+      "model_2_name": "ViT-Base/16",
+      "num_comparisons": 100,
+      "acc_model_1": 0.7,
+      "acc_model_2": 0.78,
+      "accuracy_difference": -0.08,
+      "paired_ci_95_lower": -0.15,
+      "paired_ci_95_upper": -0.02,
+      "mcnemar_p_value": 0.0613688291394023,
+      "paired_boot_p_value": 1.0,
+      "holm_significant": false,
+      "benjamini_hochberg_significant": false
+    }
+  ],
+  "conformal_diagnostics": {
+    "convnext_tiny": {
+      "display_name": "ConvNeXt-Tiny",
+      "alpha": 0.05,
+      "nominal_coverage": 0.95,
+      "clean_empirical_coverage": 0.8,
+      "shifted_empirical_coverage": 0.7222,
+      "coverage_violation_under_shift": 0.0778
+    },
+    "resnet50": {
+      "display_name": "ResNet-50",
+      "alpha": 0.05,
+      "nominal_coverage": 0.95,
+      "clean_empirical_coverage": 0.8,
+      "shifted_empirical_coverage": 0.7,
+      "coverage_violation_under_shift": 0.1
+    },
+    "swin_tiny": {
+      "display_name": "Swin-Tiny",
+      "alpha": 0.05,
+      "nominal_coverage": 0.95,
+      "clean_empirical_coverage": 0.8,
+      "shifted_empirical_coverage": 0.6667,
+      "coverage_violation_under_shift": 0.1333
+    },
+    "vit_base": {
+      "display_name": "ViT-Base/16",
+      "alpha": 0.05,
+      "nominal_coverage": 0.95,
+      "clean_empirical_coverage": 0.8,
+      "shifted_empirical_coverage": 0.7778,
+      "coverage_violation_under_shift": 0.0222
+    }
+  },
+  "detailed_breakdown": [
+    {
+      "model": "convnext_tiny",
+      "model_name": "ConvNeXt-Tiny",
+      "corruption": "clean",
+      "severity": 0,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.8561,
+      "ece": 0.2736,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1.0,
+          1.0,
+          1.0,
+          0.5
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          0.6541,
+          0.7901,
+          0.8671,
+          0.9122
+        ]
+      }
+    },
+    {
+      "model": "convnext_tiny",
+      "model_name": "ConvNeXt-Tiny",
+      "corruption": "defocus_blur",
+      "severity": 1,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.8378,
+      "ece": 0.1901,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          null,
+          0.0,
+          null,
+          null,
+          null,
+          0.6667,
+          1.0
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          null,
+          0.4414,
+          null,
+          null,
+          null,
+          0.8663,
+          0.9129
+        ]
+      }
+    },
+    {
+      "model": "convnext_tiny",
+      "model_name": "ConvNeXt-Tiny",
+      "corruption": "defocus_blur",
+      "severity": 3,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.7572,
+      "ece": 0.1833,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          0.0,
+          null,
+          null,
+          0.0,
+          1.0,
+          null,
+          0.75,
+          1.0
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          0.2574,
+          null,
+          null,
+          0.562,
+          0.6034,
+          null,
+          0.8458,
+          0.9221
+        ]
+      }
+    },
+    {
+      "model": "convnext_tiny",
+      "model_name": "ConvNeXt-Tiny",
+      "corruption": "defocus_blur",
+      "severity": 5,
+      "num_samples": 10,
+      "accuracy": 0.7,
+      "accuracy_drop": 0.1,
+      "ci_lower_95": 0.4,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.6313,
+      "ece": 0.2687,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          0.5,
+          1.0,
+          1.0,
+          null,
+          1.0,
+          null,
+          1.0,
+          1.0
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          0.2921,
+          0.325,
+          0.4408,
+          null,
+          0.6025,
+          null,
+          0.8646,
+          0.9019
+        ]
+      }
+    },
+    {
+      "model": "convnext_tiny",
+      "model_name": "ConvNeXt-Tiny",
+      "corruption": "gaussian_noise",
+      "severity": 1,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.8649,
+      "ece": 0.1713,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1.0,
+          1.0,
+          0.8,
+          0.6667
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          0.6694,
+          0.7987,
+          0.8875,
+          0.9145
+        ]
+      }
+    },
+    {
+      "model": "convnext_tiny",
+      "model_name": "ConvNeXt-Tiny",
+      "corruption": "gaussian_noise",
+      "severity": 3,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.8441,
+      "ece": 0.1748,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1.0,
+          1.0,
+          0.7143,
+          1.0
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          0.6359,
+          0.7487,
+          0.8707,
+          0.9619
+        ]
+      }
+    },
+    {
+      "model": "convnext_tiny",
+      "model_name": "ConvNeXt-Tiny",
+      "corruption": "gaussian_noise",
+      "severity": 5,
+      "num_samples": 10,
+      "accuracy": 0.5,
+      "accuracy_drop": 0.3,
+      "ci_lower_95": 0.2,
+      "ci_upper_95": 0.8,
+      "mean_confidence": 0.4265,
+      "ece": 0.3314,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          0.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0,
+          0.5,
+          1.0,
+          null,
+          1.0,
+          null
+        ],
+        "confidence_bins": [
+          0.0781,
+          0.1481,
+          0.26,
+          0.3493,
+          0.4422,
+          0.5315,
+          0.6683,
+          null,
+          0.8136,
+          null
+        ]
+      }
+    },
+    {
+      "model": "convnext_tiny",
+      "model_name": "ConvNeXt-Tiny",
+      "corruption": "jpeg_compression",
+      "severity": 1,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.8396,
+      "ece": 0.1396,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          null,
+          0.0,
+          null,
+          null,
+          null,
+          0.8571,
+          0.5
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          null,
+          0.453,
+          null,
+          null,
+          null,
+          0.8703,
+          0.9251
+        ]
+      }
+    },
+    {
+      "model": "convnext_tiny",
+      "model_name": "ConvNeXt-Tiny",
+      "corruption": "jpeg_compression",
+      "severity": 3,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.8336,
+      "ece": 0.1923,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          null,
+          0.0,
+          null,
+          null,
+          1.0,
+          0.7143,
+          1.0
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          null,
+          0.462,
+          null,
+          null,
+          0.7741,
+          0.881,
+          0.9323
+        ]
+      }
+    },
+    {
+      "model": "convnext_tiny",
+      "model_name": "ConvNeXt-Tiny",
+      "corruption": "jpeg_compression",
+      "severity": 5,
+      "num_samples": 10,
+      "accuracy": 0.7,
+      "accuracy_drop": 0.1,
+      "ci_lower_95": 0.4,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.8386,
+      "ece": 0.2089,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          null,
+          1.0,
+          null,
+          null,
+          null,
+          0.6667,
+          1.0
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          null,
+          0.4023,
+          null,
+          null,
+          null,
+          0.8729,
+          0.9154
+        ]
+      }
+    },
+    {
+      "model": "resnet50",
+      "model_name": "ResNet-50",
+      "corruption": "clean",
+      "severity": 0,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.9835,
+      "ece": 0.1835,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          0.0,
+          0.8889
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          0.8985,
+          0.993
+        ]
+      }
+    },
+    {
+      "model": "resnet50",
+      "model_name": "ResNet-50",
+      "corruption": "defocus_blur",
+      "severity": 1,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.9775,
+      "ece": 0.1775,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          0.0,
+          0.8889
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          0.8384,
+          0.9929
+        ]
+      }
+    },
+    {
+      "model": "resnet50",
+      "model_name": "ResNet-50",
+      "corruption": "defocus_blur",
+      "severity": 3,
+      "num_samples": 10,
+      "accuracy": 0.7,
+      "accuracy_drop": 0.1,
+      "ci_lower_95": 0.4,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.747,
+      "ece": 0.3021,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          0.0,
+          1.0,
+          1.0,
+          null,
+          1.0,
+          1.0,
+          null,
+          0.8
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          0.2535,
+          0.3886,
+          0.4922,
+          null,
+          0.6231,
+          0.7209,
+          null,
+          0.9984
+        ]
+      }
+    },
+    {
+      "model": "resnet50",
+      "model_name": "ResNet-50",
+      "corruption": "defocus_blur",
+      "severity": 5,
+      "num_samples": 10,
+      "accuracy": 0.4,
+      "accuracy_drop": 0.4,
+      "ci_lower_95": 0.1,
+      "ci_upper_95": 0.7,
+      "mean_confidence": 0.7183,
+      "ece": 0.5003,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          1.0,
+          null,
+          null,
+          1.0,
+          1.0,
+          null,
+          1.0,
+          null,
+          0.0,
+          0.75
+        ],
+        "confidence_bins": [
+          0.0487,
+          null,
+          null,
+          0.3801,
+          0.484,
+          null,
+          0.6771,
+          null,
+          0.8424,
+          0.9771
+        ]
+      }
+    },
+    {
+      "model": "resnet50",
+      "model_name": "ResNet-50",
+      "corruption": "gaussian_noise",
+      "severity": 1,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.9745,
+      "ece": 0.2223,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1.0,
+          null,
+          0.7778
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          0.7614,
+          null,
+          0.9982
+        ]
+      }
+    },
+    {
+      "model": "resnet50",
+      "model_name": "ResNet-50",
+      "corruption": "gaussian_noise",
+      "severity": 3,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.9385,
+      "ece": 0.2473,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1.0,
+          null,
+          1.0,
+          0.75
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          0.6047,
+          null,
+          0.8512,
+          0.9912
+        ]
+      }
+    },
+    {
+      "model": "resnet50",
+      "model_name": "ResNet-50",
+      "corruption": "gaussian_noise",
+      "severity": 5,
+      "num_samples": 10,
+      "accuracy": 0.4,
+      "accuracy_drop": 0.4,
+      "ci_lower_95": 0.1,
+      "ci_upper_95": 0.7,
+      "mean_confidence": 0.5905,
+      "ece": 0.4331,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          1.0,
+          null,
+          0.6667,
+          null,
+          null,
+          0.0,
+          0.0,
+          null,
+          null,
+          0.75
+        ],
+        "confidence_bins": [
+          0.0725,
+          null,
+          0.2383,
+          null,
+          null,
+          0.5245,
+          0.6545,
+          null,
+          null,
+          0.9847
+        ]
+      }
+    },
+    {
+      "model": "resnet50",
+      "model_name": "ResNet-50",
+      "corruption": "jpeg_compression",
+      "severity": 1,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.9734,
+      "ece": 0.1734,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          0.5,
+          0.875
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          0.8836,
+          0.9959
+        ]
+      }
+    },
+    {
+      "model": "resnet50",
+      "model_name": "ResNet-50",
+      "corruption": "jpeg_compression",
+      "severity": 3,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.9467,
+      "ece": 0.232,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          1.0,
+          null,
+          null,
+          null,
+          0.7778
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          0.5734,
+          null,
+          null,
+          null,
+          0.9882
+        ]
+      }
+    },
+    {
+      "model": "resnet50",
+      "model_name": "ResNet-50",
+      "corruption": "jpeg_compression",
+      "severity": 5,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.9229,
+      "ece": 0.2207,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          1.0,
+          null,
+          0.0,
+          null,
+          0.875
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          0.511,
+          null,
+          0.7638,
+          null,
+          0.9943
+        ]
+      }
+    },
+    {
+      "model": "swin_tiny",
+      "model_name": "Swin-Tiny",
+      "corruption": "clean",
+      "severity": 0,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.8538,
+      "ece": 0.2147,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1.0,
+          1.0,
+          0.6,
+          1.0
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          0.6559,
+          0.7688,
+          0.8685,
+          0.9236
+        ]
+      }
+    },
+    {
+      "model": "swin_tiny",
+      "model_name": "Swin-Tiny",
+      "corruption": "defocus_blur",
+      "severity": 1,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.7955,
+      "ece": 0.1557,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          1.0,
+          null,
+          0.0,
+          0.8571,
+          1.0
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          0.5798,
+          null,
+          0.7564,
+          0.8154,
+          0.9117
+        ]
+      }
+    },
+    {
+      "model": "swin_tiny",
+      "model_name": "Swin-Tiny",
+      "corruption": "defocus_blur",
+      "severity": 3,
+      "num_samples": 10,
+      "accuracy": 0.5,
+      "accuracy_drop": 0.3,
+      "ci_lower_95": 0.2,
+      "ci_upper_95": 0.8,
+      "mean_confidence": 0.5104,
+      "ece": 0.4013,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          0.6667,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          null,
+          1.0,
+          null
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          0.2698,
+          0.3285,
+          0.4054,
+          0.5585,
+          0.6543,
+          null,
+          0.8468,
+          null
+        ]
+      }
+    },
+    {
+      "model": "swin_tiny",
+      "model_name": "Swin-Tiny",
+      "corruption": "defocus_blur",
+      "severity": 5,
+      "num_samples": 10,
+      "accuracy": 0.5,
+      "accuracy_drop": 0.3,
+      "ci_lower_95": 0.2,
+      "ci_upper_95": 0.8,
+      "mean_confidence": 0.4238,
+      "ece": 0.4481,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          0.5,
+          1.0,
+          0.5,
+          1.0,
+          1.0,
+          null,
+          1.0,
+          0.0,
+          null
+        ],
+        "confidence_bins": [
+          null,
+          0.1463,
+          0.2702,
+          0.3232,
+          0.4303,
+          0.513,
+          null,
+          0.7132,
+          0.8599,
+          null
+        ]
+      }
+    },
+    {
+      "model": "swin_tiny",
+      "model_name": "Swin-Tiny",
+      "corruption": "gaussian_noise",
+      "severity": 1,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.8107,
+      "ece": 0.1977,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          1.0,
+          null,
+          0.6667,
+          1.0,
+          0.6667
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          0.5392,
+          null,
+          0.7497,
+          0.842,
+          0.931
+        ]
+      }
+    },
+    {
+      "model": "swin_tiny",
+      "model_name": "Swin-Tiny",
+      "corruption": "gaussian_noise",
+      "severity": 3,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.6184,
+      "ece": 0.4495,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          0.0,
+          0.0,
+          1.0,
+          1.0,
+          0.0,
+          null,
+          0.5
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          0.3131,
+          0.4515,
+          0.5571,
+          0.616,
+          0.7017,
+          null,
+          0.9368
+        ]
+      }
+    },
+    {
+      "model": "swin_tiny",
+      "model_name": "Swin-Tiny",
+      "corruption": "gaussian_noise",
+      "severity": 5,
+      "num_samples": 10,
+      "accuracy": 0.5,
+      "accuracy_drop": 0.3,
+      "ci_lower_95": 0.2,
+      "ci_upper_95": 0.8,
+      "mean_confidence": 0.3011,
+      "ece": 0.5134,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          0.75,
+          0.5,
+          null,
+          null,
+          0.0,
+          1.0,
+          0.0,
+          null,
+          1.0,
+          null
+        ],
+        "confidence_bins": [
+          0.0577,
+          0.161,
+          null,
+          null,
+          0.4599,
+          0.5281,
+          0.6124,
+          null,
+          0.8579,
+          null
+        ]
+      }
+    },
+    {
+      "model": "swin_tiny",
+      "model_name": "Swin-Tiny",
+      "corruption": "jpeg_compression",
+      "severity": 1,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.7967,
+      "ece": 0.1845,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          1.0,
+          1.0,
+          0.0,
+          0.8,
+          1.0
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          0.5166,
+          0.6861,
+          0.7105,
+          0.8391,
+          0.9291
+        ]
+      }
+    },
+    {
+      "model": "swin_tiny",
+      "model_name": "Swin-Tiny",
+      "corruption": "jpeg_compression",
+      "severity": 3,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.7591,
+      "ece": 0.1781,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          0.0,
+          null,
+          null,
+          1.0,
+          0.0,
+          null,
+          0.8,
+          1.0
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          0.285,
+          null,
+          null,
+          0.5515,
+          0.678,
+          null,
+          0.8446,
+          0.9265
+        ]
+      }
+    },
+    {
+      "model": "swin_tiny",
+      "model_name": "Swin-Tiny",
+      "corruption": "jpeg_compression",
+      "severity": 5,
+      "num_samples": 10,
+      "accuracy": 0.7,
+      "accuracy_drop": 0.1,
+      "ci_lower_95": 0.4,
+      "ci_upper_95": 0.9,
+      "mean_confidence": 0.7125,
+      "ece": 0.2947,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          1.0,
+          0.0,
+          null,
+          null,
+          0.0,
+          1.0,
+          0.6667,
+          1.0
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          0.2645,
+          0.3372,
+          null,
+          null,
+          0.6167,
+          0.7335,
+          0.8606,
+          0.9287
+        ]
+      }
+    },
+    {
+      "model": "vit_base",
+      "model_name": "ViT-Base/16",
+      "corruption": "clean",
+      "severity": 0,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.9314,
+      "ece": 0.2525,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1.0,
+          1.0,
+          null,
+          0.75
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          0.6434,
+          0.7511,
+          null,
+          0.99
+        ]
+      }
+    },
+    {
+      "model": "vit_base",
+      "model_name": "ViT-Base/16",
+      "corruption": "defocus_blur",
+      "severity": 1,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.9147,
+      "ece": 0.2612,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1.0,
+          null,
+          null,
+          0.75
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          0.6337,
+          null,
+          null,
+          0.9849
+        ]
+      }
+    },
+    {
+      "model": "vit_base",
+      "model_name": "ViT-Base/16",
+      "corruption": "defocus_blur",
+      "severity": 3,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.9194,
+      "ece": 0.241,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1.0,
+          1.0,
+          null,
+          0.75
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          0.6812,
+          0.7109,
+          null,
+          0.9753
+        ]
+      }
+    },
+    {
+      "model": "vit_base",
+      "model_name": "ViT-Base/16",
+      "corruption": "defocus_blur",
+      "severity": 5,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.8535,
+      "ece": 0.2943,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          null,
+          0.0,
+          null,
+          null,
+          1.0,
+          1.0,
+          0.6
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          null,
+          0.4166,
+          null,
+          null,
+          0.7805,
+          0.8675,
+          0.9644
+        ]
+      }
+    },
+    {
+      "model": "vit_base",
+      "model_name": "ViT-Base/16",
+      "corruption": "gaussian_noise",
+      "severity": 1,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.929,
+      "ece": 0.229,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          null,
+          0.0,
+          null,
+          null,
+          null,
+          null,
+          0.7778
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          null,
+          0.4591,
+          null,
+          null,
+          null,
+          null,
+          0.9812
+        ]
+      }
+    },
+    {
+      "model": "vit_base",
+      "model_name": "ViT-Base/16",
+      "corruption": "gaussian_noise",
+      "severity": 3,
+      "num_samples": 10,
+      "accuracy": 0.7,
+      "accuracy_drop": 0.1,
+      "ci_lower_95": 0.4,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.914,
+      "ece": 0.2552,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          null,
+          1.0,
+          null,
+          null,
+          null,
+          1.0,
+          0.75
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          null,
+          0.4148,
+          null,
+          null,
+          null,
+          0.879,
+          0.9807
+        ]
+      }
+    },
+    {
+      "model": "vit_base",
+      "model_name": "ViT-Base/16",
+      "corruption": "gaussian_noise",
+      "severity": 5,
+      "num_samples": 10,
+      "accuracy": 0.7,
+      "accuracy_drop": 0.1,
+      "ci_lower_95": 0.4,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.8777,
+      "ece": 0.2069,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          1.0,
+          null,
+          null,
+          null,
+          null,
+          0.6667,
+          0.8333
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          0.3539,
+          null,
+          null,
+          null,
+          null,
+          0.849,
+          0.9793
+        ]
+      }
+    },
+    {
+      "model": "vit_base",
+      "model_name": "ViT-Base/16",
+      "corruption": "jpeg_compression",
+      "severity": 1,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.9177,
+      "ece": 0.2646,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          1.0,
+          1.0,
+          null,
+          null,
+          0.75
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          0.5813,
+          0.6846,
+          null,
+          null,
+          0.9889
+        ]
+      }
+    },
+    {
+      "model": "vit_base",
+      "model_name": "ViT-Base/16",
+      "corruption": "jpeg_compression",
+      "severity": 3,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.9086,
+      "ece": 0.2733,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          1.0,
+          1.0,
+          null,
+          null,
+          0.75
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          0.5098,
+          0.6668,
+          null,
+          null,
+          0.9887
+        ]
+      }
+    },
+    {
+      "model": "vit_base",
+      "model_name": "ViT-Base/16",
+      "corruption": "jpeg_compression",
+      "severity": 5,
+      "num_samples": 10,
+      "accuracy": 0.8,
+      "accuracy_drop": 0.0,
+      "ci_lower_95": 0.5,
+      "ci_upper_95": 1.0,
+      "mean_confidence": 0.8948,
+      "ece": 0.2664,
+      "reliability_diagram": {
+        "accuracy_bins": [
+          null,
+          null,
+          null,
+          null,
+          0.0,
+          null,
+          1.0,
+          null,
+          null,
+          0.75
+        ],
+        "confidence_bins": [
+          null,
+          null,
+          null,
+          null,
+          0.4393,
+          null,
+          0.6417,
+          null,
+          null,
+          0.9833
+        ]
+      }
+    }
+  ]
+}

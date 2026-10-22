@@ -9,8 +9,13 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@gradio/client": "^2.7.1",
+    "@heroui/react": "^3.2.6",
+    "@heroui/styles": "^3.2.6",
+    "@radix-ui/react-select": "^2.3.7",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "framer-motion": "^14.0.0",
     "geist": "^1.7.2",
     "lucide-react": "^1.49.0",
     "motion": "^13.5.0",

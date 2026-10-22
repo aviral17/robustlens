@@ -1,0 +1,150 @@
+{
+  "resnet50": {
+    "severity_1": {
+      "chi2_stat": 0.0,
+      "p_value": 1.0,
+      "kendall_w": 0.0,
+      "df": 5,
+      "n_samples": 10
+    },
+    "severity_2": {
+      "chi2_stat": 3.3333333333333495,
+      "p_value": 0.6487423586675909,
+      "kendall_w": 0.06666666666666698,
+      "df": 5,
+      "n_samples": 10
+    },
+    "severity_3": {
+      "chi2_stat": 5.454545454545358,
+      "p_value": 0.3629558847212067,
+      "kendall_w": 0.10909090909090717,
+      "df": 5,
+      "n_samples": 10
+    },
+    "severity_4": {
+      "chi2_stat": 13.076923076923062,
+      "p_value": 0.022668480954280777,
+      "kendall_w": 0.2615384615384613,
+      "df": 5,
+      "n_samples": 10
+    },
+    "severity_5": {
+      "chi2_stat": 14.999999999999954,
+      "p_value": 0.010362337915786626,
+      "kendall_w": 0.2999999999999991,
+      "df": 5,
+      "n_samples": 10
+    }
+  },
+  "convnext_tiny": {
+    "severity_1": {
+      "chi2_stat": 0.0,
+      "p_value": 1.0,
+      "kendall_w": 0.0,
+      "df": 5,
+      "n_samples": 10
+    },
+    "severity_2": {
+      "chi2_stat": 10.000000000000012,
+      "p_value": 0.07523524614651185,
+      "kendall_w": 0.20000000000000026,
+      "df": 5,
+      "n_samples": 10
+    },
+    "severity_3": {
+      "chi2_stat": 8.529411764705817,
+      "p_value": 0.12937178178274003,
+      "kendall_w": 0.17058823529411632,
+      "df": 5,
+      "n_samples": 10
+    },
+    "severity_4": {
+      "chi2_stat": 18.999999999999975,
+      "p_value": 0.0019221368209430623,
+      "kendall_w": 0.3799999999999995,
+      "df": 5,
+      "n_samples": 10
+    },
+    "severity_5": {
+      "chi2_stat": 14.574468085106373,
+      "p_value": 0.012344057343587133,
+      "kendall_w": 0.29148936170212747,
+      "df": 5,
+      "n_samples": 10
+    }
+  },
+  "vit_base": {
+    "severity_1": {
+      "chi2_stat": 3.9999999999999307,
+      "p_value": 0.5494159513527903,
+      "kendall_w": 0.07999999999999861,
+      "df": 5,
+      "n_samples": 10
+    },
+    "severity_2": {
+      "chi2_stat": 10.000000000000012,
+      "p_value": 0.07523524614651185,
+      "kendall_w": 0.20000000000000026,
+      "df": 5,
+      "n_samples": 10
+    },
+    "severity_3": {
+      "chi2_stat": 6.304347826086906,
+      "p_value": 0.2777206904850132,
+      "kendall_w": 0.12608695652173812,
+      "df": 5,
+      "n_samples": 10
+    },
+    "severity_4": {
+      "chi2_stat": 6.794871794871797,
+      "p_value": 0.23634839454290302,
+      "kendall_w": 0.13589743589743594,
+      "df": 5,
+      "n_samples": 10
+    },
+    "severity_5": {
+      "chi2_stat": 10.952380952380974,
+      "p_value": 0.0523323462254569,
+      "kendall_w": 0.2190476190476195,
+      "df": 5,
+      "n_samples": 10
+    }
+  },
+  "swin_tiny": {
+    "severity_1": {
+      "chi2_stat": 0.0,
+      "p_value": 1.0,
+      "kendall_w": 0.0,
+      "df": 5,
+      "n_samples": 10
+    },
+    "severity_2": {
+      "chi2_stat": 1.5384615384614693,
+      "p_value": 0.9085891412832056,
+      "kendall_w": 0.030769230769229387,
+      "df": 5,
+      "n_samples": 10
+    },
+    "severity_3": {
+      "chi2_stat": 3.125000000000015,
+      "p_value": 0.6807214863225628,
+      "kendall_w": 0.0625000000000003,
+      "df": 5,
+      "n_samples": 10
+    },
+    "severity_4": {
+      "chi2_stat": 9.814814814814818,
+      "p_value": 0.08065568966950115,
+      "kendall_w": 0.19629629629629636,
+      "df": 5,
+      "n_samples": 10
+    },
+    "severity_5": {
+      "chi2_stat": 12.71428571428572,
+      "p_value": 0.026208517678248958,
+      "kendall_w": 0.2542857142857144,
+      "df": 5,
+      "n_samples": 10
+    }
+  }
+}

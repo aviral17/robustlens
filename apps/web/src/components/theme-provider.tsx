@@ -31,6 +31,17 @@ export function ThemeProvider({
   const [theme, setTheme] = useState<Theme>(defaultTheme);
 
   useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const urlTheme = params.get("theme") as Theme | null;
+      if (urlTheme === "light" || urlTheme === "dark" || urlTheme === "system") {
+        setTheme(urlTheme);
+        return;
+      }
+    } catch {
+      // ignore URL parsing error
+    }
+
     const stored = localStorage.getItem(storageKey) as Theme | null;
     if (stored) setTheme(stored);
   }, [storageKey]);

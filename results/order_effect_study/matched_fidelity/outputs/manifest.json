@@ -1,0 +1,59 @@
+{
+  "benchmark": "RobustLens Matched-Fidelity Evaluation",
+  "version": "2.0.0",
+  "date": "2026-10-18T01:00:18.252193+00:00",
+  "hardware": {
+    "device": "cuda",
+    "gpu_name": "Tesla T4"
+  },
+  "dataset": {
+    "name": "johnowhitaker/imagenette2-320",
+    "split": "validation (rows 9469..13393)",
+    "n_images": 3925,
+    "per_class_counts": {
+      "0": 387,
+      "1": 395,
+      "2": 357,
+      "3": 386,
+      "4": 409,
+      "5": 394,
+      "6": 389,
+      "7": 419,
+      "8": 399,
+      "9": 390
+    }
+  },
+  "parameters": {
+    "permutations": [
+      "NBJ",
+      "NJB",
+      "BNJ",
+      "BJN",
+      "JNB",
+      "JBN"
+    ],
+    "matched_targets": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "n_conditions_per_image": 31,
+    "n_models": 4,
+    "n_total_predictions": 486700,
+    "n_permutations_test": 20000,
+    "n_bootstraps_ci": 10000,
+    "random_seed": 42
+  },
+  "artifacts": {
+    "all_predictions": "outputs/all_order_predictions.csv.gz",
+    "summary": "outputs/order_effects_summary.csv",
+    "leaderboard": "outputs/order_effects_leaderboard.csv",
+    "pairwise_significance": "outputs/order_pairwise_significance.csv",
+    "error_churn": "outputs/error_churn_summary.csv",
+    "omnibus_tests": "outputs/order_omnibus_tests.json",
+    "distortion_ancova": "outputs/distortion_ancova.csv",
+    "benchmark_report": "outputs/benchmark_report.json"
+  }
+}

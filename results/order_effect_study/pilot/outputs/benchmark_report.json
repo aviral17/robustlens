@@ -1,0 +1,249 @@
+{
+  "title": "RobustLens Compound Corruption Order Effects Benchmark",
+  "timestamp": "2026-10-17T19:01:40.198376+00:00",
+  "n_images": 100,
+  "models": [
+    "resnet50",
+    "convnext_tiny",
+    "vit_base",
+    "swin_tiny"
+  ],
+  "permutations": [
+    "NBJ",
+    "NJB",
+    "BNJ",
+    "BJN",
+    "JNB",
+    "JBN"
+  ],
+  "severities": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "total_records": 12400,
+  "leaderboard": [
+    {
+      "model": "swin_tiny",
+      "model_name": "Swin-Tiny",
+      "model_family": "Hierarchical ViT",
+      "clean_accuracy": 0.82,
+      "compound_accuracy": 0.5033,
+      "order_accuracy_variance": 0.005003,
+      "order_max_accuracy_gap": 0.172,
+      "mean_compound_ece": 0.1396
+    },
+    {
+      "model": "convnext_tiny",
+      "model_name": "ConvNeXt-Tiny",
+      "model_family": "Modern CNN",
+      "clean_accuracy": 0.84,
+      "compound_accuracy": 0.496,
+      "order_accuracy_variance": 0.008741,
+      "order_max_accuracy_gap": 0.19,
+      "mean_compound_ece": 0.1135
+    },
+    {
+      "model": "vit_base",
+      "model_name": "ViT-Base/16",
+      "model_family": "Transformer",
+      "clean_accuracy": 0.74,
+      "compound_accuracy": 0.4407,
+      "order_accuracy_variance": 0.006947,
+      "order_max_accuracy_gap": 0.192,
+      "mean_compound_ece": 0.1248
+    },
+    {
+      "model": "resnet50",
+      "model_name": "ResNet-50",
+      "model_family": "CNN",
+      "clean_accuracy": 0.85,
+      "compound_accuracy": 0.4137,
+      "order_accuracy_variance": 0.009597,
+      "order_max_accuracy_gap": 0.202,
+      "mean_compound_ece": 0.1545
+    }
+  ],
+  "omnibus_tests": {
+    "resnet50": {
+      "severity_1": {
+        "chi2_stat": 22.293,
+        "p_value": 0.00046047757062165604,
+        "kendall_w": 0.0446,
+        "n_images": 100
+      },
+      "severity_2": {
+        "chi2_stat": 19.025,
+        "p_value": 0.001901720317375176,
+        "kendall_w": 0.038,
+        "n_images": 100
+      },
+      "severity_3": {
+        "chi2_stat": 69.012,
+        "p_value": 1.64477745633485e-13,
+        "kendall_w": 0.138,
+        "n_images": 100
+      },
+      "severity_4": {
+        "chi2_stat": 125.443,
+        "p_value": 2.204059377187217e-25,
+        "kendall_w": 0.2509,
+        "n_images": 100
+      },
+      "severity_5": {
+        "chi2_stat": 77.282,
+        "p_value": 3.105113467063013e-15,
+        "kendall_w": 0.1546,
+        "n_images": 100
+      }
+    },
+    "convnext_tiny": {
+      "severity_1": {
+        "chi2_stat": 4.8,
+        "p_value": 0.4407729680866391,
+        "kendall_w": 0.0096,
+        "n_images": 100
+      },
+      "severity_2": {
+        "chi2_stat": 30.472,
+        "p_value": 1.1907950131937972e-05,
+        "kendall_w": 0.0609,
+        "n_images": 100
+      },
+      "severity_3": {
+        "chi2_stat": 67.907,
+        "p_value": 2.7920231435462464e-13,
+        "kendall_w": 0.1358,
+        "n_images": 100
+      },
+      "severity_4": {
+        "chi2_stat": 113.394,
+        "p_value": 7.851648909504698e-23,
+        "kendall_w": 0.2268,
+        "n_images": 100
+      },
+      "severity_5": {
+        "chi2_stat": 98.583,
+        "p_value": 1.0513251486850995e-19,
+        "kendall_w": 0.1972,
+        "n_images": 100
+      }
+    },
+    "vit_base": {
+      "severity_1": {
+        "chi2_stat": 7.397,
+        "p_value": 0.19273183037576447,
+        "kendall_w": 0.0148,
+        "n_images": 100
+      },
+      "severity_2": {
+        "chi2_stat": 22.667,
+        "p_value": 0.0003908626678860543,
+        "kendall_w": 0.0453,
+        "n_images": 100
+      },
+      "severity_3": {
+        "chi2_stat": 22.971,
+        "p_value": 0.0003419003100724296,
+        "kendall_w": 0.0459,
+        "n_images": 100
+      },
+      "severity_4": {
+        "chi2_stat": 85.115,
+        "p_value": 7.121443836037062e-17,
+        "kendall_w": 0.1702,
+        "n_images": 100
+      },
+      "severity_5": {
+        "chi2_stat": 104.138,
+        "p_value": 7.086271735937757e-21,
+        "kendall_w": 0.2083,
+        "n_images": 100
+      }
+    },
+    "swin_tiny": {
+      "severity_1": {
+        "chi2_stat": 10.176,
+        "p_value": 0.07038668664407553,
+        "kendall_w": 0.0204,
+        "n_images": 100
+      },
+      "severity_2": {
+        "chi2_stat": 10.978,
+        "p_value": 0.051812714117220604,
+        "kendall_w": 0.022,
+        "n_images": 100
+      },
+      "severity_3": {
+        "chi2_stat": 41.915,
+        "p_value": 6.127154959817955e-08,
+        "kendall_w": 0.0838,
+        "n_images": 100
+      },
+      "severity_4": {
+        "chi2_stat": 70.73,
+        "p_value": 7.221322073264529e-14,
+        "kendall_w": 0.1415,
+        "n_images": 100
+      },
+      "severity_5": {
+        "chi2_stat": 77.724,
+        "p_value": 2.5104347313778225e-15,
+        "kendall_w": 0.1554,
+        "n_images": 100
+      }
+    }
+  },
+  "distortion_ancova": [
+    {
+      "model": "resnet50",
+      "pseudo_r2": 0.2043,
+      "coef_psnr": 0.234,
+      "pval_psnr": 1.490091068863156e-25,
+      "coef_ssim": 0.5449,
+      "pval_ssim": 0.28787941008594053,
+      "order_wald_stat": 32.581,
+      "order_wald_p_value": 4.55814961662008e-06,
+      "order_significant_at_05": true,
+      "n_observations": 3000
+    },
+    {
+      "model": "convnext_tiny",
+      "pseudo_r2": 0.1534,
+      "coef_psnr": 0.1637,
+      "pval_psnr": 1.91408391555609e-14,
+      "coef_ssim": 1.2535,
+      "pval_ssim": 0.012447417263581775,
+      "order_wald_stat": 29.447,
+      "order_wald_p_value": 1.894302640313287e-05,
+      "order_significant_at_05": true,
+      "n_observations": 3000
+    },
+    {
+      "model": "vit_base",
+      "pseudo_r2": 0.1151,
+      "coef_psnr": 0.2547,
+      "pval_psnr": 2.213809282680177e-33,
+      "coef_ssim": -2.2143,
+      "pval_ssim": 5.67322568061459e-06,
+      "order_wald_stat": 32.302,
+      "order_wald_p_value": 5.1767153749265685e-06,
+      "order_significant_at_05": true,
+      "n_observations": 3000
+    },
+    {
+      "model": "swin_tiny",
+      "pseudo_r2": 0.1225,
+      "coef_psnr": 0.1695,
+      "pval_psnr": 5.104098701784987e-16,
+      "coef_ssim": 0.5303,
+      "pval_ssim": 0.2818893393584463,
+      "order_wald_stat": 54.733,
+      "order_wald_p_value": 1.481166321643908e-10,
+      "order_significant_at_05": true,
+      "n_observations": 3000
+    }
+  ]
+}

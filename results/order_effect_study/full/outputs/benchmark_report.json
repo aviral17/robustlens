@@ -1,0 +1,261 @@
+{
+  "title": "RobustLens Compound Corruption Order Effects Benchmark",
+  "timestamp": "2026-10-17T19:58:22.003156+00:00",
+  "n_images": 3925,
+  "models": [
+    "resnet50",
+    "convnext_tiny",
+    "vit_base",
+    "swin_tiny"
+  ],
+  "permutations": [
+    "NBJ",
+    "NJB",
+    "BNJ",
+    "BJN",
+    "JNB",
+    "JBN"
+  ],
+  "severities": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "total_records": 486700,
+  "leaderboard": [
+    {
+      "model": "convnext_tiny",
+      "model_name": "ConvNeXt-Tiny",
+      "model_family": "Modern CNN",
+      "clean_accuracy": 0.8713,
+      "compound_accuracy": 0.5614,
+      "order_accuracy_variance": 0.010192,
+      "order_max_accuracy_gap": 0.2045,
+      "mean_compound_ece": 0.0584
+    },
+    {
+      "model": "swin_tiny",
+      "model_name": "Swin-Tiny",
+      "model_family": "Hierarchical ViT",
+      "clean_accuracy": 0.8604,
+      "compound_accuracy": 0.552,
+      "order_accuracy_variance": 0.005161,
+      "order_max_accuracy_gap": 0.1713,
+      "mean_compound_ece": 0.1144
+    },
+    {
+      "model": "vit_base",
+      "model_name": "ViT-Base/16",
+      "model_family": "Transformer",
+      "clean_accuracy": 0.8025,
+      "compound_accuracy": 0.5023,
+      "order_accuracy_variance": 0.009849,
+      "order_max_accuracy_gap": 0.2037,
+      "mean_compound_ece": 0.0413
+    },
+    {
+      "model": "resnet50",
+      "model_name": "ResNet-50",
+      "model_family": "CNN",
+      "clean_accuracy": 0.8736,
+      "compound_accuracy": 0.4606,
+      "order_accuracy_variance": 0.011728,
+      "order_max_accuracy_gap": 0.2155,
+      "mean_compound_ece": 0.0906
+    }
+  ],
+  "omnibus_tests": {
+    "resnet50": {
+      "severity_1": {
+        "chi2_stat": 171.39,
+        "p_value": 3.6850787210140977e-35,
+        "kendall_w": 0.0087,
+        "n_images": 3925
+      },
+      "severity_2": {
+        "chi2_stat": 768.8,
+        "p_value": 6.493043370403886e-164,
+        "kendall_w": 0.0392,
+        "n_images": 3925
+      },
+      "severity_3": {
+        "chi2_stat": 3198.698,
+        "p_value": 0.0,
+        "kendall_w": 0.163,
+        "n_images": 3925
+      },
+      "severity_4": {
+        "chi2_stat": 5544.697,
+        "p_value": 0.0,
+        "kendall_w": 0.2825,
+        "n_images": 3925
+      },
+      "severity_5": {
+        "chi2_stat": 4533.777,
+        "p_value": 0.0,
+        "kendall_w": 0.231,
+        "n_images": 3925
+      }
+    },
+    "convnext_tiny": {
+      "severity_1": {
+        "chi2_stat": 133.753,
+        "p_value": 3.8012501432634714e-27,
+        "kendall_w": 0.0068,
+        "n_images": 3925
+      },
+      "severity_2": {
+        "chi2_stat": 1028.679,
+        "p_value": 3.7128986333771024e-220,
+        "kendall_w": 0.0524,
+        "n_images": 3925
+      },
+      "severity_3": {
+        "chi2_stat": 2936.151,
+        "p_value": 0.0,
+        "kendall_w": 0.1496,
+        "n_images": 3925
+      },
+      "severity_4": {
+        "chi2_stat": 4294.494,
+        "p_value": 0.0,
+        "kendall_w": 0.2188,
+        "n_images": 3925
+      },
+      "severity_5": {
+        "chi2_stat": 4035.299,
+        "p_value": 0.0,
+        "kendall_w": 0.2056,
+        "n_images": 3925
+      }
+    },
+    "vit_base": {
+      "severity_1": {
+        "chi2_stat": 67.548,
+        "p_value": 3.315188013992442e-13,
+        "kendall_w": 0.0034,
+        "n_images": 3925
+      },
+      "severity_2": {
+        "chi2_stat": 564.0,
+        "p_value": 1.2105268369034394e-119,
+        "kendall_w": 0.0287,
+        "n_images": 3925
+      },
+      "severity_3": {
+        "chi2_stat": 2007.226,
+        "p_value": 0.0,
+        "kendall_w": 0.1023,
+        "n_images": 3925
+      },
+      "severity_4": {
+        "chi2_stat": 3780.995,
+        "p_value": 0.0,
+        "kendall_w": 0.1927,
+        "n_images": 3925
+      },
+      "severity_5": {
+        "chi2_stat": 5906.963,
+        "p_value": 0.0,
+        "kendall_w": 0.301,
+        "n_images": 3925
+      }
+    },
+    "swin_tiny": {
+      "severity_1": {
+        "chi2_stat": 219.092,
+        "p_value": 2.3248530014924064e-45,
+        "kendall_w": 0.0112,
+        "n_images": 3925
+      },
+      "severity_2": {
+        "chi2_stat": 589.921,
+        "p_value": 3.044202835139517e-125,
+        "kendall_w": 0.0301,
+        "n_images": 3925
+      },
+      "severity_3": {
+        "chi2_stat": 1233.336,
+        "p_value": 1.7662776102980707e-264,
+        "kendall_w": 0.0628,
+        "n_images": 3925
+      },
+      "severity_4": {
+        "chi2_stat": 2227.462,
+        "p_value": 0.0,
+        "kendall_w": 0.1135,
+        "n_images": 3925
+      },
+      "severity_5": {
+        "chi2_stat": 3347.728,
+        "p_value": 0.0,
+        "kendall_w": 0.1706,
+        "n_images": 3925
+      }
+    }
+  },
+  "distortion_ancova": [
+    {
+      "model": "convnext_tiny",
+      "pseudo_r2": 0.1428,
+      "coef_psnr": 0.1051,
+      "pval_psnr_clustered": 2.0771277108252902e-24,
+      "coef_ssim": 2.4246,
+      "pval_ssim_clustered": 1.4357053104783489e-27,
+      "clustered_wald_stat": 922.425,
+      "clustered_wald_p_value": 3.7290884600079986e-197,
+      "unclustered_wald_stat": 1336.41,
+      "unclustered_wald_p_value": 8.257542452966108e-287,
+      "order_significant_at_05": true,
+      "n_observations": 117750,
+      "n_clusters": 3925
+    },
+    {
+      "model": "swin_tiny",
+      "pseudo_r2": 0.1203,
+      "coef_psnr": 0.1134,
+      "pval_psnr_clustered": 5.412112430194833e-28,
+      "coef_ssim": 1.9574,
+      "pval_ssim_clustered": 1.6419438526113913e-18,
+      "clustered_wald_stat": 1810.832,
+      "clustered_wald_p_value": 0.0,
+      "unclustered_wald_stat": 2610.592,
+      "unclustered_wald_p_value": 0.0,
+      "order_significant_at_05": true,
+      "n_observations": 117750,
+      "n_clusters": 3925
+    },
+    {
+      "model": "vit_base",
+      "pseudo_r2": 0.1128,
+      "coef_psnr": 0.1315,
+      "pval_psnr_clustered": 4.150887692245451e-37,
+      "coef_ssim": 0.9994,
+      "pval_ssim_clustered": 5.762496395438253e-06,
+      "clustered_wald_stat": 1276.88,
+      "clustered_wald_p_value": 6.517669821962191e-274,
+      "unclustered_wald_stat": 978.448,
+      "unclustered_wald_p_value": 2.7845704835421727e-209,
+      "order_significant_at_05": true,
+      "n_observations": 117750,
+      "n_clusters": 3925
+    },
+    {
+      "model": "resnet50",
+      "pseudo_r2": 0.2031,
+      "coef_psnr": 0.1492,
+      "pval_psnr_clustered": 3.1404411818055125e-44,
+      "coef_ssim": 2.6341,
+      "pval_ssim_clustered": 3.971636416459233e-31,
+      "clustered_wald_stat": 1366.355,
+      "clustered_wald_p_value": 2.6846877891933624e-293,
+      "unclustered_wald_stat": 2070.391,
+      "unclustered_wald_p_value": 0.0,
+      "order_significant_at_05": true,
+      "n_observations": 117750,
+      "n_clusters": 3925
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-# Python
+# Python & Environments
 __pycache__/
 *.py[cod]
 *.egg-info/
@@ -8,6 +8,8 @@ build/
 venv/
 *.egg
 .eggs/
+.pytest_cache/
+.ruff_cache/
 
 # uv
 .python-version
@@ -18,10 +20,13 @@ node_modules/
 out/
 .vercel/
 
-# Environment
+# Environment & Secrets
 .env
-.env.local
+.env.*
 .env*.local
+**/kaggle.json
+**/*_token*
+**/*_secret*
 
 # IDE
 .vscode/
@@ -33,12 +38,27 @@ out/
 .DS_Store
 Thumbs.db
 
-# ML artifacts (large files)
+# ML artifacts & Weights (large files)
 *.pt
 *.pth
+*.bin
 *.ckpt
 *.safetensors
 ml/data/
 
-# Keep results tracked
-!results/
+# Large raw prediction files (preserved locally, excluded from git tracking)
+results/full_eval/outputs/all_predictions.json
+results/order_effect_study/full/outputs/all_order_predictions.csv.gz
+results/order_effect_study/matched_fidelity/outputs/all_order_predictions.csv.gz
+
+# Private PhD application documents (kept locally, not for public release)
+reports/final_research_package/FACULTY_RESEARCH_BRIEF.md
+reports/final_research_package/RobustLens_CV_Entry_Application_Safe.md
+reports/final_research_package/RobustLens_SoP_Research_Description.md
+reports/final_research_package/ORIGINALITY_AND_LIMITATIONS_AUDIT.md
+reports/final_research_package/RobustLens_Research_Package.zip
+
+# Application docs
+RobustLens_CV_Entry_Application_Safe.md
+RobustLens_SoP_Research_Description.md
+FACULTY_RESEARCH_BRIEF.md

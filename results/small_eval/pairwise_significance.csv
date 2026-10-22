@@ -1,0 +1,7 @@
+model_1,model_1_name,model_2,model_2_name,num_comparisons,acc_model_1,acc_model_2,accuracy_difference,paired_ci_95_lower,paired_ci_95_upper,mcnemar_p_value,paired_boot_p_value,holm_significant,benjamini_hochberg_significant
+convnext_tiny,ConvNeXt-Tiny,resnet50,ResNet-50,100,0.75,0.71,0.04,-0.01,0.09,0.2888443663464818,0.226,False,False
+convnext_tiny,ConvNeXt-Tiny,swin_tiny,Swin-Tiny,100,0.75,0.7,0.05,-0.01,0.12,0.22779999398822554,0.114,False,False
+convnext_tiny,ConvNeXt-Tiny,vit_base,ViT-Base/16,100,0.75,0.78,-0.03,-0.09,0.03,0.5049850750938457,1.0,False,False
+resnet50,ResNet-50,swin_tiny,Swin-Tiny,100,0.71,0.7,0.01,-0.05,0.08,1.0,0.828,False,False
+resnet50,ResNet-50,vit_base,ViT-Base/16,100,0.71,0.78,-0.07,-0.14,0.0,0.0960923294556734,1.0,False,False
+swin_tiny,Swin-Tiny,vit_base,ViT-Base/16,100,0.7,0.78,-0.08,-0.15,-0.02,0.0613688291394023,1.0,False,False

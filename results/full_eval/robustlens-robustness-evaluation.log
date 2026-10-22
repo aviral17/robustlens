@@ -1,0 +1,129 @@
+[{"stream_name":"stderr","time":7.650307293,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":7.650359583,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":7.650364558,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":7.650367884,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stderr","time":8.287948399,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":8.287977296,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":8.287982181,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":8.28798615,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stdout","time":34.852872258,"data":"Python: 3.13.15\n"}
+,{"stream_name":"stdout","time":34.852908545,"data":"PyTorch: 2.11.0+cu128\n"}
+,{"stream_name":"stdout","time":34.852917329,"data":"Torchvision: 0.26.0+cu128\n"}
+,{"stream_name":"stdout","time":34.852923993,"data":"Timm: 1.0.29\n"}
+,{"stream_name":"stdout","time":34.852927411,"data":"Compute Device: cuda (Tesla T4)\n"}
+,{"stream_name":"stdout","time":34.872427216,"data":"Configuration: SUBSET_SIZE=None (Full 3,925 Run), BATCH_SIZE=32, SEED=42\n"}
+,{"stream_name":"stdout","time":35.073568992,"data":"Loading official Imagenette-v2 dataset mirror (johnowhitaker/imagenette2-320)...\n"}
+,{"stream_name":"stderr","time":35.180061816,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stderr","time":35.180087806,"data":"\n"}
+,{"stream_name":"stderr","time":35.180091769,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stdout","time":41.618907662,"data":"Validation split verified: 3,925 images across 10 classes. Exactly matches official FastAI counts.\n"}
+,{"stream_name":"stdout","time":41.618942316,"data":"Preloading and spatially transforming 3925 images into CPU tensors...\n"}
+,{"stream_name":"stdout","time":45.165017313,"data":"  Processed 1000/3925 images in 3.5s\n"}
+,{"stream_name":"stdout","time":48.690875623,"data":"  Processed 2000/3925 images in 7.1s\n"}
+,{"stream_name":"stdout","time":52.17701125,"data":"  Processed 3000/3925 images in 10.6s\n"}
+,{"stream_name":"stdout","time":55.138346266,"data":"  Processed 3925/3925 images in 13.7s\n"}
+,{"stream_name":"stdout","time":55.138376366,"data":"Ready: 3925 clean tensors cached in CPU memory.\n"}
+,{"stream_name":"stdout","time":55.339025667,"data":"\n"}
+,{"stream_name":"stdout","time":55.339065214,"data":"=======================================================\n"}
+,{"stream_name":"stdout","time":55.339069875,"data":"Evaluating ResNet-50 (resnet50.a1_in1k)...\n"}
+,{"stream_name":"stdout","time":55.339072848,"data":"=======================================================\n"}
+,{"stream_name":"stdout","time":70.803588777,"data":"  [01/16] clean             (sev 0): acc=87.36% (290.2 samples/s)\n"}
+,{"stream_name":"stdout","time":86.81997478,"data":"  [02/16] gaussian_noise    (sev 1): acc=87.11% (245.1 samples/s)\n"}
+,{"stream_name":"stdout","time":103.019738608,"data":"  [03/16] gaussian_noise    (sev 2): acc=82.06% (242.2 samples/s)\n"}
+,{"stream_name":"stdout","time":119.566763196,"data":"  [04/16] gaussian_noise    (sev 3): acc=75.82% (237.3 samples/s)\n"}
+,{"stream_name":"stdout","time":136.626510628,"data":"  [05/16] gaussian_noise    (sev 4): acc=61.55% (230.0 samples/s)\n"}
+,{"stream_name":"stdout","time":154.23079096,"data":"  [06/16] gaussian_noise    (sev 5): acc=43.52% (223.1 samples/s)\n"}
+,{"stream_name":"stdout","time":180.491178108,"data":"  [07/16] defocus_blur      (sev 1): acc=82.70% (149.4 samples/s)\n"}
+,{"stream_name":"stdout","time":207.027710186,"data":"  [08/16] defocus_blur      (sev 2): acc=75.11% (147.9 samples/s)\n"}
+,{"stream_name":"stdout","time":234.930883331,"data":"  [09/16] defocus_blur      (sev 3): acc=65.20% (140.7 samples/s)\n"}
+,{"stream_name":"stdout","time":263.434400669,"data":"  [10/16] defocus_blur      (sev 4): acc=55.72% (137.7 samples/s)\n"}
+,{"stream_name":"stdout","time":294.073766375,"data":"  [11/16] defocus_blur      (sev 5): acc=45.66% (128.1 samples/s)\n"}
+,{"stream_name":"stdout","time":315.908416631,"data":"  [12/16] jpeg_compression  (sev 1): acc=85.15% (179.7 samples/s)\n"}
+,{"stream_name":"stdout","time":337.202860832,"data":"  [13/16] jpeg_compression  (sev 2): acc=82.90% (184.3 samples/s)\n"}
+,{"stream_name":"stdout","time":358.418846133,"data":"  [14/16] jpeg_compression  (sev 3): acc=81.68% (185.0 samples/s)\n"}
+,{"stream_name":"stdout","time":379.70537301,"data":"  [15/16] jpeg_compression  (sev 4): acc=79.67% (184.4 samples/s)\n"}
+,{"stream_name":"stdout","time":400.832758311,"data":"  [16/16] jpeg_compression  (sev 5): acc=75.13% (185.7 samples/s)\n"}
+,{"stream_name":"stdout","time":400.832796974,"data":"\n"}
+,{"stream_name":"stdout","time":400.832801772,"data":"=======================================================\n"}
+,{"stream_name":"stdout","time":400.832806092,"data":"Evaluating ConvNeXt-Tiny (convnext_tiny.in12k_ft_in1k)...\n"}
+,{"stream_name":"stdout","time":400.832810462,"data":"=======================================================\n"}
+,{"stream_name":"stdout","time":425.420668764,"data":"  [01/16] clean             (sev 0): acc=87.13% (169.1 samples/s)\n"}
+,{"stream_name":"stdout","time":447.452339965,"data":"  [02/16] gaussian_noise    (sev 1): acc=87.29% (178.1 samples/s)\n"}
+,{"stream_name":"stdout","time":469.31452308,"data":"  [03/16] gaussian_noise    (sev 2): acc=85.20% (179.6 samples/s)\n"}
+,{"stream_name":"stdout","time":491.124067712,"data":"  [04/16] gaussian_noise    (sev 3): acc=80.89% (179.9 samples/s)\n"}
+,{"stream_name":"stdout","time":513.107386851,"data":"  [05/16] gaussian_noise    (sev 4): acc=70.68% (178.6 samples/s)\n"}
+,{"stream_name":"stdout","time":535.06180078,"data":"  [06/16] gaussian_noise    (sev 5): acc=52.41% (178.7 samples/s)\n"}
+,{"stream_name":"stdout","time":565.554177682,"data":"  [07/16] defocus_blur      (sev 1): acc=84.66% (128.7 samples/s)\n"}
+,{"stream_name":"stdout","time":596.921331788,"data":"  [08/16] defocus_blur      (sev 2): acc=80.08% (125.1 samples/s)\n"}
+,{"stream_name":"stdout","time":629.135558682,"data":"  [09/16] defocus_blur      (sev 3): acc=74.19% (121.8 samples/s)\n"}
+,{"stream_name":"stdout","time":662.427570848,"data":"  [10/16] defocus_blur      (sev 4): acc=65.94% (117.9 samples/s)\n"}
+,{"stream_name":"stdout","time":696.942636603,"data":"  [11/16] defocus_blur      (sev 5): acc=57.61% (113.7 samples/s)\n"}
+,{"stream_name":"stdout","time":723.15561537,"data":"  [12/16] jpeg_compression  (sev 1): acc=84.97% (149.7 samples/s)\n"}
+,{"stream_name":"stdout","time":749.138849647,"data":"  [13/16] jpeg_compression  (sev 2): acc=84.41% (151.1 samples/s)\n"}
+,{"stream_name":"stdout","time":774.877520541,"data":"  [14/16] jpeg_compression  (sev 3): acc=83.34% (152.5 samples/s)\n"}
+,{"stream_name":"stdout","time":800.57758917,"data":"  [15/16] jpeg_compression  (sev 4): acc=82.68% (152.7 samples/s)\n"}
+,{"stream_name":"stdout","time":826.379250941,"data":"  [16/16] jpeg_compression  (sev 5): acc=80.10% (152.1 samples/s)\n"}
+,{"stream_name":"stdout","time":826.37929114,"data":"\n"}
+,{"stream_name":"stdout","time":826.37929712,"data":"=======================================================\n"}
+,{"stream_name":"stdout","time":826.379301602,"data":"Evaluating ViT-Base/16 (vit_base_patch16_224.augreg_in21k_ft_in1k)...\n"}
+,{"stream_name":"stdout","time":826.379306075,"data":"=======================================================\n"}
+,{"stream_name":"stdout","time":882.095854931,"data":"  [01/16] clean             (sev 0): acc=80.25% ( 76.1 samples/s)\n"}
+,{"stream_name":"stdout","time":935.414892512,"data":"  [02/16] gaussian_noise    (sev 1): acc=77.66% ( 73.6 samples/s)\n"}
+,{"stream_name":"stdout","time":989.152837121,"data":"  [03/16] gaussian_noise    (sev 2): acc=74.14% ( 73.0 samples/s)\n"}
+,{"stream_name":"stdout","time":1042.480076964,"data":"  [04/16] gaussian_noise    (sev 3): acc=68.99% ( 73.6 samples/s)\n"}
+,{"stream_name":"stdout","time":1096.056295257,"data":"  [05/16] gaussian_noise    (sev 4): acc=59.29% ( 73.3 samples/s)\n"}
+,{"stream_name":"stdout","time":1149.447415764,"data":"  [06/16] gaussian_noise    (sev 5): acc=41.07% ( 73.5 samples/s)\n"}
+,{"stream_name":"stdout","time":1211.762336667,"data":"  [07/16] defocus_blur      (sev 1): acc=76.92% ( 63.0 samples/s)\n"}
+,{"stream_name":"stdout","time":1274.624140535,"data":"  [08/16] defocus_blur      (sev 2): acc=72.28% ( 62.4 samples/s)\n"}
+,{"stream_name":"stdout","time":1338.844126406,"data":"  [09/16] defocus_blur      (sev 3): acc=67.01% ( 61.1 samples/s)\n"}
+,{"stream_name":"stdout","time":1404.459983561,"data":"  [10/16] defocus_blur      (sev 4): acc=60.48% ( 59.8 samples/s)\n"}
+,{"stream_name":"stdout","time":1471.330770286,"data":"  [11/16] defocus_blur      (sev 5): acc=53.99% ( 58.7 samples/s)\n"}
+,{"stream_name":"stdout","time":1529.39118292,"data":"  [12/16] jpeg_compression  (sev 1): acc=78.14% ( 67.6 samples/s)\n"}
+,{"stream_name":"stdout","time":1587.198738151,"data":"  [13/16] jpeg_compression  (sev 2): acc=76.82% ( 67.9 samples/s)\n"}
+,{"stream_name":"stdout","time":1645.118904243,"data":"  [14/16] jpeg_compression  (sev 3): acc=75.31% ( 67.8 samples/s)\n"}
+,{"stream_name":"stdout","time":1702.541327774,"data":"  [15/16] jpeg_compression  (sev 4): acc=74.50% ( 68.4 samples/s)\n"}
+,{"stream_name":"stdout","time":1759.906367906,"data":"  [16/16] jpeg_compression  (sev 5): acc=71.46% ( 68.4 samples/s)\n"}
+,{"stream_name":"stdout","time":1759.906398956,"data":"\n"}
+,{"stream_name":"stdout","time":1759.906403679,"data":"=======================================================\n"}
+,{"stream_name":"stdout","time":1759.906407947,"data":"Evaluating Swin-Tiny (swin_tiny_patch4_window7_224.ms_in1k)...\n"}
+,{"stream_name":"stdout","time":1759.906412156,"data":"=======================================================\n"}
+,{"stream_name":"stdout","time":1782.146366256,"data":"  [01/16] clean             (sev 0): acc=86.04% (190.0 samples/s)\n"}
+,{"stream_name":"stdout","time":1805.37874281,"data":"  [02/16] gaussian_noise    (sev 1): acc=86.90% (169.0 samples/s)\n"}
+,{"stream_name":"stdout","time":1828.525457916,"data":"  [03/16] gaussian_noise    (sev 2): acc=84.38% (169.5 samples/s)\n"}
+,{"stream_name":"stdout","time":1851.740946328,"data":"  [04/16] gaussian_noise    (sev 3): acc=80.69% (169.1 samples/s)\n"}
+,{"stream_name":"stdout","time":1874.82143415,"data":"  [05/16] gaussian_noise    (sev 4): acc=74.57% (170.0 samples/s)\n"}
+,{"stream_name":"stdout","time":1898.381303631,"data":"  [06/16] gaussian_noise    (sev 5): acc=61.20% (166.6 samples/s)\n"}
+,{"stream_name":"stdout","time":1930.689423901,"data":"  [07/16] defocus_blur      (sev 1): acc=82.29% (121.5 samples/s)\n"}
+,{"stream_name":"stdout","time":1963.800863798,"data":"  [08/16] defocus_blur      (sev 2): acc=76.18% (118.5 samples/s)\n"}
+,{"stream_name":"stdout","time":1997.688425352,"data":"  [09/16] defocus_blur      (sev 3): acc=67.69% (115.8 samples/s)\n"}
+,{"stream_name":"stdout","time":2032.710332149,"data":"  [10/16] defocus_blur      (sev 4): acc=58.80% (112.1 samples/s)\n"}
+,{"stream_name":"stdout","time":2069.317139503,"data":"  [11/16] defocus_blur      (sev 5): acc=49.15% (107.2 samples/s)\n"}
+,{"stream_name":"stdout","time":2097.76942064,"data":"  [12/16] jpeg_compression  (sev 1): acc=83.75% (137.9 samples/s)\n"}
+,{"stream_name":"stdout","time":2125.919436968,"data":"  [13/16] jpeg_compression  (sev 2): acc=82.78% (139.5 samples/s)\n"}
+,{"stream_name":"stdout","time":2153.892461234,"data":"  [14/16] jpeg_compression  (sev 3): acc=81.58% (140.3 samples/s)\n"}
+,{"stream_name":"stdout","time":2181.76760723,"data":"  [15/16] jpeg_compression  (sev 4): acc=79.85% (140.8 samples/s)\n"}
+,{"stream_name":"stdout","time":2209.405494414,"data":"  [16/16] jpeg_compression  (sev 5): acc=74.70% (141.1 samples/s)\n"}
+,{"stream_name":"stdout","time":2209.405534183,"data":"\n"}
+,{"stream_name":"stdout","time":2209.405539442,"data":"=======================================================\n"}
+,{"stream_name":"stdout","time":2209.405543892,"data":"Evaluation complete in 2154.23s (116.61 passes/sec).\n"}
+,{"stream_name":"stdout","time":2209.405548138,"data":"Total prediction records generated: 251200\n"}
+,{"stream_name":"stdout","time":2209.405552394,"data":"=======================================================\n"}
+,{"stream_name":"stdout","time":2209.585225809,"data":"Saving all_predictions.json...\n"}
+,{"stream_name":"stdout","time":2218.045038106,"data":"Calculating statistical aggregations...\n"}
+,{"stream_name":"stdout","time":2224.63539455,"data":"\n"}
+,{"stream_name":"stdout","time":2224.635421877,"data":"Saved all evaluation artifacts to outputs/:\n"}
+,{"stream_name":"stdout","time":2224.635429066,"data":" - benchmark_report.json (75.3 KB)\n"}
+,{"stream_name":"stdout","time":2224.635434376,"data":" - all_predictions.json (165480.0 KB)\n"}
+,{"stream_name":"stdout","time":2224.635439363,"data":" - pairwise_significance.csv (1.9 KB)\n"}
+,{"stream_name":"stdout","time":2224.635444397,"data":" - leaderboard_summary.csv (0.5 KB)\n"}
+,{"stream_name":"stdout","time":2224.635449357,"data":" - detailed_breakdown.csv (32.6 KB)\n"}
+,{"stream_name":"stdout","time":2224.63546115,"data":" - manifest.json (3.1 KB)\n"}
+,{"stream_name":"stderr","time":2229.938847096,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":2229.938879693,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":2230.11173876,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":2230.111779443,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":2230.874452371,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to notebook\n"}
+,{"stream_name":"stderr","time":2231.00768872,"data":"[NbConvertApp] Writing 200351 bytes to __notebook__.ipynb\n"}
+,{"stream_name":"stderr","time":2233.597172644,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to html\n"}
+,{"stream_name":"stderr","time":2234.502744901,"data":"[NbConvertApp] Writing 547809 bytes to __results__.html\n"}
+]

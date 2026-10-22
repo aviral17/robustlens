@@ -1,0 +1,64 @@
+{
+  "timestamp": "2026-10-17T02:18:51.507944+00:00",
+  "benchmark_status": "Pilot \u2014 N=100",
+  "is_pilot": true,
+  "num_independent_images": 100,
+  "num_prediction_records": 6400,
+  "conditions_per_image": 16,
+  "dataset": {
+    "name": "imagenette",
+    "source_mirror": "johnowhitaker/imagenette2-320",
+    "upstream_reference": "FastAI Imagenette-v2 (https://github.com/fastai/imagenette)",
+    "total_mirror_images": 13394,
+    "train_split_count": 9469,
+    "validation_split_count": 3925,
+    "validation_range": [
+      9469,
+      13394
+    ],
+    "split_integrity_verified": true,
+    "assumptions": "Rows 0-9468 correspond to the official FastAI training split sorted by class folder; rows 9469-13393 correspond to the official FastAI validation split sorted by class folder. Verified via per-class counts, boundary transition from class 9 (row 9468) to class 0 (row 9469), and zero image hash collisions between splits."
+  },
+  "seed": 42,
+  "device": "cuda",
+  "device_name": "Tesla T4",
+  "models": [
+    {
+      "timm_id": "resnet50.a1_in1k",
+      "display_name": "ResNet-50",
+      "family": "CNN"
+    },
+    {
+      "timm_id": "convnext_tiny.in12k_ft_in1k",
+      "display_name": "ConvNeXt-Tiny",
+      "family": "Modern CNN"
+    },
+    {
+      "timm_id": "vit_base_patch16_224.augreg_in21k_ft_in1k",
+      "display_name": "ViT-Base/16",
+      "family": "Transformer"
+    },
+    {
+      "timm_id": "swin_tiny_patch4_window7_224.ms_in1k",
+      "display_name": "Swin-Tiny",
+      "family": "Hierarchical ViT"
+    }
+  ],
+  "corruptions": [
+    "gaussian_noise",
+    "defocus_blur",
+    "jpeg_compression"
+  ],
+  "severities": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "total_records": 6400,
+  "predictions_file": "all_predictions.json",
+  "elapsed_seconds": 54.48,
+  "throughput_passes_per_sec": 117.47,
+  "paired_comparison_method": "Cluster paired bootstrap resampling at original-image level preserving all condition observations per image."
+}

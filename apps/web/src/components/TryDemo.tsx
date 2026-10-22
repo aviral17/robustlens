@@ -398,8 +398,20 @@ export default function TryDemo() {
             </Button>
 
             <div className="text-center text-xs text-muted-foreground font-medium flex items-center justify-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              Real ZeroGPU compute backend connected
+              <span
+                className={`w-2 h-2 rounded-full ${
+                  errorMessage
+                    ? "bg-rose-500"
+                    : isInferring
+                    ? "bg-amber-500 animate-pulse"
+                    : "bg-emerald-500 animate-pulse"
+                }`}
+              />
+              {errorMessage
+                ? "Backend error occurred — see details above"
+                : isInferring
+                ? "Executing ZeroGPU inference job..."
+                : "Hugging Face ZeroGPU backend configured"}
             </div>
           </div>
         </motion.div>

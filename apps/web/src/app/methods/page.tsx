@@ -15,6 +15,7 @@ import {
   Compass,
   Cpu,
   Target,
+  ExternalLink,
 } from "lucide-react";
 
 export default function MethodsPage() {
@@ -415,7 +416,7 @@ export default function MethodsPage() {
           Every equation, matrix decomposition, transition table, and numerical finding presented on this platform is verifiable via the repository&apos;s executable test suite. Running <code className="text-foreground font-mono bg-muted/70 px-1.5 py-0.5 rounded border border-border/50">python ml/scripts/verify_all_numbers.py</code> verifies all 973,400 records and derived statistics in under five seconds with zero discrepancies.
         </p>
 
-        <div className="flex flex-wrap gap-3 pt-1">
+        <div className="flex flex-wrap gap-3 pt-1 items-center">
           <Link
             href="/order-effects"
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm"
@@ -429,6 +430,15 @@ export default function MethodsPage() {
           >
             <span>View About & Project Overview</span>
           </Link>
+          <a
+            href="https://doi.org/10.5281/zenodo.23483939"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold bg-purple-500/10 hover:bg-purple-500/20 text-purple-600 dark:text-purple-400 transition-colors border border-purple-500/30"
+          >
+            <span>Zenodo DOI: 10.5281/zenodo.23483939</span>
+            <ExternalLink className="h-3 w-3" />
+          </a>
         </div>
       </section>
     </main>

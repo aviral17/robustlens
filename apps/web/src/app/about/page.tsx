@@ -542,6 +542,59 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+      {/* 10. Publication, Permanent DOI & Citation */}
+      <section className="flex flex-col gap-4">
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/10 text-purple-500 border border-purple-500/20">
+            <BookOpen className="h-5 w-5" />
+          </div>
+          <div>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground font-[family-name:var(--font-poppins)]">
+              Publication & Permanent DOI
+            </h2>
+          </div>
+        </div>
+
+        <div className="p-6 sm:p-8 rounded-3xl bg-card border border-border/60 shadow-sm flex flex-col gap-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-border/50">
+            <div className="flex flex-col gap-1">
+              <span className="text-xs font-bold uppercase tracking-wider text-purple-500">Official Benchmark Release (v1.0)</span>
+              <h3 className="text-lg sm:text-xl font-bold text-foreground">
+                Order Matters Beyond Accuracy: Paired Prediction Analysis of Compound Image Corruptions
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                <strong>Author:</strong> Aviral Choudhary &bull; <strong>Date:</strong> October 20, 2026
+              </p>
+            </div>
+            <a
+              href="https://doi.org/10.5281/zenodo.23483939"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold bg-purple-600 hover:bg-purple-700 text-white transition-colors shadow-sm shrink-0 self-start sm:self-auto"
+            >
+              <span>Zenodo DOI: 10.5281/zenodo.23483939</span>
+              <ExternalLink className="h-3.5 w-3.5" />
+            </a>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">BibTeX Citation</span>
+            <div className="p-4 rounded-2xl bg-muted/50 border border-border/50 font-mono text-xs text-foreground overflow-x-auto leading-relaxed">
+              <pre>{`@article{choudhary2026robustlens,
+  title   = {Order Matters Beyond Accuracy: Paired Prediction Analysis of Compound Image Corruptions},
+  author  = {Choudhary, Aviral},
+  year    = {2026},
+  month   = {October},
+  doi     = {10.5281/zenodo.23483939},
+  url     = {https://doi.org/10.5281/zenodo.23483939},
+  version = {1.0},
+  note    = {RobustLens Research Benchmark Release}
+}`}</pre>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

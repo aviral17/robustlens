@@ -1,5 +1,6 @@
 # 🔍 RobustLens: Vision Architecture Robustness & Non-Commutative Compound Corruptions
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23483939.svg)](https://doi.org/10.5281/zenodo.23483939)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![Next.js 16](https://img.shields.io/badge/Next.js-16-black.svg)](https://nextjs.org/)
@@ -84,6 +85,25 @@ pnpm build
 pnpm dev
 ```
 Explore the interactive visual dashboard locally at `http://localhost:3000`.
+
+---
+
+## 📌 Citation & Permanent DOI
+
+If you use RobustLens code, methodology, or benchmark records in your research, please cite:
+
+```bibtex
+@article{choudhary2026robustlens,
+  title   = {Order Matters Beyond Accuracy: Paired Prediction Analysis of Compound Image Corruptions},
+  author  = {Choudhary, Aviral},
+  year    = {2026},
+  month   = {October},
+  doi     = {10.5281/zenodo.23483939},
+  url     = {https://doi.org/10.5281/zenodo.23483939},
+  version = {1.0},
+  note    = {RobustLens Research Benchmark Release}
+}
+```
 
 ---
 

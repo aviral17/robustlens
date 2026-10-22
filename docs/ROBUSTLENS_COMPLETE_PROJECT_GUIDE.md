@@ -1,4 +1,4 @@
-# 🔍 RobustLens: The Complete Project Guide & Beginner-Friendly Walkthrough
+# RobustLens: The Complete Project Guide & Beginner-Friendly Walkthrough
 **A Comprehensive, Page-by-Page, Feature-by-Feature Reference for Understanding AI Vision Robustness, Non-Commutative Compound Corruptions, and the Interactive Web Platform**
 
 ---
@@ -59,13 +59,7 @@ Instead of simply testing whether an AI gets the answer right or wrong on pristi
 3. Quantifies how uncertain the AI is about its guesses using statistical techniques.
 4. Provides a fully interactive web platform where anyone can test images, inspect failure modes, and explore the research data in real time.
 
-```mermaid
-flowchart LR
-    A["📸 Clean Image<br/>(e.g., Dog)"] --> B["🌧️ Physical Shift<br/>(Noise, Blur, Compression)"]
-    B --> C["🤖 AI Vision Model<br/>(ResNet, ConvNeXt, ViT, Swin)"]
-    C --> D["📊 Statistical Analysis<br/>(Accuracy, Churn, Calibration, CIs)"]
-    D --> E["🌐 Interactive Web App<br/>(Explore, Stress Test, Learn)"]
-```
+![RobustLens High-Level Overview](figures/diagram1_overview.png)
 
 ---
 
@@ -135,47 +129,7 @@ The RobustLens project consists of three interconnected systems:
 2. **The Live ZeroGPU Inference Service** (hosted on Hugging Face Spaces with PyTorch, timm, and an NVIDIA A10G GPU).
 3. **The Offline Research & Evaluation Engine** (Python library `robustlens`, Astral `uv`, SciPy, statsmodels, pytest suite, and precomputed research datasets).
 
-```mermaid
-flowchart TD
-    subgraph Browser ["🌐 Client Web Browser"]
-        U1["User Views Dashboard & Charts"]
-        U2["User Uploads Image for Stress Test"]
-    end
-
-    subgraph Vercel ["⚡ Next.js Web Server (Vercel)"]
-        N1["Static Pages & Research Dashboards<br/>(/, /about, /methods, /order-effects, etc.)"]
-        N2["Precomputed Research Data<br/>(order_effects_data.json, benchmark_report.json)"]
-        N3["Server API Route<br/>(/api/inference/route.ts)"]
-    end
-
-    subgraph HuggingFace ["🤗 Hugging Face Spaces (ZeroGPU)"]
-        H1["Gradio Client Bridge (@gradio/client)"]
-        H2["Gradio Server (app.py)"]
-        H3["PyTorch & timm Models on NVIDIA A10G<br/>(ResNet-50, ConvNeXt, ViT, Swin)"]
-    end
-
-    subgraph ResearchOffline ["🔬 Offline Research Engine (Python / Kaggle / uv)"]
-        R1["FastAI Imagenette-v2 (N=3,925 Images)"]
-        R2["Kaggle GPU Execution (973,400 Inferences)"]
-        R3["Statistical Engine (Bootstrap, ANCOVA, Churn)"]
-        R4["Canonical Data Artifacts (CSV, JSON, Figures, PDF)"]
-    end
-
-    U1 -->|Reads Precomputed Dashboards| N1
-    N1 -->|Static Imports| N2
-    U2 -->|Sends Image & Settings| N3
-    N3 -->|Internal Secure Proxy with HF_TOKEN| H1
-    H1 -->|Gradio Protocol| H2
-    H2 -->|Neural Forward Pass| H3
-    H3 -->|Top-5 Softmax Confidences| H2
-    H2 -->|JSON Result| N3
-    N3 -->|JSON Response| U2
-
-    R1 -->|Batch Inferences| R2
-    R2 -->|Raw Prediction Tables| R3
-    R3 -->|Generates Web Artifacts| R4
-    R4 -->|Copied into public/| N2
-```
+![RobustLens System Architecture](figures/diagram2_architecture.png)
 
 ---
 
@@ -223,6 +177,8 @@ The published study evaluates **973,400 total forward passes** across two distin
    * **ViT-Base/16:** Gap contracts from 20.37% down to 10.03% (**50.75% contraction**).
    * **Swin-Tiny:** Gap contracts from 17.13% down to 11.68% (**31.80% contraction**).
    * **Overall Range:** Contracts from 18.43% down to 6.79% (**63.18% contraction**).
+
+![Sequence Gap Contraction Under Matched Fidelity](figures/fig2_sequence_gap_contraction.png)
 3. **Full-Rank Saturated Linear Decomposition:** The author specified a full-rank orthogonal decomposition ($\det(X) = -6$) partitioning sequence effects into entry operators, exit operators, and an even-versus-odd permutation parity contrast. Clustered bootstrap inference ($B = 5{,}000$ clusters) confirmed that cyclic operator structure independently impacts representations ($p < 10^{-100}$).
 4. **Prediction Churn & Error Migration:** Evaluating a 5-state joint prediction partition ($E_{11}, E_{10}, E_{01}, E_{00}^{\text{same}}, E_{00}^{\text{diff}}$) revealed that **Predicted-Label Churn** (40.78% nominal, 34.74% targeted) is more than double **Correctness Churn** (16.93% nominal, 12.34% targeted). This is because **Error Migration** ($E_{00}^{\text{diff}}$, where the model predicts different wrong classes across sequences) occurs in 23.85% of evaluations. Pairs of sequences with nearly identical accuracy still exhibit up to **10.97% excess churn**!
 
@@ -308,6 +264,8 @@ The Leaderboard provides a comparative ranking of vision architectures under sta
 * **Frontend:** [`apps/web/src/app/leaderboard/page.tsx`](file:///C:/STATISTICS%20&%20CV/robustlens/apps/web/src/app/leaderboard/page.tsx)
 * **Data File:** [`apps/web/public/benchmark_report.json`](file:///C:/STATISTICS%20&%20CV/robustlens/apps/web/public/benchmark_report.json)
 
+![Leaderboard Clean vs Shifted Accuracy](figures/01_clean_vs_shifted_accuracy.png)
+
 ---
 
 ### Route 3: Compound Order Effects (`/order-effects`)
@@ -337,6 +295,9 @@ The Compound Order Effects page is the deepest scientific module in the entire p
 #### D. Implementation Files
 * **Frontend:** [`apps/web/src/app/order-effects/page.tsx`](file:///C:/STATISTICS%20&%20CV/robustlens/apps/web/src/app/order-effects/page.tsx)
 * **Data File:** [`apps/web/public/order_effects_data.json`](file:///C:/STATISTICS%20&%20CV/robustlens/apps/web/public/order_effects_data.json) (692 KB verified dataset)
+
+![Order Effects by Architecture](figures/06_order_effects_by_architecture.png)
+![PSNR and SSIM vs Accuracy by Order](figures/07_psnr_ssim_vs_accuracy_by_order.png)
 
 ---
 
@@ -381,6 +342,8 @@ When Model A scores 62% accuracy and Model B scores 60%, is Model A actually sup
 * **Frontend:** [`apps/web/src/app/significance/page.tsx`](file:///C:/STATISTICS%20&%20CV/robustlens/apps/web/src/app/significance/page.tsx)
 * **Data Source:** [`apps/web/public/benchmark_report.json`](file:///C:/STATISTICS%20&%20CV/robustlens/apps/web/public/benchmark_report.json)
 
+![Pairwise Clustered Confidence Intervals](figures/05_pairwise_clustered_confidence_intervals.png)
+
 ---
 
 ### Route 6: Model Calibration & ECE (`/calibration`)
@@ -397,6 +360,8 @@ An AI model should not only be accurate; it should also know when it is likely t
 #### C. Implementation Files
 * **Frontend:** [`apps/web/src/app/calibration/page.tsx`](file:///C:/STATISTICS%20&%20CV/robustlens/apps/web/src/app/calibration/page.tsx)
 * **Data Source:** [`apps/web/public/benchmark_report.json`](file:///C:/STATISTICS%20&%20CV/robustlens/apps/web/public/benchmark_report.json)
+
+![Model Calibration Degradation under Shift](figures/04_calibration_ece_shift.png)
 
 ---
 
@@ -484,25 +449,7 @@ A server-side Next.js HTTP POST handler located at `/api/inference`. It acts as 
 
 The live inference service is hosted on **Hugging Face Spaces** and powered by **ZeroGPU** (NVIDIA A10G Tensor Core GPU with 24GB VRAM).
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor User as 👤 User Browser
-    participant NextJS as ⚡ Next.js API (/api/inference)
-    participant Gradio as 🤗 Hugging Face Space (Gradio)
-    participant GPU as 🎮 NVIDIA A10G (ZeroGPU)
-
-    User->>NextJS: POST /api/inference {image: base64, model: "all", corruption: "noise", severity: 3}
-    Note over NextJS: Validates Base64 image<br/>Resolves model alias<br/>Reads secure HF_TOKEN
-    NextJS->>Gradio: Client.predict("/run_inference", [blob, model, corruption, severity])
-    Note over Gradio: Spawns @spaces.GPU worker
-    Gradio->>GPU: Allocates PyTorch Tensor on CUDA
-    GPU->>GPU: 1. Applies pixel corruption (numpy/PIL)<br/>2. Normalizes tensor (val_transforms)<br/>3. Forward pass (timm models)<br/>4. Softmax top-5 probabilities
-    GPU-->>Gradio: Predictions & Confidences
-    Gradio-->>NextJS: JSON {status: "success", results: [...], inference_time: 0.5s}
-    NextJS-->>User: HTTP 200 OK {result: {...}}
-    Note over User: TryDemo renders comparison card<br/>and updates prediction bars
-```
+![RobustLens Live ZeroGPU Sequence Diagram](figures/diagram3_sequence.png)
 
 ### Key Implementation Details
 * **Source Code:** [`hf_space/app.py`](file:///C:/STATISTICS%20&%20CV/robustlens/hf_space/app.py)
@@ -520,38 +467,7 @@ sequenceDiagram
 
 While the website's live playground tests single user uploads, the scientific data presented in the paper, tables, and figures comes from a massive, rigorous offline research pipeline.
 
-```mermaid
-flowchart TD
-    subgraph DataPrep ["1. Dataset Ingestion"]
-        D1["FastAI Imagenette-v2<br/>(13,394 Total Images)"]
-        D2["Calibration Split (N=9,469)<br/>Used strictly for tuning parameters"]
-        D3["Validation Split (N=3,925)<br/>Used exclusively for evaluation"]
-    end
-
-    subgraph KaggleCluster ["2. Distributed GPU Execution (Kaggle T4)"]
-        K1["Nominal Regime Script<br/>(486,700 Inferences)"]
-        K2["Matched-Fidelity Regime Script<br/>(486,700 Inferences)"]
-        K3["Total = 973,400 Inferences<br/>Seed-Matched Noise Realizations"]
-    end
-
-    subgraph PythonAnalysis ["3. Statistical Analysis Engine (uv / Python)"]
-        S1["Full-Rank Saturated Decomposition<br/>(scripts/run_final_order_decomposition_analysis.py)"]
-        S2["Clustered Bootstrap Engine<br/>(B=5,000 Resamples on N=3,925 Clusters)"]
-        S3["Error Churn & 5-State Transition Engine<br/>(scripts/compute_error_churn.py)"]
-        S4["Factorial ANCOVA with Clustered SEs<br/>(scripts/fit_matched_factorial_ancova.py)"]
-    end
-
-    subgraph Verification ["4. Automated Verification Suite"]
-        V1["52/52 Passing Pytests<br/>(tests/test_*.py)"]
-        V2["Zero-Discrepancy Number Audit<br/>(scripts/verify_all_numbers.py)"]
-    end
-
-    D1 --> D2 & D3
-    D3 --> K1 & K2
-    K1 & K2 --> K3
-    K3 --> S1 & S2 & S3 & S4
-    S1 & S2 & S3 & S4 --> V1 & V2
-```
+![RobustLens Offline Research Engine Pipeline](figures/diagram4_pipeline.png)
 
 ### The Three Separation Rules
 To preserve scientific integrity, RobustLens strictly adheres to three architectural separation rules:
@@ -584,6 +500,8 @@ Every numerical figure published in the paper and displayed on the website has b
 | **PSNR Calibration Residual RMSE** | **0.943 dB** | Root-mean-square error in achieving target PSNR common support | `matched_fidelity/matching_residuals.csv` |
 | **SSIM Calibration Residual RMSE** | **0.1380** | Root-mean-square error in achieving target SSIM common support | `matched_fidelity/matching_residuals.csv` |
 | **Automated Test Suite Coverage** | **52 / 52** | Number of passing unit and integration tests | `ml/tests/test_*.py` |
+
+![Paired Prediction Churn and Error Migration](figures/10_error_churn_analysis.png)
 
 ---
 
@@ -647,15 +565,7 @@ Every numerical figure published in the paper and displayed on the website has b
 
 The development of RobustLens progressed through several verified phases, preserved in the Git repository history:
 
-```mermaid
-timeline
-    title RobustLens Development Milestones
-    Phase 1 (Setup) : Repository scaffolding : Astral uv Python environment : Next.js 16 monorepo foundation
-    Phase 2 (Baselines) : Baseline speed benchmarks : Dark/light theme engine : Model evaluation harness
-    Phase 3 (Kaggle Evaluation) : Imagenette-v2 dataset integration : GPU evaluation notebooks : Raw prediction tables
-    Phase 4 (Statistical Engine) : 52/52 pytest suite : Clustered bootstrap : Saturated 6-cell decomposition : Error churn decomposition
-    Phase 5 (Web & Publications) : Interactive Next.js platform : Hugging Face ZeroGPU live proxy : Zenodo v1.0 publication (DOI 10.5281/zenodo.23483939) : Production Vercel deployment (robustlens.vercel.app)
-```
+![RobustLens Engineering and Research Milestones](figures/diagram5_timeline.png)
 
 ### Verified Scientific & Engineering Achievements
 1. **973,400 Verified Forward Passes:** Executed on NVIDIA Tesla T4 GPUs across 3,925 validation images without data fabrication.

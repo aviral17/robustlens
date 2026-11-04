@@ -1,0 +1,13 @@
+{
+  "id": "aviral199/robustlens-distortion-fingerprints-confirmatory",
+  "title": "RobustLens Distortion Fingerprints Confirmatory",
+  "code_file": "02_distortion_fingerprints_confirmatory.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": "true",
+  "enable_gpu": "true",
+  "enable_internet": "true",
+  "dataset_sources": [],
+  "competition_sources": [],
+  "kernel_sources": []
+}

@@ -1,0 +1,215 @@
+{
+  "audit_name": "RobustLens Model Checkpoints and Margin Formulation Audit",
+  "environment": {
+    "python": "3.14.7",
+    "torch": "2.14.1+cpu",
+    "torchvision": "0.29.1+cpu",
+    "timm": "1.0.30"
+  },
+  "models": {
+    "resnet50": {
+      "model_identifier": "resnet50.a1_in1k",
+      "family": "ResNet",
+      "description": "ResNet-50 trained with modern A1 recipe (RandAugment, Mixup, CutMix, 300 epochs)",
+      "output_dimension": 1000,
+      "pretrained_cfg": {
+        "input_size": [
+          3,
+          224,
+          224
+        ],
+        "interpolation": "bicubic",
+        "mean": [
+          0.485,
+          0.456,
+          0.406
+        ],
+        "std": [
+          0.229,
+          0.224,
+          0.225
+        ],
+        "crop_pct": 0.95,
+        "num_classes": 1000,
+        "classifier": "fc",
+        "hf_hub_id": "timm/resnet50.a1_in1k"
+      },
+      "checkpoint_file": {
+        "path": "C:\\Users\\Avi\\.cache\\huggingface\\hub\\models--timm--resnet50.a1_in1k\\snapshots\\767268603ca0cb0bfe326fa87277f19c419566ef\\model.safetensors",
+        "filename": "model.safetensors",
+        "size_bytes": 102469840,
+        "sha256": "773525d5821de224f8f30c33377b7a795d7863e08522698200d3217d3f2a41bb"
+      }
+    },
+    "convnext_tiny": {
+      "model_identifier": "convnext_tiny.in12k_ft_in1k",
+      "family": "Modern ConvNet",
+      "description": "ConvNeXt-Tiny pre-trained on ImageNet-12k and fine-tuned on ImageNet-1K at 224x224",
+      "output_dimension": 1000,
+      "pretrained_cfg": {
+        "input_size": [
+          3,
+          224,
+          224
+        ],
+        "interpolation": "bicubic",
+        "mean": [
+          0.485,
+          0.456,
+          0.406
+        ],
+        "std": [
+          0.229,
+          0.224,
+          0.225
+        ],
+        "crop_pct": 0.95,
+        "num_classes": 1000,
+        "classifier": "head.fc",
+        "hf_hub_id": "timm/convnext_tiny.in12k_ft_in1k"
+      },
+      "checkpoint_file": {
+        "path": "C:\\Users\\Avi\\.cache\\huggingface\\hub\\models--timm--convnext_tiny.in12k_ft_in1k\\snapshots\\aa096f03029c7f0ec052013f64c819b34f8ad790\\model.safetensors",
+        "filename": "model.safetensors",
+        "size_bytes": 114374272,
+        "sha256": "a1aefa409b513cf209b085424eb3efffe4e4a9f511491bc2c12ea35209e6bb95"
+      }
+    },
+    "vit_base": {
+      "model_identifier": "vit_base_patch16_224.augreg_in21k_ft_in1k",
+      "family": "Vision Transformer",
+      "description": "ViT-Base/16 pre-trained on ImageNet-21k with AugReg and fine-tuned on ImageNet-1K",
+      "output_dimension": 1000,
+      "pretrained_cfg": {
+        "input_size": [
+          3,
+          224,
+          224
+        ],
+        "interpolation": "bicubic",
+        "mean": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "std": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "crop_pct": 0.9,
+        "num_classes": 1000,
+        "classifier": "head",
+        "hf_hub_id": "timm/vit_base_patch16_224.augreg_in21k_ft_in1k"
+      },
+      "checkpoint_file": {
+        "path": "C:\\Users\\Avi\\.cache\\huggingface\\hub\\models--timm--vit_base_patch16_224.augreg_in21k_ft_in1k\\snapshots\\2ec9fb3d7bb664aac471ac44582c94d18de33780\\model.safetensors",
+        "filename": "model.safetensors",
+        "size_bytes": 346284714,
+        "sha256": "c401d219603ac3e20b6373c7b198c78d3a733f80b755d148bda3bc320ae69800"
+      }
+    },
+    "swin_tiny": {
+      "model_identifier": "swin_tiny_patch4_window7_224.ms_in1k",
+      "family": "Hierarchical Vision Transformer",
+      "description": "Swin-Tiny (patch 4, window 7) trained on ImageNet-1K",
+      "output_dimension": 1000,
+      "pretrained_cfg": {
+        "input_size": [
+          3,
+          224,
+          224
+        ],
+        "interpolation": "bicubic",
+        "mean": [
+          0.485,
+          0.456,
+          0.406
+        ],
+        "std": [
+          0.229,
+          0.224,
+          0.225
+        ],
+        "crop_pct": 0.9,
+        "num_classes": 1000,
+        "classifier": "head.fc",
+        "hf_hub_id": "timm/swin_tiny_patch4_window7_224.ms_in1k"
+      },
+      "checkpoint_file": {
+        "path": "C:\\Users\\Avi\\.cache\\huggingface\\hub\\models--timm--swin_tiny_patch4_window7_224.ms_in1k\\snapshots\\4cc3a7275b50b53a7bec45f32c236ebe64227cff\\model.safetensors",
+        "filename": "model.safetensors",
+        "size_bytes": 114286722,
+        "sha256": "fb01861f793143135fa0d6cd97b1631e4b33eaa3ee162bbea9e62de1c76ebac1"
+      }
+    }
+  },
+  "imagenette_to_imagenet_1k_synsets": [
+    {
+      "imagenette_local_index": 0,
+      "wordnet_id": "n01440764",
+      "class_name": "tench",
+      "imagenet_1k_target_index": 0
+    },
+    {
+      "imagenette_local_index": 1,
+      "wordnet_id": "n02102040",
+      "class_name": "English springer",
+      "imagenet_1k_target_index": 217
+    },
+    {
+      "imagenette_local_index": 2,
+      "wordnet_id": "n02979186",
+      "class_name": "cassette player",
+      "imagenet_1k_target_index": 482
+    },
+    {
+      "imagenette_local_index": 3,
+      "wordnet_id": "n03000684",
+      "class_name": "chain saw",
+      "imagenet_1k_target_index": 491
+    },
+    {
+      "imagenette_local_index": 4,
+      "wordnet_id": "n03028079",
+      "class_name": "church",
+      "imagenet_1k_target_index": 497
+    },
+    {
+      "imagenette_local_index": 5,
+      "wordnet_id": "n03394916",
+      "class_name": "French horn",
+      "imagenet_1k_target_index": 566
+    },
+    {
+      "imagenette_local_index": 6,
+      "wordnet_id": "n03417042",
+      "class_name": "garbage truck",
+      "imagenet_1k_target_index": 569
+    },
+    {
+      "imagenette_local_index": 7,
+      "wordnet_id": "n03425413",
+      "class_name": "gas pump",
+      "imagenet_1k_target_index": 571
+    },
+    {
+      "imagenette_local_index": 8,
+      "wordnet_id": "n03445777",
+      "class_name": "golf ball",
+      "imagenet_1k_target_index": 574
+    },
+    {
+      "imagenette_local_index": 9,
+      "wordnet_id": "n03888257",
+      "class_name": "parachute",
+      "imagenet_1k_target_index": 701
+    }
+  ],
+  "margin_formulation": {
+    "formula_latex": "M = z_{y^*} - \\max_{j \\ne y^*, j \\in \\{0, \\dots, 999\\}} z_j",
+    "search_space": "Full 1,000-class output logit vector",
+    "justification": "Ensures true out-of-class competition reflects the entire ImageNet vocabulary, avoiding artificial margin inflation.",
+    "synthetic_test_verified": true
+  }
+}

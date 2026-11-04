@@ -1,0 +1,1009 @@
+{
+  "metadata": {
+    "title": "At Matched Image Fidelity, Does Corruption Order Still Matter? Spatial-Frequency and Structural Fingerprints of Vision Classifier Reliability",
+    "study_type": "Matched-Fidelity Counterfactual Common-Support Confirmatory Study",
+    "date": "November 2026",
+    "evaluated_dataset": "FastAI Imagenette-v2 validation split (10 WordNet synsets: tench, English springer, cassette player, chain saw, church, French horn, garbage truck, gas pump, golf ball, parachute)",
+    "primary_images_count": 3825,
+    "primary_corrupted_passes": 275400,
+    "primary_clean_passes": 15300,
+    "primary_total_passes": 290700,
+    "conditions_per_image": 18,
+    "clean_conditions_per_image": 1,
+    "total_conditions_per_image": 19,
+    "evaluated_models": [
+      {
+        "id": "resnet50",
+        "name": "ResNet-50",
+        "timm_id": "resnet50.a1_in1k",
+        "family": "CNN"
+      },
+      {
+        "id": "convnext_tiny",
+        "name": "ConvNeXt-Tiny",
+        "timm_id": "convnext_tiny.in12k_ft_in1k",
+        "family": "Modern CNN"
+      },
+      {
+        "id": "vit_base",
+        "name": "ViT-Base / 16",
+        "timm_id": "vit_base_patch16_224.augreg_in21k_ft_in1k",
+        "family": "Global-Attention ViT"
+      },
+      {
+        "id": "swin_tiny",
+        "name": "Swin-Tiny",
+        "timm_id": "swin_tiny_patch4_window7_224.ms_in1k",
+        "family": "Hierarchical Windowed ViT"
+      }
+    ],
+    "pretraining_disclosure": "The 10 Imagenette synsets originate from ImageNet-1K. Models were pretrained on ImageNet-1K or 12k/21k fine-tuned on 1K. Confirmatory images are in-distribution with respect to backbone pretraining data, but completely quarantined from parameter calibration (N=50) and exploratory pilot (N=100) data.",
+    "external_replication_count": 300,
+    "external_replication_passes": 22800,
+    "grand_total_evaluations": 313500,
+    "generated_at": "2026-11-04T18:16:09.770586+00:00"
+  },
+  "calibration": {
+    "protocol_name": "RobustLens 6-Way Simultaneous Common-Support Calibration",
+    "delineation_method": "Tolerance-Ball Union Density Estimator (Alpha=1.0)",
+    "tolerances": {
+      "psnr_tolerance_db": 0.75,
+      "ssim_tolerance": 0.035
+    },
+    "lpips_role": "LPIPS was not an independently calibrated target. It was evaluated as a continuous regression covariate modeled via restricted cubic splines to control for perceptual distance.",
+    "levels": {
+      "Level_1_Mild": {
+        "target_psnr": 27.2,
+        "target_ssim": 0.81,
+        "all_6_pass": true,
+        "max_normalized_error": 0.327,
+        "sequences": {
+          "NBJ": {
+            "final_op": "JPEG",
+            "noise_std": 0.07,
+            "blur_sigma": 1.0,
+            "jpeg_quality": 75,
+            "achieved_psnr": 27.22,
+            "achieved_ssim": 0.82,
+            "psnr_err": 0.02,
+            "ssim_err": 0.0096,
+            "within_tol": true
+          },
+          "NJB": {
+            "final_op": "Blur",
+            "noise_std": 0.07,
+            "blur_sigma": 1.0,
+            "jpeg_quality": 35,
+            "achieved_psnr": 27.08,
+            "achieved_ssim": 0.82,
+            "psnr_err": -0.12,
+            "ssim_err": 0.0099,
+            "within_tol": true
+          },
+          "BNJ": {
+            "final_op": "JPEG",
+            "noise_std": 0.035,
+            "blur_sigma": 1.0,
+            "jpeg_quality": 55,
+            "achieved_psnr": 27.1,
+            "achieved_ssim": 0.803,
+            "psnr_err": -0.1,
+            "ssim_err": -0.0074,
+            "within_tol": true
+          },
+          "BJN": {
+            "final_op": "Noise",
+            "noise_std": 0.015,
+            "blur_sigma": 1.0,
+            "jpeg_quality": 75,
+            "achieved_psnr": 27.33,
+            "achieved_ssim": 0.801,
+            "psnr_err": 0.13,
+            "ssim_err": -0.0089,
+            "within_tol": true
+          },
+          "JNB": {
+            "final_op": "Blur",
+            "noise_std": 0.07,
+            "blur_sigma": 1.0,
+            "jpeg_quality": 90,
+            "achieved_psnr": 27.26,
+            "achieved_ssim": 0.807,
+            "psnr_err": 0.06,
+            "ssim_err": -0.0034,
+            "within_tol": true
+          },
+          "JBN": {
+            "final_op": "Noise",
+            "noise_std": 0.015,
+            "blur_sigma": 1.0,
+            "jpeg_quality": 55,
+            "achieved_psnr": 27.42,
+            "achieved_ssim": 0.808,
+            "psnr_err": 0.22,
+            "ssim_err": -0.0023,
+            "within_tol": true
+          }
+        }
+      },
+      "Level_2_Moderate": {
+        "target_psnr": 23.8,
+        "target_ssim": 0.65,
+        "all_6_pass": true,
+        "max_normalized_error": 0.333,
+        "sequences": {
+          "NBJ": {
+            "final_op": "JPEG",
+            "noise_std": 0.2,
+            "blur_sigma": 1.0,
+            "jpeg_quality": 75,
+            "achieved_psnr": 23.69,
+            "achieved_ssim": 0.647,
+            "psnr_err": -0.11,
+            "ssim_err": -0.0034,
+            "within_tol": true
+          },
+          "NJB": {
+            "final_op": "Blur",
+            "noise_std": 0.2,
+            "blur_sigma": 1.0,
+            "jpeg_quality": 35,
+            "achieved_psnr": 23.55,
+            "achieved_ssim": 0.651,
+            "psnr_err": -0.25,
+            "ssim_err": 0.0013,
+            "within_tol": true
+          },
+          "BNJ": {
+            "final_op": "JPEG",
+            "noise_std": 0.12,
+            "blur_sigma": 0.5,
+            "jpeg_quality": 10,
+            "achieved_psnr": 23.75,
+            "achieved_ssim": 0.646,
+            "psnr_err": -0.05,
+            "ssim_err": -0.0036,
+            "within_tol": true
+          },
+          "BJN": {
+            "final_op": "Noise",
+            "noise_std": 0.015,
+            "blur_sigma": 1.8,
+            "jpeg_quality": 20,
+            "achieved_psnr": 23.81,
+            "achieved_ssim": 0.647,
+            "psnr_err": 0.01,
+            "ssim_err": -0.0031,
+            "within_tol": true
+          },
+          "JNB": {
+            "final_op": "Blur",
+            "noise_std": 0.12,
+            "blur_sigma": 1.0,
+            "jpeg_quality": 10,
+            "achieved_psnr": 23.96,
+            "achieved_ssim": 0.646,
+            "psnr_err": 0.16,
+            "ssim_err": -0.0039,
+            "within_tol": true
+          },
+          "JBN": {
+            "final_op": "Noise",
+            "noise_std": 0.015,
+            "blur_sigma": 1.8,
+            "jpeg_quality": 10,
+            "achieved_psnr": 23.65,
+            "achieved_ssim": 0.656,
+            "psnr_err": -0.15,
+            "ssim_err": 0.006,
+            "within_tol": true
+          }
+        }
+      },
+      "Level_3_SevereCommon": {
+        "target_psnr": 21.8,
+        "target_ssim": 0.5,
+        "all_6_pass": true,
+        "max_normalized_error": 0.533,
+        "sequences": {
+          "NBJ": {
+            "final_op": "JPEG",
+            "noise_std": 0.2,
+            "blur_sigma": 0.5,
+            "jpeg_quality": 35,
+            "achieved_psnr": 21.71,
+            "achieved_ssim": 0.515,
+            "psnr_err": -0.09,
+            "ssim_err": 0.0155,
+            "within_tol": true
+          },
+          "NJB": {
+            "final_op": "Blur",
+            "noise_std": 0.2,
+            "blur_sigma": 0.5,
+            "jpeg_quality": 20,
+            "achieved_psnr": 21.65,
+            "achieved_ssim": 0.515,
+            "psnr_err": -0.15,
+            "ssim_err": 0.0148,
+            "within_tol": true
+          },
+          "BNJ": {
+            "final_op": "JPEG",
+            "noise_std": 0.07,
+            "blur_sigma": 2.8,
+            "jpeg_quality": 35,
+            "achieved_psnr": 22.01,
+            "achieved_ssim": 0.496,
+            "psnr_err": 0.21,
+            "ssim_err": -0.0042,
+            "within_tol": true
+          },
+          "BJN": {
+            "final_op": "Noise",
+            "noise_std": 0.07,
+            "blur_sigma": 0.5,
+            "jpeg_quality": 20,
+            "achieved_psnr": 22.03,
+            "achieved_ssim": 0.486,
+            "psnr_err": 0.23,
+            "ssim_err": -0.0135,
+            "within_tol": true
+          },
+          "JNB": {
+            "final_op": "Blur",
+            "noise_std": 0.12,
+            "blur_sigma": 0.5,
+            "jpeg_quality": 35,
+            "achieved_psnr": 21.96,
+            "achieved_ssim": 0.496,
+            "psnr_err": 0.16,
+            "ssim_err": -0.0043,
+            "within_tol": true
+          },
+          "JBN": {
+            "final_op": "Noise",
+            "noise_std": 0.07,
+            "blur_sigma": 0.5,
+            "jpeg_quality": 20,
+            "achieved_psnr": 22.19,
+            "achieved_ssim": 0.496,
+            "psnr_err": 0.39,
+            "ssim_err": -0.0041,
+            "within_tol": true
+          }
+        }
+      }
+    },
+    "sequences": [
+      "NBJ",
+      "NJB",
+      "BNJ",
+      "BJN",
+      "JNB",
+      "JBN"
+    ]
+  },
+  "statistical_comparison": [
+    {
+      "architecture": "convnext_tiny",
+      "display_name": "ConvNeXt-Tiny",
+      "specification": "Conventional 4-Knot RCS (Model 3 = 27 cols, Model 5 = 32 cols)",
+      "r2_oos_m3": 0.0728,
+      "r2_oos_m5": 0.0905,
+      "delta_r2_oos": 0.0177,
+      "ci95_pointwise_delta_r2": "[0.0121, 0.0232]",
+      "simultaneous_ci_delta_r2": "[0.0105, 0.0248]",
+      "mae_oos_m3": 2.7751,
+      "mae_oos_m5": 2.7366,
+      "delta_mae_oos": 0.0385,
+      "ci95_pointwise_delta_mae": "[0.03, 0.0471]",
+      "simultaneous_ci_delta_mae": "[0.0277, 0.0494]",
+      "holm_adj_p_delta_r2": 0.0004,
+      "p_display": "<= 0.0004",
+      "significant_r2": true,
+      "significant_mae": true
+    },
+    {
+      "architecture": "vit_base",
+      "display_name": "ViT-Base / 16",
+      "specification": "Conventional 4-Knot RCS (Model 3 = 27 cols, Model 5 = 32 cols)",
+      "r2_oos_m3": 0.0591,
+      "r2_oos_m5": 0.079,
+      "delta_r2_oos": 0.0199,
+      "ci95_pointwise_delta_r2": "[0.0132, 0.0261]",
+      "simultaneous_ci_delta_r2": "[0.0115, 0.0278]",
+      "mae_oos_m3": 3.2056,
+      "mae_oos_m5": 3.1521,
+      "delta_mae_oos": 0.0535,
+      "ci95_pointwise_delta_mae": "[0.0428, 0.0642]",
+      "simultaneous_ci_delta_mae": "[0.04, 0.0671]",
+      "holm_adj_p_delta_r2": 0.0004,
+      "p_display": "<= 0.0004",
+      "significant_r2": true,
+      "significant_mae": true
+    },
+    {
+      "architecture": "swin_tiny",
+      "display_name": "Swin-Tiny",
+      "specification": "Conventional 4-Knot RCS (Model 3 = 27 cols, Model 5 = 32 cols)",
+      "r2_oos_m3": 0.0893,
+      "r2_oos_m5": 0.1057,
+      "delta_r2_oos": 0.0164,
+      "ci95_pointwise_delta_r2": "[0.0112, 0.0214]",
+      "simultaneous_ci_delta_r2": "[0.0098, 0.023]",
+      "mae_oos_m3": 2.7785,
+      "mae_oos_m5": 2.7452,
+      "delta_mae_oos": 0.0334,
+      "ci95_pointwise_delta_mae": "[0.0251, 0.0417]",
+      "simultaneous_ci_delta_mae": "[0.0227, 0.0438]",
+      "holm_adj_p_delta_r2": 0.0004,
+      "p_display": "<= 0.0004",
+      "significant_r2": true,
+      "significant_mae": true
+    },
+    {
+      "architecture": "resnet50",
+      "display_name": "ResNet-50",
+      "specification": "Conventional 4-Knot RCS (Model 3 = 27 cols, Model 5 = 32 cols)",
+      "r2_oos_m3": 0.1224,
+      "r2_oos_m5": 0.1318,
+      "delta_r2_oos": 0.0094,
+      "ci95_pointwise_delta_r2": "[0.0058, 0.0129]",
+      "simultaneous_ci_delta_r2": "[0.0048, 0.0138]",
+      "mae_oos_m3": 5.5717,
+      "mae_oos_m5": 5.5234,
+      "delta_mae_oos": 0.0483,
+      "ci95_pointwise_delta_mae": "[0.0352, 0.0613]",
+      "simultaneous_ci_delta_mae": "[0.0314, 0.0648]",
+      "holm_adj_p_delta_r2": 0.0004,
+      "p_display": "<= 0.0004",
+      "significant_r2": true,
+      "significant_mae": true
+    },
+    {
+      "architecture": "convnext_tiny",
+      "display_name": "ConvNeXt-Tiny",
+      "specification": "Reduced 2-df Spline (Model 3 = 24 cols, Model 5 = 29 cols)",
+      "r2_oos_m3": 0.0687,
+      "r2_oos_m5": 0.0887,
+      "delta_r2_oos": 0.0201,
+      "ci95_pointwise_delta_r2": "[0.0138, 0.0263]",
+      "simultaneous_ci_delta_r2": "[0.012, 0.028]",
+      "mae_oos_m3": 2.7842,
+      "mae_oos_m5": 2.7397,
+      "delta_mae_oos": 0.0445,
+      "ci95_pointwise_delta_mae": "[0.035, 0.0539]",
+      "simultaneous_ci_delta_mae": "[0.0323, 0.0566]",
+      "holm_adj_p_delta_r2": 0.0004,
+      "p_display": "<= 0.0004",
+      "significant_r2": true,
+      "significant_mae": true
+    },
+    {
+      "architecture": "vit_base",
+      "display_name": "ViT-Base / 16",
+      "specification": "Reduced 2-df Spline (Model 3 = 24 cols, Model 5 = 29 cols)",
+      "r2_oos_m3": 0.0542,
+      "r2_oos_m5": 0.0777,
+      "delta_r2_oos": 0.0234,
+      "ci95_pointwise_delta_r2": "[0.016, 0.0305]",
+      "simultaneous_ci_delta_r2": "[0.0142, 0.0324]",
+      "mae_oos_m3": 3.2172,
+      "mae_oos_m5": 3.1553,
+      "delta_mae_oos": 0.0619,
+      "ci95_pointwise_delta_mae": "[0.0498, 0.0741]",
+      "simultaneous_ci_delta_mae": "[0.0468, 0.0771]",
+      "holm_adj_p_delta_r2": 0.0004,
+      "p_display": "<= 0.0004",
+      "significant_r2": true,
+      "significant_mae": true
+    },
+    {
+      "architecture": "swin_tiny",
+      "display_name": "Swin-Tiny",
+      "specification": "Reduced 2-df Spline (Model 3 = 24 cols, Model 5 = 29 cols)",
+      "r2_oos_m3": 0.0835,
+      "r2_oos_m5": 0.1025,
+      "delta_r2_oos": 0.019,
+      "ci95_pointwise_delta_r2": "[0.0131, 0.0246]",
+      "simultaneous_ci_delta_r2": "[0.0114, 0.0263]",
+      "mae_oos_m3": 2.791,
+      "mae_oos_m5": 2.7513,
+      "delta_mae_oos": 0.0397,
+      "ci95_pointwise_delta_mae": "[0.0304, 0.0489]",
+      "simultaneous_ci_delta_mae": "[0.028, 0.0514]",
+      "holm_adj_p_delta_r2": 0.0004,
+      "p_display": "<= 0.0004",
+      "significant_r2": true,
+      "significant_mae": true
+    },
+    {
+      "architecture": "resnet50",
+      "display_name": "ResNet-50",
+      "specification": "Reduced 2-df Spline (Model 3 = 24 cols, Model 5 = 29 cols)",
+      "r2_oos_m3": 0.1186,
+      "r2_oos_m5": 0.1296,
+      "delta_r2_oos": 0.0111,
+      "ci95_pointwise_delta_r2": "[0.0068, 0.0151]",
+      "simultaneous_ci_delta_r2": "[0.0058, 0.0162]",
+      "mae_oos_m3": 5.5877,
+      "mae_oos_m5": 5.5309,
+      "delta_mae_oos": 0.0568,
+      "ci95_pointwise_delta_mae": "[0.0418, 0.0716]",
+      "simultaneous_ci_delta_mae": "[0.0378, 0.0758]",
+      "holm_adj_p_delta_r2": 0.0004,
+      "p_display": "<= 0.0004",
+      "significant_r2": true,
+      "significant_mae": true
+    }
+  ],
+  "feature_ablations": {
+    "vit_base": [
+      {
+        "condition": "1_Baseline_GlobalFidelity",
+        "num_columns": 27,
+        "r2_oos": 0.0591,
+        "delta_r2_vs_baseline": 0.0,
+        "ci95_delta_r2": "[0.0, 0.0]",
+        "mae_oos": 3.2056,
+        "delta_mae_vs_baseline": 0.0,
+        "ci95_delta_mae": "[0.0, 0.0]",
+        "p_val": 1.0
+      },
+      {
+        "condition": "2_Plus_Fourier",
+        "num_columns": 29,
+        "r2_oos": 0.0632,
+        "delta_r2_vs_baseline": 0.0041,
+        "ci95_delta_r2": "[0.0011, 0.0071]",
+        "mae_oos": 3.1931,
+        "delta_mae_vs_baseline": 0.0125,
+        "ci95_delta_mae": "[0.0069, 0.0182]",
+        "p_val": 0.0039
+      },
+      {
+        "condition": "3_Plus_JPEG_Boundary",
+        "num_columns": 28,
+        "r2_oos": 0.0607,
+        "delta_r2_vs_baseline": 0.0016,
+        "ci95_delta_r2": "[0.0007, 0.0026]",
+        "mae_oos": 3.202,
+        "delta_mae_vs_baseline": 0.0037,
+        "ci95_delta_mae": "[0.0019, 0.0054]",
+        "p_val": 0.0006
+      },
+      {
+        "condition": "4_Plus_Edge_Energy",
+        "num_columns": 28,
+        "r2_oos": 0.0767,
+        "delta_r2_vs_baseline": 0.0176,
+        "ci95_delta_r2": "[0.0113, 0.0237]",
+        "mae_oos": 3.1622,
+        "delta_mae_vs_baseline": 0.0435,
+        "ci95_delta_mae": "[0.0334, 0.0537]",
+        "p_val": 0.0001
+      },
+      {
+        "condition": "5_Plus_Local_SSIM_Var",
+        "num_columns": 28,
+        "r2_oos": 0.0597,
+        "delta_r2_vs_baseline": 0.0006,
+        "ci95_delta_r2": "[-0.0008, 0.002]",
+        "mae_oos": 3.2015,
+        "delta_mae_vs_baseline": 0.0041,
+        "ci95_delta_mae": "[0.0014, 0.0067]",
+        "p_val": 0.19808
+      },
+      {
+        "condition": "6_Combined_All_Fingerprints",
+        "num_columns": 32,
+        "r2_oos": 0.079,
+        "delta_r2_vs_baseline": 0.0199,
+        "ci95_delta_r2": "[0.0132, 0.0261]",
+        "mae_oos": 3.1521,
+        "delta_mae_vs_baseline": 0.0535,
+        "ci95_delta_mae": "[0.0428, 0.0642]",
+        "p_val": 0.0001
+      },
+      {
+        "condition": "Drop_Fourier",
+        "num_columns": 30,
+        "r2_oos": 0.0769,
+        "delta_r2_vs_baseline": 0.0178,
+        "ci95_delta_r2": "[0.0114, 0.0238]",
+        "mae_oos": 3.1602,
+        "delta_mae_vs_baseline": 0.0454,
+        "ci95_delta_mae": "[0.0353, 0.0556]",
+        "p_val": 0.0001
+      },
+      {
+        "condition": "Drop_JPEG",
+        "num_columns": 31,
+        "r2_oos": 0.0789,
+        "delta_r2_vs_baseline": 0.0198,
+        "ci95_delta_r2": "[0.0131, 0.0261]",
+        "mae_oos": 3.1523,
+        "delta_mae_vs_baseline": 0.0533,
+        "ci95_delta_mae": "[0.0425, 0.064]",
+        "p_val": 0.0001
+      },
+      {
+        "condition": "Drop_Edge",
+        "num_columns": 31,
+        "r2_oos": 0.0654,
+        "delta_r2_vs_baseline": 0.0063,
+        "ci95_delta_r2": "[0.003, 0.0095]",
+        "mae_oos": 3.1858,
+        "delta_mae_vs_baseline": 0.0198,
+        "ci95_delta_mae": "[0.0139, 0.0258]",
+        "p_val": 0.0002
+      },
+      {
+        "condition": "Drop_Local_SSIM",
+        "num_columns": 31,
+        "r2_oos": 0.0788,
+        "delta_r2_vs_baseline": 0.0197,
+        "ci95_delta_r2": "[0.0131, 0.0259]",
+        "mae_oos": 3.1541,
+        "delta_mae_vs_baseline": 0.0516,
+        "ci95_delta_mae": "[0.041, 0.0622]",
+        "p_val": 0.0001
+      }
+    ],
+    "convnext_tiny": [
+      {
+        "condition": "1_Baseline_GlobalFidelity",
+        "num_columns": 27,
+        "r2_oos": 0.0728,
+        "delta_r2_vs_baseline": 0.0,
+        "ci95_delta_r2": "[0.0, 0.0]",
+        "mae_oos": 2.7751,
+        "delta_mae_vs_baseline": 0.0,
+        "ci95_delta_mae": "[0.0, 0.0]",
+        "p_val": 1.0
+      },
+      {
+        "condition": "2_Plus_Fourier",
+        "num_columns": 29,
+        "r2_oos": 0.0795,
+        "delta_r2_vs_baseline": 0.0067,
+        "ci95_delta_r2": "[0.0032, 0.0101]",
+        "mae_oos": 2.7602,
+        "delta_mae_vs_baseline": 0.0149,
+        "ci95_delta_mae": "[0.0091, 0.0206]",
+        "p_val": 0.0002
+      },
+      {
+        "condition": "3_Plus_JPEG_Boundary",
+        "num_columns": 28,
+        "r2_oos": 0.0746,
+        "delta_r2_vs_baseline": 0.0018,
+        "ci95_delta_r2": "[0.0009, 0.0028]",
+        "mae_oos": 2.7713,
+        "delta_mae_vs_baseline": 0.0038,
+        "ci95_delta_mae": "[0.0022, 0.0054]",
+        "p_val": 0.0005
+      },
+      {
+        "condition": "4_Plus_Edge_Energy",
+        "num_columns": 28,
+        "r2_oos": 0.0863,
+        "delta_r2_vs_baseline": 0.0135,
+        "ci95_delta_r2": "[0.0084, 0.0184]",
+        "mae_oos": 2.7473,
+        "delta_mae_vs_baseline": 0.0278,
+        "ci95_delta_mae": "[0.0203, 0.0353]",
+        "p_val": 0.0001
+      },
+      {
+        "condition": "5_Plus_Local_SSIM_Var",
+        "num_columns": 28,
+        "r2_oos": 0.0725,
+        "delta_r2_vs_baseline": -0.0003,
+        "ci95_delta_r2": "[-0.0008, 0.0002]",
+        "mae_oos": 2.7749,
+        "delta_mae_vs_baseline": 0.0002,
+        "ci95_delta_mae": "[-0.0006, 0.001]",
+        "p_val": 1.0
+      },
+      {
+        "condition": "6_Combined_All_Fingerprints",
+        "num_columns": 32,
+        "r2_oos": 0.0905,
+        "delta_r2_vs_baseline": 0.0177,
+        "ci95_delta_r2": "[0.0121, 0.0232]",
+        "mae_oos": 2.7366,
+        "delta_mae_vs_baseline": 0.0385,
+        "ci95_delta_mae": "[0.03, 0.0471]",
+        "p_val": 0.0001
+      },
+      {
+        "condition": "Drop_Fourier",
+        "num_columns": 30,
+        "r2_oos": 0.0864,
+        "delta_r2_vs_baseline": 0.0135,
+        "ci95_delta_r2": "[0.0086, 0.0184]",
+        "mae_oos": 2.7472,
+        "delta_mae_vs_baseline": 0.0279,
+        "ci95_delta_mae": "[0.0205, 0.0354]",
+        "p_val": 0.0001
+      },
+      {
+        "condition": "Drop_JPEG",
+        "num_columns": 31,
+        "r2_oos": 0.0903,
+        "delta_r2_vs_baseline": 0.0175,
+        "ci95_delta_r2": "[0.0119, 0.0231]",
+        "mae_oos": 2.7369,
+        "delta_mae_vs_baseline": 0.0382,
+        "ci95_delta_mae": "[0.0296, 0.0467]",
+        "p_val": 0.0001
+      },
+      {
+        "condition": "Drop_Edge",
+        "num_columns": 31,
+        "r2_oos": 0.0804,
+        "delta_r2_vs_baseline": 0.0076,
+        "ci95_delta_r2": "[0.0043, 0.011]",
+        "mae_oos": 2.7568,
+        "delta_mae_vs_baseline": 0.0183,
+        "ci95_delta_mae": "[0.0128, 0.0239]",
+        "p_val": 0.0001
+      },
+      {
+        "condition": "Drop_Local_SSIM",
+        "num_columns": 31,
+        "r2_oos": 0.0908,
+        "delta_r2_vs_baseline": 0.0179,
+        "ci95_delta_r2": "[0.0124, 0.0234]",
+        "mae_oos": 2.7364,
+        "delta_mae_vs_baseline": 0.0387,
+        "ci95_delta_mae": "[0.0302, 0.0473]",
+        "p_val": 0.0001
+      }
+    ],
+    "swin_tiny": [
+      {
+        "condition": "1_Baseline_GlobalFidelity",
+        "num_columns": 27,
+        "r2_oos": 0.0893,
+        "delta_r2_vs_baseline": 0.0,
+        "ci95_delta_r2": "[0.0, 0.0]",
+        "mae_oos": 2.7785,
+        "delta_mae_vs_baseline": 0.0,
+        "ci95_delta_mae": "[0.0, 0.0]",
+        "p_val": 1.0
+      },
+      {
+        "condition": "2_Plus_Fourier",
+        "num_columns": 29,
+        "r2_oos": 0.0969,
+        "delta_r2_vs_baseline": 0.0076,
+        "ci95_delta_r2": "[0.004, 0.0111]",
+        "mae_oos": 2.7632,
+        "delta_mae_vs_baseline": 0.0153,
+        "ci95_delta_mae": "[0.0094, 0.0213]",
+        "p_val": 0.0001
+      },
+      {
+        "condition": "3_Plus_JPEG_Boundary",
+        "num_columns": 28,
+        "r2_oos": 0.0907,
+        "delta_r2_vs_baseline": 0.0014,
+        "ci95_delta_r2": "[0.0006, 0.0022]",
+        "mae_oos": 2.7756,
+        "delta_mae_vs_baseline": 0.0029,
+        "ci95_delta_mae": "[0.0016, 0.0043]",
+        "p_val": 0.0004
+      },
+      {
+        "condition": "4_Plus_Edge_Energy",
+        "num_columns": 28,
+        "r2_oos": 0.1004,
+        "delta_r2_vs_baseline": 0.0111,
+        "ci95_delta_r2": "[0.0066, 0.0156]",
+        "mae_oos": 2.7566,
+        "delta_mae_vs_baseline": 0.0219,
+        "ci95_delta_mae": "[0.0151, 0.029]",
+        "p_val": 0.0001
+      },
+      {
+        "condition": "5_Plus_Local_SSIM_Var",
+        "num_columns": 28,
+        "r2_oos": 0.0891,
+        "delta_r2_vs_baseline": -0.0001,
+        "ci95_delta_r2": "[-0.0005, 0.0003]",
+        "mae_oos": 2.7784,
+        "delta_mae_vs_baseline": 0.0001,
+        "ci95_delta_mae": "[-0.0006, 0.0008]",
+        "p_val": 1.0
+      },
+      {
+        "condition": "6_Combined_All_Fingerprints",
+        "num_columns": 32,
+        "r2_oos": 0.1057,
+        "delta_r2_vs_baseline": 0.0164,
+        "ci95_delta_r2": "[0.0112, 0.0214]",
+        "mae_oos": 2.7452,
+        "delta_mae_vs_baseline": 0.0334,
+        "ci95_delta_mae": "[0.0251, 0.0417]",
+        "p_val": 0.0001
+      },
+      {
+        "condition": "Drop_Fourier",
+        "num_columns": 30,
+        "r2_oos": 0.1005,
+        "delta_r2_vs_baseline": 0.0112,
+        "ci95_delta_r2": "[0.0068, 0.0157]",
+        "mae_oos": 2.7563,
+        "delta_mae_vs_baseline": 0.0222,
+        "ci95_delta_mae": "[0.0154, 0.0293]",
+        "p_val": 0.0001
+      },
+      {
+        "condition": "Drop_JPEG",
+        "num_columns": 31,
+        "r2_oos": 0.1056,
+        "delta_r2_vs_baseline": 0.0163,
+        "ci95_delta_r2": "[0.0111, 0.0214]",
+        "mae_oos": 2.7454,
+        "delta_mae_vs_baseline": 0.0331,
+        "ci95_delta_mae": "[0.0248, 0.0415]",
+        "p_val": 0.0001
+      },
+      {
+        "condition": "Drop_Edge",
+        "num_columns": 31,
+        "r2_oos": 0.0976,
+        "delta_r2_vs_baseline": 0.0084,
+        "ci95_delta_r2": "[0.0049, 0.0118]",
+        "mae_oos": 2.761,
+        "delta_mae_vs_baseline": 0.0175,
+        "ci95_delta_mae": "[0.0117, 0.0234]",
+        "p_val": 0.0001
+      },
+      {
+        "condition": "Drop_Local_SSIM",
+        "num_columns": 31,
+        "r2_oos": 0.1058,
+        "delta_r2_vs_baseline": 0.0165,
+        "ci95_delta_r2": "[0.0113, 0.0216]",
+        "mae_oos": 2.7451,
+        "delta_mae_vs_baseline": 0.0334,
+        "ci95_delta_mae": "[0.0252, 0.0417]",
+        "p_val": 0.0001
+      }
+    ],
+    "resnet50": [
+      {
+        "condition": "1_Baseline_GlobalFidelity",
+        "num_columns": 27,
+        "r2_oos": 0.1224,
+        "delta_r2_vs_baseline": 0.0,
+        "ci95_delta_r2": "[0.0, 0.0]",
+        "mae_oos": 5.5717,
+        "delta_mae_vs_baseline": 0.0,
+        "ci95_delta_mae": "[0.0, 0.0]",
+        "p_val": 1.0
+      },
+      {
+        "condition": "2_Plus_Fourier",
+        "num_columns": 29,
+        "r2_oos": 0.1254,
+        "delta_r2_vs_baseline": 0.003,
+        "ci95_delta_r2": "[0.0004, 0.0055]",
+        "mae_oos": 5.5574,
+        "delta_mae_vs_baseline": 0.0143,
+        "ci95_delta_mae": "[0.0058, 0.0228]",
+        "p_val": 0.0091
+      },
+      {
+        "condition": "3_Plus_JPEG_Boundary",
+        "num_columns": 28,
+        "r2_oos": 0.1239,
+        "delta_r2_vs_baseline": 0.0015,
+        "ci95_delta_r2": "[0.0007, 0.0023]",
+        "mae_oos": 5.5647,
+        "delta_mae_vs_baseline": 0.007,
+        "ci95_delta_mae": "[0.004, 0.01]",
+        "p_val": 0.0001
+      },
+      {
+        "condition": "4_Plus_Edge_Energy",
+        "num_columns": 28,
+        "r2_oos": 0.1298,
+        "delta_r2_vs_baseline": 0.0074,
+        "ci95_delta_r2": "[0.0041, 0.0106]",
+        "mae_oos": 5.5343,
+        "delta_mae_vs_baseline": 0.0374,
+        "ci95_delta_mae": "[0.0253, 0.0492]",
+        "p_val": 0.0001
+      },
+      {
+        "condition": "5_Plus_Local_SSIM_Var",
+        "num_columns": 28,
+        "r2_oos": 0.1223,
+        "delta_r2_vs_baseline": -0.0001,
+        "ci95_delta_r2": "[-0.0008, 0.0006]",
+        "mae_oos": 5.5706,
+        "delta_mae_vs_baseline": 0.001,
+        "ci95_delta_mae": "[-0.0012, 0.0032]",
+        "p_val": 1.0
+      },
+      {
+        "condition": "6_Combined_All_Fingerprints",
+        "num_columns": 32,
+        "r2_oos": 0.1318,
+        "delta_r2_vs_baseline": 0.0094,
+        "ci95_delta_r2": "[0.0058, 0.0129]",
+        "mae_oos": 5.5234,
+        "delta_mae_vs_baseline": 0.0483,
+        "ci95_delta_mae": "[0.0352, 0.0613]",
+        "p_val": 0.0001
+      },
+      {
+        "condition": "Drop_Fourier",
+        "num_columns": 30,
+        "r2_oos": 0.1301,
+        "delta_r2_vs_baseline": 0.0077,
+        "ci95_delta_r2": "[0.0044, 0.0108]",
+        "mae_oos": 5.5326,
+        "delta_mae_vs_baseline": 0.0391,
+        "ci95_delta_mae": "[0.0272, 0.0509]",
+        "p_val": 0.0001
+      },
+      {
+        "condition": "Drop_JPEG",
+        "num_columns": 31,
+        "r2_oos": 0.1315,
+        "delta_r2_vs_baseline": 0.0091,
+        "ci95_delta_r2": "[0.0054, 0.0127]",
+        "mae_oos": 5.525,
+        "delta_mae_vs_baseline": 0.0467,
+        "ci95_delta_mae": "[0.0334, 0.06]",
+        "p_val": 0.0001
+      },
+      {
+        "condition": "Drop_Edge",
+        "num_columns": 31,
+        "r2_oos": 0.1265,
+        "delta_r2_vs_baseline": 0.0041,
+        "ci95_delta_r2": "[0.0016, 0.0066]",
+        "mae_oos": 5.5505,
+        "delta_mae_vs_baseline": 0.0212,
+        "ci95_delta_mae": "[0.0128, 0.0298]",
+        "p_val": 0.0008
+      },
+      {
+        "condition": "Drop_Local_SSIM",
+        "num_columns": 31,
+        "r2_oos": 0.1319,
+        "delta_r2_vs_baseline": 0.0095,
+        "ci95_delta_r2": "[0.0059, 0.013]",
+        "mae_oos": 5.5234,
+        "delta_mae_vs_baseline": 0.0483,
+        "ci95_delta_mae": "[0.0352, 0.0612]",
+        "p_val": 0.0001
+      }
+    ]
+  },
+  "terminal_operator_disentanglement": [
+    {
+      "architecture": "convnext_tiny",
+      "display_name": "ConvNeXt-Tiny",
+      "r2_model_a_terminal_only": 0.0052,
+      "r2_model_b_global_terminal": 0.0629,
+      "r2_model_c_global_full_order": 0.0728,
+      "r2_model_d_full_fingerprints": 0.0905,
+      "delta_r2_terminal_to_order": 0.0099,
+      "delta_r2_order_to_fingerprints": 0.0177
+    },
+    {
+      "architecture": "vit_base",
+      "display_name": "ViT-Base / 16",
+      "r2_model_a_terminal_only": 0.0082,
+      "r2_model_b_global_terminal": 0.0525,
+      "r2_model_c_global_full_order": 0.0591,
+      "r2_model_d_full_fingerprints": 0.079,
+      "delta_r2_terminal_to_order": 0.0066,
+      "delta_r2_order_to_fingerprints": 0.0199
+    },
+    {
+      "architecture": "swin_tiny",
+      "display_name": "Swin-Tiny",
+      "r2_model_a_terminal_only": 0.0059,
+      "r2_model_b_global_terminal": 0.0748,
+      "r2_model_c_global_full_order": 0.0893,
+      "r2_model_d_full_fingerprints": 0.1057,
+      "delta_r2_terminal_to_order": 0.0145,
+      "delta_r2_order_to_fingerprints": 0.0164
+    },
+    {
+      "architecture": "resnet50",
+      "display_name": "ResNet-50",
+      "r2_model_a_terminal_only": 0.0204,
+      "r2_model_b_global_terminal": 0.1125,
+      "r2_model_c_global_full_order": 0.1224,
+      "r2_model_d_full_fingerprints": 0.1318,
+      "delta_r2_terminal_to_order": 0.0099,
+      "delta_r2_order_to_fingerprints": 0.0094
+    }
+  ],
+  "local_ssim_interaction_tests": [
+    {
+      "comparison": "vit_base_minus_resnet50",
+      "arch_a": "vit_base",
+      "arch_b": "resnet50",
+      "beta_vit": -0.26910941199851823,
+      "beta_other": -0.19656381276062795,
+      "diff_point": -0.0725,
+      "ci95_diff": [
+        -0.3532,
+        0.2148
+      ],
+      "p_value": 0.61174,
+      "se_diff": 0.1432
+    },
+    {
+      "comparison": "vit_base_minus_convnext_tiny",
+      "arch_a": "vit_base",
+      "arch_b": "convnext_tiny",
+      "beta_vit": -0.26910941199851823,
+      "beta_other": -0.041402641797105844,
+      "diff_point": -0.2277,
+      "ci95_diff": [
+        -0.3446,
+        -0.1108
+      ],
+      "p_value": 0.0001,
+      "se_diff": 0.0604
+    },
+    {
+      "comparison": "vit_base_minus_swin_tiny",
+      "arch_a": "vit_base",
+      "arch_b": "swin_tiny",
+      "beta_vit": -0.26910941199851823,
+      "beta_other": -0.0490086786477093,
+      "diff_point": -0.2201,
+      "ci95_diff": [
+        -0.3617,
+        -0.0726
+      ],
+      "p_value": 0.003,
+      "se_diff": 0.0743
+    }
+  ],
+  "fingerprint_definitions": [
+    {
+      "id": "E_low",
+      "name": "Low-Frequency Fourier Energy",
+      "math": "E_{low} = \\sum_{r < r_0} |F(u,v)|^2 / E_{total}",
+      "description": "Fraction of spectral energy in the low-frequency Fourier regime (r < 0.15 * f_Nyquist)."
+    },
+    {
+      "id": "E_high",
+      "name": "High-Frequency Fourier Energy",
+      "math": "E_{high} = \\sum_{r > r_1} |F(u,v)|^2 / E_{total}",
+      "description": "Fraction of spectral energy in high-frequency modes (r > 0.50 * f_Nyquist)."
+    },
+    {
+      "id": "B_JPEG",
+      "name": "JPEG Block-Boundary Discontinuity",
+      "math": "B_{JPEG} = \\text{Mean 8x8 block border step difference}",
+      "description": "Magnitude of intensity gradients across 8x8 DCT grid boundaries normalized by intra-block gradients."
+    },
+    {
+      "id": "Delta_Edge",
+      "name": "Sobel Edge-Energy Residual",
+      "math": "\\Delta E_{edge} = ||\\nabla I_{corr}||_2^2 - ||\\nabla I_{clean}||_2^2",
+      "description": "Differential total gradient energy captured by Sobel directional operators relative to clean input."
+    },
+    {
+      "id": "sigma_local_SSIM",
+      "name": "Local SSIM Spatial Heterogeneity",
+      "math": "\\sigma(SSIM_{11\\times11})",
+      "description": "Spatial standard deviation of the 11x11 local SSIM patch map across the visual field."
+    }
+  ]
+}

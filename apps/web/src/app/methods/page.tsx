@@ -16,6 +16,7 @@ import {
   Cpu,
   Target,
   ExternalLink,
+  Info,
 } from "lucide-react";
 
 export default function MethodsPage() {
@@ -396,6 +397,136 @@ export default function MethodsPage() {
               <li><Link href="/significance" className="text-primary hover:underline font-semibold">Significance:</Link> Interactive McNemar paired tests and Holm/BH adjusted comparison tables.</li>
               <li><span className="font-semibold text-foreground">Live Inference API (/api/inference):</span> Optional Gradio integration for single user uploads, decoupled from the offline benchmark.</li>
             </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Stage 6: Common-Support Calibration & Distortion Fingerprints */}
+      <section className="flex flex-col gap-4">
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+            <Sliders className="h-5 w-5" />
+          </div>
+          <div>
+            <span className="text-xs font-bold uppercase tracking-wider text-emerald-500">Pipeline Stage 6</span>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground font-[family-name:var(--font-poppins)]">
+              Common-Support Calibration & Physical Distortion Fingerprints
+            </h2>
+          </div>
+        </div>
+
+        <div className="p-6 sm:p-8 rounded-3xl bg-card border border-border/60 shadow-sm flex flex-col gap-6">
+          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
+            In nominal compound evaluations, sequences terminating in blur exhibit up to 6.2 dB higher PSNR because spatial smoothing attenuates prior high-frequency noise and block boundaries. To isolate whether sequence order still matters beyond low-level fidelity discrepancies, we calibrate a common-support envelope across an independent calibration partition (<span className="font-mono text-foreground font-semibold">N_cal = 50</span>).
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="p-5 rounded-2xl bg-muted/30 border border-border/40 flex flex-col gap-1.5">
+              <span className="text-xs font-bold uppercase tracking-wider text-emerald-500">Target Level 1 (Mild)</span>
+              <span className="text-base font-bold text-foreground font-mono">27.20 dB PSNR / 0.810 SSIM</span>
+              <p className="text-xs text-muted-foreground leading-relaxed mt-1">
+                Prespecified tolerances: &Delta;PSNR &le; &plusmn;0.75 dB, &Delta;SSIM &le; &plusmn;0.035. Subtle optical scattering, light readout noise, high-quality JPEG quantization.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-muted/30 border border-border/40 flex flex-col gap-1.5">
+              <span className="text-xs font-bold uppercase tracking-wider text-amber-500">Target Level 2 (Moderate)</span>
+              <span className="text-base font-bold text-foreground font-mono">23.80 dB PSNR / 0.650 SSIM</span>
+              <p className="text-xs text-muted-foreground leading-relaxed mt-1">
+                Prespecified tolerances: &Delta;PSNR &le; &plusmn;0.75 dB, &Delta;SSIM &le; &plusmn;0.035. Medium defocus blur, noticeable sensor grain, moderate DCT compression.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-muted/30 border border-border/40 flex flex-col gap-1.5">
+              <span className="text-xs font-bold uppercase tracking-wider text-rose-500">Target Level 3 (Severe)</span>
+              <span className="text-base font-bold text-foreground font-mono">21.80 dB PSNR / 0.500 SSIM</span>
+              <p className="text-xs text-muted-foreground leading-relaxed mt-1">
+                Prespecified tolerances: &Delta;PSNR &le; &plusmn;0.75 dB, &Delta;SSIM &le; &plusmn;0.035. Aggressive blurring, heavy sensor degradation, low-quality block quantization.
+              </p>
+            </div>
+          </div>
+
+          <div className="p-5 rounded-2xl bg-sky-50 dark:bg-sky-950/20 border border-sky-200 dark:border-sky-500/30 flex items-start gap-3">
+            <Info className="h-5 w-5 text-sky-600 dark:text-sky-400 shrink-0 mt-0.5" />
+            <p className="text-xs sm:text-sm text-sky-900 dark:text-sky-200 leading-relaxed">
+              <strong>LPIPS Covariate Role:</strong> Calibration matched PSNR and SSIM targets only. Learned Perceptual Image Patch Similarity (LPIPS; Zhang et al., 2018) was not a calibration target; instead, it was computed post hoc as a continuous perceptual covariate and included in baseline and extended regression models via restricted cubic splines to control for perceptual distance alongside fidelity metrics.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-2 pt-2">
+            <h3 className="font-bold text-lg text-foreground">The 5 Mathematical Distortion Fingerprints</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              To measure physical remnants that survive common-support matching, we evaluate five continuous distortion metrics:
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-2">
+              <div className="p-4 rounded-xl bg-muted/20 border border-border/40 flex flex-col gap-1">
+                <span className="font-mono text-xs font-bold text-primary">1. E_low (Fourier Low-Energy)</span>
+                <span className="text-xs text-muted-foreground">Fraction of spectral energy in low-frequency radial modes (r &lt; 0.15 * f_Nyquist).</span>
+              </div>
+              <div className="p-4 rounded-xl bg-muted/20 border border-border/40 flex flex-col gap-1">
+                <span className="font-mono text-xs font-bold text-primary">2. E_high (Fourier High-Energy)</span>
+                <span className="text-xs text-muted-foreground">Fraction of spectral energy in high-frequency modes (r &gt; 0.50 * f_Nyquist).</span>
+              </div>
+              <div className="p-4 rounded-xl bg-muted/20 border border-border/40 flex flex-col gap-1">
+                <span className="font-mono text-xs font-bold text-primary">3. B_JPEG (Block Boundary)</span>
+                <span className="text-xs text-muted-foreground">Mean step difference across 8&times;8 DCT block borders normalized by intra-block gradient.</span>
+              </div>
+              <div className="p-4 rounded-xl bg-muted/20 border border-border/40 flex flex-col gap-1">
+                <span className="font-mono text-xs font-bold text-primary">4. &Delta;E_edge (Sobel Edge Residual)</span>
+                <span className="text-xs text-muted-foreground">Differential total gradient energy captured by Sobel directional filters relative to clean input.</span>
+              </div>
+              <div className="p-4 rounded-xl bg-muted/20 border border-border/40 flex flex-col gap-1 sm:col-span-2 lg:col-span-2">
+                <span className="font-mono text-xs font-bold text-primary">5. &sigma;(SSIM_11x11) (Local SSIM Heterogeneity)</span>
+                <span className="text-xs text-muted-foreground">Spatial standard deviation of the local 11&times;11 SSIM map across the 2D visual field.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Stage 7: Grouped Cross-Validation & Inferential Guarantees */}
+      <section className="flex flex-col gap-4">
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-500/10 text-violet-500 border border-violet-500/20">
+            <BarChart3 className="h-5 w-5" />
+          </div>
+          <div>
+            <span className="text-xs font-bold uppercase tracking-wider text-violet-500">Pipeline Stage 7</span>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground font-[family-name:var(--font-poppins)]">
+              Grouped Cross-Validation & Statistical Inference
+            </h2>
+          </div>
+        </div>
+
+        <div className="p-6 sm:p-8 rounded-3xl bg-card border border-border/60 shadow-sm flex flex-col gap-6">
+          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
+            The target prediction metric is the <strong>true-class logit margin</strong>: <code className="text-foreground font-mono bg-muted/60 px-1.5 py-0.5 rounded">m(x) = z_y* - max_{'{j != y*}'} z_j</code>. Margins provide a continuous, highly sensitive indicator of classifier decision distance that avoids the severe quantization and floor/ceiling saturation of binary top-1 accuracy.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-5 rounded-2xl bg-muted/30 border border-border/40 flex flex-col gap-2">
+              <h3 className="font-bold text-base text-foreground">10-Fold Grouped Cross-Validation</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                All evaluations originating from the same physical image cluster are assigned strictly to the same fold. Spline bases and regression parameters are fit strictly on training folds and evaluated on held-out test folds, preventing data leakage.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-muted/30 border border-border/40 flex flex-col gap-2">
+              <h3 className="font-bold text-base text-foreground">Image-Cluster Paired Bootstrap (B = 10,000)</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Statistical inference resamples whole physical image clusters with replacement (B = 10,000 iterations). Both Model 3 and Model 5 are evaluated on identical bootstrap resamples to compute exact paired difference distributions with simultaneous Bonferroni and Holm multiplicity control.
+              </p>
+            </div>
+          </div>
+
+          <div className="p-5 rounded-2xl bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-500/30 flex items-start gap-3">
+            <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+            <div className="flex flex-col gap-1 text-xs sm:text-sm text-amber-900 dark:text-amber-200 leading-relaxed">
+              <strong>Predictive Association vs. Causal Drivers:</strong>
+              <p>
+                Sobel edge energy difference is the strongest individual predictive contributor in Model 5, and dropping it produces the steepest decrease in model R&sup2;. However, because spatial edges and frequency spectra are physically correlated, individual feature group contributions share variance. Add-one gains describe predictive importance within the model, not isolated physical intervention effects or proven causal mechanisms.
+              </p>
+            </div>
           </div>
         </div>
       </section>

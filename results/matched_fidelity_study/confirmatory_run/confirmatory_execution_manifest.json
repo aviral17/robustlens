@@ -1,0 +1,20 @@
+{
+  "evaluation_title": "RobustLens Confirmatory Study Evaluation Manifest",
+  "total_records": 275400,
+  "unique_images": 3825,
+  "conditions_per_image": 18,
+  "models_evaluated": [
+    "resnet50",
+    "convnext_tiny",
+    "vit_base",
+    "swin_tiny"
+  ],
+  "gpu_device": "Tesla T4",
+  "gpu_total_memory_gb": 14.56,
+  "execution_time_seconds": 4430.84,
+  "python_version": "3.13.16",
+  "torch_version": "2.11.0+cu130",
+  "torchvision_version": "0.26.0+cu130",
+  "timm_version": "1.0.30",
+  "zero_missing_values_verified": true
+}

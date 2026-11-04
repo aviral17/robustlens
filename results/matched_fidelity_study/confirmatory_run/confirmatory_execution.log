@@ -1,0 +1,84 @@
+[{"stream_name":"stderr","time":8.03679417,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":8.036842932,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":8.036862278,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":8.036866815,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stderr","time":8.662513519,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":8.662546181,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":8.662552117,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":8.662556664,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stdout","time":35.177581596,"data":"CUDA Device: Tesla T4 (14.56 GB)\n"}
+,{"stream_name":"stdout","time":35.177623331,"data":"PyTorch: 2.11.0+cu130 | Torchvision: 0.26.0+cu130 | timm: 1.0.30\n"}
+,{"stream_name":"stderr","time":35.769182506,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stderr","time":35.769221343,"data":"\n"}
+,{"stream_name":"stderr","time":35.769227346,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stdout","time":42.537930277,"data":"Loaded 3825 untouched confirmatory validation images (100 exploratory pilot images strictly quarantined).\n"}
+,{"stream_name":"stdout","time":42.537980573,"data":"Loading 4 Frozen Vision Models onto GPU...\n"}
+,{"stream_name":"stderr","time":58.846767755,"data":"/usr/local/lib/python3.13/dist-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.\n"}
+,{"stream_name":"stderr","time":58.846812464,"data":"  warnings.warn(\n"}
+,{"stream_name":"stderr","time":58.846844888,"data":"/usr/local/lib/python3.13/dist-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=AlexNet_Weights.IMAGENET1K_V1`. You can also use `weights=AlexNet_Weights.DEFAULT` to get the most up-to-date weights.\n"}
+,{"stream_name":"stderr","time":58.846850008,"data":"  warnings.warn(msg)\n"}
+,{"stream_name":"stderr","time":58.846853188,"data":"\n"}
+,{"stream_name":"stderr","time":58.846856187,"data":"/usr/local/lib/python3.13/dist-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.\n"}
+,{"stream_name":"stderr","time":58.846859515,"data":"  warnings.warn(\n"}
+,{"stream_name":"stderr","time":58.846862612,"data":"/usr/local/lib/python3.13/dist-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=AlexNet_Weights.IMAGENET1K_V1`. You can also use `weights=AlexNet_Weights.DEFAULT` to get the most up-to-date weights.\n"}
+,{"stream_name":"stderr","time":58.846866277,"data":"  warnings.warn(msg)\n"}
+,{"stream_name":"stdout","time":59.158202115,"data":"Downloading: \"https://download.pytorch.org/models/alexnet-owt-7be5be79.pth\" to /root/.cache/torch/hub/checkpoints/alexnet-owt-7be5be79.pth\n"}
+,{"stream_name":"stderr","time":59.159162109,"data":"\r  0%|          | 0.00/233M [00:00\u003c?, ?B/s]\n"}
+,{"stream_name":"stderr","time":59.259548825,"data":"\r  0%|          | 0.00/233M [00:00\u003c?, ?B/s]\r  4%|▍         | 9.88M/233M [00:00\u003c00:02, 103MB/s]\n"}
+,{"stream_name":"stderr","time":59.359641734,"data":"\r  4%|▍         | 9.88M/233M [00:00\u003c00:02, 103MB/s]\r 13%|█▎        | 31.4M/233M [00:00\u003c00:01, 175MB/s]\n"}
+,{"stream_name":"stderr","time":59.459786134,"data":"\r 13%|█▎        | 31.4M/233M [00:00\u003c00:01, 175MB/s]\r 23%|██▎       | 53.6M/233M [00:00\u003c00:00, 202MB/s]\n"}
+,{"stream_name":"stderr","time":59.560432748,"data":"\r 23%|██▎       | 53.6M/233M [00:00\u003c00:00, 202MB/s]\r 32%|███▏      | 74.8M/233M [00:00\u003c00:00, 209MB/s]\n"}
+,{"stream_name":"stderr","time":59.660310162,"data":"\r 32%|███▏      | 74.8M/233M [00:00\u003c00:00, 209MB/s]\r 41%|████      | 95.4M/233M [00:00\u003c00:00, 212MB/s]\n"}
+,{"stream_name":"stderr","time":59.760833714,"data":"\r 41%|████      | 95.4M/233M [00:00\u003c00:00, 212MB/s]\r 50%|████▉     | 116M/233M [00:00\u003c00:00, 213MB/s] \n"}
+,{"stream_name":"stderr","time":59.860945678,"data":"\r 50%|████▉     | 116M/233M [00:00\u003c00:00, 213MB/s] \r 59%|█████▊    | 137M/233M [00:00\u003c00:00, 214MB/s]\n"}
+,{"stream_name":"stderr","time":59.961506439,"data":"\r 59%|█████▊    | 137M/233M [00:00\u003c00:00, 214MB/s]\r 67%|██████▋   | 157M/233M [00:00\u003c00:00, 214MB/s]\n"}
+,{"stream_name":"stderr","time":60.062941725,"data":"\r 67%|██████▋   | 157M/233M [00:00\u003c00:00, 214MB/s]\r 76%|███████▌  | 178M/233M [00:00\u003c00:00, 213MB/s]\n"}
+,{"stream_name":"stderr","time":60.16306883,"data":"\r 76%|███████▌  | 178M/233M [00:00\u003c00:00, 213MB/s]\r 85%|████████▌ | 198M/233M [00:01\u003c00:00, 215MB/s]\n"}
+,{"stream_name":"stderr","time":60.263323641,"data":"\r 85%|████████▌ | 198M/233M [00:01\u003c00:00, 215MB/s]\r 94%|█████████▍| 219M/233M [00:01\u003c00:00, 215MB/s]\n"}
+,{"stream_name":"stderr","time":60.323074111,"data":"\r 94%|█████████▍| 219M/233M [00:01\u003c00:00, 215MB/s]\r100%|██████████| 233M/233M [00:01\u003c00:00, 210MB/s]\n"}
+,{"stream_name":"stderr","time":60.364041311,"data":"\r100%|██████████| 233M/233M [00:01\u003c00:00, 210MB/s]\n"}
+,{"stream_name":"stderr","time":60.364077451,"data":"\n"}
+,{"stream_name":"stderr","time":60.364082858,"data":"\n"}
+,{"stream_name":"stdout","time":60.735991611,"data":"Beginning Confirmatory Batch Execution across 3,825 Images...\n"}
+,{"stream_name":"stdout","time":355.181748118,"data":"Progress: 250/3825 images (294.4s, est 70.2m remaining)...\n"}
+,{"stream_name":"stdout","time":643.841893786,"data":"Progress: 500/3825 images (583.1s, est 64.6m remaining)...\n"}
+,{"stream_name":"stdout","time":932.128708761,"data":"Progress: 750/3825 images (871.4s, est 59.5m remaining)...\n"}
+,{"stream_name":"stdout","time":1220.18176012,"data":"Progress: 1000/3825 images (1159.4s, est 54.6m remaining)...\n"}
+,{"stream_name":"stdout","time":1511.252807145,"data":"Progress: 1250/3825 images (1450.5s, est 49.8m remaining)...\n"}
+,{"stream_name":"stdout","time":1803.054792169,"data":"Progress: 1500/3825 images (1742.3s, est 45.0m remaining)...\n"}
+,{"stream_name":"stdout","time":2091.821440081,"data":"Progress: 1750/3825 images (2031.1s, est 40.1m remaining)...\n"}
+,{"stream_name":"stdout","time":2382.032759439,"data":"Progress: 2000/3825 images (2321.3s, est 35.3m remaining)...\n"}
+,{"stream_name":"stdout","time":2670.200101592,"data":"Progress: 2250/3825 images (2609.5s, est 30.4m remaining)...\n"}
+,{"stream_name":"stdout","time":2958.086634622,"data":"Progress: 2500/3825 images (2897.3s, est 25.6m remaining)...\n"}
+,{"stream_name":"stdout","time":3239.20370881,"data":"Progress: 2750/3825 images (3178.5s, est 20.7m remaining)...\n"}
+,{"stream_name":"stdout","time":3529.963998357,"data":"Progress: 3000/3825 images (3469.2s, est 15.9m remaining)...\n"}
+,{"stream_name":"stdout","time":3818.129355066,"data":"Progress: 3250/3825 images (3757.4s, est 11.1m remaining)...\n"}
+,{"stream_name":"stdout","time":4102.695293828,"data":"Progress: 3500/3825 images (4042.0s, est 6.3m remaining)...\n"}
+,{"stream_name":"stdout","time":4397.08010483,"data":"Progress: 3750/3825 images (4336.3s, est 1.4m remaining)...\n"}
+,{"stream_name":"stdout","time":4483.325341511,"data":"Progress: 3825/3825 images (4422.6s, est 0.0m remaining)...\n"}
+,{"stream_name":"stdout","time":4491.37303872,"data":"CONFIRMATORY RUN COMPLETE: Saved 275,400 records to full_distortion_fingerprints_and_margins.csv.gz in 4430.8s.\n"}
+,{"stream_name":"stdout","time":4491.59016272,"data":"================================================================================\n"}
+,{"stream_name":"stdout","time":4491.59020385,"data":"CONFIRMATORY AUDIT: REPRODUCIBILITY VERIFICATION \u0026 GROUPED CV\n"}
+,{"stream_name":"stdout","time":4491.59021112,"data":"================================================================================\n"}
+,{"stream_name":"stdout","time":4491.590216778,"data":"Verifying complete output row count: 275,400 (expected 275,400)...\n"}
+,{"stream_name":"stdout","time":4491.590221718,"data":"Missing values across entire dataset: 0\n"}
+,{"stream_name":"stdout","time":4491.590226729,"data":"Saved confirmatory_execution_manifest.json\n"}
+,{"stream_name":"stdout","time":4491.590231977,"data":"Running Grouped 5-Fold Cross-Validation on Confirmatory Dataset...\n"}
+,{"stream_name":"stdout","time":4516.494675747,"data":"\n"}
+,{"stream_name":"stdout","time":4516.494723851,"data":"CONFIRMATORY GROUPED CV \u0026 MULTIPLICITY SUMMARY TABLE:\n"}
+,{"stream_name":"stdout","time":4516.494731591,"data":" architecture  r2_oos_spline  r2_oos_spline_fingerprints  delta_r2_oos  raw_p_delta_r2  holm_adj_p_delta_r2  significant_r2_holm_0_05\n"}
+,{"stream_name":"stdout","time":4516.494736547,"data":"convnext_tiny         0.0687                      0.0887        0.0201          0.0005                0.002                      True\n"}
+,{"stream_name":"stdout","time":4516.494741456,"data":"     vit_base         0.0542                      0.0777        0.0234          0.0005                0.002                      True\n"}
+,{"stream_name":"stdout","time":4516.494746946,"data":"    swin_tiny         0.0835                      0.1025        0.0190          0.0005                0.002                      True\n"}
+,{"stream_name":"stdout","time":4516.494751622,"data":"     resnet50         0.1186                      0.1296        0.0111          0.0005                0.002                      True\n"}
+,{"stream_name":"stdout","time":4516.494757171,"data":"\n"}
+,{"stream_name":"stdout","time":4516.494762191,"data":"ALL EVALUATIONS AND CONFIRMATORY AUDIT SUCCESSFULLY COMPLETED.\n"}
+,{"stream_name":"stderr","time":4522.261723843,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":4522.261785493,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":4522.436434819,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":4522.436490179,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":4523.21819158,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to notebook\n"}
+,{"stream_name":"stderr","time":4523.314262958,"data":"[NbConvertApp] Writing 201588 bytes to __notebook__.ipynb\n"}
+,{"stream_name":"stderr","time":4525.807908741,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to html\n"}
+,{"stream_name":"stderr","time":4526.475495725,"data":"[NbConvertApp] Writing 563144 bytes to __results__.html\n"}
+]

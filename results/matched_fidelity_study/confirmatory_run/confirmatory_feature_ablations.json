@@ -1,0 +1,722 @@
+[
+  {
+    "architecture": "convnext_tiny",
+    "ablation_condition": "1_Baseline_GlobalFidelity",
+    "num_columns": 27,
+    "r2_oos": 0.0728,
+    "delta_r2_vs_baseline": 0.0,
+    "ci95_delta_r2": [
+      0.0,
+      0.0
+    ],
+    "mae_oos": 2.7751,
+    "delta_mae_vs_baseline": 0.0,
+    "ci95_delta_mae": [
+      0.0,
+      0.0
+    ],
+    "p_val_delta_r2": 1.0
+  },
+  {
+    "architecture": "convnext_tiny",
+    "ablation_condition": "2_Plus_Fourier",
+    "num_columns": 29,
+    "r2_oos": 0.0795,
+    "delta_r2_vs_baseline": 0.0067,
+    "ci95_delta_r2": [
+      0.0032,
+      0.0101
+    ],
+    "mae_oos": 2.7602,
+    "delta_mae_vs_baseline": 0.0149,
+    "ci95_delta_mae": [
+      0.0091,
+      0.0206
+    ],
+    "p_val_delta_r2": 0.0002
+  },
+  {
+    "architecture": "convnext_tiny",
+    "ablation_condition": "3_Plus_JPEG_Boundary",
+    "num_columns": 28,
+    "r2_oos": 0.0746,
+    "delta_r2_vs_baseline": 0.0018,
+    "ci95_delta_r2": [
+      0.0009,
+      0.0028
+    ],
+    "mae_oos": 2.7713,
+    "delta_mae_vs_baseline": 0.0038,
+    "ci95_delta_mae": [
+      0.0022,
+      0.0054
+    ],
+    "p_val_delta_r2": 0.0005
+  },
+  {
+    "architecture": "convnext_tiny",
+    "ablation_condition": "4_Plus_Edge_Energy",
+    "num_columns": 28,
+    "r2_oos": 0.0863,
+    "delta_r2_vs_baseline": 0.0135,
+    "ci95_delta_r2": [
+      0.0084,
+      0.0184
+    ],
+    "mae_oos": 2.7473,
+    "delta_mae_vs_baseline": 0.0278,
+    "ci95_delta_mae": [
+      0.0203,
+      0.0353
+    ],
+    "p_val_delta_r2": 0.0001
+  },
+  {
+    "architecture": "convnext_tiny",
+    "ablation_condition": "5_Plus_Local_SSIM_Var",
+    "num_columns": 28,
+    "r2_oos": 0.0725,
+    "delta_r2_vs_baseline": -0.0003,
+    "ci95_delta_r2": [
+      -0.0008,
+      0.0002
+    ],
+    "mae_oos": 2.7749,
+    "delta_mae_vs_baseline": 0.0002,
+    "ci95_delta_mae": [
+      -0.0006,
+      0.001
+    ],
+    "p_val_delta_r2": 1.0
+  },
+  {
+    "architecture": "convnext_tiny",
+    "ablation_condition": "6_Combined_All_Fingerprints",
+    "num_columns": 32,
+    "r2_oos": 0.0905,
+    "delta_r2_vs_baseline": 0.0177,
+    "ci95_delta_r2": [
+      0.0121,
+      0.0232
+    ],
+    "mae_oos": 2.7366,
+    "delta_mae_vs_baseline": 0.0385,
+    "ci95_delta_mae": [
+      0.03,
+      0.0471
+    ],
+    "p_val_delta_r2": 0.0001
+  },
+  {
+    "architecture": "convnext_tiny",
+    "ablation_condition": "Drop_Fourier",
+    "num_columns": 30,
+    "r2_oos": 0.0864,
+    "delta_r2_vs_baseline": 0.0135,
+    "ci95_delta_r2": [
+      0.0086,
+      0.0184
+    ],
+    "mae_oos": 2.7472,
+    "delta_mae_vs_baseline": 0.0279,
+    "ci95_delta_mae": [
+      0.0205,
+      0.0354
+    ],
+    "p_val_delta_r2": 0.0001
+  },
+  {
+    "architecture": "convnext_tiny",
+    "ablation_condition": "Drop_JPEG",
+    "num_columns": 31,
+    "r2_oos": 0.0903,
+    "delta_r2_vs_baseline": 0.0175,
+    "ci95_delta_r2": [
+      0.0119,
+      0.0231
+    ],
+    "mae_oos": 2.7369,
+    "delta_mae_vs_baseline": 0.0382,
+    "ci95_delta_mae": [
+      0.0296,
+      0.0467
+    ],
+    "p_val_delta_r2": 0.0001
+  },
+  {
+    "architecture": "convnext_tiny",
+    "ablation_condition": "Drop_Edge",
+    "num_columns": 31,
+    "r2_oos": 0.0804,
+    "delta_r2_vs_baseline": 0.0076,
+    "ci95_delta_r2": [
+      0.0043,
+      0.011
+    ],
+    "mae_oos": 2.7568,
+    "delta_mae_vs_baseline": 0.0183,
+    "ci95_delta_mae": [
+      0.0128,
+      0.0239
+    ],
+    "p_val_delta_r2": 0.0001
+  },
+  {
+    "architecture": "convnext_tiny",
+    "ablation_condition": "Drop_Local_SSIM",
+    "num_columns": 31,
+    "r2_oos": 0.0908,
+    "delta_r2_vs_baseline": 0.0179,
+    "ci95_delta_r2": [
+      0.0124,
+      0.0234
+    ],
+    "mae_oos": 2.7364,
+    "delta_mae_vs_baseline": 0.0387,
+    "ci95_delta_mae": [
+      0.0302,
+      0.0473
+    ],
+    "p_val_delta_r2": 0.0001
+  },
+  {
+    "architecture": "vit_base",
+    "ablation_condition": "1_Baseline_GlobalFidelity",
+    "num_columns": 27,
+    "r2_oos": 0.0591,
+    "delta_r2_vs_baseline": 0.0,
+    "ci95_delta_r2": [
+      0.0,
+      0.0
+    ],
+    "mae_oos": 3.2056,
+    "delta_mae_vs_baseline": 0.0,
+    "ci95_delta_mae": [
+      0.0,
+      0.0
+    ],
+    "p_val_delta_r2": 1.0
+  },
+  {
+    "architecture": "vit_base",
+    "ablation_condition": "2_Plus_Fourier",
+    "num_columns": 29,
+    "r2_oos": 0.0632,
+    "delta_r2_vs_baseline": 0.0041,
+    "ci95_delta_r2": [
+      0.0011,
+      0.0071
+    ],
+    "mae_oos": 3.1931,
+    "delta_mae_vs_baseline": 0.0125,
+    "ci95_delta_mae": [
+      0.0069,
+      0.0182
+    ],
+    "p_val_delta_r2": 0.0039
+  },
+  {
+    "architecture": "vit_base",
+    "ablation_condition": "3_Plus_JPEG_Boundary",
+    "num_columns": 28,
+    "r2_oos": 0.0607,
+    "delta_r2_vs_baseline": 0.0016,
+    "ci95_delta_r2": [
+      0.0007,
+      0.0026
+    ],
+    "mae_oos": 3.202,
+    "delta_mae_vs_baseline": 0.0037,
+    "ci95_delta_mae": [
+      0.0019,
+      0.0054
+    ],
+    "p_val_delta_r2": 0.0006
+  },
+  {
+    "architecture": "vit_base",
+    "ablation_condition": "4_Plus_Edge_Energy",
+    "num_columns": 28,
+    "r2_oos": 0.0767,
+    "delta_r2_vs_baseline": 0.0176,
+    "ci95_delta_r2": [
+      0.0113,
+      0.0237
+    ],
+    "mae_oos": 3.1622,
+    "delta_mae_vs_baseline": 0.0435,
+    "ci95_delta_mae": [
+      0.0334,
+      0.0537
+    ],
+    "p_val_delta_r2": 0.0001
+  },
+  {
+    "architecture": "vit_base",
+    "ablation_condition": "5_Plus_Local_SSIM_Var",
+    "num_columns": 28,
+    "r2_oos": 0.0597,
+    "delta_r2_vs_baseline": 0.0006,
+    "ci95_delta_r2": [
+      -0.0008,
+      0.002
+    ],
+    "mae_oos": 3.2015,
+    "delta_mae_vs_baseline": 0.0041,
+    "ci95_delta_mae": [
+      0.0014,
+      0.0067
+    ],
+    "p_val_delta_r2": 0.19808
+  },
+  {
+    "architecture": "vit_base",
+    "ablation_condition": "6_Combined_All_Fingerprints",
+    "num_columns": 32,
+    "r2_oos": 0.079,
+    "delta_r2_vs_baseline": 0.0199,
+    "ci95_delta_r2": [
+      0.0132,
+      0.0261
+    ],
+    "mae_oos": 3.1521,
+    "delta_mae_vs_baseline": 0.0535,
+    "ci95_delta_mae": [
+      0.0428,
+      0.0642
+    ],
+    "p_val_delta_r2": 0.0001
+  },
+  {
+    "architecture": "vit_base",
+    "ablation_condition": "Drop_Fourier",
+    "num_columns": 30,
+    "r2_oos": 0.0769,
+    "delta_r2_vs_baseline": 0.0178,
+    "ci95_delta_r2": [
+      0.0114,
+      0.0238
+    ],
+    "mae_oos": 3.1602,
+    "delta_mae_vs_baseline": 0.0454,
+    "ci95_delta_mae": [
+      0.0353,
+      0.0556
+    ],
+    "p_val_delta_r2": 0.0001
+  },
+  {
+    "architecture": "vit_base",
+    "ablation_condition": "Drop_JPEG",
+    "num_columns": 31,
+    "r2_oos": 0.0789,
+    "delta_r2_vs_baseline": 0.0198,
+    "ci95_delta_r2": [
+      0.0131,
+      0.0261
+    ],
+    "mae_oos": 3.1523,
+    "delta_mae_vs_baseline": 0.0533,
+    "ci95_delta_mae": [
+      0.0425,
+      0.064
+    ],
+    "p_val_delta_r2": 0.0001
+  },
+  {
+    "architecture": "vit_base",
+    "ablation_condition": "Drop_Edge",
+    "num_columns": 31,
+    "r2_oos": 0.0654,
+    "delta_r2_vs_baseline": 0.0063,
+    "ci95_delta_r2": [
+      0.003,
+      0.0095
+    ],
+    "mae_oos": 3.1858,
+    "delta_mae_vs_baseline": 0.0198,
+    "ci95_delta_mae": [
+      0.0139,
+      0.0258
+    ],
+    "p_val_delta_r2": 0.0002
+  },
+  {
+    "architecture": "vit_base",
+    "ablation_condition": "Drop_Local_SSIM",
+    "num_columns": 31,
+    "r2_oos": 0.0788,
+    "delta_r2_vs_baseline": 0.0197,
+    "ci95_delta_r2": [
+      0.0131,
+      0.0259
+    ],
+    "mae_oos": 3.1541,
+    "delta_mae_vs_baseline": 0.0516,
+    "ci95_delta_mae": [
+      0.041,
+      0.0622
+    ],
+    "p_val_delta_r2": 0.0001
+  },
+  {
+    "architecture": "swin_tiny",
+    "ablation_condition": "1_Baseline_GlobalFidelity",
+    "num_columns": 27,
+    "r2_oos": 0.0893,
+    "delta_r2_vs_baseline": 0.0,
+    "ci95_delta_r2": [
+      0.0,
+      0.0
+    ],
+    "mae_oos": 2.7785,
+    "delta_mae_vs_baseline": 0.0,
+    "ci95_delta_mae": [
+      0.0,
+      0.0
+    ],
+    "p_val_delta_r2": 1.0
+  },
+  {
+    "architecture": "swin_tiny",
+    "ablation_condition": "2_Plus_Fourier",
+    "num_columns": 29,
+    "r2_oos": 0.0969,
+    "delta_r2_vs_baseline": 0.0076,
+    "ci95_delta_r2": [
+      0.004,
+      0.0111
+    ],
+    "mae_oos": 2.7632,
+    "delta_mae_vs_baseline": 0.0153,
+    "ci95_delta_mae": [
+      0.0094,
+      0.0213
+    ],
+    "p_val_delta_r2": 0.0001
+  },
+  {
+    "architecture": "swin_tiny",
+    "ablation_condition": "3_Plus_JPEG_Boundary",
+    "num_columns": 28,
+    "r2_oos": 0.0907,
+    "delta_r2_vs_baseline": 0.0014,
+    "ci95_delta_r2": [
+      0.0006,
+      0.0022
+    ],
+    "mae_oos": 2.7756,
+    "delta_mae_vs_baseline": 0.0029,
+    "ci95_delta_mae": [
+      0.0016,
+      0.0043
+    ],
+    "p_val_delta_r2": 0.0004
+  },
+  {
+    "architecture": "swin_tiny",
+    "ablation_condition": "4_Plus_Edge_Energy",
+    "num_columns": 28,
+    "r2_oos": 0.1004,
+    "delta_r2_vs_baseline": 0.0111,
+    "ci95_delta_r2": [
+      0.0066,
+      0.0156
+    ],
+    "mae_oos": 2.7566,
+    "delta_mae_vs_baseline": 0.0219,
+    "ci95_delta_mae": [
+      0.0151,
+      0.029
+    ],
+    "p_val_delta_r2": 0.0001
+  },
+  {
+    "architecture": "swin_tiny",
+    "ablation_condition": "5_Plus_Local_SSIM_Var",
+    "num_columns": 28,
+    "r2_oos": 0.0891,
+    "delta_r2_vs_baseline": -0.0001,
+    "ci95_delta_r2": [
+      -0.0005,
+      0.0003
+    ],
+    "mae_oos": 2.7784,
+    "delta_mae_vs_baseline": 0.0001,
+    "ci95_delta_mae": [
+      -0.0006,
+      0.0008
+    ],
+    "p_val_delta_r2": 1.0
+  },
+  {
+    "architecture": "swin_tiny",
+    "ablation_condition": "6_Combined_All_Fingerprints",
+    "num_columns": 32,
+    "r2_oos": 0.1057,
+    "delta_r2_vs_baseline": 0.0164,
+    "ci95_delta_r2": [
+      0.0112,
+      0.0214
+    ],
+    "mae_oos": 2.7452,
+    "delta_mae_vs_baseline": 0.0334,
+    "ci95_delta_mae": [
+      0.0251,
+      0.0417
+    ],
+    "p_val_delta_r2": 0.0001
+  },
+  {
+    "architecture": "swin_tiny",
+    "ablation_condition": "Drop_Fourier",
+    "num_columns": 30,
+    "r2_oos": 0.1005,
+    "delta_r2_vs_baseline": 0.0112,
+    "ci95_delta_r2": [
+      0.0068,
+      0.0157
+    ],
+    "mae_oos": 2.7563,
+    "delta_mae_vs_baseline": 0.0222,
+    "ci95_delta_mae": [
+      0.0154,
+      0.0293
+    ],
+    "p_val_delta_r2": 0.0001
+  },
+  {
+    "architecture": "swin_tiny",
+    "ablation_condition": "Drop_JPEG",
+    "num_columns": 31,
+    "r2_oos": 0.1056,
+    "delta_r2_vs_baseline": 0.0163,
+    "ci95_delta_r2": [
+      0.0111,
+      0.0214
+    ],
+    "mae_oos": 2.7454,
+    "delta_mae_vs_baseline": 0.0331,
+    "ci95_delta_mae": [
+      0.0248,
+      0.0415
+    ],
+    "p_val_delta_r2": 0.0001
+  },
+  {
+    "architecture": "swin_tiny",
+    "ablation_condition": "Drop_Edge",
+    "num_columns": 31,
+    "r2_oos": 0.0976,
+    "delta_r2_vs_baseline": 0.0084,
+    "ci95_delta_r2": [
+      0.0049,
+      0.0118
+    ],
+    "mae_oos": 2.761,
+    "delta_mae_vs_baseline": 0.0175,
+    "ci95_delta_mae": [
+      0.0117,
+      0.0234
+    ],
+    "p_val_delta_r2": 0.0001
+  },
+  {
+    "architecture": "swin_tiny",
+    "ablation_condition": "Drop_Local_SSIM",
+    "num_columns": 31,
+    "r2_oos": 0.1058,
+    "delta_r2_vs_baseline": 0.0165,
+    "ci95_delta_r2": [
+      0.0113,
+      0.0216
+    ],
+    "mae_oos": 2.7451,
+    "delta_mae_vs_baseline": 0.0334,
+    "ci95_delta_mae": [
+      0.0252,
+      0.0417
+    ],
+    "p_val_delta_r2": 0.0001
+  },
+  {
+    "architecture": "resnet50",
+    "ablation_condition": "1_Baseline_GlobalFidelity",
+    "num_columns": 27,
+    "r2_oos": 0.1224,
+    "delta_r2_vs_baseline": 0.0,
+    "ci95_delta_r2": [
+      0.0,
+      0.0
+    ],
+    "mae_oos": 5.5717,
+    "delta_mae_vs_baseline": 0.0,
+    "ci95_delta_mae": [
+      0.0,
+      0.0
+    ],
+    "p_val_delta_r2": 1.0
+  },
+  {
+    "architecture": "resnet50",
+    "ablation_condition": "2_Plus_Fourier",
+    "num_columns": 29,
+    "r2_oos": 0.1254,
+    "delta_r2_vs_baseline": 0.003,
+    "ci95_delta_r2": [
+      0.0004,
+      0.0055
+    ],
+    "mae_oos": 5.5574,
+    "delta_mae_vs_baseline": 0.0143,
+    "ci95_delta_mae": [
+      0.0058,
+      0.0228
+    ],
+    "p_val_delta_r2": 0.0091
+  },
+  {
+    "architecture": "resnet50",
+    "ablation_condition": "3_Plus_JPEG_Boundary",
+    "num_columns": 28,
+    "r2_oos": 0.1239,
+    "delta_r2_vs_baseline": 0.0015,
+    "ci95_delta_r2": [
+      0.0007,
+      0.0023
+    ],
+    "mae_oos": 5.5647,
+    "delta_mae_vs_baseline": 0.007,
+    "ci95_delta_mae": [
+      0.004,
+      0.01
+    ],
+    "p_val_delta_r2": 0.0001
+  },
+  {
+    "architecture": "resnet50",
+    "ablation_condition": "4_Plus_Edge_Energy",
+    "num_columns": 28,
+    "r2_oos": 0.1298,
+    "delta_r2_vs_baseline": 0.0074,
+    "ci95_delta_r2": [
+      0.0041,
+      0.0106
+    ],
+    "mae_oos": 5.5343,
+    "delta_mae_vs_baseline": 0.0374,
+    "ci95_delta_mae": [
+      0.0253,
+      0.0492
+    ],
+    "p_val_delta_r2": 0.0001
+  },
+  {
+    "architecture": "resnet50",
+    "ablation_condition": "5_Plus_Local_SSIM_Var",
+    "num_columns": 28,
+    "r2_oos": 0.1223,
+    "delta_r2_vs_baseline": -0.0001,
+    "ci95_delta_r2": [
+      -0.0008,
+      0.0006
+    ],
+    "mae_oos": 5.5706,
+    "delta_mae_vs_baseline": 0.001,
+    "ci95_delta_mae": [
+      -0.0012,
+      0.0032
+    ],
+    "p_val_delta_r2": 1.0
+  },
+  {
+    "architecture": "resnet50",
+    "ablation_condition": "6_Combined_All_Fingerprints",
+    "num_columns": 32,
+    "r2_oos": 0.1318,
+    "delta_r2_vs_baseline": 0.0094,
+    "ci95_delta_r2": [
+      0.0058,
+      0.0129
+    ],
+    "mae_oos": 5.5234,
+    "delta_mae_vs_baseline": 0.0483,
+    "ci95_delta_mae": [
+      0.0352,
+      0.0613
+    ],
+    "p_val_delta_r2": 0.0001
+  },
+  {
+    "architecture": "resnet50",
+    "ablation_condition": "Drop_Fourier",
+    "num_columns": 30,
+    "r2_oos": 0.1301,
+    "delta_r2_vs_baseline": 0.0077,
+    "ci95_delta_r2": [
+      0.0044,
+      0.0108
+    ],
+    "mae_oos": 5.5326,
+    "delta_mae_vs_baseline": 0.0391,
+    "ci95_delta_mae": [
+      0.0272,
+      0.0509
+    ],
+    "p_val_delta_r2": 0.0001
+  },
+  {
+    "architecture": "resnet50",
+    "ablation_condition": "Drop_JPEG",
+    "num_columns": 31,
+    "r2_oos": 0.1315,
+    "delta_r2_vs_baseline": 0.0091,
+    "ci95_delta_r2": [
+      0.0054,
+      0.0127
+    ],
+    "mae_oos": 5.525,
+    "delta_mae_vs_baseline": 0.0467,
+    "ci95_delta_mae": [
+      0.0334,
+      0.06
+    ],
+    "p_val_delta_r2": 0.0001
+  },
+  {
+    "architecture": "resnet50",
+    "ablation_condition": "Drop_Edge",
+    "num_columns": 31,
+    "r2_oos": 0.1265,
+    "delta_r2_vs_baseline": 0.0041,
+    "ci95_delta_r2": [
+      0.0016,
+      0.0066
+    ],
+    "mae_oos": 5.5505,
+    "delta_mae_vs_baseline": 0.0212,
+    "ci95_delta_mae": [
+      0.0128,
+      0.0298
+    ],
+    "p_val_delta_r2": 0.0008
+  },
+  {
+    "architecture": "resnet50",
+    "ablation_condition": "Drop_Local_SSIM",
+    "num_columns": 31,
+    "r2_oos": 0.1319,
+    "delta_r2_vs_baseline": 0.0095,
+    "ci95_delta_r2": [
+      0.0059,
+      0.013
+    ],
+    "mae_oos": 5.5234,
+    "delta_mae_vs_baseline": 0.0483,
+    "ci95_delta_mae": [
+      0.0352,
+      0.0612
+    ],
+    "p_val_delta_r2": 0.0001
+  }
+]

@@ -1,0 +1,113 @@
+{
+  "jpeg_boundary_diagnostics": {
+    "clean_images": {
+      "mean": 1.0226,
+      "std": 0.024,
+      "expected": "~1.00"
+    },
+    "pure_gaussian_noise": {
+      "mean": 1.0093,
+      "expected": "~1.00"
+    },
+    "pure_gaussian_blur": {
+      "mean": 1.0125,
+      "expected": "~1.00"
+    },
+    "quality_sweep": {
+      "95": {
+        "mean_block_ratio": 1.0266,
+        "std_block_ratio": 0.0277
+      },
+      "80": {
+        "mean_block_ratio": 1.1268,
+        "std_block_ratio": 0.0525
+      },
+      "60": {
+        "mean_block_ratio": 1.2769,
+        "std_block_ratio": 0.073
+      },
+      "40": {
+        "mean_block_ratio": 1.4183,
+        "std_block_ratio": 0.0925
+      },
+      "20": {
+        "mean_block_ratio": 1.747,
+        "std_block_ratio": 0.1479
+      },
+      "10": {
+        "mean_block_ratio": 2.3978,
+        "std_block_ratio": 0.3128
+      },
+      "5": {
+        "mean_block_ratio": 3.9006,
+        "std_block_ratio": 0.7579
+      }
+    },
+    "grid_phase_sweep_jpeg_q20": {
+      "phase_0": 0.9109,
+      "phase_1": 0.8512,
+      "phase_2": 0.8597,
+      "phase_3": 0.8877,
+      "phase_4": 0.8713,
+      "phase_5": 0.8717,
+      "phase_6": 0.9127,
+      "phase_7": 1.9791
+    },
+    "synthetic_natural_step_offgrid": 0.3333,
+    "synthetic_step_ongrid": 1.1951,
+    "resampling_bicubic_smoothed_ratio": 1.3048
+  },
+  "fourier_features_diagnostics": {
+    "windowing_comparison_e_low": {
+      "rectangular": 0.0492,
+      "hann": 0.0549
+    },
+    "boundary_sensitivity": {
+      "low_0.10_high_0.40": {
+        "mean_e_low": 0.0265,
+        "mean_e_med": 0.2268,
+        "mean_e_high": 0.7467
+      },
+      "low_0.10_high_0.45": {
+        "mean_e_low": 0.0265,
+        "mean_e_med": 0.3235,
+        "mean_e_high": 0.65
+      },
+      "low_0.10_high_0.50": {
+        "mean_e_low": 0.0265,
+        "mean_e_med": 0.4367,
+        "mean_e_high": 0.5367
+      },
+      "low_0.15_high_0.40": {
+        "mean_e_low": 0.0492,
+        "mean_e_med": 0.2041,
+        "mean_e_high": 0.7467
+      },
+      "low_0.15_high_0.45": {
+        "mean_e_low": 0.0492,
+        "mean_e_med": 0.3008,
+        "mean_e_high": 0.65
+      },
+      "low_0.15_high_0.50": {
+        "mean_e_low": 0.0492,
+        "mean_e_med": 0.414,
+        "mean_e_high": 0.5367
+      },
+      "low_0.20_high_0.40": {
+        "mean_e_low": 0.071,
+        "mean_e_med": 0.1823,
+        "mean_e_high": 0.7467
+      },
+      "low_0.20_high_0.45": {
+        "mean_e_low": 0.071,
+        "mean_e_med": 0.279,
+        "mean_e_high": 0.65
+      },
+      "low_0.20_high_0.50": {
+        "mean_e_low": 0.071,
+        "mean_e_med": 0.3923,
+        "mean_e_high": 0.5367
+      }
+    }
+  }
+}

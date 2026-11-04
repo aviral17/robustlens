@@ -1,0 +1,38 @@
+[
+  {
+    "architecture": "convnext_tiny",
+    "r2_terminal_operator_only": 0.0052,
+    "r2_fidelity_plus_terminal_operator": 0.0629,
+    "r2_fidelity_plus_full_order_model3": 0.0728,
+    "r2_model5_with_fingerprints": 0.0905,
+    "delta_r2_operator_to_order": 0.0099,
+    "delta_r2_order_to_fingerprints": 0.0177
+  },
+  {
+    "architecture": "vit_base",
+    "r2_terminal_operator_only": 0.0082,
+    "r2_fidelity_plus_terminal_operator": 0.0525,
+    "r2_fidelity_plus_full_order_model3": 0.0591,
+    "r2_model5_with_fingerprints": 0.079,
+    "delta_r2_operator_to_order": 0.0066,
+    "delta_r2_order_to_fingerprints": 0.0199
+  },
+  {
+    "architecture": "swin_tiny",
+    "r2_terminal_operator_only": 0.0059,
+    "r2_fidelity_plus_terminal_operator": 0.0748,
+    "r2_fidelity_plus_full_order_model3": 0.0893,
+    "r2_model5_with_fingerprints": 0.1057,
+    "delta_r2_operator_to_order": 0.0145,
+    "delta_r2_order_to_fingerprints": 0.0164
+  },
+  {
+    "architecture": "resnet50",
+    "r2_terminal_operator_only": 0.0204,
+    "r2_fidelity_plus_terminal_operator": 0.1125,
+    "r2_fidelity_plus_full_order_model3": 0.1224,
+    "r2_model5_with_fingerprints": 0.1318,
+    "delta_r2_operator_to_order": 0.0099,
+    "delta_r2_order_to_fingerprints": 0.0094
+  }
+]

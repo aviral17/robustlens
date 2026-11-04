@@ -1,0 +1,298 @@
+{
+  "primary_conventional_rcs": [
+    {
+      "architecture": "convnext_tiny",
+      "specification": "Conventional 4-Knot RCS (Model 3 = 27 cols, Model 5 = 32 cols)",
+      "r2_oos_m3": 0.0728,
+      "r2_oos_m5": 0.0905,
+      "delta_r2_oos": 0.0177,
+      "ci95_pointwise_delta_r2": [
+        0.0121,
+        0.0232
+      ],
+      "simultaneous_bonferroni_2s_ci_delta_r2": [
+        0.0105,
+        0.0248
+      ],
+      "simultaneous_1s_lower_bound_delta_r2": 0.0113,
+      "null_calibrated_p_delta_r2": 0.0001,
+      "mae_oos_m3": 2.7751,
+      "mae_oos_m5": 2.7366,
+      "delta_mae_oos": 0.0385,
+      "ci95_pointwise_delta_mae": [
+        0.03,
+        0.0471
+      ],
+      "simultaneous_bonferroni_2s_ci_delta_mae": [
+        0.0277,
+        0.0494
+      ],
+      "simultaneous_1s_lower_bound_delta_mae": 0.0288,
+      "null_calibrated_p_delta_mae": 0.0001,
+      "holm_adj_p_delta_r2": 0.0004,
+      "significant_r2_holm_0_05": true,
+      "holm_adj_p_delta_mae": 0.0004,
+      "significant_mae_holm_0_05": true
+    },
+    {
+      "architecture": "vit_base",
+      "specification": "Conventional 4-Knot RCS (Model 3 = 27 cols, Model 5 = 32 cols)",
+      "r2_oos_m3": 0.0591,
+      "r2_oos_m5": 0.079,
+      "delta_r2_oos": 0.0199,
+      "ci95_pointwise_delta_r2": [
+        0.0132,
+        0.0261
+      ],
+      "simultaneous_bonferroni_2s_ci_delta_r2": [
+        0.0115,
+        0.0278
+      ],
+      "simultaneous_1s_lower_bound_delta_r2": 0.0123,
+      "null_calibrated_p_delta_r2": 0.0001,
+      "mae_oos_m3": 3.2056,
+      "mae_oos_m5": 3.1521,
+      "delta_mae_oos": 0.0535,
+      "ci95_pointwise_delta_mae": [
+        0.0428,
+        0.0642
+      ],
+      "simultaneous_bonferroni_2s_ci_delta_mae": [
+        0.04,
+        0.0671
+      ],
+      "simultaneous_1s_lower_bound_delta_mae": 0.0413,
+      "null_calibrated_p_delta_mae": 0.0001,
+      "holm_adj_p_delta_r2": 0.0004,
+      "significant_r2_holm_0_05": true,
+      "holm_adj_p_delta_mae": 0.0004,
+      "significant_mae_holm_0_05": true
+    },
+    {
+      "architecture": "swin_tiny",
+      "specification": "Conventional 4-Knot RCS (Model 3 = 27 cols, Model 5 = 32 cols)",
+      "r2_oos_m3": 0.0893,
+      "r2_oos_m5": 0.1057,
+      "delta_r2_oos": 0.0164,
+      "ci95_pointwise_delta_r2": [
+        0.0112,
+        0.0214
+      ],
+      "simultaneous_bonferroni_2s_ci_delta_r2": [
+        0.0098,
+        0.023
+      ],
+      "simultaneous_1s_lower_bound_delta_r2": 0.0105,
+      "null_calibrated_p_delta_r2": 0.0001,
+      "mae_oos_m3": 2.7785,
+      "mae_oos_m5": 2.7452,
+      "delta_mae_oos": 0.0334,
+      "ci95_pointwise_delta_mae": [
+        0.0251,
+        0.0417
+      ],
+      "simultaneous_bonferroni_2s_ci_delta_mae": [
+        0.0227,
+        0.0438
+      ],
+      "simultaneous_1s_lower_bound_delta_mae": 0.024,
+      "null_calibrated_p_delta_mae": 0.0001,
+      "holm_adj_p_delta_r2": 0.0004,
+      "significant_r2_holm_0_05": true,
+      "holm_adj_p_delta_mae": 0.0004,
+      "significant_mae_holm_0_05": true
+    },
+    {
+      "architecture": "resnet50",
+      "specification": "Conventional 4-Knot RCS (Model 3 = 27 cols, Model 5 = 32 cols)",
+      "r2_oos_m3": 0.1224,
+      "r2_oos_m5": 0.1318,
+      "delta_r2_oos": 0.0094,
+      "ci95_pointwise_delta_r2": [
+        0.0058,
+        0.0129
+      ],
+      "simultaneous_bonferroni_2s_ci_delta_r2": [
+        0.0048,
+        0.0138
+      ],
+      "simultaneous_1s_lower_bound_delta_r2": 0.0053,
+      "null_calibrated_p_delta_r2": 0.0001,
+      "mae_oos_m3": 5.5717,
+      "mae_oos_m5": 5.5234,
+      "delta_mae_oos": 0.0483,
+      "ci95_pointwise_delta_mae": [
+        0.0352,
+        0.0613
+      ],
+      "simultaneous_bonferroni_2s_ci_delta_mae": [
+        0.0314,
+        0.0648
+      ],
+      "simultaneous_1s_lower_bound_delta_mae": 0.0332,
+      "null_calibrated_p_delta_mae": 0.0001,
+      "holm_adj_p_delta_r2": 0.0004,
+      "significant_r2_holm_0_05": true,
+      "holm_adj_p_delta_mae": 0.0004,
+      "significant_mae_holm_0_05": true
+    }
+  ],
+  "sensitivity_reduced_spline": [
+    {
+      "architecture": "convnext_tiny",
+      "specification": "Reduced 2-df Spline (Model 3 = 24 cols, Model 5 = 29 cols)",
+      "r2_oos_m3": 0.0687,
+      "r2_oos_m5": 0.0887,
+      "delta_r2_oos": 0.0201,
+      "ci95_pointwise_delta_r2": [
+        0.0138,
+        0.0263
+      ],
+      "simultaneous_bonferroni_2s_ci_delta_r2": [
+        0.012,
+        0.028
+      ],
+      "simultaneous_1s_lower_bound_delta_r2": 0.0129,
+      "null_calibrated_p_delta_r2": 0.0001,
+      "mae_oos_m3": 2.7842,
+      "mae_oos_m5": 2.7397,
+      "delta_mae_oos": 0.0445,
+      "ci95_pointwise_delta_mae": [
+        0.035,
+        0.0539
+      ],
+      "simultaneous_bonferroni_2s_ci_delta_mae": [
+        0.0323,
+        0.0566
+      ],
+      "simultaneous_1s_lower_bound_delta_mae": 0.0336,
+      "null_calibrated_p_delta_mae": 0.0001,
+      "holm_adj_p_delta_r2": 0.0004,
+      "significant_r2_holm_0_05": true,
+      "holm_adj_p_delta_mae": 0.0004,
+      "significant_mae_holm_0_05": true
+    },
+    {
+      "architecture": "vit_base",
+      "specification": "Reduced 2-df Spline (Model 3 = 24 cols, Model 5 = 29 cols)",
+      "r2_oos_m3": 0.0542,
+      "r2_oos_m5": 0.0777,
+      "delta_r2_oos": 0.0234,
+      "ci95_pointwise_delta_r2": [
+        0.016,
+        0.0305
+      ],
+      "simultaneous_bonferroni_2s_ci_delta_r2": [
+        0.0142,
+        0.0324
+      ],
+      "simultaneous_1s_lower_bound_delta_r2": 0.015,
+      "null_calibrated_p_delta_r2": 0.0001,
+      "mae_oos_m3": 3.2172,
+      "mae_oos_m5": 3.1553,
+      "delta_mae_oos": 0.0619,
+      "ci95_pointwise_delta_mae": [
+        0.0498,
+        0.0741
+      ],
+      "simultaneous_bonferroni_2s_ci_delta_mae": [
+        0.0468,
+        0.0771
+      ],
+      "simultaneous_1s_lower_bound_delta_mae": 0.0483,
+      "null_calibrated_p_delta_mae": 0.0001,
+      "holm_adj_p_delta_r2": 0.0004,
+      "significant_r2_holm_0_05": true,
+      "holm_adj_p_delta_mae": 0.0004,
+      "significant_mae_holm_0_05": true
+    },
+    {
+      "architecture": "swin_tiny",
+      "specification": "Reduced 2-df Spline (Model 3 = 24 cols, Model 5 = 29 cols)",
+      "r2_oos_m3": 0.0835,
+      "r2_oos_m5": 0.1025,
+      "delta_r2_oos": 0.019,
+      "ci95_pointwise_delta_r2": [
+        0.0131,
+        0.0246
+      ],
+      "simultaneous_bonferroni_2s_ci_delta_r2": [
+        0.0114,
+        0.0263
+      ],
+      "simultaneous_1s_lower_bound_delta_r2": 0.0123,
+      "null_calibrated_p_delta_r2": 0.0001,
+      "mae_oos_m3": 2.791,
+      "mae_oos_m5": 2.7513,
+      "delta_mae_oos": 0.0397,
+      "ci95_pointwise_delta_mae": [
+        0.0304,
+        0.0489
+      ],
+      "simultaneous_bonferroni_2s_ci_delta_mae": [
+        0.028,
+        0.0514
+      ],
+      "simultaneous_1s_lower_bound_delta_mae": 0.0291,
+      "null_calibrated_p_delta_mae": 0.0001,
+      "holm_adj_p_delta_r2": 0.0004,
+      "significant_r2_holm_0_05": true,
+      "holm_adj_p_delta_mae": 0.0004,
+      "significant_mae_holm_0_05": true
+    },
+    {
+      "architecture": "resnet50",
+      "specification": "Reduced 2-df Spline (Model 3 = 24 cols, Model 5 = 29 cols)",
+      "r2_oos_m3": 0.1186,
+      "r2_oos_m5": 0.1296,
+      "delta_r2_oos": 0.0111,
+      "ci95_pointwise_delta_r2": [
+        0.0068,
+        0.0151
+      ],
+      "simultaneous_bonferroni_2s_ci_delta_r2": [
+        0.0058,
+        0.0162
+      ],
+      "simultaneous_1s_lower_bound_delta_r2": 0.0063,
+      "null_calibrated_p_delta_r2": 0.0001,
+      "mae_oos_m3": 5.5877,
+      "mae_oos_m5": 5.5309,
+      "delta_mae_oos": 0.0568,
+      "ci95_pointwise_delta_mae": [
+        0.0418,
+        0.0716
+      ],
+      "simultaneous_bonferroni_2s_ci_delta_mae": [
+        0.0378,
+        0.0758
+      ],
+      "simultaneous_1s_lower_bound_delta_mae": 0.0394,
+      "null_calibrated_p_delta_mae": 0.0001,
+      "holm_adj_p_delta_r2": 0.0004,
+      "significant_r2_holm_0_05": true,
+      "holm_adj_p_delta_mae": 0.0004,
+      "significant_mae_holm_0_05": true
+    }
+  ],
+  "bootstrap_replicates": 10000,
+  "bootstrap_seed": 12345,
+  "cv_seed": 42,
+  "total_clusters": 3825,
+  "total_evaluations": 275400,
+  "architectures": [
+    "convnext_tiny",
+    "vit_base",
+    "swin_tiny",
+    "resnet50"
+  ],
+  "simultaneous_coverage": {
+    "bonferroni_2s_percentiles": [
+      0.625,
+      99.375
+    ],
+    "simultaneous_1s_percentile": 1.25,
+    "familywise_error_rate_alpha": 0.05,
+    "number_of_comparisons_K": 4
+  }
+}

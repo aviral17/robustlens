@@ -1,0 +1,6 @@
+Partition,Train Images,Validation Images,Total Images,Integrity Status
+Official FastAI Archive,9469,3925,13394,100% Verified MD5
+Local Mirror (johnowhitaker),9469,3925,13394,100% Cryptographic Match
+Calibration Subset,50,0,50,100% Official Train
+Exploratory Pilot Subset,0,100,100,100% Official Val
+Confirmatory Reserved Set,0,3825,3825,100% Official Val

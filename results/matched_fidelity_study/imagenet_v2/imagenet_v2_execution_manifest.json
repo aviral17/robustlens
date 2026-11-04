@@ -1,0 +1,12 @@
+{
+  "title": "ImageNet-V2 Replication Manifest",
+  "variants": [
+    "MatchedFrequency",
+    "Threshold0.7",
+    "TopImages"
+  ],
+  "total_records": 22800,
+  "unique_images": 300,
+  "gpu_device": "cuda",
+  "status": "COMPLETE"
+}

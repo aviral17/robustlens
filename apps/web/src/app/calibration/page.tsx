@@ -177,12 +177,41 @@ export default function CalibrationPage() {
       {/* Mathematical Methodology */}
       <div className="p-6 rounded-3xl bg-muted/30 border border-border/50 text-sm flex flex-col gap-2">
         <h4 className="font-bold text-foreground flex items-center gap-2">
-          <Info className="w-4 h-4 text-primary" /> Mathematical Formulation
+          <Info className="w-4 h-4 text-primary" /> Mathematical Formulation of ECE
         </h4>
         <p className="text-muted-foreground leading-relaxed">
           Samples are partitioned into M=10 equally spaced confidence bins.
           Expected Calibration Error (ECE) is computed as the weighted absolute difference between bin accuracy and bin confidence across all bins: ECE = sum_m (|B_m| / N) * |acc(B_m) - conf(B_m)|.
         </p>
+      </div>
+
+      {/* Critical Distinction Notice: Classifier vs Parameter Calibration */}
+      <div className="p-8 rounded-3xl bg-card border border-border/60 shadow-lg flex flex-col gap-4">
+        <div className="flex items-center gap-2 text-primary font-bold text-sm tracking-wider uppercase">
+          <Target className="w-4 h-4" /> Crucial Methodological Distinction
+        </div>
+        <h3 className="text-2xl font-bold text-foreground">
+          Classifier Probability Calibration vs. Image-Fidelity Parameter Calibration
+        </h3>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          In RobustLens research, the term <strong>&quot;calibration&quot;</strong> refers to two mathematically distinct operations that must not be conflated:
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+          <div className="p-5 rounded-2xl bg-muted/20 border border-border/40 flex flex-col gap-2">
+            <span className="text-xs font-bold uppercase tracking-wider text-amber-500">Operation 1 (Evaluated on this page)</span>
+            <h4 className="font-bold text-base text-foreground">Classifier Probability Calibration (ECE)</h4>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Measures whether a classifier&apos;s output softmax probabilities correctly match posterior empirical accuracy. Evaluates post-hoc model certainty under distribution shifts.
+            </p>
+          </div>
+          <div className="p-5 rounded-2xl bg-muted/20 border border-border/40 flex flex-col gap-2">
+            <span className="text-xs font-bold uppercase tracking-wider text-emerald-500">Operation 2 (Evaluated in Order Effects)</span>
+            <h4 className="font-bold text-base text-foreground">Image-Fidelity Parameter Calibration</h4>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Solves parameter optimization on an independent sample (N<sub>cal</sub> = 50) across 6 compound corruption sequences to match low-level fidelity targets on common support (Level 1: 27.20 dB / 0.810; Level 2: 23.80 dB / 0.650; Level 3: 21.80 dB / 0.500; tolerances &plusmn;0.75 dB, &plusmn;0.035).
+            </p>
+          </div>
+        </div>
       </div>
     </main>
   );

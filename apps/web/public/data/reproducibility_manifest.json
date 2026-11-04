@@ -1,0 +1,45 @@
+{
+  "generated_at": "2026-11-04T18:16:09.785892+00:00",
+  "artifacts": [
+    {
+      "relative_path": "results/matched_fidelity_study/calibrated_common_support_3levels.json",
+      "size_bytes": 4470,
+      "sha256": "83f0f4c38d553967b283c5758a434f99b45108a8c3d031640b5a6a89d655673b"
+    },
+    {
+      "relative_path": "results/matched_fidelity_study/confirmatory_statistical_comparison.csv",
+      "size_bytes": 2388,
+      "sha256": "9fb8dbdffeb24116562e1cea93301e9a8b855198acdf28bd7011b3219fe6fa15"
+    },
+    {
+      "relative_path": "results/matched_fidelity_study/confirmatory_feature_ablations.csv",
+      "size_bytes": 4262,
+      "sha256": "a41fb1a31ae9b61858991a4048f32680e400f7ea911ed8c54447d66faa2021dc"
+    },
+    {
+      "relative_path": "results/matched_fidelity_study/confirmatory_run/confirmatory_terminal_operator_disentanglement.csv",
+      "size_bytes": 409,
+      "sha256": "c2462f52775962148195d9de1baf8727a561a02cdce4739b9aa3a039cc2d8a5c"
+    },
+    {
+      "relative_path": "results/matched_fidelity_study/confirmatory_run/confirmatory_local_ssim_interaction_test.json",
+      "size_bytes": 989,
+      "sha256": "ef6d707c147f61d299d0e82b624d1938f3ffc1267f2819a57b968283c0676e49"
+    },
+    {
+      "relative_path": "results/matched_fidelity_study/confirmatory_run/confirmatory_execution_manifest.json",
+      "size_bytes": 529,
+      "sha256": "8757b55bce6da8c169deff0a3ed2fc63acb0176734fd91ae84d4fe55a8685e96"
+    },
+    {
+      "relative_path": "results/matched_fidelity_study/imagenet_v2/imagenet_v2_statistical_comparison.csv",
+      "size_bytes": 2042,
+      "sha256": "761589e1138888d70e33e8b850787377fb35fbd21fdd9ddf30b4d73ded2fa12e"
+    },
+    {
+      "relative_path": "results/matched_fidelity_study/imagenet_v2/imagenet_v2_replication_audit.json",
+      "size_bytes": 5964,
+      "sha256": "8c91eea49e5af23485baf939c7cd3c49aaf8649bfccfdff4d3405dd53ce69a86"
+    }
+  ]
+}

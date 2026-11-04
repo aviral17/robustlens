@@ -47,20 +47,20 @@ export default function AboutPage() {
         {/* Quick Metric Highlights */}
         <div className="mt-8 pt-8 border-t border-sky-200/60 dark:border-border/50 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
           <div className="flex flex-col gap-1">
-            <span className="text-2xl sm:text-3xl font-extrabold text-blue-600 dark:text-blue-500">973,400</span>
+            <span className="text-2xl sm:text-3xl font-extrabold text-blue-600 dark:text-blue-500">313,500</span>
             <span className="text-xs sm:text-sm text-slate-600 dark:text-muted-foreground font-medium">Forward Passes Evaluated</span>
           </div>
           <div className="flex flex-col gap-1">
-            <span className="text-2xl sm:text-3xl font-extrabold text-violet-600 dark:text-violet-500">3,925</span>
-            <span className="text-xs sm:text-sm text-slate-600 dark:text-muted-foreground font-medium">Physical Validation Images</span>
+            <span className="text-2xl sm:text-3xl font-extrabold text-violet-600 dark:text-violet-500">3,825</span>
+            <span className="text-xs sm:text-sm text-slate-600 dark:text-muted-foreground font-medium">Confirmatory Images (19 Cond.)</span>
           </div>
           <div className="flex flex-col gap-1">
-            <span className="text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-500">63.18%</span>
-            <span className="text-xs sm:text-sm text-slate-600 dark:text-muted-foreground font-medium">Range Gap Contraction</span>
+            <span className="text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-500">300</span>
+            <span className="text-xs sm:text-sm text-slate-600 dark:text-muted-foreground font-medium">ImageNet-V2 External Images</span>
           </div>
           <div className="flex flex-col gap-1">
-            <span className="text-2xl sm:text-3xl font-extrabold text-amber-600 dark:text-amber-500">40.78%</span>
-            <span className="text-xs sm:text-sm text-slate-600 dark:text-muted-foreground font-medium">Nominal Label Churn</span>
+            <span className="text-2xl sm:text-3xl font-extrabold text-amber-600 dark:text-amber-500">4</span>
+            <span className="text-xs sm:text-sm text-slate-600 dark:text-muted-foreground font-medium">Canonical Architectures</span>
           </div>
         </div>
       </section>
@@ -551,15 +551,75 @@ export default function AboutPage() {
           </div>
           <div>
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground font-[family-name:var(--font-poppins)]">
-              Publication & Permanent DOI
+              Publications, Academic Deliverables & Citations
             </h2>
           </div>
         </div>
 
         <div className="p-6 sm:p-8 rounded-3xl bg-card border border-border/60 shadow-sm flex flex-col gap-6">
+          {/* New November 2026 Matched-Fidelity Study */}
+          <div className="flex flex-col gap-4 pb-6 border-b border-border/50">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex flex-col gap-1">
+                <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                  New Scientific Study (November 2026) • Matched-Fidelity Confirmatory Protocol
+                </span>
+                <h3 className="text-lg sm:text-xl font-extrabold text-foreground">
+                  At Matched Image Fidelity, Does Corruption Order Still Matter? Spatial-Frequency and Structural Fingerprints of Vision Classifier Reliability
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  <strong>Author:</strong> Aviral Choudhary &bull; <strong>Cohort:</strong> N = 3,825 Confirmatory + N = 300 ImageNet-V2 (313,500 Forward Passes)
+                </p>
+              </div>
+            </div>
+
+            {/* Direct Document Downloads */}
+            <div className="flex flex-wrap gap-3 pt-2">
+              <a
+                href="/downloads/RobustLens_Final_Research_Report.pdf"
+                download="RobustLens_Final_Research_Report.pdf"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold bg-primary text-primary-foreground hover:bg-primary/90 transition-all shadow-sm"
+              >
+                <FileText className="h-4 w-4" />
+                <span>Download Final Research Report (10-Page PDF)</span>
+              </a>
+              <a
+                href="/downloads/RobustLens_Academic_Manuscript.docx"
+                download="RobustLens_Academic_Manuscript.docx"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold bg-muted hover:bg-muted/80 text-foreground transition-all border border-border/60"
+              >
+                <FileText className="h-4 w-4" />
+                <span>Download Academic Manuscript (Editable DOCX)</span>
+              </a>
+              <a
+                href="/downloads/RobustLens_Academic_Manuscript.pdf"
+                download="RobustLens_Academic_Manuscript.pdf"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold bg-muted hover:bg-muted/80 text-foreground transition-all border border-border/60"
+              >
+                <FileText className="h-4 w-4" />
+                <span>Download Manuscript PDF (Publication Draft)</span>
+              </a>
+            </div>
+
+            <div className="flex flex-col gap-2 pt-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">BibTeX Citation (November 2026 Study)</span>
+              <div className="p-4 rounded-2xl bg-muted/50 border border-border/50 font-mono text-xs text-foreground overflow-x-auto leading-relaxed">
+                <pre>{`@article{choudhary2026matchedfidelity,
+  title   = {At Matched Image Fidelity, Does Corruption Order Still Matter? Spatial-Frequency and Structural Fingerprints of Vision Classifier Reliability},
+  author  = {Choudhary, Aviral},
+  year    = {2026},
+  month   = {November},
+  journal = {RobustLens Research Initiative Working Paper},
+  note    = {Confirmatory study N=3,825 images, 290,700 primary passes + ImageNet-V2 replication}
+}`}</pre>
+              </div>
+            </div>
+          </div>
+
+          {/* Historical October 2026 Benchmark Release */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-border/50">
             <div className="flex flex-col gap-1">
-              <span className="text-xs font-bold uppercase tracking-wider text-purple-500">Official Benchmark Release (v1.0)</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-purple-500">Benchmark Release (v1.0 • October 2026)</span>
               <h3 className="text-lg sm:text-xl font-bold text-foreground">
                 Order Matters Beyond Accuracy: Paired Prediction Analysis of Compound Image Corruptions
               </h3>
@@ -579,7 +639,7 @@ export default function AboutPage() {
           </div>
 
           <div className="flex flex-col gap-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">BibTeX Citation</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">BibTeX Citation (October 2026 Benchmark)</span>
             <div className="p-4 rounded-2xl bg-muted/50 border border-border/50 font-mono text-xs text-foreground overflow-x-auto leading-relaxed">
               <pre>{`@article{choudhary2026robustlens,
   title   = {Order Matters Beyond Accuracy: Paired Prediction Analysis of Compound Image Corruptions},

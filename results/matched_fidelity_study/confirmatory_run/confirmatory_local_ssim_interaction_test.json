@@ -1,0 +1,44 @@
+[
+  {
+    "comparison": "vit_base_minus_resnet50",
+    "arch_a": "vit_base",
+    "arch_b": "resnet50",
+    "beta_vit": -0.26910941199851823,
+    "beta_other": -0.19656381276062795,
+    "diff_point": -0.0725,
+    "ci95_diff": [
+      -0.3532,
+      0.2148
+    ],
+    "p_value": 0.61174,
+    "se_diff": 0.1432
+  },
+  {
+    "comparison": "vit_base_minus_convnext_tiny",
+    "arch_a": "vit_base",
+    "arch_b": "convnext_tiny",
+    "beta_vit": -0.26910941199851823,
+    "beta_other": -0.041402641797105844,
+    "diff_point": -0.2277,
+    "ci95_diff": [
+      -0.3446,
+      -0.1108
+    ],
+    "p_value": 0.0001,
+    "se_diff": 0.0604
+  },
+  {
+    "comparison": "vit_base_minus_swin_tiny",
+    "arch_a": "vit_base",
+    "arch_b": "swin_tiny",
+    "beta_vit": -0.26910941199851823,
+    "beta_other": -0.0490086786477093,
+    "diff_point": -0.2201,
+    "ci95_diff": [
+      -0.3617,
+      -0.0726
+    ],
+    "p_value": 0.003,
+    "se_diff": 0.0743
+  }
+]

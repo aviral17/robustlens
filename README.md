@@ -12,12 +12,19 @@ Evaluated across **973,400 total forward passes** on the official **FastAI Image
 
 ---
 
-## 📄 Final Research Package (October 2026)
+## 📄 Final Research Package (November 2026 Extension & October 2026 Benchmark)
 
-The definitive academic research package is cataloged in [`reports/final_research_package/`](reports/final_research_package/):
+### 🔬 November 2026 Matched-Fidelity Study
+- **Authoritative Final Research Report (PDF, 10 Pages):** [`reports/final_research_package/RobustLens_Final_Research_Report.pdf`](reports/final_research_package/RobustLens_Final_Research_Report.pdf)  
+  *"At Matched Image Fidelity, Does Corruption Order Still Matter? Spatial-Frequency and Structural Fingerprints of Vision Classifier Reliability"*
+- **Editable Academic Manuscript (DOCX):** [`reports/final_research_package/RobustLens_Academic_Manuscript.docx`](reports/final_research_package/RobustLens_Academic_Manuscript.docx)
+- **Academic Manuscript (PDF):** [`reports/final_research_package/RobustLens_Academic_Manuscript.pdf`](reports/final_research_package/RobustLens_Academic_Manuscript.pdf)
+- **Master Research Scientific Contribution Report:** [`FINAL_RESEARCH_SCIENTIFIC_CONTRIBUTION_REPORT.md`](FINAL_RESEARCH_SCIENTIFIC_CONTRIBUTION_REPORT.md)
+- **Reproducibility Manifest & SHA-256 Hashes:** [`results/matched_fidelity_study/REPRODUCIBILITY_MANIFEST.json`](results/matched_fidelity_study/REPRODUCIBILITY_MANIFEST.json)
+
+### 📚 Historical Benchmark Release (October 2026)
 - **Primary Research Paper (PDF, 5 Pages):** [`reports/final_research_package/RobustLens_Final_Paper.pdf`](reports/final_research_package/RobustLens_Final_Paper.pdf)  
   *"Beyond Six-Order Accuracy Gaps: A Paired, Distortion-Aware Analysis of Compound-Corruption Permutations in Vision Classifiers"*
-- **Primary Paper Markdown:** [`reports/final_research_package/RobustLens_Final_Paper.md`](reports/final_research_package/RobustLens_Final_Paper.md)
 - **Technical Supplement & Proofs:** [`reports/final_research_package/Technical_Supplement.md`](reports/final_research_package/Technical_Supplement.md)
 - **Originality & Prior-Art Audit:** [`reports/final_research_package/ORIGINALITY_AND_LIMITATIONS_AUDIT.md`](reports/final_research_package/ORIGINALITY_AND_LIMITATIONS_AUDIT.md)
 - **Reproducibility Guide:** [`reports/final_research_package/REPRODUCIBILITY.md`](reports/final_research_package/REPRODUCIBILITY.md)

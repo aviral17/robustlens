@@ -1,0 +1,249 @@
+{
+  "model_3_design_matrix": {
+    "total_columns": 24,
+    "columns": [
+      "intercept",
+      "order_NJB",
+      "order_BNJ",
+      "order_BJN",
+      "order_JNB",
+      "order_JBN",
+      "tier_Moderate",
+      "tier_Severe",
+      "order_NJB_x_tier_Moderate",
+      "order_NJB_x_tier_Severe",
+      "order_BNJ_x_tier_Moderate",
+      "order_BNJ_x_tier_Severe",
+      "order_BJN_x_tier_Moderate",
+      "order_BJN_x_tier_Severe",
+      "order_JNB_x_tier_Moderate",
+      "order_JNB_x_tier_Severe",
+      "order_JBN_x_tier_Moderate",
+      "order_JBN_x_tier_Severe",
+      "psnr_linear",
+      "psnr_spline_nonlinear",
+      "ssim_linear",
+      "ssim_spline_nonlinear",
+      "lpips_linear",
+      "lpips_spline_nonlinear"
+    ],
+    "knots_specification": {
+      "basis_type": "Truncated Natural Cubic Splines (Restricted Cubic Splines)",
+      "degrees_of_freedom_per_variable": 2,
+      "total_knots": 4,
+      "knot_placements": {
+        "knot_1_boundary_low": "5th percentile of standardized training distribution",
+        "knot_2_interior": "35th percentile of standardized training distribution",
+        "knot_3_interior": "65th percentile of standardized training distribution",
+        "knot_4_boundary_high": "95th percentile of standardized training distribution"
+      },
+      "boundary_behavior": "Constrained to be strictly linear beyond knot 1 (low) and knot 4 (high)",
+      "parameters_per_continuous_feature": 2,
+      "features_splined": [
+        "psnr",
+        "ssim",
+        "lpips"
+      ],
+      "total_spline_columns": 6
+    }
+  },
+  "model_5_design_matrix": {
+    "total_columns": 29,
+    "columns": [
+      "intercept",
+      "order_NJB",
+      "order_BNJ",
+      "order_BJN",
+      "order_JNB",
+      "order_JBN",
+      "tier_Moderate",
+      "tier_Severe",
+      "order_NJB_x_tier_Moderate",
+      "order_NJB_x_tier_Severe",
+      "order_BNJ_x_tier_Moderate",
+      "order_BNJ_x_tier_Severe",
+      "order_BJN_x_tier_Moderate",
+      "order_BJN_x_tier_Severe",
+      "order_JNB_x_tier_Moderate",
+      "order_JNB_x_tier_Severe",
+      "order_JBN_x_tier_Moderate",
+      "order_JBN_x_tier_Severe",
+      "psnr_linear",
+      "psnr_spline_nonlinear",
+      "ssim_linear",
+      "ssim_spline_nonlinear",
+      "lpips_linear",
+      "lpips_spline_nonlinear",
+      "fft_energy_low",
+      "fft_energy_high",
+      "jpeg_block_artifact",
+      "delta_edge_energy",
+      "std_local_ssim"
+    ],
+    "incremental_features": [
+      "fft_energy_low",
+      "fft_energy_high",
+      "jpeg_block_artifact",
+      "delta_edge_energy",
+      "std_local_ssim"
+    ]
+  },
+  "fold_diagnostics": [
+    {
+      "fold": 1,
+      "train_observations": 1440,
+      "model3": {
+        "cols": 24,
+        "rank": 24,
+        "full_rank": true,
+        "condition_number": 67.79
+      },
+      "model5": {
+        "cols": 29,
+        "rank": 29,
+        "full_rank": true,
+        "condition_number": 93.29
+      }
+    },
+    {
+      "fold": 2,
+      "train_observations": 1440,
+      "model3": {
+        "cols": 24,
+        "rank": 24,
+        "full_rank": true,
+        "condition_number": 70.55
+      },
+      "model5": {
+        "cols": 29,
+        "rank": 29,
+        "full_rank": true,
+        "condition_number": 92.5
+      }
+    },
+    {
+      "fold": 3,
+      "train_observations": 1440,
+      "model3": {
+        "cols": 24,
+        "rank": 24,
+        "full_rank": true,
+        "condition_number": 69.22
+      },
+      "model5": {
+        "cols": 29,
+        "rank": 29,
+        "full_rank": true,
+        "condition_number": 90.65
+      }
+    },
+    {
+      "fold": 4,
+      "train_observations": 1440,
+      "model3": {
+        "cols": 24,
+        "rank": 24,
+        "full_rank": true,
+        "condition_number": 69.23
+      },
+      "model5": {
+        "cols": 29,
+        "rank": 29,
+        "full_rank": true,
+        "condition_number": 90.54
+      }
+    },
+    {
+      "fold": 5,
+      "train_observations": 1440,
+      "model3": {
+        "cols": 24,
+        "rank": 24,
+        "full_rank": true,
+        "condition_number": 68.34
+      },
+      "model5": {
+        "cols": 29,
+        "rank": 29,
+        "full_rank": true,
+        "condition_number": 88.28
+      }
+    }
+  ],
+  "multiplicity_framework": {
+    "primary_endpoint": {
+      "name": "Incremental Out-of-Sample Explained Variance (Delta R2_OOS)",
+      "formula": "R2_OOS(Model 5: Spline + Fingerprints) - R2_OOS(Model 3: Spline Global Baseline)",
+      "hypothesis_type": "One-sided superior test: H_0: Delta R2_OOS <= 0 vs H_1: Delta R2_OOS > 0",
+      "empirical_bootstrap_p_value_formula": "p_k = (1 + sum(Delta R2(b) <= 0)) / (B + 1)",
+      "family_size": 4,
+      "architectures": [
+        "ConvNeXt-Tiny",
+        "ViT-Base/16",
+        "Swin-Tiny",
+        "ResNet-50"
+      ],
+      "multiplicity_correction": "Step-down Holm-Bonferroni at family-wise alpha = 0.05"
+    },
+    "secondary_endpoint": {
+      "name": "Incremental Out-of-Sample Absolute Error Reduction (Delta MAE_OOS)",
+      "formula": "MAE_OOS(Model 3: Spline Global Baseline) - MAE_OOS(Model 5: Spline + Fingerprints)",
+      "hypothesis_type": "One-sided error reduction: H_0: Delta MAE_OOS <= 0 vs H_1: Delta MAE_OOS > 0",
+      "empirical_bootstrap_p_value_formula": "p_k = (1 + sum(Delta MAE(b) <= 0)) / (B + 1)",
+      "family_size": 4,
+      "multiplicity_correction": "Separate step-down Holm-Bonferroni family at alpha = 0.05"
+    },
+    "confidence_interval_convention": {
+      "pointwise_reported": "Ordinary 95% bootstrap percentile intervals [2.5th, 97.5th] represent single-model pointwise uncertainty and must NEVER be described as Holm-adjusted.",
+      "simultaneous_reported": "Bonferroni simultaneous confidence intervals with family coverage >= 95% use coverage 1 - (alpha / 4) = 98.75% percentile intervals [1.25th, 98.75th] for each architecture.",
+      "coverage_guarantee": "By Bonferroni inequality, P(all 4 CIs cover simultaneously) >= 1 - 4 * 0.0125 = 0.95."
+    },
+    "resampling_unit": "Physical image identity (image_id cluster). Resamples entire clusters with all 18 condition evaluations paired together.",
+    "pilot_demonstration": {
+      "architectures": [
+        "convnext_tiny",
+        "vit_base",
+        "swin_tiny",
+        "resnet50"
+      ],
+      "delta_r2": [
+        0.0178,
+        0.0248,
+        0.012,
+        -0.0021
+      ],
+      "raw_p_values": [
+        0.19699999999999995,
+        0.1745,
+        0.2995,
+        0.5795
+      ],
+      "holm_results": [
+        {
+          "architecture_index": 0,
+          "raw_p": 0.197,
+          "holm_adj_p": 0.698,
+          "significant_at_alpha_0_05": false
+        },
+        {
+          "architecture_index": 1,
+          "raw_p": 0.1745,
+          "holm_adj_p": 0.698,
+          "significant_at_alpha_0_05": false
+        },
+        {
+          "architecture_index": 2,
+          "raw_p": 0.2995,
+          "holm_adj_p": 0.698,
+          "significant_at_alpha_0_05": false
+        },
+        {
+          "architecture_index": 3,
+          "raw_p": 0.5795,
+          "holm_adj_p": 0.698,
+          "significant_at_alpha_0_05": false
+        }
+      ]
+    }
+  }
+}

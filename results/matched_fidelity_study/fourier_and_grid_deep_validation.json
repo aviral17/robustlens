@@ -1,0 +1,90 @@
+{
+  "cutoff_sensitivity_rank_correlations": {
+    "cutoff_0.35_vs_0.4": {
+      "spearman_rho": 0.9948,
+      "spearman_p": 2.600233382229885e-49,
+      "kendall_tau": 0.9559,
+      "kendall_p": 1.1800695020124464e-22
+    },
+    "cutoff_0.35_vs_0.45": {
+      "spearman_rho": 0.9885,
+      "spearman_p": 5.098039000832646e-41,
+      "kendall_tau": 0.9265,
+      "kendall_p": 2.2209286125422215e-21
+    },
+    "cutoff_0.35_vs_0.5": {
+      "spearman_rho": 0.9845,
+      "spearman_p": 5.647763086982016e-38,
+      "kendall_tau": 0.9102,
+      "kendall_p": 1.0909861139224707e-20
+    },
+    "cutoff_0.35_vs_0.55": {
+      "spearman_rho": 0.9727,
+      "spearman_p": 4.07842418544998e-32,
+      "kendall_tau": 0.8759,
+      "kendall_p": 2.820872296289428e-19
+    },
+    "cutoff_0.4_vs_0.45": {
+      "spearman_rho": 0.9966,
+      "spearman_p": 8.016067680781219e-54,
+      "kendall_tau": 0.9641,
+      "kendall_p": 5.139548013001052e-23
+    },
+    "cutoff_0.4_vs_0.5": {
+      "spearman_rho": 0.9941,
+      "spearman_p": 4.8111245918173326e-48,
+      "kendall_tau": 0.951,
+      "kendall_p": 1.9366576518314902e-22
+    },
+    "cutoff_0.4_vs_0.55": {
+      "spearman_rho": 0.9826,
+      "spearman_p": 9.184623731662155e-37,
+      "kendall_tau": 0.9037,
+      "kendall_p": 2.046284603194211e-20
+    },
+    "cutoff_0.45_vs_0.5": {
+      "spearman_rho": 0.9981,
+      "spearman_p": 1.1966404160227219e-59,
+      "kendall_tau": 0.9771,
+      "kendall_p": 1.3399632257347788e-23
+    },
+    "cutoff_0.45_vs_0.55": {
+      "spearman_rho": 0.9901,
+      "spearman_p": 1.3274359502133252e-42,
+      "kendall_tau": 0.9331,
+      "kendall_p": 1.1658776887425809e-21
+    },
+    "cutoff_0.5_vs_0.55": {
+      "spearman_rho": 0.9947,
+      "spearman_p": 4.034642474204381e-49,
+      "kendall_tau": 0.9527,
+      "kendall_p": 1.6423212707290774e-22
+    }
+  },
+  "cutoff_means": {
+    "0.35": 0.6785,
+    "0.4": 0.582,
+    "0.45": 0.4778,
+    "0.5": 0.3742,
+    "0.55": 0.2798
+  },
+  "cutoff_stds": {
+    "0.35": 0.0786,
+    "0.4": 0.0866,
+    "0.45": 0.0904,
+    "0.5": 0.0861,
+    "0.55": 0.0744
+  },
+  "windowing_sensitivity_50_images": {
+    "hann_minus_rectangular_mean": -0.00809,
+    "hann_minus_rectangular_std": 0.04135,
+    "blackman_minus_rectangular_mean": -0.00832,
+    "blackman_minus_rectangular_std": 0.04907
+  },
+  "encoding_grid_origin_verification": {
+    "origin_pixel": "(0, 0) top-left",
+    "block_dimensions": "8x8 pixels",
+    "verified_boundary_step_at_index_7": true,
+    "step_ratio": 25500000.0
+  }
+}

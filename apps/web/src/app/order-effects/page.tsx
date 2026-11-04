@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import MatchedFidelityView from "@/components/MatchedFidelityView";
 import { 
   GitFork, 
   ShieldCheck, 
@@ -144,6 +145,7 @@ interface OrderEffectsPayload {
 }
 
 export default function OrderEffectsPage() {
+  const [activeStudyTab, setActiveStudyTab] = useState<"historical_nominal" | "matched_fidelity">("matched_fidelity");
   const [data, setData] = useState<OrderEffectsPayload | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedModel, setSelectedModel] = useState<string>("all");
@@ -206,9 +208,37 @@ export default function OrderEffectsPage() {
           (<code className="text-primary font-mono font-semibold">Noise</code>, <code className="text-primary font-mono font-semibold">Blur</code>, <code className="text-primary font-mono font-semibold">JPEG</code>) 
           alters classification failure and calibration under compound distribution shift.
         </p>
+
+        {/* Research Paradigm Tabs */}
+        <div className="flex flex-wrap gap-3 mt-2">
+          <button
+            onClick={() => setActiveStudyTab("matched_fidelity")}
+            className={`px-5 py-2.5 rounded-2xl font-bold text-sm transition-all border ${
+              activeStudyTab === "matched_fidelity"
+                ? "bg-primary text-primary-foreground border-primary shadow-md"
+                : "bg-card text-muted-foreground border-border/60 hover:text-foreground"
+            }`}
+          >
+            Matched-Fidelity Common-Support Protocol (New Study)
+          </button>
+          <button
+            onClick={() => setActiveStudyTab("historical_nominal")}
+            className={`px-5 py-2.5 rounded-2xl font-bold text-sm transition-all border ${
+              activeStudyTab === "historical_nominal"
+                ? "bg-primary text-primary-foreground border-primary shadow-md"
+                : "bg-card text-muted-foreground border-border/60 hover:text-foreground"
+            }`}
+          >
+            Historical Nominal Benchmark (Accuracy & Churn)
+          </button>
+        </div>
       </div>
 
-      {/* Scope & Distinction Notice */}
+      {activeStudyTab === "matched_fidelity" ? (
+        <MatchedFidelityView />
+      ) : (
+        <>
+          {/* Scope & Distinction Notice */}
       <div className="p-6 rounded-3xl bg-amber-500/5 border border-amber-500/20 text-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-start gap-3">
           <Info className="w-5 h-5 shrink-0 mt-0.5 text-amber-500" />
@@ -904,6 +934,8 @@ export default function OrderEffectsPage() {
           </div>
         </div>
       </div>
+      </>
+      )}
     </main>
   );
 }

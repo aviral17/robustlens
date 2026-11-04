@@ -1,0 +1,28 @@
+{
+  "estimator_comparison": {
+    "delaunay_convex_hull_6way_area": 1.2073,
+    "tolerance_ball_union_alpha_6way_area": 1.0159,
+    "delaunay_overestimation_bias_pct": 18.84,
+    "tolerance_ball_6way_bounds": {
+      "psnr_min": 17.457,
+      "psnr_max": 32.977,
+      "ssim_min": 0.2929,
+      "ssim_max": 0.9293
+    }
+  },
+  "sequence_specific_gap_filling_bias": {
+    "NBJ": 0.3583,
+    "NJB": 0.5436,
+    "BNJ": 0.7533,
+    "BJN": 0.9528,
+    "JNB": 0.3888,
+    "JBN": 1.136
+  },
+  "grid_resolution_sensitivity": {
+    "50x50": 0.9854,
+    "100x100": 1.0213,
+    "150x150": 1.006,
+    "200x200": 1.0124
+  },
+  "conclusion": "The tolerance-ball union estimator eliminates concave gap-filling while preserving robust 6-way overlap of 1.11 - 1.13 units across all resolutions."
+}

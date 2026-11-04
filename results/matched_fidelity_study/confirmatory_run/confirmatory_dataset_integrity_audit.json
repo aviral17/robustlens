@@ -1,0 +1,41 @@
+{
+  "status": "PASS",
+  "total_records": 275400,
+  "unique_images": 3825,
+  "conditions_per_image": 18,
+  "models_evaluated": [
+    "convnext_tiny",
+    "resnet50",
+    "swin_tiny",
+    "vit_base"
+  ],
+  "missing_values": 0,
+  "duplicates": 0,
+  "pilot_leakage_count": 0,
+  "checksums": {
+    "confirmatory_execution.log": {
+      "bytes": 12110,
+      "sha256": "5f76232dcb1f851d281002a1559564daaef626a4cd1a9f156df8b873430bcddd"
+    },
+    "confirmatory_execution_manifest.json": {
+      "bytes": 529,
+      "sha256": "8757b55bce6da8c169deff0a3ed2fc63acb0176734fd91ae84d4fe55a8685e96"
+    },
+    "confirmatory_grouped_cv_diagnostics.json": {
+      "bytes": 3253,
+      "sha256": "e75b8f346670f53dd26d00f289827f26e2a7ea97e27dfe7fc6f012a00ed46fee"
+    },
+    "confirmatory_grouped_cv_results.csv": {
+      "bytes": 1024,
+      "sha256": "c3b1ddb227ec95d33ecacbb572610f248c3d101e2c74bce624c5f0a650353d50"
+    },
+    "full_distortion_fingerprints_and_margins.csv.gz": {
+      "bytes": 6405062,
+      "sha256": "22de9a8c74804e424ad7e34dcff3388fed34261e33454e53efdb47adcef58eb6"
+    },
+    "robustlens-distortion-fingerprints-confirmatory.log": {
+      "bytes": 12110,
+      "sha256": "5f76232dcb1f851d281002a1559564daaef626a4cd1a9f156df8b873430bcddd"
+    }
+  }
+}

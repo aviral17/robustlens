@@ -1,0 +1,703 @@
+{
+  "analysis": "Empirical Grid-Sampled Achievable Region & Overlap Analysis",
+  "total_union_area": 4.234,
+  "joint_6way_overlap_area": 1.204,
+  "joint_6way_coverage_fraction": 0.2844,
+  "joint_6way_bounds": {
+    "psnr_overlap_min": 17.5,
+    "psnr_overlap_max": 32.3,
+    "ssim_overlap_min": 0.335,
+    "ssim_overlap_max": 0.895
+  },
+  "sequence_achievable_regions": {
+    "NBJ": {
+      "final_op": "JPEG",
+      "psnr_min": 17.085,
+      "psnr_max": 34.532,
+      "psnr_range": 17.447,
+      "ssim_min": 0.3155,
+      "ssim_max": 0.9581,
+      "ssim_range": 0.6426,
+      "achievable_area_units": 1.808
+    },
+    "NJB": {
+      "final_op": "Blur",
+      "psnr_min": 17.175,
+      "psnr_max": 35.14,
+      "psnr_range": 17.964,
+      "ssim_min": 0.3207,
+      "ssim_max": 0.9633,
+      "ssim_range": 0.6426,
+      "achievable_area_units": 2.05
+    },
+    "BNJ": {
+      "final_op": "JPEG",
+      "psnr_min": 12.961,
+      "psnr_max": 34.12,
+      "psnr_range": 21.159,
+      "ssim_min": 0.0723,
+      "ssim_max": 0.948,
+      "ssim_range": 0.8757,
+      "achievable_area_units": 3.436
+    },
+    "BJN": {
+      "final_op": "Noise",
+      "psnr_min": 10.776,
+      "psnr_max": 32.543,
+      "psnr_range": 21.767,
+      "ssim_min": 0.0482,
+      "ssim_max": 0.9037,
+      "ssim_range": 0.8554,
+      "achievable_area_units": 3.304
+    },
+    "JNB": {
+      "final_op": "Blur",
+      "psnr_min": 14.853,
+      "psnr_max": 34.403,
+      "psnr_range": 19.55,
+      "ssim_min": 0.2094,
+      "ssim_max": 0.9463,
+      "ssim_range": 0.7369,
+      "achievable_area_units": 2.276
+    },
+    "JBN": {
+      "final_op": "Noise",
+      "psnr_min": 10.788,
+      "psnr_max": 33.007,
+      "psnr_range": 22.219,
+      "ssim_min": 0.0486,
+      "ssim_max": 0.9102,
+      "ssim_range": 0.8616,
+      "achievable_area_units": 3.476
+    }
+  },
+  "pairwise_overlaps_15": {
+    "NBJ_vs_NJB": {
+      "sequence_1": "NBJ",
+      "final_op_1": "JPEG",
+      "sequence_2": "NJB",
+      "final_op_2": "Blur",
+      "same_final_op": false,
+      "overlap_area": 1.804,
+      "jaccard_overlap_index": 0.8783,
+      "overlap_bounds": {
+        "psnr_min": 17.5,
+        "psnr_max": 34.3,
+        "ssim_min": 0.335,
+        "ssim_max": 0.955
+      }
+    },
+    "NBJ_vs_BNJ": {
+      "sequence_1": "NBJ",
+      "final_op_1": "JPEG",
+      "sequence_2": "BNJ",
+      "final_op_2": "JPEG",
+      "same_final_op": true,
+      "overlap_area": 1.578,
+      "jaccard_overlap_index": 0.4304,
+      "overlap_bounds": {
+        "psnr_min": 17.3,
+        "psnr_max": 33.9,
+        "ssim_min": 0.325,
+        "ssim_max": 0.945
+      }
+    },
+    "NBJ_vs_BJN": {
+      "sequence_1": "NBJ",
+      "final_op_1": "JPEG",
+      "sequence_2": "BJN",
+      "final_op_2": "Noise",
+      "same_final_op": false,
+      "overlap_area": 1.232,
+      "jaccard_overlap_index": 0.3175,
+      "overlap_bounds": {
+        "psnr_min": 17.3,
+        "psnr_max": 32.3,
+        "ssim_min": 0.325,
+        "ssim_max": 0.895
+      }
+    },
+    "NBJ_vs_JNB": {
+      "sequence_1": "NBJ",
+      "final_op_1": "JPEG",
+      "sequence_2": "JNB",
+      "final_op_2": "Blur",
+      "same_final_op": false,
+      "overlap_area": 1.768,
+      "jaccard_overlap_index": 0.7634,
+      "overlap_bounds": {
+        "psnr_min": 17.3,
+        "psnr_max": 33.9,
+        "ssim_min": 0.325,
+        "ssim_max": 0.935
+      }
+    },
+    "NBJ_vs_JBN": {
+      "sequence_1": "NBJ",
+      "final_op_1": "JPEG",
+      "sequence_2": "JBN",
+      "final_op_2": "Noise",
+      "same_final_op": false,
+      "overlap_area": 1.298,
+      "jaccard_overlap_index": 0.3256,
+      "overlap_bounds": {
+        "psnr_min": 17.3,
+        "psnr_max": 32.7,
+        "ssim_min": 0.325,
+        "ssim_max": 0.905
+      }
+    },
+    "NJB_vs_BNJ": {
+      "sequence_1": "NJB",
+      "final_op_1": "Blur",
+      "sequence_2": "BNJ",
+      "final_op_2": "JPEG",
+      "same_final_op": false,
+      "overlap_area": 1.68,
+      "jaccard_overlap_index": 0.4414,
+      "overlap_bounds": {
+        "psnr_min": 17.5,
+        "psnr_max": 33.9,
+        "ssim_min": 0.335,
+        "ssim_max": 0.945
+      }
+    },
+    "NJB_vs_BJN": {
+      "sequence_1": "NJB",
+      "final_op_1": "Blur",
+      "sequence_2": "BJN",
+      "final_op_2": "Noise",
+      "same_final_op": false,
+      "overlap_area": 1.306,
+      "jaccard_overlap_index": 0.3226,
+      "overlap_bounds": {
+        "psnr_min": 17.5,
+        "psnr_max": 32.3,
+        "ssim_min": 0.335,
+        "ssim_max": 0.895
+      }
+    },
+    "NJB_vs_JNB": {
+      "sequence_1": "NJB",
+      "final_op_1": "Blur",
+      "sequence_2": "JNB",
+      "final_op_2": "Blur",
+      "same_final_op": true,
+      "overlap_area": 1.912,
+      "jaccard_overlap_index": 0.792,
+      "overlap_bounds": {
+        "psnr_min": 17.5,
+        "psnr_max": 34.3,
+        "ssim_min": 0.335,
+        "ssim_max": 0.945
+      }
+    },
+    "NJB_vs_JBN": {
+      "sequence_1": "NJB",
+      "final_op_1": "Blur",
+      "sequence_2": "JBN",
+      "final_op_2": "Noise",
+      "same_final_op": false,
+      "overlap_area": 1.382,
+      "jaccard_overlap_index": 0.3335,
+      "overlap_bounds": {
+        "psnr_min": 17.5,
+        "psnr_max": 32.7,
+        "ssim_min": 0.335,
+        "ssim_max": 0.905
+      }
+    },
+    "BNJ_vs_BJN": {
+      "sequence_1": "BNJ",
+      "final_op_1": "JPEG",
+      "sequence_2": "BJN",
+      "final_op_2": "Noise",
+      "same_final_op": false,
+      "overlap_area": 2.862,
+      "jaccard_overlap_index": 0.738,
+      "overlap_bounds": {
+        "psnr_min": 13.1,
+        "psnr_max": 32.3,
+        "ssim_min": 0.075,
+        "ssim_max": 0.895
+      }
+    },
+    "BNJ_vs_JNB": {
+      "sequence_1": "BNJ",
+      "final_op_1": "JPEG",
+      "sequence_2": "JNB",
+      "final_op_2": "Blur",
+      "same_final_op": false,
+      "overlap_area": 1.982,
+      "jaccard_overlap_index": 0.5314,
+      "overlap_bounds": {
+        "psnr_min": 15.1,
+        "psnr_max": 33.7,
+        "ssim_min": 0.225,
+        "ssim_max": 0.935
+      }
+    },
+    "BNJ_vs_JBN": {
+      "sequence_1": "BNJ",
+      "final_op_1": "JPEG",
+      "sequence_2": "JBN",
+      "final_op_2": "Noise",
+      "same_final_op": false,
+      "overlap_area": 3.014,
+      "jaccard_overlap_index": 0.7732,
+      "overlap_bounds": {
+        "psnr_min": 13.1,
+        "psnr_max": 32.7,
+        "ssim_min": 0.075,
+        "ssim_max": 0.905
+      }
+    },
+    "BJN_vs_JNB": {
+      "sequence_1": "BJN",
+      "final_op_1": "Noise",
+      "sequence_2": "JNB",
+      "final_op_2": "Blur",
+      "same_final_op": false,
+      "overlap_area": 1.66,
+      "jaccard_overlap_index": 0.4235,
+      "overlap_bounds": {
+        "psnr_min": 15.1,
+        "psnr_max": 32.3,
+        "ssim_min": 0.225,
+        "ssim_max": 0.895
+      }
+    },
+    "BJN_vs_JBN": {
+      "sequence_1": "BJN",
+      "final_op_1": "Noise",
+      "sequence_2": "JBN",
+      "final_op_2": "Noise",
+      "same_final_op": true,
+      "overlap_area": 3.304,
+      "jaccard_overlap_index": 0.9505,
+      "overlap_bounds": {
+        "psnr_min": 10.9,
+        "psnr_max": 32.3,
+        "ssim_min": 0.055,
+        "ssim_max": 0.895
+      }
+    },
+    "JNB_vs_JBN": {
+      "sequence_1": "JNB",
+      "final_op_1": "Blur",
+      "sequence_2": "JBN",
+      "final_op_2": "Noise",
+      "same_final_op": false,
+      "overlap_area": 1.74,
+      "jaccard_overlap_index": 0.4337,
+      "overlap_bounds": {
+        "psnr_min": 15.1,
+        "psnr_max": 32.7,
+        "ssim_min": 0.225,
+        "ssim_max": 0.905
+      }
+    }
+  },
+  "closest_points_for_targets": {
+    "target_1": {
+      "target_name": "Target 1 (Mild)",
+      "target_psnr": 28.0,
+      "target_ssim": 0.85,
+      "attainable_sequences_count": 5,
+      "sequences": {
+        "NBJ": {
+          "final_op": "JPEG",
+          "noise_std": 0.015,
+          "blur_sigma": 0.5,
+          "jpeg_quality": 20,
+          "achieved_psnr": 28.099,
+          "psnr_error": 0.099,
+          "achieved_ssim": 0.8515,
+          "ssim_error": 0.0015,
+          "normalized_distance": 0.139,
+          "within_prespecified_tolerance": true
+        },
+        "NJB": {
+          "final_op": "Blur",
+          "noise_std": 0.035,
+          "blur_sigma": 1.0,
+          "jpeg_quality": 55,
+          "achieved_psnr": 27.904,
+          "psnr_error": -0.096,
+          "achieved_ssim": 0.8596,
+          "ssim_error": 0.0096,
+          "normalized_distance": 0.303,
+          "within_prespecified_tolerance": true
+        },
+        "BNJ": {
+          "final_op": "JPEG",
+          "noise_std": 0.015,
+          "blur_sigma": 0.5,
+          "jpeg_quality": 20,
+          "achieved_psnr": 28.089,
+          "psnr_error": 0.089,
+          "achieved_ssim": 0.8511,
+          "ssim_error": 0.0011,
+          "normalized_distance": 0.122,
+          "within_prespecified_tolerance": true
+        },
+        "BJN": {
+          "final_op": "Noise",
+          "noise_std": 0.015,
+          "blur_sigma": 1.0,
+          "jpeg_quality": 90,
+          "achieved_psnr": 27.675,
+          "psnr_error": -0.325,
+          "achieved_ssim": 0.8147,
+          "ssim_error": -0.0353,
+          "normalized_distance": 1.098,
+          "within_prespecified_tolerance": false
+        },
+        "JNB": {
+          "final_op": "Blur",
+          "noise_std": 0.035,
+          "blur_sigma": 1.0,
+          "jpeg_quality": 75,
+          "achieved_psnr": 28.011,
+          "psnr_error": 0.011,
+          "achieved_ssim": 0.8554,
+          "ssim_error": 0.0054,
+          "normalized_distance": 0.154,
+          "within_prespecified_tolerance": true
+        },
+        "JBN": {
+          "final_op": "Noise",
+          "noise_std": 0.015,
+          "blur_sigma": 1.0,
+          "jpeg_quality": 90,
+          "achieved_psnr": 27.851,
+          "psnr_error": -0.149,
+          "achieved_ssim": 0.8226,
+          "ssim_error": -0.0274,
+          "normalized_distance": 0.809,
+          "within_prespecified_tolerance": true
+        }
+      }
+    },
+    "target_2": {
+      "target_name": "Target 2 (Mod-Mild)",
+      "target_psnr": 24.5,
+      "target_ssim": 0.74,
+      "attainable_sequences_count": 4,
+      "sequences": {
+        "NBJ": {
+          "final_op": "JPEG",
+          "noise_std": 0.015,
+          "blur_sigma": 1.8,
+          "jpeg_quality": 55,
+          "achieved_psnr": 24.641,
+          "psnr_error": 0.141,
+          "achieved_ssim": 0.7332,
+          "ssim_error": -0.0068,
+          "normalized_distance": 0.271,
+          "within_prespecified_tolerance": true
+        },
+        "NJB": {
+          "final_op": "Blur",
+          "noise_std": 0.015,
+          "blur_sigma": 1.8,
+          "jpeg_quality": 20,
+          "achieved_psnr": 24.479,
+          "psnr_error": -0.021,
+          "achieved_ssim": 0.7334,
+          "ssim_error": -0.0066,
+          "normalized_distance": 0.191,
+          "within_prespecified_tolerance": true
+        },
+        "BNJ": {
+          "final_op": "JPEG",
+          "noise_std": 0.015,
+          "blur_sigma": 1.8,
+          "jpeg_quality": 55,
+          "achieved_psnr": 24.625,
+          "psnr_error": 0.125,
+          "achieved_ssim": 0.7307,
+          "ssim_error": -0.0093,
+          "normalized_distance": 0.313,
+          "within_prespecified_tolerance": true
+        },
+        "BJN": {
+          "final_op": "Noise",
+          "noise_std": 0.015,
+          "blur_sigma": 0.5,
+          "jpeg_quality": 10,
+          "achieved_psnr": 25.375,
+          "psnr_error": 0.875,
+          "achieved_ssim": 0.7309,
+          "ssim_error": -0.0091,
+          "normalized_distance": 1.195,
+          "within_prespecified_tolerance": false
+        },
+        "JNB": {
+          "final_op": "Blur",
+          "noise_std": 0.035,
+          "blur_sigma": 1.8,
+          "jpeg_quality": 35,
+          "achieved_psnr": 24.641,
+          "psnr_error": 0.141,
+          "achieved_ssim": 0.7376,
+          "ssim_error": -0.0024,
+          "normalized_distance": 0.2,
+          "within_prespecified_tolerance": true
+        },
+        "JBN": {
+          "final_op": "Noise",
+          "noise_std": 0.015,
+          "blur_sigma": 1.0,
+          "jpeg_quality": 10,
+          "achieved_psnr": 25.321,
+          "psnr_error": 0.821,
+          "achieved_ssim": 0.7346,
+          "ssim_error": -0.0054,
+          "normalized_distance": 1.106,
+          "within_prespecified_tolerance": false
+        }
+      }
+    },
+    "target_3": {
+      "target_name": "Target 3 (Moderate)",
+      "target_psnr": 21.5,
+      "target_ssim": 0.62,
+      "attainable_sequences_count": 4,
+      "sequences": {
+        "NBJ": {
+          "final_op": "JPEG",
+          "noise_std": 0.2,
+          "blur_sigma": 2.8,
+          "jpeg_quality": 90,
+          "achieved_psnr": 21.835,
+          "psnr_error": 0.335,
+          "achieved_ssim": 0.5952,
+          "ssim_error": -0.0248,
+          "normalized_distance": 0.838,
+          "within_prespecified_tolerance": true
+        },
+        "NJB": {
+          "final_op": "Blur",
+          "noise_std": 0.2,
+          "blur_sigma": 2.8,
+          "jpeg_quality": 90,
+          "achieved_psnr": 21.758,
+          "psnr_error": 0.258,
+          "achieved_ssim": 0.5955,
+          "ssim_error": -0.0245,
+          "normalized_distance": 0.78,
+          "within_prespecified_tolerance": true
+        },
+        "BNJ": {
+          "final_op": "JPEG",
+          "noise_std": 0.015,
+          "blur_sigma": 2.8,
+          "jpeg_quality": 10,
+          "achieved_psnr": 22.061,
+          "psnr_error": 0.561,
+          "achieved_ssim": 0.588,
+          "ssim_error": -0.032,
+          "normalized_distance": 1.182,
+          "within_prespecified_tolerance": true
+        },
+        "BJN": {
+          "final_op": "Noise",
+          "noise_std": 0.015,
+          "blur_sigma": 2.8,
+          "jpeg_quality": 35,
+          "achieved_psnr": 22.597,
+          "psnr_error": 1.097,
+          "achieved_ssim": 0.5812,
+          "ssim_error": -0.0388,
+          "normalized_distance": 1.835,
+          "within_prespecified_tolerance": false
+        },
+        "JNB": {
+          "final_op": "Blur",
+          "noise_std": 0.12,
+          "blur_sigma": 2.8,
+          "jpeg_quality": 10,
+          "achieved_psnr": 22.125,
+          "psnr_error": 0.625,
+          "achieved_ssim": 0.6084,
+          "ssim_error": -0.0116,
+          "normalized_distance": 0.898,
+          "within_prespecified_tolerance": true
+        },
+        "JBN": {
+          "final_op": "Noise",
+          "noise_std": 0.015,
+          "blur_sigma": 2.8,
+          "jpeg_quality": 10,
+          "achieved_psnr": 22.301,
+          "psnr_error": 0.801,
+          "achieved_ssim": 0.5768,
+          "ssim_error": -0.0432,
+          "normalized_distance": 1.631,
+          "within_prespecified_tolerance": false
+        }
+      }
+    },
+    "target_4": {
+      "target_name": "Target 4 (Mod-Severe)",
+      "target_psnr": 18.5,
+      "target_ssim": 0.48,
+      "attainable_sequences_count": 3,
+      "sequences": {
+        "NBJ": {
+          "final_op": "JPEG",
+          "noise_std": 0.32,
+          "blur_sigma": 5.5,
+          "jpeg_quality": 90,
+          "achieved_psnr": 18.825,
+          "psnr_error": 0.325,
+          "achieved_ssim": 0.4756,
+          "ssim_error": -0.0044,
+          "normalized_distance": 0.452,
+          "within_prespecified_tolerance": true
+        },
+        "NJB": {
+          "final_op": "Blur",
+          "noise_std": 0.32,
+          "blur_sigma": 5.5,
+          "jpeg_quality": 35,
+          "achieved_psnr": 18.618,
+          "psnr_error": 0.118,
+          "achieved_ssim": 0.4744,
+          "ssim_error": -0.0056,
+          "normalized_distance": 0.224,
+          "within_prespecified_tolerance": true
+        },
+        "BNJ": {
+          "final_op": "JPEG",
+          "noise_std": 0.07,
+          "blur_sigma": 5.5,
+          "jpeg_quality": 10,
+          "achieved_psnr": 19.873,
+          "psnr_error": 1.373,
+          "achieved_ssim": 0.4604,
+          "ssim_error": -0.0196,
+          "normalized_distance": 1.915,
+          "within_prespecified_tolerance": false
+        },
+        "BJN": {
+          "final_op": "Noise",
+          "noise_std": 0.015,
+          "blur_sigma": 5.5,
+          "jpeg_quality": 10,
+          "achieved_psnr": 19.834,
+          "psnr_error": 1.334,
+          "achieved_ssim": 0.4333,
+          "ssim_error": -0.0467,
+          "normalized_distance": 2.223,
+          "within_prespecified_tolerance": false
+        },
+        "JNB": {
+          "final_op": "Blur",
+          "noise_std": 0.32,
+          "blur_sigma": 5.5,
+          "jpeg_quality": 10,
+          "achieved_psnr": 18.71,
+          "psnr_error": 0.21,
+          "achieved_ssim": 0.4732,
+          "ssim_error": -0.0068,
+          "normalized_distance": 0.341,
+          "within_prespecified_tolerance": true
+        },
+        "JBN": {
+          "final_op": "Noise",
+          "noise_std": 0.015,
+          "blur_sigma": 5.5,
+          "jpeg_quality": 10,
+          "achieved_psnr": 20.079,
+          "psnr_error": 1.579,
+          "achieved_ssim": 0.4586,
+          "ssim_error": -0.0214,
+          "normalized_distance": 2.192,
+          "within_prespecified_tolerance": false
+        }
+      }
+    },
+    "target_5": {
+      "target_name": "Target 5 (Severe)",
+      "target_psnr": 16.0,
+      "target_ssim": 0.36,
+      "attainable_sequences_count": 0,
+      "sequences": {
+        "NBJ": {
+          "final_op": "JPEG",
+          "noise_std": 0.32,
+          "blur_sigma": 0.5,
+          "jpeg_quality": 75,
+          "achieved_psnr": 17.085,
+          "psnr_error": 1.085,
+          "achieved_ssim": 0.3155,
+          "ssim_error": -0.0445,
+          "normalized_distance": 1.925,
+          "within_prespecified_tolerance": false
+        },
+        "NJB": {
+          "final_op": "Blur",
+          "noise_std": 0.32,
+          "blur_sigma": 0.5,
+          "jpeg_quality": 75,
+          "achieved_psnr": 17.175,
+          "psnr_error": 1.175,
+          "achieved_ssim": 0.3207,
+          "ssim_error": -0.0393,
+          "normalized_distance": 1.928,
+          "within_prespecified_tolerance": false
+        },
+        "BNJ": {
+          "final_op": "JPEG",
+          "noise_std": 0.32,
+          "blur_sigma": 0.5,
+          "jpeg_quality": 10,
+          "achieved_psnr": 16.761,
+          "psnr_error": 0.761,
+          "achieved_ssim": 0.305,
+          "ssim_error": -0.055,
+          "normalized_distance": 1.871,
+          "within_prespecified_tolerance": false
+        },
+        "BJN": {
+          "final_op": "Noise",
+          "noise_std": 0.12,
+          "blur_sigma": 0.5,
+          "jpeg_quality": 10,
+          "achieved_psnr": 18.029,
+          "psnr_error": 2.029,
+          "achieved_ssim": 0.3141,
+          "ssim_error": -0.0459,
+          "normalized_distance": 3.007,
+          "within_prespecified_tolerance": false
+        },
+        "JNB": {
+          "final_op": "Blur",
+          "noise_std": 0.2,
+          "blur_sigma": 0.5,
+          "jpeg_quality": 10,
+          "achieved_psnr": 17.887,
+          "psnr_error": 1.887,
+          "achieved_ssim": 0.315,
+          "ssim_error": -0.045,
+          "normalized_distance": 2.826,
+          "within_prespecified_tolerance": false
+        },
+        "JBN": {
+          "final_op": "Noise",
+          "noise_std": 0.12,
+          "blur_sigma": 0.5,
+          "jpeg_quality": 10,
+          "achieved_psnr": 18.117,
+          "psnr_error": 2.117,
+          "achieved_ssim": 0.3215,
+          "ssim_error": -0.0385,
+          "normalized_distance": 3.029,
+          "within_prespecified_tolerance": false
+        }
+      }
+    }
+  }
+}

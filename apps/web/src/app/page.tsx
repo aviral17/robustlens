@@ -7,34 +7,34 @@ import TryDemo from "@/components/TryDemo";
 
 const features = [
   {
-    title: "Compound Order Effects",
-    description: "Evaluating all 3! = 6 permutations under nominal and matched-fidelity regimes across 973,400 forward passes.",
+    title: "Matched-Fidelity Common Support",
+    description: "Equating PSNR & SSIM across all 6 compound permutations (27.20/0.810, 23.80/0.650, 21.80/0.500) to isolate physical degradation from low-level fidelity differences.",
     icon: <Shuffle className="h-6 w-6 text-blue-500" />,
   },
   {
-    title: "5-State Prediction Churn",
-    description: "Decomposing model volatility into correctness churn (16.93%) and hidden error migration (23.85%).",
-    icon: <Activity className="h-6 w-6 text-violet-500" />,
-  },
-  {
-    title: "Saturated Decomposition",
-    description: "Full-rank orthogonal linear parameterization (det(X) = -6) isolating operator positions and parity contrasts.",
+    title: "Continuous Distortion Fingerprints",
+    description: "5 physical metrics (Fourier low/high, JPEG block boundary, Sobel edge energy, local SSIM) explain incremental out-of-sample margin variance across all 4 models.",
     icon: <Layers className="h-6 w-6 text-emerald-500" />,
   },
   {
-    title: "Clustered Bootstrap CIs",
-    description: "B = 5,000 image-level clustered resampling iterations on N = 3,925 physical image clusters.",
+    title: "Independent External Replication",
+    description: "Evaluating generalizability on ImageNet-V2 (N = 300, 22,800 passes). ViT-Base achieves statistically significant pooled external gain (p_adj = 0.0340).",
+    icon: <ShieldCheck className="h-6 w-6 text-violet-500" />,
+  },
+  {
+    title: "Grouped-CV & Cluster Bootstrap",
+    description: "B = 10,000 image-cluster paired bootstrap iterations strictly grouped by physical image cluster to prevent pseudo-replication leakage.",
     icon: <BarChart className="h-6 w-6 text-cyan-500" />,
   },
   {
     title: "Uncertainty Calibration",
-    description: "10-bin Expected Calibration Error (ECE), reliability diagrams, and post-hoc temperature scaling under shift.",
+    description: "10-bin Expected Calibration Error (ECE) and reliability diagrams testing whether model softmax probabilities reflect true empirical correctness under shift.",
     icon: <Zap className="h-6 w-6 text-amber-500" />,
   },
   {
-    title: "Conformal Sets & Guarantees",
-    description: "Distribution-free split conformal prediction and empirical testing of the exchangeability boundary.",
-    icon: <ShieldCheck className="h-6 w-6 text-rose-500" />,
+    title: "5-State Prediction Churn",
+    description: "Decomposing model volatility under compound sequences into correctness churn and hidden error migration across vision backbones.",
+    icon: <Activity className="h-6 w-6 text-rose-500" />,
   },
 ];
 
@@ -76,20 +76,20 @@ export default function HomePage() {
           {/* Quick Metric Badges */}
           <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl mx-auto w-full text-left">
             <div className="p-3.5 rounded-2xl bg-card/80 border border-border/50 flex flex-col gap-0.5 backdrop-blur-sm">
-              <span className="text-xl sm:text-2xl font-extrabold text-blue-500">973,400</span>
-              <span className="text-[11px] sm:text-xs text-muted-foreground font-medium">Forward Passes</span>
+              <span className="text-xl sm:text-2xl font-extrabold text-blue-500">313,500</span>
+              <span className="text-[11px] sm:text-xs text-muted-foreground font-medium">Forward Passes (Combined)</span>
             </div>
             <div className="p-3.5 rounded-2xl bg-card/80 border border-border/50 flex flex-col gap-0.5 backdrop-blur-sm">
-              <span className="text-xl sm:text-2xl font-extrabold text-violet-500">3,925</span>
-              <span className="text-[11px] sm:text-xs text-muted-foreground font-medium">Validation Images</span>
+              <span className="text-xl sm:text-2xl font-extrabold text-violet-500">3,825</span>
+              <span className="text-[11px] sm:text-xs text-muted-foreground font-medium">Confirmatory Images (19 Cond.)</span>
             </div>
             <div className="p-3.5 rounded-2xl bg-card/80 border border-border/50 flex flex-col gap-0.5 backdrop-blur-sm">
-              <span className="text-xl sm:text-2xl font-extrabold text-emerald-500">63.18%</span>
-              <span className="text-[11px] sm:text-xs text-muted-foreground font-medium">Range Contraction</span>
+              <span className="text-xl sm:text-2xl font-extrabold text-emerald-500">300</span>
+              <span className="text-[11px] sm:text-xs text-muted-foreground font-medium">ImageNet-V2 External Replic.</span>
             </div>
             <div className="p-3.5 rounded-2xl bg-card/80 border border-border/50 flex flex-col gap-0.5 backdrop-blur-sm">
-              <span className="text-xl sm:text-2xl font-extrabold text-amber-500">40.78%</span>
-              <span className="text-[11px] sm:text-xs text-muted-foreground font-medium">Label Churn</span>
+              <span className="text-xl sm:text-2xl font-extrabold text-amber-500">4</span>
+              <span className="text-[11px] sm:text-xs text-muted-foreground font-medium">Canonical Architectures</span>
             </div>
           </div>
         </motion.div>

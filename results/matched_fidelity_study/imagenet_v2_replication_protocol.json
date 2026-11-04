@@ -1,0 +1,140 @@
+{
+  "replication_study_name": "ImageNet-V2 External Counterfactual Replication",
+  "citation": "Recht et al., 'Do ImageNet Classifiers Generalize to ImageNet?' ICML 2019",
+  "objective": "Verify transfer of structural fingerprint explanatory power to independently collected natural photographs without parameter retuning.",
+  "scientific_interpretation": "Treated as an independently collected external replication of natural images, evaluating generalization beyond the original Flickr collection pipeline of ILSVRC2012. It is NOT claimed to be universal out-of-distribution validation, as images still depict the same 10 ImageNet visual concepts.",
+  "calibration_status": "Strictly frozen. Zero recalibration or parameter retuning on ImageNet-V2. All 18 corruption settings applied identically.",
+  "sample_sizes_by_variant": {
+    "MatchedFrequency": {
+      "description": "Matches ImageNet validation set frequency distribution across candidate selection pools",
+      "sample_size_per_class": 10,
+      "total_classes": 10,
+      "total_images": 100,
+      "archive_url": "https://imagenetv2public.s3-us-west-2.amazonaws.com/imagenetv2-matched-frequency.tar.gz"
+    },
+    "Threshold0.7": {
+      "description": "Selects images where MTurk worker consensus >= 0.70",
+      "sample_size_per_class": 10,
+      "total_classes": 10,
+      "total_images": 100,
+      "archive_url": "https://imagenetv2public.s3-us-west-2.amazonaws.com/imagenetv2-threshold-0.7.tar.gz"
+    },
+    "TopImages": {
+      "description": "Selects top 10 images with highest worker agreement per class",
+      "sample_size_per_class": 10,
+      "total_classes": 10,
+      "total_images": 100,
+      "archive_url": "https://imagenetv2public.s3-us-west-2.amazonaws.com/imagenetv2-top-images.tar.gz"
+    }
+  },
+  "classes": [
+    {
+      "imagenette_class_id": 0,
+      "wordnet_id": "n01440764",
+      "class_name": "tench",
+      "imagenet_1k_index": 0,
+      "matched_frequency_n": 10,
+      "threshold_07_n": 10,
+      "top_images_n": 10,
+      "total_samples_all_variants": 30
+    },
+    {
+      "imagenette_class_id": 1,
+      "wordnet_id": "n02102040",
+      "class_name": "English springer",
+      "imagenet_1k_index": 217,
+      "matched_frequency_n": 10,
+      "threshold_07_n": 10,
+      "top_images_n": 10,
+      "total_samples_all_variants": 30
+    },
+    {
+      "imagenette_class_id": 2,
+      "wordnet_id": "n02979186",
+      "class_name": "cassette player",
+      "imagenet_1k_index": 482,
+      "matched_frequency_n": 10,
+      "threshold_07_n": 10,
+      "top_images_n": 10,
+      "total_samples_all_variants": 30
+    },
+    {
+      "imagenette_class_id": 3,
+      "wordnet_id": "n03000684",
+      "class_name": "chain saw",
+      "imagenet_1k_index": 491,
+      "matched_frequency_n": 10,
+      "threshold_07_n": 10,
+      "top_images_n": 10,
+      "total_samples_all_variants": 30
+    },
+    {
+      "imagenette_class_id": 4,
+      "wordnet_id": "n03028079",
+      "class_name": "church",
+      "imagenet_1k_index": 497,
+      "matched_frequency_n": 10,
+      "threshold_07_n": 10,
+      "top_images_n": 10,
+      "total_samples_all_variants": 30
+    },
+    {
+      "imagenette_class_id": 5,
+      "wordnet_id": "n03394916",
+      "class_name": "French horn",
+      "imagenet_1k_index": 566,
+      "matched_frequency_n": 10,
+      "threshold_07_n": 10,
+      "top_images_n": 10,
+      "total_samples_all_variants": 30
+    },
+    {
+      "imagenette_class_id": 6,
+      "wordnet_id": "n03417042",
+      "class_name": "garbage truck",
+      "imagenet_1k_index": 569,
+      "matched_frequency_n": 10,
+      "threshold_07_n": 10,
+      "top_images_n": 10,
+      "total_samples_all_variants": 30
+    },
+    {
+      "imagenette_class_id": 7,
+      "wordnet_id": "n03425413",
+      "class_name": "gas pump",
+      "imagenet_1k_index": 571,
+      "matched_frequency_n": 10,
+      "threshold_07_n": 10,
+      "top_images_n": 10,
+      "total_samples_all_variants": 30
+    },
+    {
+      "imagenette_class_id": 8,
+      "wordnet_id": "n03445777",
+      "class_name": "golf ball",
+      "imagenet_1k_index": 574,
+      "matched_frequency_n": 10,
+      "threshold_07_n": 10,
+      "top_images_n": 10,
+      "total_samples_all_variants": 30
+    },
+    {
+      "imagenette_class_id": 9,
+      "wordnet_id": "n03888257",
+      "class_name": "parachute",
+      "imagenet_1k_index": 701,
+      "matched_frequency_n": 10,
+      "threshold_07_n": 10,
+      "top_images_n": 10,
+      "total_samples_all_variants": 30
+    }
+  ],
+  "total_evaluations_plan": {
+    "per_variant_images": 100,
+    "conditions_per_image": 19,
+    "models": 4,
+    "forward_passes_per_variant": 7600,
+    "total_forward_passes_all_3_variants": 22800
+  },
+  "statistical_evaluation": "Fit frozen Model 3 (Spline) and Model 5 (Spline + Fingerprints) using weights derived from the confirmatory evaluation or run cross-validation on ImageNet-V2 to assess whether structural fingerprints consistently yield positive Delta R2_OOS."
+}

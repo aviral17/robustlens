@@ -1,0 +1,15 @@
+{
+  "id": "aviral199/robustlens-imagenet-v2-replication",
+  "title": "RobustLens ImageNet-V2 Replication",
+  "code_file": "03_imagenet_v2_replication.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": "true",
+  "enable_gpu": "true",
+  "enable_internet": "true",
+  "dataset_sources": [
+    "aviral199/imagenet-v2-10synsets"
+  ],
+  "kernel_sources": [],
+  "competition_sources": []
+}

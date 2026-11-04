@@ -1,0 +1,890 @@
+{
+  "metadata": {
+    "title": "RobustLens Out-of-Sample Grouped Cross-Validation Audit",
+    "clusters_count": 100,
+    "evaluations_per_architecture": 1800,
+    "total_evaluations": 7200,
+    "bootstrap_replicates": 2000,
+    "bootstrap_seed": 12345,
+    "bootstrap_type": "Paired Out-of-Sample Prediction Image-Cluster Resampling",
+    "cv_folds": 5,
+    "cv_seed": 42,
+    "models_evaluated": {
+      "model1": "Linear Global Baseline (Order 5df, Tier 2df, Order x Tier 10df, PSNR, SSIM, LPIPS)",
+      "model2": "Quadratic-Interaction Global Baseline (Model 1 + PSNR^2, SSIM^2, LPIPS^2, PSNRxSSIM, PSNRxLPIPS, SSIMxLPIPS)",
+      "model3": "Restricted Cubic Spline Baseline (Model 1 + 4-knot natural cubic splines for PSNR, SSIM, LPIPS)",
+      "model4": "Quadratic + Fingerprints Extended Model (Model 2 + 5 structural fingerprints)",
+      "model5": "Spline + Fingerprints Extended Model (Model 3 + 5 structural fingerprints)"
+    }
+  },
+  "architectures": [
+    {
+      "architecture": "convnext_tiny",
+      "n_clusters": 100,
+      "total_evaluations": 1800,
+      "r2_oos": {
+        "model1_linear_baseline": 0.2152,
+        "model2_quadratic_baseline": 0.2275,
+        "model3_spline_baseline": 0.2127,
+        "model4_quadratic_fingerprints": 0.2512,
+        "model5_spline_fingerprints": 0.2305
+      },
+      "mae_oos": {
+        "model1_linear_baseline": 2.8662,
+        "model2_quadratic_baseline": 2.8224,
+        "model3_spline_baseline": 2.8632,
+        "model4_quadratic_fingerprints": 2.7959,
+        "model5_spline_fingerprints": 2.8359
+      },
+      "vs_quadratic_baseline": {
+        "delta_r2": 0.0237,
+        "ci_95_delta_r2": [
+          -0.0249,
+          0.0671
+        ],
+        "prop_replicates_r2_gain": 0.8485,
+        "significant_r2_gain": false,
+        "delta_mae": 0.0265,
+        "ci_95_delta_mae": [
+          -0.0626,
+          0.1096
+        ],
+        "prop_replicates_mae_gain": 0.7145,
+        "significant_mae_gain": false,
+        "mae_reduction_pct": 0.94
+      },
+      "vs_spline_baseline": {
+        "delta_r2": 0.0178,
+        "ci_95_delta_r2": [
+          -0.025,
+          0.0544
+        ],
+        "prop_replicates_r2_gain": 0.803,
+        "significant_r2_gain": false,
+        "delta_mae": 0.0273,
+        "ci_95_delta_mae": [
+          -0.0454,
+          0.0971
+        ],
+        "prop_replicates_mae_gain": 0.764,
+        "significant_mae_gain": false,
+        "mae_reduction_pct": 0.95
+      },
+      "condition_numbers": {
+        "mean_kappa_linear": 37.73,
+        "mean_kappa_quadratic": 125.68,
+        "mean_kappa_spline": 69.03,
+        "mean_kappa_extended_quad": 153.15,
+        "mean_kappa_extended_spline": 91.05
+      },
+      "fold_diagnostics": [
+        {
+          "fold": 1,
+          "train_rows": 1440,
+          "test_rows": 360,
+          "test_clusters_count": 20,
+          "model1_linear": {
+            "cols": 21,
+            "rank": 21,
+            "condition_number": 37.69
+          },
+          "model2_quadratic": {
+            "cols": 27,
+            "rank": 27,
+            "condition_number": 123.07
+          },
+          "model3_spline": {
+            "cols": 24,
+            "rank": 24,
+            "condition_number": 67.79
+          },
+          "model4_extended_quad": {
+            "cols": 32,
+            "rank": 32,
+            "condition_number": 154.83
+          },
+          "model5_extended_spline": {
+            "cols": 29,
+            "rank": 29,
+            "condition_number": 93.29
+          }
+        },
+        {
+          "fold": 2,
+          "train_rows": 1440,
+          "test_rows": 360,
+          "test_clusters_count": 20,
+          "model1_linear": {
+            "cols": 21,
+            "rank": 21,
+            "condition_number": 37.77
+          },
+          "model2_quadratic": {
+            "cols": 27,
+            "rank": 27,
+            "condition_number": 127.6
+          },
+          "model3_spline": {
+            "cols": 24,
+            "rank": 24,
+            "condition_number": 70.55
+          },
+          "model4_extended_quad": {
+            "cols": 32,
+            "rank": 32,
+            "condition_number": 154.43
+          },
+          "model5_extended_spline": {
+            "cols": 29,
+            "rank": 29,
+            "condition_number": 92.5
+          }
+        },
+        {
+          "fold": 3,
+          "train_rows": 1440,
+          "test_rows": 360,
+          "test_clusters_count": 20,
+          "model1_linear": {
+            "cols": 21,
+            "rank": 21,
+            "condition_number": 37.85
+          },
+          "model2_quadratic": {
+            "cols": 27,
+            "rank": 27,
+            "condition_number": 126.38
+          },
+          "model3_spline": {
+            "cols": 24,
+            "rank": 24,
+            "condition_number": 69.22
+          },
+          "model4_extended_quad": {
+            "cols": 32,
+            "rank": 32,
+            "condition_number": 152.93
+          },
+          "model5_extended_spline": {
+            "cols": 29,
+            "rank": 29,
+            "condition_number": 90.65
+          }
+        },
+        {
+          "fold": 4,
+          "train_rows": 1440,
+          "test_rows": 360,
+          "test_clusters_count": 20,
+          "model1_linear": {
+            "cols": 21,
+            "rank": 21,
+            "condition_number": 37.78
+          },
+          "model2_quadratic": {
+            "cols": 27,
+            "rank": 27,
+            "condition_number": 128.21
+          },
+          "model3_spline": {
+            "cols": 24,
+            "rank": 24,
+            "condition_number": 69.23
+          },
+          "model4_extended_quad": {
+            "cols": 32,
+            "rank": 32,
+            "condition_number": 155.61
+          },
+          "model5_extended_spline": {
+            "cols": 29,
+            "rank": 29,
+            "condition_number": 90.54
+          }
+        },
+        {
+          "fold": 5,
+          "train_rows": 1440,
+          "test_rows": 360,
+          "test_clusters_count": 20,
+          "model1_linear": {
+            "cols": 21,
+            "rank": 21,
+            "condition_number": 37.56
+          },
+          "model2_quadratic": {
+            "cols": 27,
+            "rank": 27,
+            "condition_number": 123.15
+          },
+          "model3_spline": {
+            "cols": 24,
+            "rank": 24,
+            "condition_number": 68.34
+          },
+          "model4_extended_quad": {
+            "cols": 32,
+            "rank": 32,
+            "condition_number": 147.97
+          },
+          "model5_extended_spline": {
+            "cols": 29,
+            "rank": 29,
+            "condition_number": 88.28
+          }
+        }
+      ]
+    },
+    {
+      "architecture": "vit_base",
+      "n_clusters": 100,
+      "total_evaluations": 1800,
+      "r2_oos": {
+        "model1_linear_baseline": 0.1609,
+        "model2_quadratic_baseline": 0.1651,
+        "model3_spline_baseline": 0.161,
+        "model4_quadratic_fingerprints": 0.1969,
+        "model5_spline_fingerprints": 0.1858
+      },
+      "mae_oos": {
+        "model1_linear_baseline": 3.0649,
+        "model2_quadratic_baseline": 3.0492,
+        "model3_spline_baseline": 3.0408,
+        "model4_quadratic_fingerprints": 3.0208,
+        "model5_spline_fingerprints": 3.0216
+      },
+      "vs_quadratic_baseline": {
+        "delta_r2": 0.0318,
+        "ci_95_delta_r2": [
+          -0.0249,
+          0.0882
+        ],
+        "prop_replicates_r2_gain": 0.848,
+        "significant_r2_gain": false,
+        "delta_mae": 0.0284,
+        "ci_95_delta_mae": [
+          -0.0725,
+          0.1291
+        ],
+        "prop_replicates_mae_gain": 0.6815,
+        "significant_mae_gain": false,
+        "mae_reduction_pct": 0.93
+      },
+      "vs_spline_baseline": {
+        "delta_r2": 0.0248,
+        "ci_95_delta_r2": [
+          -0.0243,
+          0.0691
+        ],
+        "prop_replicates_r2_gain": 0.8255,
+        "significant_r2_gain": false,
+        "delta_mae": 0.0192,
+        "ci_95_delta_mae": [
+          -0.0734,
+          0.1081
+        ],
+        "prop_replicates_mae_gain": 0.6465,
+        "significant_mae_gain": false,
+        "mae_reduction_pct": 0.63
+      },
+      "condition_numbers": {
+        "mean_kappa_linear": 37.73,
+        "mean_kappa_quadratic": 125.68,
+        "mean_kappa_spline": 69.03,
+        "mean_kappa_extended_quad": 153.15,
+        "mean_kappa_extended_spline": 91.05
+      },
+      "fold_diagnostics": [
+        {
+          "fold": 1,
+          "train_rows": 1440,
+          "test_rows": 360,
+          "test_clusters_count": 20,
+          "model1_linear": {
+            "cols": 21,
+            "rank": 21,
+            "condition_number": 37.69
+          },
+          "model2_quadratic": {
+            "cols": 27,
+            "rank": 27,
+            "condition_number": 123.07
+          },
+          "model3_spline": {
+            "cols": 24,
+            "rank": 24,
+            "condition_number": 67.79
+          },
+          "model4_extended_quad": {
+            "cols": 32,
+            "rank": 32,
+            "condition_number": 154.83
+          },
+          "model5_extended_spline": {
+            "cols": 29,
+            "rank": 29,
+            "condition_number": 93.29
+          }
+        },
+        {
+          "fold": 2,
+          "train_rows": 1440,
+          "test_rows": 360,
+          "test_clusters_count": 20,
+          "model1_linear": {
+            "cols": 21,
+            "rank": 21,
+            "condition_number": 37.77
+          },
+          "model2_quadratic": {
+            "cols": 27,
+            "rank": 27,
+            "condition_number": 127.6
+          },
+          "model3_spline": {
+            "cols": 24,
+            "rank": 24,
+            "condition_number": 70.55
+          },
+          "model4_extended_quad": {
+            "cols": 32,
+            "rank": 32,
+            "condition_number": 154.43
+          },
+          "model5_extended_spline": {
+            "cols": 29,
+            "rank": 29,
+            "condition_number": 92.5
+          }
+        },
+        {
+          "fold": 3,
+          "train_rows": 1440,
+          "test_rows": 360,
+          "test_clusters_count": 20,
+          "model1_linear": {
+            "cols": 21,
+            "rank": 21,
+            "condition_number": 37.85
+          },
+          "model2_quadratic": {
+            "cols": 27,
+            "rank": 27,
+            "condition_number": 126.38
+          },
+          "model3_spline": {
+            "cols": 24,
+            "rank": 24,
+            "condition_number": 69.22
+          },
+          "model4_extended_quad": {
+            "cols": 32,
+            "rank": 32,
+            "condition_number": 152.93
+          },
+          "model5_extended_spline": {
+            "cols": 29,
+            "rank": 29,
+            "condition_number": 90.65
+          }
+        },
+        {
+          "fold": 4,
+          "train_rows": 1440,
+          "test_rows": 360,
+          "test_clusters_count": 20,
+          "model1_linear": {
+            "cols": 21,
+            "rank": 21,
+            "condition_number": 37.78
+          },
+          "model2_quadratic": {
+            "cols": 27,
+            "rank": 27,
+            "condition_number": 128.21
+          },
+          "model3_spline": {
+            "cols": 24,
+            "rank": 24,
+            "condition_number": 69.23
+          },
+          "model4_extended_quad": {
+            "cols": 32,
+            "rank": 32,
+            "condition_number": 155.61
+          },
+          "model5_extended_spline": {
+            "cols": 29,
+            "rank": 29,
+            "condition_number": 90.54
+          }
+        },
+        {
+          "fold": 5,
+          "train_rows": 1440,
+          "test_rows": 360,
+          "test_clusters_count": 20,
+          "model1_linear": {
+            "cols": 21,
+            "rank": 21,
+            "condition_number": 37.56
+          },
+          "model2_quadratic": {
+            "cols": 27,
+            "rank": 27,
+            "condition_number": 123.15
+          },
+          "model3_spline": {
+            "cols": 24,
+            "rank": 24,
+            "condition_number": 68.34
+          },
+          "model4_extended_quad": {
+            "cols": 32,
+            "rank": 32,
+            "condition_number": 147.97
+          },
+          "model5_extended_spline": {
+            "cols": 29,
+            "rank": 29,
+            "condition_number": 88.28
+          }
+        }
+      ]
+    },
+    {
+      "architecture": "swin_tiny",
+      "n_clusters": 100,
+      "total_evaluations": 1800,
+      "r2_oos": {
+        "model1_linear_baseline": 0.1788,
+        "model2_quadratic_baseline": 0.1844,
+        "model3_spline_baseline": 0.1785,
+        "model4_quadratic_fingerprints": 0.2026,
+        "model5_spline_fingerprints": 0.1904
+      },
+      "mae_oos": {
+        "model1_linear_baseline": 2.7767,
+        "model2_quadratic_baseline": 2.7601,
+        "model3_spline_baseline": 2.7737,
+        "model4_quadratic_fingerprints": 2.7577,
+        "model5_spline_fingerprints": 2.7797
+      },
+      "vs_quadratic_baseline": {
+        "delta_r2": 0.0182,
+        "ci_95_delta_r2": [
+          -0.0295,
+          0.0635
+        ],
+        "prop_replicates_r2_gain": 0.759,
+        "significant_r2_gain": false,
+        "delta_mae": 0.0024,
+        "ci_95_delta_mae": [
+          -0.0846,
+          0.0856
+        ],
+        "prop_replicates_mae_gain": 0.4935,
+        "significant_mae_gain": false,
+        "mae_reduction_pct": 0.09
+      },
+      "vs_spline_baseline": {
+        "delta_r2": 0.012,
+        "ci_95_delta_r2": [
+          -0.0284,
+          0.0496
+        ],
+        "prop_replicates_r2_gain": 0.7005,
+        "significant_r2_gain": false,
+        "delta_mae": -0.006,
+        "ci_95_delta_mae": [
+          -0.076,
+          0.061
+        ],
+        "prop_replicates_mae_gain": 0.3985,
+        "significant_mae_gain": false,
+        "mae_reduction_pct": -0.22
+      },
+      "condition_numbers": {
+        "mean_kappa_linear": 37.73,
+        "mean_kappa_quadratic": 125.68,
+        "mean_kappa_spline": 69.03,
+        "mean_kappa_extended_quad": 153.15,
+        "mean_kappa_extended_spline": 91.05
+      },
+      "fold_diagnostics": [
+        {
+          "fold": 1,
+          "train_rows": 1440,
+          "test_rows": 360,
+          "test_clusters_count": 20,
+          "model1_linear": {
+            "cols": 21,
+            "rank": 21,
+            "condition_number": 37.69
+          },
+          "model2_quadratic": {
+            "cols": 27,
+            "rank": 27,
+            "condition_number": 123.07
+          },
+          "model3_spline": {
+            "cols": 24,
+            "rank": 24,
+            "condition_number": 67.79
+          },
+          "model4_extended_quad": {
+            "cols": 32,
+            "rank": 32,
+            "condition_number": 154.83
+          },
+          "model5_extended_spline": {
+            "cols": 29,
+            "rank": 29,
+            "condition_number": 93.29
+          }
+        },
+        {
+          "fold": 2,
+          "train_rows": 1440,
+          "test_rows": 360,
+          "test_clusters_count": 20,
+          "model1_linear": {
+            "cols": 21,
+            "rank": 21,
+            "condition_number": 37.77
+          },
+          "model2_quadratic": {
+            "cols": 27,
+            "rank": 27,
+            "condition_number": 127.6
+          },
+          "model3_spline": {
+            "cols": 24,
+            "rank": 24,
+            "condition_number": 70.55
+          },
+          "model4_extended_quad": {
+            "cols": 32,
+            "rank": 32,
+            "condition_number": 154.43
+          },
+          "model5_extended_spline": {
+            "cols": 29,
+            "rank": 29,
+            "condition_number": 92.5
+          }
+        },
+        {
+          "fold": 3,
+          "train_rows": 1440,
+          "test_rows": 360,
+          "test_clusters_count": 20,
+          "model1_linear": {
+            "cols": 21,
+            "rank": 21,
+            "condition_number": 37.85
+          },
+          "model2_quadratic": {
+            "cols": 27,
+            "rank": 27,
+            "condition_number": 126.38
+          },
+          "model3_spline": {
+            "cols": 24,
+            "rank": 24,
+            "condition_number": 69.22
+          },
+          "model4_extended_quad": {
+            "cols": 32,
+            "rank": 32,
+            "condition_number": 152.93
+          },
+          "model5_extended_spline": {
+            "cols": 29,
+            "rank": 29,
+            "condition_number": 90.65
+          }
+        },
+        {
+          "fold": 4,
+          "train_rows": 1440,
+          "test_rows": 360,
+          "test_clusters_count": 20,
+          "model1_linear": {
+            "cols": 21,
+            "rank": 21,
+            "condition_number": 37.78
+          },
+          "model2_quadratic": {
+            "cols": 27,
+            "rank": 27,
+            "condition_number": 128.21
+          },
+          "model3_spline": {
+            "cols": 24,
+            "rank": 24,
+            "condition_number": 69.23
+          },
+          "model4_extended_quad": {
+            "cols": 32,
+            "rank": 32,
+            "condition_number": 155.61
+          },
+          "model5_extended_spline": {
+            "cols": 29,
+            "rank": 29,
+            "condition_number": 90.54
+          }
+        },
+        {
+          "fold": 5,
+          "train_rows": 1440,
+          "test_rows": 360,
+          "test_clusters_count": 20,
+          "model1_linear": {
+            "cols": 21,
+            "rank": 21,
+            "condition_number": 37.56
+          },
+          "model2_quadratic": {
+            "cols": 27,
+            "rank": 27,
+            "condition_number": 123.15
+          },
+          "model3_spline": {
+            "cols": 24,
+            "rank": 24,
+            "condition_number": 68.34
+          },
+          "model4_extended_quad": {
+            "cols": 32,
+            "rank": 32,
+            "condition_number": 147.97
+          },
+          "model5_extended_spline": {
+            "cols": 29,
+            "rank": 29,
+            "condition_number": 88.28
+          }
+        }
+      ]
+    },
+    {
+      "architecture": "resnet50",
+      "n_clusters": 100,
+      "total_evaluations": 1800,
+      "r2_oos": {
+        "model1_linear_baseline": 0.2554,
+        "model2_quadratic_baseline": 0.2544,
+        "model3_spline_baseline": 0.2517,
+        "model4_quadratic_fingerprints": 0.2538,
+        "model5_spline_fingerprints": 0.2496
+      },
+      "mae_oos": {
+        "model1_linear_baseline": 5.1529,
+        "model2_quadratic_baseline": 5.1035,
+        "model3_spline_baseline": 5.1241,
+        "model4_quadratic_fingerprints": 5.0955,
+        "model5_spline_fingerprints": 5.1098
+      },
+      "vs_quadratic_baseline": {
+        "delta_r2": -0.0006,
+        "ci_95_delta_r2": [
+          -0.035,
+          0.0308
+        ],
+        "prop_replicates_r2_gain": 0.487,
+        "significant_r2_gain": false,
+        "delta_mae": 0.008,
+        "ci_95_delta_mae": [
+          -0.1192,
+          0.1316
+        ],
+        "prop_replicates_mae_gain": 0.5235,
+        "significant_mae_gain": false,
+        "mae_reduction_pct": 0.16
+      },
+      "vs_spline_baseline": {
+        "delta_r2": -0.0021,
+        "ci_95_delta_r2": [
+          -0.0265,
+          0.0206
+        ],
+        "prop_replicates_r2_gain": 0.4205,
+        "significant_r2_gain": false,
+        "delta_mae": 0.0142,
+        "ci_95_delta_mae": [
+          -0.0886,
+          0.112
+        ],
+        "prop_replicates_mae_gain": 0.5955,
+        "significant_mae_gain": false,
+        "mae_reduction_pct": 0.28
+      },
+      "condition_numbers": {
+        "mean_kappa_linear": 37.73,
+        "mean_kappa_quadratic": 125.68,
+        "mean_kappa_spline": 69.03,
+        "mean_kappa_extended_quad": 153.15,
+        "mean_kappa_extended_spline": 91.05
+      },
+      "fold_diagnostics": [
+        {
+          "fold": 1,
+          "train_rows": 1440,
+          "test_rows": 360,
+          "test_clusters_count": 20,
+          "model1_linear": {
+            "cols": 21,
+            "rank": 21,
+            "condition_number": 37.69
+          },
+          "model2_quadratic": {
+            "cols": 27,
+            "rank": 27,
+            "condition_number": 123.07
+          },
+          "model3_spline": {
+            "cols": 24,
+            "rank": 24,
+            "condition_number": 67.79
+          },
+          "model4_extended_quad": {
+            "cols": 32,
+            "rank": 32,
+            "condition_number": 154.83
+          },
+          "model5_extended_spline": {
+            "cols": 29,
+            "rank": 29,
+            "condition_number": 93.29
+          }
+        },
+        {
+          "fold": 2,
+          "train_rows": 1440,
+          "test_rows": 360,
+          "test_clusters_count": 20,
+          "model1_linear": {
+            "cols": 21,
+            "rank": 21,
+            "condition_number": 37.77
+          },
+          "model2_quadratic": {
+            "cols": 27,
+            "rank": 27,
+            "condition_number": 127.6
+          },
+          "model3_spline": {
+            "cols": 24,
+            "rank": 24,
+            "condition_number": 70.55
+          },
+          "model4_extended_quad": {
+            "cols": 32,
+            "rank": 32,
+            "condition_number": 154.43
+          },
+          "model5_extended_spline": {
+            "cols": 29,
+            "rank": 29,
+            "condition_number": 92.5
+          }
+        },
+        {
+          "fold": 3,
+          "train_rows": 1440,
+          "test_rows": 360,
+          "test_clusters_count": 20,
+          "model1_linear": {
+            "cols": 21,
+            "rank": 21,
+            "condition_number": 37.85
+          },
+          "model2_quadratic": {
+            "cols": 27,
+            "rank": 27,
+            "condition_number": 126.38
+          },
+          "model3_spline": {
+            "cols": 24,
+            "rank": 24,
+            "condition_number": 69.22
+          },
+          "model4_extended_quad": {
+            "cols": 32,
+            "rank": 32,
+            "condition_number": 152.93
+          },
+          "model5_extended_spline": {
+            "cols": 29,
+            "rank": 29,
+            "condition_number": 90.65
+          }
+        },
+        {
+          "fold": 4,
+          "train_rows": 1440,
+          "test_rows": 360,
+          "test_clusters_count": 20,
+          "model1_linear": {
+            "cols": 21,
+            "rank": 21,
+            "condition_number": 37.78
+          },
+          "model2_quadratic": {
+            "cols": 27,
+            "rank": 27,
+            "condition_number": 128.21
+          },
+          "model3_spline": {
+            "cols": 24,
+            "rank": 24,
+            "condition_number": 69.23
+          },
+          "model4_extended_quad": {
+            "cols": 32,
+            "rank": 32,
+            "condition_number": 155.61
+          },
+          "model5_extended_spline": {
+            "cols": 29,
+            "rank": 29,
+            "condition_number": 90.54
+          }
+        },
+        {
+          "fold": 5,
+          "train_rows": 1440,
+          "test_rows": 360,
+          "test_clusters_count": 20,
+          "model1_linear": {
+            "cols": 21,
+            "rank": 21,
+            "condition_number": 37.56
+          },
+          "model2_quadratic": {
+            "cols": 27,
+            "rank": 27,
+            "condition_number": 123.15
+          },
+          "model3_spline": {
+            "cols": 24,
+            "rank": 24,
+            "condition_number": 68.34
+          },
+          "model4_extended_quad": {
+            "cols": 32,
+            "rank": 32,
+            "condition_number": 147.97
+          },
+          "model5_extended_spline": {
+            "cols": 29,
+            "rank": 29,
+            "condition_number": 88.28
+          }
+        }
+      ]
+    }
+  ]
+}

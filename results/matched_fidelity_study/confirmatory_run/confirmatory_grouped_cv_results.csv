@@ -1,0 +1,5 @@
+architecture,r2_oos_spline,r2_oos_spline_fingerprints,delta_r2_oos,raw_p_delta_r2,ci95_pointwise_delta_r2,simultaneous_bonferroni_ci_delta_r2,mae_oos_spline,mae_oos_spline_fingerprints,delta_mae_oos,raw_p_delta_mae,ci95_pointwise_delta_mae,simultaneous_bonferroni_ci_delta_mae,holm_adj_p_delta_r2,significant_r2_holm_0_05,holm_adj_p_delta_mae,significant_mae_holm_0_05
+convnext_tiny,0.0687,0.0887,0.0201,0.0005,"[0.0137, 0.0259]","[0.0127, 0.0267]",2.7842,2.7397,0.0445,0.0005,"[0.0348, 0.0534]","[0.0339, 0.0549]",0.002,True,0.002,True
+vit_base,0.0542,0.0777,0.0234,0.0005,"[0.0157, 0.0303]","[0.0148, 0.0314]",3.2172,3.1553,0.0619,0.0005,"[0.0497, 0.0739]","[0.0483, 0.0753]",0.002,True,0.002,True
+swin_tiny,0.0835,0.1025,0.019,0.0005,"[0.0131, 0.0247]","[0.0124, 0.0253]",2.791,2.7513,0.0397,0.0005,"[0.0303, 0.0489]","[0.0289, 0.0502]",0.002,True,0.002,True
+resnet50,0.1186,0.1296,0.0111,0.0005,"[0.0068, 0.015]","[0.0062, 0.0155]",5.5877,5.5309,0.0568,0.0005,"[0.0418, 0.0715]","[0.0399, 0.0736]",0.002,True,0.002,True

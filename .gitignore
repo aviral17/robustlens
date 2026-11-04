@@ -66,4 +66,11 @@ reports/FACULTY_REVIEW_BRIEF.md
 reports/PORTFOLIO_CV_ENTRY.md
 reports/PHD_RESEARCH_SUMMARY.md
 reports/backup_*/
-5MB)
+
+# Local temporary scratch dirs
+/data/
+temp_kernel_err/
+temp_kernel_err2/
+temp_kernel_err3/
+tmp_check/
+results/matched_fidelity_study/imagenet_v2/imagenet_v2_extracted/

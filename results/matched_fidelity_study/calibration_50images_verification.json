@@ -1,0 +1,693 @@
+{
+  "metadata": {
+    "title": "RobustLens Full 50-Image Calibration Validation Report",
+    "seed": 12345,
+    "total_calibration_images": 50,
+    "grid_images_count": 15,
+    "holdout_images_count": 35,
+    "cal_image_ids": [
+      6570,
+      3283,
+      7468,
+      8007,
+      5557,
+      6544,
+      738,
+      3763,
+      8433,
+      3608,
+      4900,
+      221,
+      7024,
+      5106,
+      4633,
+      5859,
+      3920,
+      1169,
+      6646,
+      5617,
+      9462,
+      1974,
+      172,
+      6418,
+      6564,
+      5662,
+      9185,
+      3289,
+      3835,
+      6275,
+      5458,
+      3813,
+      1354,
+      2828,
+      3563,
+      891,
+      7163,
+      746,
+      5488,
+      830,
+      8338,
+      1817,
+      4434,
+      9063,
+      3050,
+      8345,
+      9084,
+      8488,
+      9172,
+      720
+    ],
+    "grid_image_ids": [
+      6570,
+      3283,
+      7468,
+      8007,
+      5557,
+      6544,
+      738,
+      3763,
+      8433,
+      3608,
+      4900,
+      221,
+      7024,
+      5106,
+      4633
+    ],
+    "holdout_image_ids": [
+      5859,
+      3920,
+      1169,
+      6646,
+      5617,
+      9462,
+      1974,
+      172,
+      6418,
+      6564,
+      5662,
+      9185,
+      3289,
+      3835,
+      6275,
+      5458,
+      3813,
+      1354,
+      2828,
+      3563,
+      891,
+      7163,
+      746,
+      5488,
+      830,
+      8338,
+      1817,
+      4434,
+      9063,
+      3050,
+      8345,
+      9084,
+      8488,
+      9172,
+      720
+    ]
+  },
+  "level_summaries": {
+    "Level_1_Mild": {
+      "target_psnr": 27.2,
+      "target_ssim": 0.81,
+      "sequences": {
+        "NBJ": {
+          "all_50_images": {
+            "psnr_mean": 27.265,
+            "psnr_std": 2.58,
+            "psnr_median": 27.137,
+            "psnr_q25": 25.477,
+            "psnr_q75": 29.141,
+            "psnr_se": 0.365,
+            "psnr_error_vs_target": 0.065,
+            "ssim_mean": 0.8181,
+            "ssim_std": 0.042,
+            "ssim_median": 0.8285,
+            "ssim_q25": 0.7937,
+            "ssim_q75": 0.8464,
+            "ssim_se": 0.0059,
+            "ssim_error_vs_target": 0.0081,
+            "within_prespecified_tolerances": true
+          },
+          "grid_15_mean": {
+            "psnr": 27.22,
+            "ssim": 0.8196
+          },
+          "holdout_35_mean": {
+            "psnr": 27.284,
+            "ssim": 0.8174
+          },
+          "subsample_generalization_delta": {
+            "psnr_delta": 0.064,
+            "ssim_delta": -0.0022
+          }
+        },
+        "NJB": {
+          "all_50_images": {
+            "psnr_mean": 27.131,
+            "psnr_std": 2.503,
+            "psnr_median": 26.936,
+            "psnr_q25": 25.401,
+            "psnr_q75": 28.962,
+            "psnr_se": 0.354,
+            "psnr_error_vs_target": -0.069,
+            "ssim_mean": 0.8184,
+            "ssim_std": 0.0402,
+            "ssim_median": 0.8284,
+            "ssim_q25": 0.7959,
+            "ssim_q75": 0.8452,
+            "ssim_se": 0.0057,
+            "ssim_error_vs_target": 0.0084,
+            "within_prespecified_tolerances": true
+          },
+          "grid_15_mean": {
+            "psnr": 27.077,
+            "ssim": 0.8199
+          },
+          "holdout_35_mean": {
+            "psnr": 27.155,
+            "ssim": 0.8177
+          },
+          "subsample_generalization_delta": {
+            "psnr_delta": 0.078,
+            "ssim_delta": -0.0021
+          }
+        },
+        "BNJ": {
+          "all_50_images": {
+            "psnr_mean": 27.17,
+            "psnr_std": 2.604,
+            "psnr_median": 26.944,
+            "psnr_q25": 25.377,
+            "psnr_q75": 28.942,
+            "psnr_se": 0.368,
+            "psnr_error_vs_target": -0.03,
+            "ssim_mean": 0.803,
+            "ssim_std": 0.0391,
+            "ssim_median": 0.8114,
+            "ssim_q25": 0.7792,
+            "ssim_q75": 0.8283,
+            "ssim_se": 0.0055,
+            "ssim_error_vs_target": -0.007,
+            "within_prespecified_tolerances": true
+          },
+          "grid_15_mean": {
+            "psnr": 27.101,
+            "ssim": 0.8026
+          },
+          "holdout_35_mean": {
+            "psnr": 27.2,
+            "ssim": 0.8032
+          },
+          "subsample_generalization_delta": {
+            "psnr_delta": 0.099,
+            "ssim_delta": 0.0006
+          }
+        },
+        "BJN": {
+          "all_50_images": {
+            "psnr_mean": 27.388,
+            "psnr_std": 2.631,
+            "psnr_median": 27.217,
+            "psnr_q25": 25.573,
+            "psnr_q75": 29.234,
+            "psnr_se": 0.372,
+            "psnr_error_vs_target": 0.188,
+            "ssim_mean": 0.8014,
+            "ssim_std": 0.0354,
+            "ssim_median": 0.8086,
+            "ssim_q25": 0.7776,
+            "ssim_q75": 0.826,
+            "ssim_se": 0.005,
+            "ssim_error_vs_target": -0.0086,
+            "within_prespecified_tolerances": true
+          },
+          "grid_15_mean": {
+            "psnr": 27.331,
+            "ssim": 0.8011
+          },
+          "holdout_35_mean": {
+            "psnr": 27.413,
+            "ssim": 0.8016
+          },
+          "subsample_generalization_delta": {
+            "psnr_delta": 0.082,
+            "ssim_delta": 0.0005
+          }
+        },
+        "JNB": {
+          "all_50_images": {
+            "psnr_mean": 27.272,
+            "psnr_std": 2.41,
+            "psnr_median": 27.279,
+            "psnr_q25": 25.566,
+            "psnr_q75": 29.187,
+            "psnr_se": 0.341,
+            "psnr_error_vs_target": 0.072,
+            "ssim_mean": 0.8043,
+            "ssim_std": 0.0337,
+            "ssim_median": 0.8073,
+            "ssim_q25": 0.7847,
+            "ssim_q75": 0.8264,
+            "ssim_se": 0.0048,
+            "ssim_error_vs_target": -0.0057,
+            "within_prespecified_tolerances": true
+          },
+          "grid_15_mean": {
+            "psnr": 27.263,
+            "ssim": 0.8066
+          },
+          "holdout_35_mean": {
+            "psnr": 27.276,
+            "ssim": 0.8034
+          },
+          "subsample_generalization_delta": {
+            "psnr_delta": 0.013,
+            "ssim_delta": -0.0032
+          }
+        },
+        "JBN": {
+          "all_50_images": {
+            "psnr_mean": 27.475,
+            "psnr_std": 2.592,
+            "psnr_median": 27.323,
+            "psnr_q25": 25.695,
+            "psnr_q75": 29.246,
+            "psnr_se": 0.367,
+            "psnr_error_vs_target": 0.275,
+            "ssim_mean": 0.8077,
+            "ssim_std": 0.033,
+            "ssim_median": 0.8128,
+            "ssim_q25": 0.79,
+            "ssim_q75": 0.8303,
+            "ssim_se": 0.0047,
+            "ssim_error_vs_target": -0.0023,
+            "within_prespecified_tolerances": true
+          },
+          "grid_15_mean": {
+            "psnr": 27.416,
+            "ssim": 0.8077
+          },
+          "holdout_35_mean": {
+            "psnr": 27.501,
+            "ssim": 0.8077
+          },
+          "subsample_generalization_delta": {
+            "psnr_delta": 0.085,
+            "ssim_delta": -0.0
+          }
+        }
+      }
+    },
+    "Level_2_Moderate": {
+      "target_psnr": 23.8,
+      "target_ssim": 0.65,
+      "sequences": {
+        "NBJ": {
+          "all_50_images": {
+            "psnr_mean": 23.638,
+            "psnr_std": 1.337,
+            "psnr_median": 23.849,
+            "psnr_q25": 22.908,
+            "psnr_q75": 24.667,
+            "psnr_se": 0.189,
+            "psnr_error_vs_target": -0.162,
+            "ssim_mean": 0.6443,
+            "ssim_std": 0.046,
+            "ssim_median": 0.6513,
+            "ssim_q25": 0.606,
+            "ssim_q75": 0.676,
+            "ssim_se": 0.0065,
+            "ssim_error_vs_target": -0.0057,
+            "within_prespecified_tolerances": true
+          },
+          "grid_15_mean": {
+            "psnr": 23.689,
+            "ssim": 0.6466
+          },
+          "holdout_35_mean": {
+            "psnr": 23.616,
+            "ssim": 0.6434
+          },
+          "subsample_generalization_delta": {
+            "psnr_delta": -0.073,
+            "ssim_delta": -0.0032
+          }
+        },
+        "NJB": {
+          "all_50_images": {
+            "psnr_mean": 23.509,
+            "psnr_std": 1.325,
+            "psnr_median": 23.724,
+            "psnr_q25": 22.851,
+            "psnr_q75": 24.432,
+            "psnr_se": 0.187,
+            "psnr_error_vs_target": -0.291,
+            "ssim_mean": 0.6487,
+            "ssim_std": 0.0458,
+            "ssim_median": 0.6562,
+            "ssim_q25": 0.611,
+            "ssim_q75": 0.6815,
+            "ssim_se": 0.0065,
+            "ssim_error_vs_target": -0.0013,
+            "within_prespecified_tolerances": true
+          },
+          "grid_15_mean": {
+            "psnr": 23.552,
+            "ssim": 0.6513
+          },
+          "holdout_35_mean": {
+            "psnr": 23.491,
+            "ssim": 0.6476
+          },
+          "subsample_generalization_delta": {
+            "psnr_delta": -0.061,
+            "ssim_delta": -0.0037
+          }
+        },
+        "BNJ": {
+          "all_50_images": {
+            "psnr_mean": 23.817,
+            "psnr_std": 1.294,
+            "psnr_median": 23.777,
+            "psnr_q25": 23.075,
+            "psnr_q75": 24.677,
+            "psnr_se": 0.183,
+            "psnr_error_vs_target": 0.017,
+            "ssim_mean": 0.6494,
+            "ssim_std": 0.0464,
+            "ssim_median": 0.6432,
+            "ssim_q25": 0.6207,
+            "ssim_q75": 0.6801,
+            "ssim_se": 0.0066,
+            "ssim_error_vs_target": -0.0006,
+            "within_prespecified_tolerances": true
+          },
+          "grid_15_mean": {
+            "psnr": 23.749,
+            "ssim": 0.6464
+          },
+          "holdout_35_mean": {
+            "psnr": 23.846,
+            "ssim": 0.6507
+          },
+          "subsample_generalization_delta": {
+            "psnr_delta": 0.097,
+            "ssim_delta": 0.0043
+          }
+        },
+        "BJN": {
+          "all_50_images": {
+            "psnr_mean": 23.918,
+            "psnr_std": 2.562,
+            "psnr_median": 23.555,
+            "psnr_q25": 22.005,
+            "psnr_q75": 25.743,
+            "psnr_se": 0.362,
+            "psnr_error_vs_target": 0.118,
+            "ssim_mean": 0.6481,
+            "ssim_std": 0.0704,
+            "ssim_median": 0.653,
+            "ssim_q25": 0.6011,
+            "ssim_q75": 0.696,
+            "ssim_se": 0.01,
+            "ssim_error_vs_target": -0.0019,
+            "within_prespecified_tolerances": true
+          },
+          "grid_15_mean": {
+            "psnr": 23.812,
+            "ssim": 0.6469
+          },
+          "holdout_35_mean": {
+            "psnr": 23.963,
+            "ssim": 0.6486
+          },
+          "subsample_generalization_delta": {
+            "psnr_delta": 0.151,
+            "ssim_delta": 0.0018
+          }
+        },
+        "JNB": {
+          "all_50_images": {
+            "psnr_mean": 23.991,
+            "psnr_std": 1.552,
+            "psnr_median": 23.86,
+            "psnr_q25": 22.951,
+            "psnr_q75": 25.11,
+            "psnr_se": 0.219,
+            "psnr_error_vs_target": 0.191,
+            "ssim_mean": 0.6446,
+            "ssim_std": 0.0408,
+            "ssim_median": 0.6371,
+            "ssim_q25": 0.6193,
+            "ssim_q75": 0.6723,
+            "ssim_se": 0.0058,
+            "ssim_error_vs_target": -0.0054,
+            "within_prespecified_tolerances": true
+          },
+          "grid_15_mean": {
+            "psnr": 23.961,
+            "ssim": 0.6461
+          },
+          "holdout_35_mean": {
+            "psnr": 24.003,
+            "ssim": 0.644
+          },
+          "subsample_generalization_delta": {
+            "psnr_delta": 0.042,
+            "ssim_delta": -0.0021
+          }
+        },
+        "JBN": {
+          "all_50_images": {
+            "psnr_mean": 23.741,
+            "psnr_std": 2.428,
+            "psnr_median": 23.386,
+            "psnr_q25": 21.952,
+            "psnr_q75": 25.49,
+            "psnr_se": 0.343,
+            "psnr_error_vs_target": -0.059,
+            "ssim_mean": 0.6564,
+            "ssim_std": 0.0684,
+            "ssim_median": 0.6619,
+            "ssim_q25": 0.6149,
+            "ssim_q75": 0.702,
+            "ssim_se": 0.0097,
+            "ssim_error_vs_target": 0.0064,
+            "within_prespecified_tolerances": true
+          },
+          "grid_15_mean": {
+            "psnr": 23.651,
+            "ssim": 0.656
+          },
+          "holdout_35_mean": {
+            "psnr": 23.779,
+            "ssim": 0.6566
+          },
+          "subsample_generalization_delta": {
+            "psnr_delta": 0.128,
+            "ssim_delta": 0.0006
+          }
+        }
+      }
+    },
+    "Level_3_SevereCommon": {
+      "target_psnr": 21.8,
+      "target_ssim": 0.5,
+      "sequences": {
+        "NBJ": {
+          "all_50_images": {
+            "psnr_mean": 21.724,
+            "psnr_std": 0.422,
+            "psnr_median": 21.775,
+            "psnr_q25": 21.574,
+            "psnr_q75": 22.007,
+            "psnr_se": 0.06,
+            "psnr_error_vs_target": -0.076,
+            "ssim_mean": 0.5132,
+            "ssim_std": 0.0935,
+            "ssim_median": 0.5313,
+            "ssim_q25": 0.4419,
+            "ssim_q75": 0.5838,
+            "ssim_se": 0.0132,
+            "ssim_error_vs_target": 0.0132,
+            "within_prespecified_tolerances": true
+          },
+          "grid_15_mean": {
+            "psnr": 21.709,
+            "ssim": 0.5155
+          },
+          "holdout_35_mean": {
+            "psnr": 21.731,
+            "ssim": 0.5122
+          },
+          "subsample_generalization_delta": {
+            "psnr_delta": 0.022,
+            "ssim_delta": -0.0033
+          }
+        },
+        "NJB": {
+          "all_50_images": {
+            "psnr_mean": 21.68,
+            "psnr_std": 0.463,
+            "psnr_median": 21.764,
+            "psnr_q25": 21.489,
+            "psnr_q75": 21.997,
+            "psnr_se": 0.066,
+            "psnr_error_vs_target": -0.12,
+            "ssim_mean": 0.5135,
+            "ssim_std": 0.0917,
+            "ssim_median": 0.5342,
+            "ssim_q25": 0.4414,
+            "ssim_q75": 0.585,
+            "ssim_se": 0.013,
+            "ssim_error_vs_target": 0.0135,
+            "within_prespecified_tolerances": true
+          },
+          "grid_15_mean": {
+            "psnr": 21.648,
+            "ssim": 0.5148
+          },
+          "holdout_35_mean": {
+            "psnr": 21.693,
+            "ssim": 0.5129
+          },
+          "subsample_generalization_delta": {
+            "psnr_delta": 0.046,
+            "ssim_delta": -0.0018
+          }
+        },
+        "BNJ": {
+          "all_50_images": {
+            "psnr_mean": 22.112,
+            "psnr_std": 2.342,
+            "psnr_median": 21.864,
+            "psnr_q25": 20.273,
+            "psnr_q75": 24.002,
+            "psnr_se": 0.331,
+            "psnr_error_vs_target": 0.312,
+            "ssim_mean": 0.499,
+            "ssim_std": 0.0642,
+            "ssim_median": 0.5126,
+            "ssim_q25": 0.452,
+            "ssim_q75": 0.5397,
+            "ssim_se": 0.0091,
+            "ssim_error_vs_target": -0.001,
+            "within_prespecified_tolerances": true
+          },
+          "grid_15_mean": {
+            "psnr": 22.012,
+            "ssim": 0.4958
+          },
+          "holdout_35_mean": {
+            "psnr": 22.155,
+            "ssim": 0.5003
+          },
+          "subsample_generalization_delta": {
+            "psnr_delta": 0.143,
+            "ssim_delta": 0.0045
+          }
+        },
+        "BJN": {
+          "all_50_images": {
+            "psnr_mean": 22.073,
+            "psnr_std": 0.605,
+            "psnr_median": 22.06,
+            "psnr_q25": 21.732,
+            "psnr_q75": 22.409,
+            "psnr_se": 0.085,
+            "psnr_error_vs_target": 0.273,
+            "ssim_mean": 0.4845,
+            "ssim_std": 0.0942,
+            "ssim_median": 0.5043,
+            "ssim_q25": 0.4048,
+            "ssim_q75": 0.5597,
+            "ssim_se": 0.0133,
+            "ssim_error_vs_target": -0.0155,
+            "within_prespecified_tolerances": true
+          },
+          "grid_15_mean": {
+            "psnr": 22.031,
+            "ssim": 0.4865
+          },
+          "holdout_35_mean": {
+            "psnr": 22.092,
+            "ssim": 0.4836
+          },
+          "subsample_generalization_delta": {
+            "psnr_delta": 0.061,
+            "ssim_delta": -0.0029
+          }
+        },
+        "JNB": {
+          "all_50_images": {
+            "psnr_mean": 22.011,
+            "psnr_std": 0.419,
+            "psnr_median": 21.974,
+            "psnr_q25": 21.77,
+            "psnr_q75": 22.226,
+            "psnr_se": 0.059,
+            "psnr_error_vs_target": 0.211,
+            "ssim_mean": 0.4932,
+            "ssim_std": 0.1005,
+            "ssim_median": 0.5117,
+            "ssim_q25": 0.4139,
+            "ssim_q75": 0.5646,
+            "ssim_se": 0.0142,
+            "ssim_error_vs_target": -0.0068,
+            "within_prespecified_tolerances": true
+          },
+          "grid_15_mean": {
+            "psnr": 21.962,
+            "ssim": 0.4957
+          },
+          "holdout_35_mean": {
+            "psnr": 22.032,
+            "ssim": 0.4922
+          },
+          "subsample_generalization_delta": {
+            "psnr_delta": 0.07,
+            "ssim_delta": -0.0035
+          }
+        },
+        "JBN": {
+          "all_50_images": {
+            "psnr_mean": 22.234,
+            "psnr_std": 0.542,
+            "psnr_median": 22.215,
+            "psnr_q25": 21.926,
+            "psnr_q75": 22.526,
+            "psnr_se": 0.077,
+            "psnr_error_vs_target": 0.434,
+            "ssim_mean": 0.4937,
+            "ssim_std": 0.0975,
+            "ssim_median": 0.5111,
+            "ssim_q25": 0.4141,
+            "ssim_q75": 0.5712,
+            "ssim_se": 0.0138,
+            "ssim_error_vs_target": -0.0063,
+            "within_prespecified_tolerances": true
+          },
+          "grid_15_mean": {
+            "psnr": 22.189,
+            "ssim": 0.4959
+          },
+          "holdout_35_mean": {
+            "psnr": 22.253,
+            "ssim": 0.4927
+          },
+          "subsample_generalization_delta": {
+            "psnr_delta": 0.063,
+            "ssim_delta": -0.0032
+          }
+        }
+      }
+    }
+  }
+}

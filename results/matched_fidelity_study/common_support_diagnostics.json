@@ -1,0 +1,307 @@
+{
+  "analysis_type": "Joint-Fidelity Common-Support Grid Feasibility",
+  "n_calibration_images": 50,
+  "n_grid_points_per_sequence": 216,
+  "manifold_summary": {
+    "NBJ": {
+      "psnr_min": 17.085015732750573,
+      "psnr_max": 34.53162197557381,
+      "ssim_min": 0.31554143329461415,
+      "ssim_max": 0.9580976764361063,
+      "ssim_at_psnr_21_5": 0.5640564624468485,
+      "ssim_at_psnr_16_0": 0.355249985853831
+    },
+    "NJB": {
+      "psnr_min": 17.17539910449835,
+      "psnr_max": 35.139823784452204,
+      "ssim_min": 0.32069712579250337,
+      "ssim_max": 0.9633408586184183,
+      "ssim_at_psnr_21_5": 0.5730502410729726,
+      "ssim_at_psnr_16_0": 0.330659476518631
+    },
+    "BNJ": {
+      "psnr_min": 12.960833463892063,
+      "psnr_max": 34.12025730074331,
+      "ssim_min": 0.072340972473224,
+      "ssim_max": 0.9480204582214355,
+      "ssim_at_psnr_21_5": 0.5402827882766723,
+      "ssim_at_psnr_16_0": 0.16413072595993677
+    },
+    "BJN": {
+      "psnr_min": 10.776175714274355,
+      "psnr_max": 32.54347093208978,
+      "ssim_min": 0.04823038801550865,
+      "ssim_max": 0.9036745627721151,
+      "ssim_at_psnr_21_5": 0.4572508649031321,
+      "ssim_at_psnr_16_0": 0.1321983147660891
+    },
+    "JNB": {
+      "psnr_min": 14.85318233965125,
+      "psnr_max": 34.402727356583135,
+      "ssim_min": 0.20943535019954046,
+      "ssim_max": 0.9463195721308391,
+      "ssim_at_psnr_21_5": 0.5680460715293885,
+      "ssim_at_psnr_16_0": 0.23092944582303368
+    },
+    "JBN": {
+      "psnr_min": 10.788436427387271,
+      "psnr_max": 33.0070997591295,
+      "ssim_min": 0.04860098560651143,
+      "ssim_max": 0.910176408290863,
+      "ssim_at_psnr_21_5": 0.4782504161198934,
+      "ssim_at_psnr_16_0": 0.13300887604554495
+    }
+  },
+  "target_feasibility": {
+    "1": {
+      "name": "Target 1 (Mild)",
+      "target_psnr": 28.0,
+      "target_ssim": 0.85,
+      "all_6_sequences_achievable": false,
+      "sequence_diagnostics": {
+        "NBJ": {
+          "achievable_within_tol": true,
+          "min_p_err": 0.0989263046039568,
+          "min_s_err": 0.0015290737152099387,
+          "closest_psnr": 28.098926304603957,
+          "closest_ssim": 0.8515290737152099
+        },
+        "NJB": {
+          "achievable_within_tol": true,
+          "min_p_err": -0.09632217768126594,
+          "min_s_err": 0.00959203243255613,
+          "closest_psnr": 27.903677822318734,
+          "closest_ssim": 0.8595920324325561
+        },
+        "BNJ": {
+          "achievable_within_tol": true,
+          "min_p_err": 0.08853761149793016,
+          "min_s_err": 0.0010567148526510195,
+          "closest_psnr": 28.08853761149793,
+          "closest_ssim": 0.851056714852651
+        },
+        "BJN": {
+          "achievable_within_tol": false,
+          "min_p_err": -0.3245395122657584,
+          "min_s_err": -0.03530339797337845,
+          "closest_psnr": 27.67546048773424,
+          "closest_ssim": 0.8146966020266215
+        },
+        "JNB": {
+          "achievable_within_tol": true,
+          "min_p_err": 0.011327773553578169,
+          "min_s_err": 0.005372695128122995,
+          "closest_psnr": 28.011327773553578,
+          "closest_ssim": 0.855372695128123
+        },
+        "JBN": {
+          "achievable_within_tol": true,
+          "min_p_err": -0.14945235551306624,
+          "min_s_err": -0.027430284023284845,
+          "closest_psnr": 27.850547644486934,
+          "closest_ssim": 0.8225697159767151
+        }
+      }
+    },
+    "2": {
+      "name": "Target 2 (Mod-Mild)",
+      "target_psnr": 24.5,
+      "target_ssim": 0.74,
+      "all_6_sequences_achievable": false,
+      "sequence_diagnostics": {
+        "NBJ": {
+          "achievable_within_tol": true,
+          "min_p_err": 0.1411375116130884,
+          "min_s_err": -0.0068160359064738385,
+          "closest_psnr": 24.64113751161309,
+          "closest_ssim": 0.7331839640935262
+        },
+        "NJB": {
+          "achievable_within_tol": true,
+          "min_p_err": -0.02149365959496663,
+          "min_s_err": -0.006608071327209419,
+          "closest_psnr": 24.478506340405033,
+          "closest_ssim": 0.7333919286727906
+        },
+        "BNJ": {
+          "achievable_within_tol": true,
+          "min_p_err": 0.12538229162823455,
+          "min_s_err": -0.009274024168650308,
+          "closest_psnr": 24.625382291628235,
+          "closest_ssim": 0.7307259758313497
+        },
+        "BJN": {
+          "achievable_within_tol": false,
+          "min_p_err": 0.8751088631985411,
+          "min_s_err": -0.009055974483489937,
+          "closest_psnr": 25.37510886319854,
+          "closest_ssim": 0.73094402551651
+        },
+        "JNB": {
+          "achievable_within_tol": true,
+          "min_p_err": 0.14144811556623083,
+          "min_s_err": -0.002364645799001086,
+          "closest_psnr": 24.64144811556623,
+          "closest_ssim": 0.7376353542009989
+        },
+        "JBN": {
+          "achievable_within_tol": false,
+          "min_p_err": 0.8212385673895355,
+          "min_s_err": -0.005354450543721523,
+          "closest_psnr": 25.321238567389535,
+          "closest_ssim": 0.7346455494562785
+        }
+      }
+    },
+    "3": {
+      "name": "Target 3 (Moderate)",
+      "target_psnr": 21.5,
+      "target_ssim": 0.62,
+      "all_6_sequences_achievable": false,
+      "sequence_diagnostics": {
+        "NBJ": {
+          "achievable_within_tol": true,
+          "min_p_err": 0.33530719116213703,
+          "min_s_err": -0.02480345487594604,
+          "closest_psnr": 21.835307191162137,
+          "closest_ssim": 0.595196545124054
+        },
+        "NJB": {
+          "achievable_within_tol": true,
+          "min_p_err": 0.25803522963231984,
+          "min_s_err": -0.024496155182520574,
+          "closest_psnr": 21.75803522963232,
+          "closest_ssim": 0.5955038448174794
+        },
+        "BNJ": {
+          "achievable_within_tol": true,
+          "min_p_err": 0.5607023886600437,
+          "min_s_err": -0.032030212084452336,
+          "closest_psnr": 22.060702388660044,
+          "closest_ssim": 0.5879697879155477
+        },
+        "BJN": {
+          "achievable_within_tol": false,
+          "min_p_err": 1.0974047641717313,
+          "min_s_err": -0.03875355839729311,
+          "closest_psnr": 22.59740476417173,
+          "closest_ssim": 0.5812464416027069
+        },
+        "JNB": {
+          "achievable_within_tol": true,
+          "min_p_err": 0.6251734985847683,
+          "min_s_err": -0.011644281148910474,
+          "closest_psnr": 22.12517349858477,
+          "closest_ssim": 0.6083557188510895
+        },
+        "JBN": {
+          "achievable_within_tol": false,
+          "min_p_err": 0.8005422682771162,
+          "min_s_err": -0.0431526096661885,
+          "closest_psnr": 22.300542268277116,
+          "closest_ssim": 0.5768473903338115
+        }
+      }
+    },
+    "4": {
+      "name": "Target 4 (Mod-Severe)",
+      "target_psnr": 18.5,
+      "target_ssim": 0.48,
+      "all_6_sequences_achievable": false,
+      "sequence_diagnostics": {
+        "NBJ": {
+          "achievable_within_tol": true,
+          "min_p_err": 0.3252993157993771,
+          "min_s_err": -0.004413025379180868,
+          "closest_psnr": 18.825299315799377,
+          "closest_ssim": 0.4755869746208191
+        },
+        "NJB": {
+          "achievable_within_tol": true,
+          "min_p_err": 0.11800738961934343,
+          "min_s_err": -0.005561687350273126,
+          "closest_psnr": 18.618007389619343,
+          "closest_ssim": 0.47443831264972686
+        },
+        "BNJ": {
+          "achievable_within_tol": false,
+          "min_p_err": 1.3731885347359523,
+          "min_s_err": -0.019637994766235345,
+          "closest_psnr": 19.873188534735952,
+          "closest_ssim": 0.46036200523376464
+        },
+        "BJN": {
+          "achievable_within_tol": false,
+          "min_p_err": 1.3335883147326726,
+          "min_s_err": -0.04669403016567231,
+          "closest_psnr": 19.833588314732673,
+          "closest_ssim": 0.4333059698343277
+        },
+        "JNB": {
+          "achievable_within_tol": true,
+          "min_p_err": 0.21012552627637504,
+          "min_s_err": -0.0067766743898391435,
+          "closest_psnr": 18.710125526276375,
+          "closest_ssim": 0.47322332561016084
+        },
+        "JBN": {
+          "achievable_within_tol": false,
+          "min_p_err": 1.5791481050330916,
+          "min_s_err": -0.021392818093299848,
+          "closest_psnr": 20.07914810503309,
+          "closest_ssim": 0.45860718190670013
+        }
+      }
+    },
+    "5": {
+      "name": "Target 5 (Severe)",
+      "target_psnr": 16.0,
+      "target_ssim": 0.36,
+      "all_6_sequences_achievable": false,
+      "sequence_diagnostics": {
+        "NBJ": {
+          "achievable_within_tol": false,
+          "min_p_err": 1.0850157327505734,
+          "min_s_err": -0.04445856670538584,
+          "closest_psnr": 17.085015732750573,
+          "closest_ssim": 0.31554143329461415
+        },
+        "NJB": {
+          "achievable_within_tol": false,
+          "min_p_err": 1.17539910449835,
+          "min_s_err": -0.03930287420749662,
+          "closest_psnr": 17.17539910449835,
+          "closest_ssim": 0.32069712579250337
+        },
+        "BNJ": {
+          "achievable_within_tol": false,
+          "min_p_err": 0.7611243414562274,
+          "min_s_err": -0.05500748018423712,
+          "closest_psnr": 16.761124341456227,
+          "closest_ssim": 0.30499251981576286
+        },
+        "BJN": {
+          "achievable_within_tol": false,
+          "min_p_err": 2.0291258483262418,
+          "min_s_err": -0.045904760162035596,
+          "closest_psnr": 18.02912584832624,
+          "closest_ssim": 0.3140952398379644
+        },
+        "JNB": {
+          "achievable_within_tol": false,
+          "min_p_err": 1.8872256561723226,
+          "min_s_err": -0.04502231140931445,
+          "closest_psnr": 17.887225656172323,
+          "closest_ssim": 0.31497768859068553
+        },
+        "JBN": {
+          "achievable_within_tol": false,
+          "min_p_err": 2.117088332335804,
+          "min_s_err": -0.038482768932978306,
+          "closest_psnr": 18.117088332335804,
+          "closest_ssim": 0.3215172310670217
+        }
+      }
+    }
+  }
+}

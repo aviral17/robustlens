@@ -1,0 +1,376 @@
+{
+  "spline_basis_comparison": {
+    "reduced_spline": {
+      "name": "Reduced 2-Degree-of-Freedom Spline",
+      "basis_formula": "B(x) = [x, d_1(x) - d_last(x)]",
+      "degrees_of_freedom_per_variable": 2,
+      "model3_columns": 24,
+      "model5_columns": 29,
+      "status": "Evaluated in initial audit to match the 24-parameter count"
+    },
+    "conventional_4knot_rcs": {
+      "name": "Conventional 4-Knot Restricted Cubic Spline",
+      "basis_formula": "B(x) = [x, d_0(x) - d_last(x), d_1(x) - d_last(x)]",
+      "degrees_of_freedom_per_variable": 3,
+      "model3_columns": 27,
+      "model5_columns": 32,
+      "status": "Full conventional natural cubic spline with linear tails beyond knots 1 and 4"
+    }
+  },
+  "fold_knots": [
+    {
+      "fold": 1,
+      "raw_knot_values": {
+        "psnr": [
+          13.2819,
+          19.901,
+          24.6114,
+          30.224
+        ],
+        "ssim": [
+          0.0784,
+          0.4233,
+          0.686,
+          0.878
+        ],
+        "lpips": [
+          0.1943,
+          0.3939,
+          0.6764,
+          1.2216
+        ]
+      },
+      "standardized_knots": {
+        "psnr": [
+          -1.7688,
+          -0.4512,
+          0.4864,
+          1.6037
+        ],
+        "ssim": [
+          -1.7006,
+          -0.3857,
+          0.6158,
+          1.3478
+        ],
+        "lpips": [
+          -1.2458,
+          -0.6235,
+          0.257,
+          1.9564
+        ]
+      }
+    },
+    {
+      "fold": 2,
+      "raw_knot_values": {
+        "psnr": [
+          13.3249,
+          19.8672,
+          24.7251,
+          30.1898
+        ],
+        "ssim": [
+          0.0787,
+          0.4357,
+          0.6792,
+          0.8762
+        ],
+        "lpips": [
+          0.1828,
+          0.3862,
+          0.6723,
+          1.217
+        ]
+      },
+      "standardized_knots": {
+        "psnr": [
+          -1.7742,
+          -0.4721,
+          0.4948,
+          1.5824
+        ],
+        "ssim": [
+          -1.7214,
+          -0.3508,
+          0.5837,
+          1.3402
+        ],
+        "lpips": [
+          -1.2547,
+          -0.624,
+          0.2635,
+          1.9531
+        ]
+      }
+    },
+    {
+      "fold": 3,
+      "raw_knot_values": {
+        "psnr": [
+          13.303,
+          20.0108,
+          24.6614,
+          30.141
+        ],
+        "ssim": [
+          0.0778,
+          0.4258,
+          0.6804,
+          0.8782
+        ],
+        "lpips": [
+          0.1885,
+          0.388,
+          0.6687,
+          1.2171
+        ]
+      },
+      "standardized_knots": {
+        "psnr": [
+          -1.7842,
+          -0.4425,
+          0.4878,
+          1.5838
+        ],
+        "ssim": [
+          -1.7087,
+          -0.3764,
+          0.5983,
+          1.3555
+        ],
+        "lpips": [
+          -1.2458,
+          -0.6193,
+          0.2621,
+          1.9838
+        ]
+      }
+    },
+    {
+      "fold": 4,
+      "raw_knot_values": {
+        "psnr": [
+          13.2819,
+          20.0581,
+          24.7178,
+          29.8588
+        ],
+        "ssim": [
+          0.078,
+          0.4284,
+          0.6756,
+          0.8724
+        ],
+        "lpips": [
+          0.1802,
+          0.3848,
+          0.6676,
+          1.2128
+        ]
+      },
+      "standardized_knots": {
+        "psnr": [
+          -1.807,
+          -0.4317,
+          0.5141,
+          1.5576
+        ],
+        "ssim": [
+          -1.7173,
+          -0.3681,
+          0.5835,
+          1.3414
+        ],
+        "lpips": [
+          -1.2462,
+          -0.6103,
+          0.2686,
+          1.9631
+        ]
+      }
+    },
+    {
+      "fold": 5,
+      "raw_knot_values": {
+        "psnr": [
+          13.2808,
+          19.8836,
+          24.5924,
+          30.0537
+        ],
+        "ssim": [
+          0.0778,
+          0.4251,
+          0.672,
+          0.8724
+        ],
+        "lpips": [
+          0.1878,
+          0.3879,
+          0.6789,
+          1.2177
+        ]
+      },
+      "standardized_knots": {
+        "psnr": [
+          -1.7792,
+          -0.4542,
+          0.4907,
+          1.5866
+        ],
+        "ssim": [
+          -1.7088,
+          -0.3731,
+          0.576,
+          1.3468
+        ],
+        "lpips": [
+          -1.2477,
+          -0.6244,
+          0.282,
+          1.96
+        ]
+      }
+    }
+  ],
+  "matrix_dimensions_by_fold": [
+    {
+      "fold": 1,
+      "reduced_model3": {
+        "cols": 24,
+        "rank": 24,
+        "condition_number": 67.79
+      },
+      "reduced_model5": {
+        "cols": 29,
+        "rank": 29,
+        "condition_number": 93.29
+      },
+      "conventional_model3": {
+        "cols": 27,
+        "rank": 27,
+        "condition_number": 278.51
+      },
+      "conventional_model5": {
+        "cols": 32,
+        "rank": 32,
+        "condition_number": 308.06
+      }
+    },
+    {
+      "fold": 2,
+      "reduced_model3": {
+        "cols": 24,
+        "rank": 24,
+        "condition_number": 70.55
+      },
+      "reduced_model5": {
+        "cols": 29,
+        "rank": 29,
+        "condition_number": 92.5
+      },
+      "conventional_model3": {
+        "cols": 27,
+        "rank": 27,
+        "condition_number": 288.69
+      },
+      "conventional_model5": {
+        "cols": 32,
+        "rank": 32,
+        "condition_number": 310.84
+      }
+    },
+    {
+      "fold": 3,
+      "reduced_model3": {
+        "cols": 24,
+        "rank": 24,
+        "condition_number": 69.22
+      },
+      "reduced_model5": {
+        "cols": 29,
+        "rank": 29,
+        "condition_number": 90.65
+      },
+      "conventional_model3": {
+        "cols": 27,
+        "rank": 27,
+        "condition_number": 291.2
+      },
+      "conventional_model5": {
+        "cols": 32,
+        "rank": 32,
+        "condition_number": 313.32
+      }
+    },
+    {
+      "fold": 4,
+      "reduced_model3": {
+        "cols": 24,
+        "rank": 24,
+        "condition_number": 69.23
+      },
+      "reduced_model5": {
+        "cols": 29,
+        "rank": 29,
+        "condition_number": 90.54
+      },
+      "conventional_model3": {
+        "cols": 27,
+        "rank": 27,
+        "condition_number": 290.49
+      },
+      "conventional_model5": {
+        "cols": 32,
+        "rank": 32,
+        "condition_number": 315.2
+      }
+    },
+    {
+      "fold": 5,
+      "reduced_model3": {
+        "cols": 24,
+        "rank": 24,
+        "condition_number": 68.34
+      },
+      "reduced_model5": {
+        "cols": 29,
+        "rank": 29,
+        "condition_number": 88.28
+      },
+      "conventional_model3": {
+        "cols": 27,
+        "rank": 27,
+        "condition_number": 281.31
+      },
+      "conventional_model5": {
+        "cols": 32,
+        "rank": 32,
+        "condition_number": 301.69
+      }
+    }
+  ],
+  "multiplicity_framework": {
+    "family_wise_error_rate_alpha": 0.05,
+    "number_of_architectures_K": 4,
+    "individual_comparison_alpha_k": 0.0125,
+    "simultaneous_two_sided_ci": {
+      "lower_percentile": 0.625,
+      "upper_percentile": 99.375,
+      "nominal_coverage_guarantee": ">= 95% simultaneous coverage by Bonferroni inequality (P >= 1 - 4 * 0.0125 = 0.95)",
+      "mathematical_correction": "Replaces earlier [1.25%, 98.75%] interval which had 2.5% two-tailed per-test error (90% family coverage)."
+    },
+    "simultaneous_one_sided_superiority_test": {
+      "hypothesis": "H_0: Delta R2_OOS <= 0 vs H_1: Delta R2_OOS > 0",
+      "lower_confidence_bound_percentile": 1.25,
+      "decision_rule": "Reject H_0 simultaneously at family-wise alpha = 0.05 if 1.25th percentile > 0."
+    },
+    "null_calibration": {
+      "uncalibrated_metric": "Sign proportion (mean(Delta* <= 0)) reflects empirical Bayesian posterior mass or quantile tail, NOT a calibrated frequentist p-value.",
+      "calibrated_bootstrap_test": "Null-centered bootstrap: Delta_null*(b) = Delta*(b) - Delta_obs. P-value: (1 + sum(Delta_null*(b) >= Delta_obs)) / (B + 1).",
+      "confirmatory_replicates_B": 10000,
+      "justification_for_B_10000": "Provides exactly 62.5 bootstrap points in the 0.625% tail, ensuring stable empirical percentile estimation."
+    }
+  }
+}

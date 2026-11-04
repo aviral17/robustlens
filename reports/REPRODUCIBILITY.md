@@ -247,3 +247,43 @@ uv run --project ml pytest ml/tests/test_matched_fidelity.py -v
 Output:
 - `reports/RobustLens_New_Research_Manuscript.pdf` (6 pages, ReportLab letter)
 
+---
+
+## 9. November 2026 Matched-Fidelity Confirmatory Study & ImageNet-V2 Replication
+
+### A. Study Metadata & Core Architecture
+- **Primary Cohort:** $N = 3{,}825$ Imagenette validation images across 10 WordNet synsets.
+- **Conditions:** 18 corrupted conditions (3 levels &times; 6 sequences) + 1 clean condition = 19 conditions per image.
+- **Primary Forward Passes:** $3{,}825 \times 19 \times 4 = 290{,}700$ passes ($15{,}300$ clean, $275{,}400$ corrupted).
+- **External Replication Cohort:** $N = 300$ independent photographic images from ImageNet-V2 ($100$ MatchedFrequency, $100$ Threshold0.7, $100$ TopImages).
+- **External Forward Passes:** $300 \times 19 \times 4 = 22{,}800$ passes.
+- **Grand Total Evaluated:** $313{,}500$ forward passes across both cohorts.
+
+### B. Canonical Calibration Targets
+Calibrated across an independent partition ($N_{\text{cal}} = 50$) matching joint PSNR/SSIM targets within prespecified tolerance boundaries (&Delta;PSNR &le; &plusmn;0.75 dB, &Delta;SSIM &le; &plusmn;0.035):
+- **Level 1 (Mild):** Target PSNR 27.20 dB, Target SSIM 0.810
+- **Level 2 (Moderate):** Target PSNR 23.80 dB, Target SSIM 0.650
+- **Level 3 (Severe):** Target PSNR 21.80 dB, Target SSIM 0.500
+- *Covariate Note:* LPIPS was evaluated as a continuous regression predictor via restricted cubic splines (RCS), not an independently calibrated target.
+
+### C. Data Export & Verification Commands
+```bash
+# 1. Export browser-ready JSONs from canonical results:
+python ml/scripts/export_website_data.py
+
+# 2. Generate 10-page final report PDF and editable DOCX manuscript:
+python ml/scripts/generate_corrected_final_documents.py
+
+# 3. Generate matching academic manuscript PDF:
+python ml/scripts/generate_academic_manuscript_pdf.py
+```
+
+### D. Deliverable Artifact Registry
+- `reports/final_research_package/RobustLens_Final_Research_Report.pdf` (10 pages, SHA-256: `f20528c25c02c237884ae3cb5eac291ed6cae758b64cd01ce9be6af6b9bcf16f`)
+- `reports/final_research_package/RobustLens_Academic_Manuscript.docx` (45 KB, SHA-256: `9f0153178b8ce47b2db8c1ba0d5f11e63415335515d7d3b8dd3c528a37133d7b`)
+- `reports/final_research_package/RobustLens_Academic_Manuscript.pdf` (19 KB, SHA-256: `b4e889b1956f0e8cb0c0d6aee211f8b0631a44ce2687072e1160977f6b5f5a49`)
+- `apps/web/public/data/matched_fidelity_study_data.json`
+- `apps/web/public/data/imagenet_v2_replication_data.json`
+- `apps/web/public/data/reproducibility_manifest.json`
+
+

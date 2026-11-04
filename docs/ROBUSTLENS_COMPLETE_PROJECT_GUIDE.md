@@ -6,7 +6,8 @@
 * **Author:** Aviral Choudhary
 * **Project Repository:** [`https://github.com/aviral17/robustlens`](https://github.com/aviral17/robustlens)
 * **Live Web Platform:** [`https://robustlens.vercel.app`](https://robustlens.vercel.app)
-* **Published Research Working Paper:** *"Order Matters Beyond Accuracy: Paired Prediction Analysis of Compound Image Corruptions"*
+* **Confirmatory Matched-Fidelity Study (November 2026):** *"At Matched Image Fidelity, Does Corruption Order Still Matter? Spatial-Frequency and Structural Fingerprints of Vision Classifier Reliability"* ($N = 3{,}825$ Confirmatory Images + $N = 300$ ImageNet-V2, $313{,}500$ Total Forward Passes)
+* **Published Research Working Paper (October 2026):** *"Order Matters Beyond Accuracy: Paired Prediction Analysis of Compound Image Corruptions"*
 * **Permanent Research Archive (Zenodo):** [DOI: 10.5281/zenodo.23483939](https://doi.org/10.5281/zenodo.23483939) (Version 1.0, October 20, 2026)
 * **Target Audience:** Absolute beginners, computer science students, university professors, researchers, machine learning engineers, and curious reviewers.
 

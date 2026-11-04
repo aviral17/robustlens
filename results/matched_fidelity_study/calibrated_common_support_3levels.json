@@ -1,0 +1,52 @@
+{
+  "protocol": "RobustLens 6-Way Simultaneous Common-Support Calibration",
+  "delineation_method": "Tolerance-Ball Union Density Estimator (Alpha=1.0)",
+  "prespecified_tolerances": {
+    "psnr_tolerance_db": 0.75,
+    "ssim_tolerance": 0.035
+  },
+  "levels": {
+    "Level_1_Mild": {
+      "target_psnr": 27.20,
+      "target_ssim": 0.810,
+      "all_6_pass": true,
+      "max_normalized_error": 0.327,
+      "sequences": {
+        "NBJ": {"final_op": "JPEG", "noise_std": 0.070, "blur_sigma": 1.0, "jpeg_quality": 75, "achieved_psnr": 27.22, "achieved_ssim": 0.820, "psnr_err": 0.02, "ssim_err": 0.0096, "within_tol": true},
+        "NJB": {"final_op": "Blur", "noise_std": 0.070, "blur_sigma": 1.0, "jpeg_quality": 35, "achieved_psnr": 27.08, "achieved_ssim": 0.820, "psnr_err": -0.12, "ssim_err": 0.0099, "within_tol": true},
+        "BNJ": {"final_op": "JPEG", "noise_std": 0.035, "blur_sigma": 1.0, "jpeg_quality": 55, "achieved_psnr": 27.10, "achieved_ssim": 0.803, "psnr_err": -0.10, "ssim_err": -0.0074, "within_tol": true},
+        "BJN": {"final_op": "Noise", "noise_std": 0.015, "blur_sigma": 1.0, "jpeg_quality": 75, "achieved_psnr": 27.33, "achieved_ssim": 0.801, "psnr_err": 0.13, "ssim_err": -0.0089, "within_tol": true},
+        "JNB": {"final_op": "Blur", "noise_std": 0.070, "blur_sigma": 1.0, "jpeg_quality": 90, "achieved_psnr": 27.26, "achieved_ssim": 0.807, "psnr_err": 0.06, "ssim_err": -0.0034, "within_tol": true},
+        "JBN": {"final_op": "Noise", "noise_std": 0.015, "blur_sigma": 1.0, "jpeg_quality": 55, "achieved_psnr": 27.42, "achieved_ssim": 0.808, "psnr_err": 0.22, "ssim_err": -0.0023, "within_tol": true}
+      }
+    },
+    "Level_2_Moderate": {
+      "target_psnr": 23.80,
+      "target_ssim": 0.650,
+      "all_6_pass": true,
+      "max_normalized_error": 0.333,
+      "sequences": {
+        "NBJ": {"final_op": "JPEG", "noise_std": 0.200, "blur_sigma": 1.0, "jpeg_quality": 75, "achieved_psnr": 23.69, "achieved_ssim": 0.647, "psnr_err": -0.11, "ssim_err": -0.0034, "within_tol": true},
+        "NJB": {"final_op": "Blur", "noise_std": 0.200, "blur_sigma": 1.0, "jpeg_quality": 35, "achieved_psnr": 23.55, "achieved_ssim": 0.651, "psnr_err": -0.25, "ssim_err": 0.0013, "within_tol": true},
+        "BNJ": {"final_op": "JPEG", "noise_std": 0.120, "blur_sigma": 0.5, "jpeg_quality": 10, "achieved_psnr": 23.75, "achieved_ssim": 0.646, "psnr_err": -0.05, "ssim_err": -0.0036, "within_tol": true},
+        "BJN": {"final_op": "Noise", "noise_std": 0.015, "blur_sigma": 1.8, "jpeg_quality": 20, "achieved_psnr": 23.81, "achieved_ssim": 0.647, "psnr_err": 0.01, "ssim_err": -0.0031, "within_tol": true},
+        "JNB": {"final_op": "Blur", "noise_std": 0.120, "blur_sigma": 1.0, "jpeg_quality": 10, "achieved_psnr": 23.96, "achieved_ssim": 0.646, "psnr_err": 0.16, "ssim_err": -0.0039, "within_tol": true},
+        "JBN": {"final_op": "Noise", "noise_std": 0.015, "blur_sigma": 1.8, "jpeg_quality": 10, "achieved_psnr": 23.65, "achieved_ssim": 0.656, "psnr_err": -0.15, "ssim_err": 0.0060, "within_tol": true}
+      }
+    },
+    "Level_3_SevereCommon": {
+      "target_psnr": 21.80,
+      "target_ssim": 0.500,
+      "all_6_pass": true,
+      "max_normalized_error": 0.533,
+      "sequences": {
+        "NBJ": {"final_op": "JPEG", "noise_std": 0.200, "blur_sigma": 0.5, "jpeg_quality": 35, "achieved_psnr": 21.71, "achieved_ssim": 0.515, "psnr_err": -0.09, "ssim_err": 0.0155, "within_tol": true},
+        "NJB": {"final_op": "Blur", "noise_std": 0.200, "blur_sigma": 0.5, "jpeg_quality": 20, "achieved_psnr": 21.65, "achieved_ssim": 0.515, "psnr_err": -0.15, "ssim_err": 0.0148, "within_tol": true},
+        "BNJ": {"final_op": "JPEG", "noise_std": 0.070, "blur_sigma": 2.8, "jpeg_quality": 35, "achieved_psnr": 22.01, "achieved_ssim": 0.496, "psnr_err": 0.21, "ssim_err": -0.0042, "within_tol": true},
+        "BJN": {"final_op": "Noise", "noise_std": 0.070, "blur_sigma": 0.5, "jpeg_quality": 20, "achieved_psnr": 22.03, "achieved_ssim": 0.486, "psnr_err": 0.23, "ssim_err": -0.0135, "within_tol": true},
+        "JNB": {"final_op": "Blur", "noise_std": 0.120, "blur_sigma": 0.5, "jpeg_quality": 35, "achieved_psnr": 21.96, "achieved_ssim": 0.496, "psnr_err": 0.16, "ssim_err": -0.0043, "within_tol": true},
+        "JBN": {"final_op": "Noise", "noise_std": 0.070, "blur_sigma": 0.5, "jpeg_quality": 20, "achieved_psnr": 22.19, "achieved_ssim": 0.496, "psnr_err": 0.39, "ssim_err": -0.0041, "within_tol": true}
+      }
+    }
+  }
+}

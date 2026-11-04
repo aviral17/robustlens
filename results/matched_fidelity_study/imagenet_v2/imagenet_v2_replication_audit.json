@@ -1,0 +1,322 @@
+[
+  {
+    "variant": "MatchedFrequency",
+    "architecture": "convnext_tiny",
+    "n_images": 100,
+    "r2_m3": 0.0079,
+    "r2_m5": 0.0006,
+    "delta_r2": -0.0073,
+    "ci95_delta_r2": [
+      -0.058,
+      0.0385
+    ],
+    "mae_m3": 3.4808,
+    "mae_m5": 3.5042,
+    "delta_mae": -0.0234,
+    "ci95_delta_mae": [
+      -0.1209,
+      0.0711
+    ],
+    "p_value": 0.61494
+  },
+  {
+    "variant": "MatchedFrequency",
+    "architecture": "vit_base",
+    "n_images": 100,
+    "r2_m3": 0.0396,
+    "r2_m5": 0.0502,
+    "delta_r2": 0.0107,
+    "ci95_delta_r2": [
+      -0.0522,
+      0.0693
+    ],
+    "mae_m3": 3.6445,
+    "mae_m5": 3.6155,
+    "delta_mae": 0.0291,
+    "ci95_delta_mae": [
+      -0.1041,
+      0.1668
+    ],
+    "p_value": 0.36146
+  },
+  {
+    "variant": "MatchedFrequency",
+    "architecture": "swin_tiny",
+    "n_images": 100,
+    "r2_m3": 0.0381,
+    "r2_m5": 0.0076,
+    "delta_r2": -0.0305,
+    "ci95_delta_r2": [
+      -0.0824,
+      0.0162
+    ],
+    "mae_m3": 3.2924,
+    "mae_m5": 3.339,
+    "delta_mae": -0.0466,
+    "ci95_delta_mae": [
+      -0.1328,
+      0.0407
+    ],
+    "p_value": 0.87861
+  },
+  {
+    "variant": "MatchedFrequency",
+    "architecture": "resnet50",
+    "n_images": 100,
+    "r2_m3": 0.0758,
+    "r2_m5": 0.0788,
+    "delta_r2": 0.0031,
+    "ci95_delta_r2": [
+      -0.053,
+      0.0513
+    ],
+    "mae_m3": 5.7344,
+    "mae_m5": 5.6994,
+    "delta_mae": 0.035,
+    "ci95_delta_mae": [
+      -0.1614,
+      0.2246
+    ],
+    "p_value": 0.44666
+  },
+  {
+    "variant": "Threshold0.7",
+    "architecture": "convnext_tiny",
+    "n_images": 100,
+    "r2_m3": 0.007,
+    "r2_m5": 0.0166,
+    "delta_r2": 0.0096,
+    "ci95_delta_r2": [
+      -0.0601,
+      0.0706
+    ],
+    "mae_m3": 3.2138,
+    "mae_m5": 3.1554,
+    "delta_mae": 0.0584,
+    "ci95_delta_mae": [
+      -0.055,
+      0.1714
+    ],
+    "p_value": 0.39556
+  },
+  {
+    "variant": "Threshold0.7",
+    "architecture": "vit_base",
+    "n_images": 100,
+    "r2_m3": 0.0374,
+    "r2_m5": 0.0671,
+    "delta_r2": 0.0297,
+    "ci95_delta_r2": [
+      -0.0545,
+      0.1024
+    ],
+    "mae_m3": 3.536,
+    "mae_m5": 3.4405,
+    "delta_mae": 0.0955,
+    "ci95_delta_mae": [
+      -0.0669,
+      0.2538
+    ],
+    "p_value": 0.22968
+  },
+  {
+    "variant": "Threshold0.7",
+    "architecture": "swin_tiny",
+    "n_images": 100,
+    "r2_m3": 0.0086,
+    "r2_m5": 0.043,
+    "delta_r2": 0.0344,
+    "ci95_delta_r2": [
+      -0.0293,
+      0.0918
+    ],
+    "mae_m3": 3.1378,
+    "mae_m5": 3.0287,
+    "delta_mae": 0.1091,
+    "ci95_delta_mae": [
+      0.0068,
+      0.2135
+    ],
+    "p_value": 0.12809
+  },
+  {
+    "variant": "Threshold0.7",
+    "architecture": "resnet50",
+    "n_images": 100,
+    "r2_m3": 0.0616,
+    "r2_m5": 0.101,
+    "delta_r2": 0.0395,
+    "ci95_delta_r2": [
+      -0.0113,
+      0.0905
+    ],
+    "mae_m3": 5.5458,
+    "mae_m5": 5.3352,
+    "delta_mae": 0.2105,
+    "ci95_delta_mae": [
+      0.0286,
+      0.3964
+    ],
+    "p_value": 0.06839
+  },
+  {
+    "variant": "TopImages",
+    "architecture": "convnext_tiny",
+    "n_images": 100,
+    "r2_m3": 0.0382,
+    "r2_m5": 0.0137,
+    "delta_r2": -0.0245,
+    "ci95_delta_r2": [
+      -0.0712,
+      0.0181
+    ],
+    "mae_m3": 2.9929,
+    "mae_m5": 3.0105,
+    "delta_mae": -0.0176,
+    "ci95_delta_mae": [
+      -0.0971,
+      0.0604
+    ],
+    "p_value": 0.85811
+  },
+  {
+    "variant": "TopImages",
+    "architecture": "vit_base",
+    "n_images": 100,
+    "r2_m3": 0.0796,
+    "r2_m5": 0.102,
+    "delta_r2": 0.0224,
+    "ci95_delta_r2": [
+      -0.0343,
+      0.0754
+    ],
+    "mae_m3": 3.4856,
+    "mae_m5": 3.4325,
+    "delta_mae": 0.0531,
+    "ci95_delta_mae": [
+      -0.084,
+      0.1859
+    ],
+    "p_value": 0.21248
+  },
+  {
+    "variant": "TopImages",
+    "architecture": "swin_tiny",
+    "n_images": 100,
+    "r2_m3": 0.0297,
+    "r2_m5": 0.0146,
+    "delta_r2": -0.0151,
+    "ci95_delta_r2": [
+      -0.0554,
+      0.021
+    ],
+    "mae_m3": 2.8837,
+    "mae_m5": 2.8863,
+    "delta_mae": -0.0027,
+    "ci95_delta_mae": [
+      -0.0705,
+      0.0657
+    ],
+    "p_value": 0.78522
+  },
+  {
+    "variant": "TopImages",
+    "architecture": "resnet50",
+    "n_images": 100,
+    "r2_m3": 0.0793,
+    "r2_m5": 0.0731,
+    "delta_r2": -0.0062,
+    "ci95_delta_r2": [
+      -0.055,
+      0.0385
+    ],
+    "mae_m3": 5.9188,
+    "mae_m5": 5.871,
+    "delta_mae": 0.0478,
+    "ci95_delta_mae": [
+      -0.146,
+      0.2297
+    ],
+    "p_value": 0.61894
+  },
+  {
+    "variant": "Pooled_External_All_Variants",
+    "architecture": "convnext_tiny",
+    "n_images": 300,
+    "r2_m3": 0.0397,
+    "r2_m5": 0.0541,
+    "delta_r2": 0.0144,
+    "ci95_delta_r2": [
+      -0.0099,
+      0.0383
+    ],
+    "mae_m3": 3.231,
+    "mae_m5": 3.187,
+    "delta_mae": 0.044,
+    "ci95_delta_mae": [
+      -0.0037,
+      0.0929
+    ],
+    "p_value": 0.12189
+  },
+  {
+    "variant": "Pooled_External_All_Variants",
+    "architecture": "vit_base",
+    "n_images": 300,
+    "r2_m3": 0.0746,
+    "r2_m5": 0.1117,
+    "delta_r2": 0.0371,
+    "ci95_delta_r2": [
+      0.0065,
+      0.0675
+    ],
+    "mae_m3": 3.5469,
+    "mae_m5": 3.4561,
+    "delta_mae": 0.0908,
+    "ci95_delta_mae": [
+      0.0159,
+      0.1681
+    ],
+    "p_value": 0.0085
+  },
+  {
+    "variant": "Pooled_External_All_Variants",
+    "architecture": "swin_tiny",
+    "n_images": 300,
+    "r2_m3": 0.0554,
+    "r2_m5": 0.0669,
+    "delta_r2": 0.0115,
+    "ci95_delta_r2": [
+      -0.0126,
+      0.0345
+    ],
+    "mae_m3": 3.1157,
+    "mae_m5": 3.0754,
+    "delta_mae": 0.0403,
+    "ci95_delta_mae": [
+      -0.0045,
+      0.0858
+    ],
+    "p_value": 0.17678
+  },
+  {
+    "variant": "Pooled_External_All_Variants",
+    "architecture": "resnet50",
+    "n_images": 300,
+    "r2_m3": 0.0931,
+    "r2_m5": 0.1143,
+    "delta_r2": 0.0212,
+    "ci95_delta_r2": [
+      -0.007,
+      0.0475
+    ],
+    "mae_m3": 5.7086,
+    "mae_m5": 5.581,
+    "delta_mae": 0.1277,
+    "ci95_delta_mae": [
+      0.025,
+      0.2306
+    ],
+    "p_value": 0.05899
+  }
+]

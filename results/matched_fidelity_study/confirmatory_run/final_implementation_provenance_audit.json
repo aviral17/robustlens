@@ -1,0 +1,100 @@
+{
+  "lpips_audit": {
+    "explicit_rescaling_applied": true,
+    "scaling_formula": "tensor * 2.0 - 1.0 (maps [0.0, 1.0] -> [-1.0, 1.0])",
+    "lpips_net": "alex",
+    "status": "PASS (Exact match with LPIPS specification)"
+  },
+  "preprocessing_audit": {
+    "spatial_crop": "Resize(256) -> CenterCrop(224) -> ToTensor()",
+    "resnet50_norm": {
+      "mean": [
+        0.485,
+        0.456,
+        0.406
+      ],
+      "std": [
+        0.229,
+        0.224,
+        0.225
+      ]
+    },
+    "convnext_tiny_norm": {
+      "mean": [
+        0.485,
+        0.456,
+        0.406
+      ],
+      "std": [
+        0.229,
+        0.224,
+        0.225
+      ]
+    },
+    "swin_tiny_norm": {
+      "mean": [
+        0.485,
+        0.456,
+        0.406
+      ],
+      "std": [
+        0.229,
+        0.224,
+        0.225
+      ]
+    },
+    "vit_base_norm": {
+      "mean": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "std": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "fingerprints_computed_on": "unnormalized [0.0, 1.0] RGB tensor prior to model-specific normalization",
+    "status": "PASS (Exact match with timm data_config for each model)"
+  },
+  "checkpoint_hashes": {
+    "resnet50": {
+      "path": "C:\\Users\\Avi\\.cache\\huggingface\\hub\\models--timm--resnet50.a1_in1k\\snapshots\\767268603ca0cb0bfe326fa87277f19c419566ef\\model.safetensors",
+      "filename": "model.safetensors",
+      "size_bytes": 102469840,
+      "sha256": "773525d5821de224f8f30c33377b7a795d7863e08522698200d3217d3f2a41bb"
+    },
+    "convnext_tiny": {
+      "path": "C:\\Users\\Avi\\.cache\\huggingface\\hub\\models--timm--convnext_tiny.in12k_ft_in1k\\snapshots\\aa096f03029c7f0ec052013f64c819b34f8ad790\\model.safetensors",
+      "filename": "model.safetensors",
+      "size_bytes": 114374272,
+      "sha256": "a1aefa409b513cf209b085424eb3efffe4e4a9f511491bc2c12ea35209e6bb95"
+    },
+    "vit_base": {
+      "path": "C:\\Users\\Avi\\.cache\\huggingface\\hub\\models--timm--vit_base_patch16_224.augreg_in21k_ft_in1k\\snapshots\\2ec9fb3d7bb664aac471ac44582c94d18de33780\\model.safetensors",
+      "filename": "model.safetensors",
+      "size_bytes": 346284714,
+      "sha256": "c401d219603ac3e20b6373c7b198c78d3a733f80b755d148bda3bc320ae69800"
+    },
+    "swin_tiny": {
+      "path": "C:\\Users\\Avi\\.cache\\huggingface\\hub\\models--timm--swin_tiny_patch4_window7_224.ms_in1k\\snapshots\\4cc3a7275b50b53a7bec45f32c236ebe64227cff\\model.safetensors",
+      "filename": "model.safetensors",
+      "size_bytes": 114286722,
+      "sha256": "fb01861f793143135fa0d6cd97b1631e4b33eaa3ee162bbea9e62de1c76ebac1"
+    }
+  },
+  "dataset_and_conditions": {
+    "unique_images": 3825,
+    "total_records": 275400,
+    "conditions_per_image": 18,
+    "models": [
+      "resnet50",
+      "convnext_tiny",
+      "vit_base",
+      "swin_tiny"
+    ],
+    "gpu_device": "Tesla T4",
+    "status": "PASS (Exact match with prespecified 3,825 images x 18 conditions x 4 models)"
+  }
+}

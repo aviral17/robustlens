@@ -1,0 +1,104 @@
+{
+  "study_name": "RobustLens: Spatial-Frequency & Structural Distortion Fingerprints Under Matched Global Image Fidelity",
+  "version": "1.0.0-pilot",
+  "created_at": "2026-11-04T13:22:00+05:30",
+  "author": "Aviral Choudhary",
+  "reproducibility_status": "PILOT_VALIDATED_CONFIRMATORY_PREPARED",
+  "experimental_isolation": {
+    "historical_nominal_study": "c:/STATISTICS & CV/robustlens/results/order_effect_study/full/ (PRESERVED_UNTOUCHED)",
+    "historical_approximate_fidelity_study": "c:/STATISTICS & CV/robustlens/results/order_effect_study/matched_fidelity/ (PRESERVED_UNTOUCHED)",
+    "current_results_dir": "c:/STATISTICS & CV/robustlens/results/matched_fidelity_study/",
+    "current_reports_dir": "c:/STATISTICS & CV/robustlens/reports/matched_fidelity_study/"
+  },
+  "dataset": {
+    "source": "FastAI Imagenette-v2 (johnowhitaker/imagenette2-320)",
+    "total_rows": 13394,
+    "calibration_split": {
+      "rows": "0..9468",
+      "n_images_evaluated": 50,
+      "seed": 12345,
+      "purpose": "Parameter grid search to delineate empirical grid-sampled achievable region (zero validation leakage)"
+    },
+    "validation_split": {
+      "rows": "9469..13393",
+      "total_images": 3925,
+      "pilot_subset_size": 100,
+      "pilot_classes": 10,
+      "pilot_images_per_class": 10,
+      "confirmatory_sample_size": 3925
+    }
+  },
+  "calibration_grid_search": {
+    "dimensions": {
+      "sequences": ["NBJ", "NJB", "BNJ", "BJN", "JNB", "JBN"],
+      "noise_stds": [0.015, 0.035, 0.070, 0.120, 0.200, 0.320],
+      "blur_sigmas": [0.5, 1.0, 1.8, 2.8, 4.0, 5.5],
+      "jpeg_qualities": [90, 75, 55, 35, 20, 10]
+    },
+    "total_grid_combinations_evaluated": 1296,
+    "calibration_images_per_grid_point": 15,
+    "total_calibration_transforms": 19440,
+    "wall_clock_time_seconds": 3218.3,
+    "artifact": "common_support_grid_calibration.csv",
+    "diagnostics_summary": "common_support_diagnostics.json"
+  },
+  "perceptual_and_structural_metrics": {
+    "lpips": {
+      "version": "0.1.4",
+      "backend_network": "AlexNet",
+      "weights_source": "torchvision.models.AlexNet_Weights.DEFAULT",
+      "weights_checksum_file": "alexnet-owt-7be5be79.pth",
+      "input_scaling": "[-1.0, 1.0]"
+    },
+    "fourier_energy_bands": {
+      "residual_definition": "Delta(x,y) = I_corrupt(x,y) - I_clean(x,y) in grayscale luminance",
+      "transform": "2D Centered Fast Fourier Transform (FFT2)",
+      "power_spectrum": "P(u,v) = |FFT2(Delta)|^2",
+      "normalized_radius": "r = sqrt(u^2 + v^2) / sqrt((H/2)^2 + (W/2)^2) in [0, 1]",
+      "bands": {
+        "fft_energy_low": "r < 0.15",
+        "fft_energy_med": "0.15 <= r < 0.45",
+        "fft_energy_high": "r >= 0.45"
+      },
+      "normalization": "Partition of unity: sum(E_low, E_med, E_high) = 1.0"
+    },
+    "jpeg_block_discontinuity": {
+      "kernel": "Horizontal & vertical step difference across 8x8 block grid",
+      "boundary_indices": "7, 15, 23, 31, ... (mod 8 == 7)",
+      "formula": "B_JPEG = 0.5 * ( (mean(diff_boundary_h) / mean(diff_interior_h)) + (mean(diff_boundary_v) / mean(diff_interior_v)) )",
+      "null_expectation": "1.00 for isotropic natural images without grid alignment"
+    },
+    "spatial_edge_energy": {
+      "filter": "3x3 Sobel horizontal and vertical kernels",
+      "formula": "delta_E_edge = (edge_corrupt - edge_clean) / edge_clean"
+    },
+    "local_ssim_variability": {
+      "kernel": "11x11 Gaussian window (sigma=1.5)",
+      "formula": "std_local_ssim = Spatial standard deviation of SSIM map across image pixels"
+    }
+  },
+  "vision_architectures": {
+    "resnet50": "resnet50.a1_in1k (timm)",
+    "convnext_tiny": "convnext_tiny.in12k_ft_in1k (timm)",
+    "vit_base": "vit_base_patch16_224.augreg_in21k_ft_in1k (timm)",
+    "swin_tiny": "swin_tiny_patch4_window7_224.ms_in1k (timm)"
+  },
+  "execution_stages": {
+    "pilot_stage": {
+      "status": "RUNNING (PID 23848)",
+      "device": "Local CPU (8 logical processors)",
+      "sample_size": 100,
+      "total_forward_passes": 7200,
+      "output_csv": "heldout_fingerprints_and_margins.csv",
+      "output_comparison": "explanatory_models_comparison.csv"
+    },
+    "confirmatory_stage": {
+      "status": "NOTEBOOK_GENERATED",
+      "target_device": "Kaggle NVIDIA GPU (T4 / P100 / A100)",
+      "notebook_path": "ml/notebooks/02_distortion_fingerprints_confirmatory.ipynb",
+      "sample_size": 3925,
+      "total_forward_passes": 298300,
+      "output_csv": "full_distortion_fingerprints_and_margins.csv.gz"
+    }
+  }
+}

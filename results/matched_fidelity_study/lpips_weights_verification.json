@@ -1,0 +1,87 @@
+{
+  "lpips_package_version": "0.1.4",
+  "backend_net": "alex",
+  "alexnet_backbone": {
+    "path": "C:\\Users\\Avi\\.cache\\torch\\hub\\checkpoints\\alexnet-owt-7be5be79.pth",
+    "size_bytes": 244408911,
+    "sha256": "7be5be791159472b1fbf3c69796f7cb30dca7ad8466c2df70058c37116cdee02",
+    "official_url": "https://download.pytorch.org/models/alexnet-owt-7be5be79.pth"
+  },
+  "learned_calibration_layers": {
+    "lin0.model.1.weight": {
+      "shape": [
+        1,
+        64,
+        1,
+        1
+      ],
+      "num_elements": 64,
+      "mean": 0.036711,
+      "std": 0.093453,
+      "min": 0.0,
+      "max": 0.492139,
+      "sha256": "1b21ee01e0de563ae9c7d645f8c40534d878fe5fc00b00cc01a29e3887cb8822"
+    },
+    "lin1.model.1.weight": {
+      "shape": [
+        1,
+        192,
+        1,
+        1
+      ],
+      "num_elements": 192,
+      "mean": 0.084078,
+      "std": 0.197857,
+      "min": 0.0,
+      "max": 1.047155,
+      "sha256": "96b20e99719b4f1ac74b927546a2418913e87e95adc90a6629587fff450e3306"
+    },
+    "lin2.model.1.weight": {
+      "shape": [
+        1,
+        384,
+        1,
+        1
+      ],
+      "num_elements": 384,
+      "mean": 0.102262,
+      "std": 0.194774,
+      "min": 0.0,
+      "max": 1.323567,
+      "sha256": "ba5d4595d966dde9d19855d8e139ef6271f012a945b279cccffed2485e0e5992"
+    },
+    "lin3.model.1.weight": {
+      "shape": [
+        1,
+        256,
+        1,
+        1
+      ],
+      "num_elements": 256,
+      "mean": 0.106239,
+      "std": 0.153911,
+      "min": 0.0,
+      "max": 0.747736,
+      "sha256": "51c7dbf1c5c1e31db1baaf2618172ddd8b8240a8cd957a915582e0748cfb2a89"
+    },
+    "lin4.model.1.weight": {
+      "shape": [
+        1,
+        256,
+        1,
+        1
+      ],
+      "num_elements": 256,
+      "mean": 0.079364,
+      "std": 0.086887,
+      "min": 0.0,
+      "max": 0.41307,
+      "sha256": "60b6388e7b80292d96b8150f1f12605aa514f148847959ce322453731810029c"
+    }
+  },
+  "reference_invariants": {
+    "identical_images_distance": 0.0,
+    "black_vs_white_distance": 0.45107
+  },
+  "offline_reproducibility": "VERIFIED_OFFLINE_NO_EXTERNAL_CALLS"
+}

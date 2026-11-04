@@ -1,0 +1,54 @@
+[
+  {
+    "architecture": "convnext_tiny",
+    "fft_energy_low_mean": -0.1636,
+    "fft_energy_low_std": 0.0232,
+    "fft_energy_high_mean": -0.7451,
+    "fft_energy_high_std": 0.0395,
+    "jpeg_block_artifact_mean": 0.1881,
+    "jpeg_block_artifact_std": 0.0228,
+    "delta_edge_energy_mean": 0.7734,
+    "delta_edge_energy_std": 0.0368,
+    "std_local_ssim_mean": -0.0424,
+    "std_local_ssim_std": 0.0565
+  },
+  {
+    "architecture": "vit_base",
+    "fft_energy_low_mean": -0.1303,
+    "fft_energy_low_std": 0.0437,
+    "fft_energy_high_mean": -0.6566,
+    "fft_energy_high_std": 0.0347,
+    "jpeg_block_artifact_mean": 0.1625,
+    "jpeg_block_artifact_std": 0.0185,
+    "delta_edge_energy_mean": 1.0308,
+    "delta_edge_energy_std": 0.0435,
+    "std_local_ssim_mean": -0.2704,
+    "std_local_ssim_std": 0.063
+  },
+  {
+    "architecture": "swin_tiny",
+    "fft_energy_low_mean": -0.1848,
+    "fft_energy_low_std": 0.0189,
+    "fft_energy_high_mean": -0.834,
+    "fft_energy_high_std": 0.0285,
+    "jpeg_block_artifact_mean": 0.1331,
+    "jpeg_block_artifact_std": 0.009,
+    "delta_edge_energy_mean": 0.7067,
+    "delta_edge_energy_std": 0.0374,
+    "std_local_ssim_mean": -0.0497,
+    "std_local_ssim_std": 0.0421
+  },
+  {
+    "architecture": "resnet50",
+    "fft_energy_low_mean": -0.3109,
+    "fft_energy_low_std": 0.0691,
+    "fft_energy_high_mean": -1.1348,
+    "fft_energy_high_std": 0.0425,
+    "jpeg_block_artifact_mean": 0.5252,
+    "jpeg_block_artifact_std": 0.0331,
+    "delta_edge_energy_mean": 1.198,
+    "delta_edge_energy_std": 0.0634,
+    "std_local_ssim_mean": -0.1975,
+    "std_local_ssim_std": 0.0969
+  }
+]

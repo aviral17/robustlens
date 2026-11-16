@@ -57,6 +57,7 @@ interface MatchedData {
   statistical_comparison: Array<{
     architecture: string;
     display_name: string;
+    specification?: string;
     r2_oos_m3: number;
     r2_oos_m5: number;
     delta_r2_oos: number;

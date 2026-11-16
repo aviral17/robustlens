@@ -40,7 +40,7 @@ export default function AboutPage() {
           </h1>
 
           <p className="text-lg sm:text-xl text-slate-600 dark:text-muted-foreground font-medium leading-relaxed">
-            An empirical research framework investigating operator non-commutativity, prediction churn, and physical distortion confounding across modern computer vision architectures.
+            An empirical research framework investigating operator-order effects, paired prediction transitions, matched global image fidelity, spatial-frequency/structural fingerprints, and vision-model decision margins across modern computer vision architectures.
           </p>
         </div>
 
@@ -60,7 +60,7 @@ export default function AboutPage() {
           </div>
           <div className="flex flex-col gap-1">
             <span className="text-2xl sm:text-3xl font-extrabold text-amber-600 dark:text-amber-500">4</span>
-            <span className="text-xs sm:text-sm text-slate-600 dark:text-muted-foreground font-medium">Canonical Vision Paradigms</span>
+            <span className="text-xs sm:text-sm text-slate-600 dark:text-muted-foreground font-medium">Canonical Architectures</span>
           </div>
         </div>
       </section>
@@ -242,7 +242,7 @@ export default function AboutPage() {
                 <strong>Nominal Regime (486,700 passes):</strong> Fixed standard ImageNet-C parameters (severities 1–5), assessing operational robustness when degradation sequence is unconstrained.
               </p>
               <p>
-                <strong>Approximate-Fidelity Regime (486,700 passes):</strong> Parameters pre-calibrated on an independent partition (N<sub>cal</sub> = 50) targeting shared (PSNR, SSIM) bins, demonstrating a 63.18% aggregate range contraction.
+                <strong>Approximate-Fidelity Regime (486,700 passes):</strong> Parameters targeted shared (PSNR, SSIM) bins on an independent partition (N<sub>cal</sub> = 50), but did not meet prespecified tolerances (PSNR RMSE 0.943 dB vs. &plusmn;0.75 dB tolerance; SSIM RMSE 0.1380 vs. &plusmn;0.035 tolerance). The resulting 63.18% aggregate range contraction remains descriptive. In contrast, the November 2026 calibrated common-support protocol successfully validated all 18/18 configurations within tolerance.
               </p>
               <p>
                 <strong>Statistical Objective:</strong> Formulates 5-state joint prediction space separating correctness churn from error migration (E<sub>00_diff</sub>).
@@ -305,17 +305,17 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="p-6 rounded-3xl bg-card border border-border/60 shadow-sm flex flex-col gap-3">
               <span className="text-xs font-bold uppercase tracking-wider text-rose-500">Finding 4 (Order Sensitivity)</span>
-              <h3 className="font-bold text-lg text-foreground">Terminal Smoothing Confound</h3>
+              <h3 className="font-bold text-lg text-foreground">Terminal Operator Effects &amp; Order Sensitivity</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Nominal evaluations show massive sequence gaps up to <strong>21.55% in ResNet-50</strong> (35.71% on BJN vs. 57.27% on JNB) and <strong>20.45% in ConvNeXt-Tiny</strong> (45.99% on BJN vs. 66.44% on NJB). These gaps are dominated by terminal operator identity: ending in Blur confers a +17.69% boost by filtering prior noise and JPEG artifacts, increasing PSNR by ~6.2 dB.
+                In the tested nominal regime, sequences ending in blur had higher average accuracy than sequences ending in noise (conferring a +17.69% boost across architectures), partly by smoothing prior high-frequency artifacts. Crucially, terminal operator identity alone does not explain all sequence variation: substantial accuracy differences persist even among sequences sharing the identical terminal operator (e.g., NBJ at 58.90% vs. BNJ at 42.88% in ConvNeXt-Tiny—a 16.02 percentage point divergence despite both terminating in JPEG). Sequence processing order remains a critical independent determinant of model resilience.
               </p>
             </div>
 
             <div className="p-6 rounded-3xl bg-card border border-border/60 shadow-sm flex flex-col gap-3">
               <span className="text-xs font-bold uppercase tracking-wider text-blue-500">Finding 5 (Fidelity Contraction)</span>
-              <h3 className="font-bold text-lg text-foreground">Gap Contraction Under Shared Fidelity</h3>
+              <h3 className="font-bold text-lg text-foreground">Descriptive Gap Contraction Under Approximate Fidelity</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Targeting common (PSNR, SSIM) support contracts the cross-sequence range of the four-model mean accuracies by <strong>63.18%</strong> (from 18.43% down to 6.79%). Architecture-specific gap contractions average <strong>58.08%</strong> (77.15% in ConvNeXt, 72.62% in ResNet, 50.75% in ViT, and 31.80% in Swin).
+                In the October approximate-fidelity benchmark, equalizing shared (PSNR, SSIM) bins contracted the cross-sequence accuracy range of the four-model mean by a descriptive <strong>63.18%</strong> (from 18.43% down to 6.79%, with architecture-specific contractions averaging 58.08%). Because this exploratory regime did not satisfy prescribed tolerances (PSNR RMSE 0.943 dB, SSIM RMSE 0.1380), the November confirmatory study instituted a rigorously validated common-support protocol (18/18 configurations validated within &plusmn;0.75 dB PSNR, &plusmn;0.035 SSIM), confirming that spatial-frequency and structural fingerprints drive logit margins beyond global fidelity.
               </p>
             </div>
 

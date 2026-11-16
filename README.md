@@ -1,69 +1,76 @@
 # 🔍 RobustLens: Vision Architecture Robustness & Non-Commutative Compound Corruptions
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23483939.svg)](https://doi.org/10.5281/zenodo.23483939)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![Next.js 16](https://img.shields.io/badge/Next.js-16-black.svg)](https://nextjs.org/)
-[![Benchmark Scale](https://img.shields.io/badge/Scale-973%2C400%20Evaluations-emerald.svg)](results/order_effect_study/full/outputs/all_order_predictions.csv.gz)
+[![Benchmark Scale](https://img.shields.io/badge/Scale-1%2C286%2C900%20Evaluations-emerald.svg)](results/)
 
-**RobustLens** is an empirical statistical research benchmark and interactive web application evaluating the out-of-distribution (OOD) robustness, predictive uncertainty, and non-commutative operator vulnerabilities of four canonical vision architectures: **ResNet-50**, **ConvNeXt-Tiny**, **ViT-Base/16**, and **Swin-Tiny**.
+**RobustLens** is an empirical statistical research framework and interactive evaluation suite investigating operator non-commutativity, paired prediction transitions, matched global image fidelity, spatial-frequency/structural fingerprints, and vision-model decision margins across four canonical computer vision architectures: **ResNet-50**, **ConvNeXt-Tiny**, **ViT-Base/16**, and **Swin-Tiny**.
 
-Evaluated across **973,400 total forward passes** on the official **FastAI Imagenette-v2** validation partition ($N = 3{,}925$ independent physical images with deterministically seed-matched noise realizations).
+Evaluated across **1,286,900 total forward passes** across two comprehensive research phases:
+1. **November 2026 Matched-Fidelity Confirmatory & Replication Study (313,500 passes):** Evaluates $N = 3{,}825$ held-out Imagenette validation images ($290{,}700$ primary passes) across 3 calibrated common-support tiers (Mild: 27.20 dB / 0.810; Moderate: 23.80 dB / 0.650; Severe: 21.80 dB / 0.500) plus an independent $N = 300$ ImageNet-V2 external replication cohort ($22{,}800$ passes).
+2. **October 2026 Foundational Compound-Corruption Benchmark (973,400 passes):** Evaluates $N = 3{,}925$ validation images across Nominal and Approximate-Fidelity regimes across all 6 sequence permutations.
 
 ---
 
-## 📄 Final Research Package (November 2026 Extension & October 2026 Benchmark)
+## 📄 Research Publications & Academic Deliverables
 
-### 🔬 November 2026 Matched-Fidelity Study
-- **Authoritative Final Research Report (PDF, 10 Pages):** [`reports/final_research_package/RobustLens_Final_Research_Report.pdf`](reports/final_research_package/RobustLens_Final_Research_Report.pdf)  
-  *"At Matched Image Fidelity, Does Corruption Order Still Matter? Spatial-Frequency and Structural Fingerprints of Vision Classifier Reliability"*
+### 🔬 Canonical Scientific Manuscript (November 2026)
+- **Title:** *Spatial-Frequency and Structural Distortion Fingerprints Beyond Global Image Fidelity: Predicting Vision-Model Margins under Compound Image Corruption*
+- **Authors:** **Suryakanth V. Gangashetty**$^1$ and **Aviral Choudhary**$^2$  
+  $^1$Department of Computer Science and Engineering, Koneru Lakshmaiah Education Foundation, India  
+  $^2$Independent Researcher, India
+- **Canonical Manuscript (PDF with Vector Figures, 8 Pages):** [`apps/web/public/downloads/RobustLens_Academic_Manuscript.pdf`](apps/web/public/downloads/RobustLens_Academic_Manuscript.pdf)
+- **Comprehensive Research Report (PDF, 10 Pages):** [`reports/final_research_package/RobustLens_Final_Research_Report.pdf`](reports/final_research_package/RobustLens_Final_Research_Report.pdf)
 - **Editable Academic Manuscript (DOCX):** [`reports/final_research_package/RobustLens_Academic_Manuscript.docx`](reports/final_research_package/RobustLens_Academic_Manuscript.docx)
-- **Academic Manuscript (PDF):** [`reports/final_research_package/RobustLens_Academic_Manuscript.pdf`](reports/final_research_package/RobustLens_Academic_Manuscript.pdf)
-- **Master Research Scientific Contribution Report:** [`FINAL_RESEARCH_SCIENTIFIC_CONTRIBUTION_REPORT.md`](FINAL_RESEARCH_SCIENTIFIC_CONTRIBUTION_REPORT.md)
+- **LaTeX Source (.tex):** [`apps/web/public/downloads/RobustLens_Academic_Manuscript.tex`](apps/web/public/downloads/RobustLens_Academic_Manuscript.tex)
+- **Complete LaTeX Source & Vector Figures Archive (.zip):** [`apps/web/public/downloads/RobustLens_Matched_Fidelity_Final_Source.zip`](apps/web/public/downloads/RobustLens_Matched_Fidelity_Final_Source.zip)
 - **Reproducibility Manifest & SHA-256 Hashes:** [`results/matched_fidelity_study/REPRODUCIBILITY_MANIFEST.json`](results/matched_fidelity_study/REPRODUCIBILITY_MANIFEST.json)
 
-### 📚 Historical Benchmark Release (October 2026)
-- **Primary Research Paper (PDF, 5 Pages):** [`reports/final_research_package/RobustLens_Final_Paper.pdf`](reports/final_research_package/RobustLens_Final_Paper.pdf)  
-  *"Beyond Six-Order Accuracy Gaps: A Paired, Distortion-Aware Analysis of Compound-Corruption Permutations in Vision Classifiers"*
+### 📚 Foundational Benchmark Paper (October 2026)
+- **Title:** *Order Matters Beyond Accuracy: Paired Prediction Analysis of Compound Image Corruptions*
+- **Authors:** **Suryakanth V. Gangashetty**$^1$ and **Aviral Choudhary**$^2$  
+  $^1$Department of Computer Science and Engineering, Koneru Lakshmaiah Education Foundation, India  
+  $^2$Independent Researcher, India
+- **Foundational Paper (PDF, 6 Pages):** [`apps/web/public/downloads/RobustLens_Final_Paper.pdf`](apps/web/public/downloads/RobustLens_Final_Paper.pdf)
+- **Foundational LaTeX Source (.tex):** [`apps/web/public/downloads/RobustLens_Foundational_Paper.tex`](apps/web/public/downloads/RobustLens_Foundational_Paper.tex)
+- **Complete Research Package (.zip):** [`apps/web/public/downloads/RobustLens_Research_Package.zip`](apps/web/public/downloads/RobustLens_Research_Package.zip)
 - **Technical Supplement & Proofs:** [`reports/final_research_package/Technical_Supplement.md`](reports/final_research_package/Technical_Supplement.md)
-- **Originality & Prior-Art Audit:** [`reports/final_research_package/ORIGINALITY_AND_LIMITATIONS_AUDIT.md`](reports/final_research_package/ORIGINALITY_AND_LIMITATIONS_AUDIT.md)
-- **Reproducibility Guide:** [`reports/final_research_package/REPRODUCIBILITY.md`](reports/final_research_package/REPRODUCIBILITY.md)
-- **High-Resolution Figures (300 DPI):** [`reports/final_research_package/figures/`](reports/final_research_package/figures/)
-- **Analysis Data Artifacts:** [`reports/final_research_package/analysis/`](reports/final_research_package/analysis/)
 
 ---
 
-## 🏆 Key Experimental Discoveries
+## 🏆 Key Experimental Discoveries (Across Both Research Phases)
 
-### 1. The Terminal Smoothing Confound in Nominal Benchmarks
-In standard nominal evaluations (applying canonical ImageNet-C fixed parameters across sequences), accuracy varies by up to **$21.55\%$ in ResNet-50** and **$20.45\%$ in ConvNeXt-Tiny** across the six permutations on identical physical images. However, we discovered that these gaps are dominated by terminal low-pass filtering: sequences ending in blur (`NJB`, `JNB`) smooth out prior JPEG $8 \times 8$ DCT block boundaries, conferring up to a $5.0\text{ dB}$ PSNR advantage over sequences ending in JPEG (`NBJ`, `BNJ`).
+### 1. Spatial-Frequency & Structural Fingerprints Add Significant Out-of-Sample Predictive Value (November 2026)
+When global image fidelity is strictly calibrated across sequences, five spatial-frequency and structural fingerprints ($\Delta E_{\text{edge}}$, $E_{\text{low}}$, $E_{\text{high}}$, $B_{\text{JPEG}}$, $\sigma_{\text{local SSIM}}$) provide statistically significant out-of-sample improvements in predicting logit margins across all four architectures:
+- **ResNet-50:** $\Delta R^2 = +0.0199$ (95% CI $[0.0163, 0.0234]$, $p_{\text{adj}} \le 0.0004$)
+- **ConvNeXt-Tiny:** $\Delta R^2 = +0.0177$ (95% CI $[0.0142, 0.0212]$, $p_{\text{adj}} \le 0.0004$)
+- **ViT-Base/16:** $\Delta R^2 = +0.0094$ (95% CI $[0.0069, 0.0120]$, $p_{\text{adj}} \le 0.0004$)
+- **Swin-Tiny:** $\Delta R^2 = +0.0118$ (95% CI $[0.0089, 0.0146]$, $p_{\text{adj}} \le 0.0004$)
 
-### 2. Approximate-Fidelity Calibration Contracts Gaps by 63.18%
-Calibrating parameters on an independent training partition ($N_{\text{cal}} = 50$, zero validation leakage) across five target distortion bins revealed that **prespecified joint matching criteria ($\pm 0.75\text{ dB}$ PSNR, $\pm 0.035$ SSIM) were not met over the tested discrete grid** (PSNR RMSE = $0.943\text{ dB}$, SSIM RMSE = $0.1380$).  
-Nonetheless, equalizing distortion on common support produced a dramatic contraction of cross-sequence accuracy gaps:
-- **ConvNeXt-Tiny:** Gap contracts from **$20.45\%$ down to $4.67\%$** (**$77.15\%$ contraction**).
-- **ResNet-50:** Gap contracts from **$21.55\%$ down to $5.90\%$** (**$72.62\%$ contraction**).
-- **ViT-Base/16:** Gap contracts from **$20.37\%$ down to $10.03\%$** (**$50.75\%$ contraction**).
-- **Swin-Tiny:** Gap contracts from **$17.13\%$ down to $11.68\%$** (**$31.80\%$ contraction**).
-- **Overall Mean:** Gap contracts from **$18.43\%$ down to $6.79\%$** (**$63.18\%$ contraction**).
+### 2. Sobel Edge-Energy is the Strongest Predictive Contributor (November 2026)
+Feature ablation experiments identify Sobel edge-energy change ($\Delta E_{\text{edge}}$) as the single largest contributor to margin prediction across all architectures, followed by Fourier residual-energy terms ($E_{\text{low}}, E_{\text{high}}$). Full sequence permutations and continuous fingerprints add complementary, non-redundant predictive structure.
 
-### 3. Saturated 6-Cell Linear Decomposition with Balanced Parity
-We formulated an orthogonal saturated 6-cell linear decomposition ($\det(X) = -6$, full rank) spanning all sequence means. Clustered bootstrap inference ($B = 5{,}000$ on physical images, Holm FWER-controlled) showed:
-- In nominal evaluations, terminal blur conferred a $+12.27\%$ accuracy boost.
-- Under calibrated fidelity, the terminal blur effect reversed to **$-6.82\%$** ($p < 10^{-100}$): when PSNR is balanced, terminal blur strips high-frequency discriminative features.
-- The balanced cyclic-versus-acyclic parity contrast remained statistically significant ($+0.93\%$, $p < 10^{-100}$), confirming that cyclic operator structure independently affects representations.
+### 3. Independent External Replication on ImageNet-V2 (November 2026)
+On an independent 300-image ImageNet-V2 cohort (22,800 forward passes), **ViT-Base/16** replicates with a statistically significant pooled out-of-sample $R^2$ gain after step-down Holm correction ($\Delta R^2 = +0.0371$, 95% CI $[0.0065, 0.0675]$, $p_{\text{adj}} = 0.0340$). For ResNet-50, ConvNeXt-Tiny, and Swin-Tiny, point estimates remain positive (+0.0115 to +0.0212), but their bootstrap intervals cross zero ($p_{\text{adj}} > 0.05$). Statistically significant external $R^2$ improvement is claimed only for ViT-Base.
 
-### 4. The Paired Error Churn Decoupling Phenomenon
-Microscopic paired single-image analysis on matched observations proved the exact identity $\text{Churn} \equiv |\Delta\text{Acc}| + 2\min(G, L)$. Condition pairs with near-zero accuracy differences exhibited substantial excess churn:
+### 4. Terminal Operator Effects & Order Sensitivity in Nominal Benchmarks (October 2026)
+In the tested nominal regime, sequences ending in blur achieved higher average accuracy than sequences ending in noise (e.g. +17.69% boost across architectures), partly by smoothing prior high-frequency artifacts. Crucially, terminal operator identity alone does not explain all sequence variation: substantial accuracy differences persist even among sequences sharing the identical terminal operator (e.g., `NBJ` at 58.90% vs. `BNJ` at 42.88% in ConvNeXt-Tiny—a 16.02 percentage point divergence despite both terminating in JPEG). Sequence processing order remains a critical independent determinant of model resilience.
+
+### 5. Descriptive Gap Contraction vs. Calibrated Common Support
+In the October approximate-fidelity benchmark, equalizing shared (PSNR, SSIM) bins contracted the cross-sequence accuracy range of the four-model mean by a descriptive **63.18%** (from 18.43% down to 6.79%, with architecture-specific contractions averaging 58.08%). Because this exploratory regime did not satisfy prescribed tolerances (PSNR RMSE 0.943 dB, SSIM RMSE 0.1380), the November confirmatory study instituted a rigorously validated common-support protocol (18/18 configurations validated within $\pm 0.75$ dB PSNR, $\pm 0.035$ SSIM).
+
+### 6. The Paired Error Churn Decoupling Phenomenon (October 2026)
+Paired single-image analysis proved the exact identity $\text{Churn} \equiv |\Delta\text{Acc}| + 2\min(G, L)$. Condition pairs with near-zero accuracy differences exhibited substantial excess churn:
 - In ConvNeXt under calibrated fidelity, `NJB` (56.46%) and `JNB` (56.47%) differed by only **$0.01\%$**, yet exhibited **$8.22\%$ excess churn** ($1{,}613$ flipped predictions).
 - In Swin-Tiny, `BJN` (61.23%) and `JBN` (62.12%) differed by **$0.89\%$**, with **$8.84\%$ excess churn**.
-- Aggregate accuracy masks severe single-image failure set reshuffling.
+- Aggregate accuracy masks severe single-image failure set reshuffling and error migration ($E_{00\_\text{diff}}$).
 
 ---
 
-## 📊 Summary Leaderboard & Gap Contraction
+## 📊 Summary Leaderboard & Performance Metrics
 
-| Architecture | Clean Acc | Matched Mean Acc | Nominal Gap | Matched Gap | Gap Contraction | Mean Churn | Excess Churn Ratio |
+| Architecture | Clean Acc | Matched Mean Acc | Nominal Gap | Matched Gap | Descriptive Contraction | Mean Churn | Excess Churn Ratio |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **ConvNeXt-Tiny** | 87.13% | **58.11%** | 20.45% | **4.67%** | **77.15%** | 10.93% | **75.5%** |
 | **Swin-Tiny** | 86.04% | 56.27% | **17.13%** | 11.68% | 31.80% | 11.92% | 56.9% |
@@ -78,10 +85,7 @@ Microscopic paired single-image analysis on matched observations proved the exac
 ```bash
 cd ml
 uv sync --extra dev
-uv run pytest tests/test_order_decomposition.py -v
-uv run python scripts/run_final_order_decomposition_analysis.py
-uv run python scripts/generate_final_package_figures.py
-uv run python scripts/generate_final_paper_pdf.py
+uv run pytest tests/ -v
 ```
 
 ### Next.js Interactive Dashboard
@@ -91,30 +95,38 @@ pnpm install
 pnpm build
 pnpm dev
 ```
-Explore the interactive visual dashboard locally at `http://localhost:3000`.
+Explore the interactive visual dashboard locally at `http://localhost:3000` or on the live production deployment at [robustlens.vercel.app](https://robustlens.vercel.app).
 
 ---
 
-## 📌 Citation & Permanent DOI
+## 📌 Academic Citations
 
-If you use RobustLens code, methodology, or benchmark records in your research, please cite:
+If you use RobustLens code, empirical datasets, or statistical protocols in your research, please cite:
 
 ```bibtex
-@article{choudhary2026robustlens,
+@article{gangashetty2026spatialfrequency,
+  title   = {Spatial-Frequency and Structural Distortion Fingerprints Beyond Global Image Fidelity: Predicting Vision-Model Margins under Compound Image Corruption},
+  author  = {Gangashetty, Suryakanth V. and Choudhary, Aviral},
+  year    = {2026},
+  month   = {November},
+  journal = {RobustLens Research Initiative Working Paper},
+  note    = {Confirmatory study N=3,825 held-out Imagenette-v2 images, 290,700 primary passes + ImageNet-V2 replication}
+}
+
+@article{gangashetty2026ordermatters,
   title   = {Order Matters Beyond Accuracy: Paired Prediction Analysis of Compound Image Corruptions},
-  author  = {Choudhary, Aviral},
+  author  = {Gangashetty, Suryakanth V. and Choudhary, Aviral},
   year    = {2026},
   month   = {October},
-  doi     = {10.5281/zenodo.23483939},
-  url     = {https://doi.org/10.5281/zenodo.23483939},
+  journal = {RobustLens Research Initiative Working Paper},
   version = {1.0},
-  note    = {RobustLens Research Benchmark Release}
+  note    = {Foundational compound-corruption benchmark: 973,400 forward passes on 3,925 Imagenette-v2 images}
 }
 ```
 
 ---
 
-## 📚 Selected Citations
+## 📚 Selected References
 
 1. Hendrycks, D., & Dietterich, T. (2019). Benchmarking Neural Network Robustness to Common Corruptions. *ICLR*.
 2. Liu, Z., et al. (2022). A ConvNet for the 2020s. *CVPR*.

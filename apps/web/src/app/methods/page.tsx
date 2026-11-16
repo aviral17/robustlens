@@ -17,6 +17,7 @@ import {
   Target,
   ExternalLink,
   Info,
+  BookOpen,
 } from "lucide-react";
 
 export default function MethodsPage() {
@@ -89,16 +90,16 @@ export default function MethodsPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="p-5 rounded-2xl bg-muted/30 border border-border/40 flex flex-col gap-2">
-              <h3 className="font-bold text-base text-foreground">Dataset Partition & Units of Analysis</h3>
+              <h3 className="font-bold text-base text-foreground">Dataset Partition & Pretraining Disclosure</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                The canonical benchmark is conducted on the official <strong>FastAI Imagenette-v2 validation split</strong> (<span className="font-mono text-foreground font-semibold">N = 3,925</span> physical images across 10 canonical ImageNet categories). The fundamental unit of statistical analysis is the physical image ID, forming natural clusters across repeated evaluations.
+                The canonical benchmark evaluates the official <strong>FastAI Imagenette-v2 validation split</strong> (<span className="font-mono text-foreground font-semibold">N = 3,925</span> total images; <span className="font-mono text-foreground font-semibold">N = 3,825</span> in the confirmatory partition across 10 WordNet synsets). Backbones were pretrained on ImageNet-1K, so classes are in-distribution. Crucially, the confirmatory evaluation set is strictly held out and quarantined from parameter calibration (<span className="font-mono text-foreground font-semibold">N = 50</span>) and exploratory pilot (<span className="font-mono text-foreground font-semibold">N = 100</span>) data.
               </p>
             </div>
 
             <div className="p-5 rounded-2xl bg-muted/30 border border-border/40 flex flex-col gap-2">
-              <h3 className="font-bold text-base text-foreground">Architectural Diversity (4 Paradigms)</h3>
+              <h3 className="font-bold text-base text-foreground">Architectural Diversity (4 Architectures)</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Evaluates four representative vision paradigms: classical convolutional (<strong>ResNet-50</strong>, 25.6M params), modern depthwise convolutional (<strong>ConvNeXt-Tiny</strong>, 28.6M params), isotropic self-attention (<strong>ViT-Base/16</strong>, 86.6M params), and hierarchical shifted-window attention (<strong>Swin-Tiny</strong>, 28.3M params).
+                Evaluates four representative vision architectures: classical convolutional (<strong>ResNet-50</strong>, 25.6M params), modern depthwise convolutional (<strong>ConvNeXt-Tiny</strong>, 28.6M params), isotropic self-attention (<strong>ViT-Base/16</strong>, 86.6M params), and hierarchical shifted-window attention (<strong>Swin-Tiny</strong>, 28.3M params).
               </p>
             </div>
           </div>
@@ -505,9 +506,9 @@ export default function MethodsPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="p-5 rounded-2xl bg-muted/30 border border-border/40 flex flex-col gap-2">
-              <h3 className="font-bold text-base text-foreground">10-Fold Grouped Cross-Validation</h3>
+              <h3 className="font-bold text-base text-foreground">5-Fold Image-Grouped Cross-Validation</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                All evaluations originating from the same physical image cluster are assigned strictly to the same fold. Spline bases and regression parameters are fit strictly on training folds and evaluated on held-out test folds, preventing data leakage.
+                All evaluations originating from the same physical image cluster (all 18 corrupted conditions + clean reference) are assigned strictly to the same fold across the 5 image-grouped cross-validation folds. Spline bases and regression parameters are fit strictly on training folds and evaluated on held-out test folds, guaranteeing zero data leakage across folds and conditions.
               </p>
             </div>
 
@@ -525,6 +526,57 @@ export default function MethodsPage() {
               <strong>Predictive Association vs. Causal Drivers:</strong>
               <p>
                 Sobel edge energy difference is the strongest individual predictive contributor in Model 5, and dropping it produces the steepest decrease in model R&sup2;. However, because spatial edges and frequency spectra are physically correlated, individual feature group contributions share variance. Add-one gains describe predictive importance within the model, not isolated physical intervention effects or proven causal mechanisms.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Stage 8: Related Work & Methodological Positioning */}
+      <section className="flex flex-col gap-4">
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-500 border border-blue-500/20">
+            <BookOpen className="h-5 w-5" />
+          </div>
+          <div>
+            <span className="text-xs font-bold uppercase tracking-wider text-blue-500">Pipeline Stage 8</span>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground font-[family-name:var(--font-poppins)]">
+              Related Work &amp; Methodological Positioning
+            </h2>
+          </div>
+        </div>
+
+        <div className="p-6 sm:p-8 rounded-3xl bg-card border border-border/60 shadow-sm flex flex-col gap-6">
+          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
+            RobustLens connects and extends several active frontiers in computer vision robustness, paired experimental evaluation, and spatial image quality modeling:
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-5 rounded-2xl bg-muted/30 border border-border/40 flex flex-col gap-2">
+              <h3 className="font-bold text-base text-foreground">Paired Visual Evaluations</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Recent work by <strong>Wei et al. (2026)</strong> (<em>What Paired Evaluations Reveal under Visual Perturbations</em>, arXiv:2609.35583) demonstrates the critical necessity of paired image-level tracking under corruption. RobustLens builds on this foundation by uniting paired evaluations with complete symmetric group permutations ($S_3$), validated common-support fidelity, spatial-frequency/structural fingerprints, and out-of-sample decision margin estimation.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-muted/30 border border-border/40 flex flex-col gap-2">
+              <h3 className="font-bold text-base text-foreground">Black-Box Corruption Analysis</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                <strong>Erkara &amp; Mayer (2026)</strong> (<em>Blind Confusion of Classification Networks</em>) demonstrate how structured corruptions alter classifier decision surfaces in black-box regimes. RobustLens extends this from aggregate confusion matrices to continuous mathematical distortion fingerprints that predict true-class logit margins.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-muted/30 border border-border/40 flex flex-col gap-2">
+              <h3 className="font-bold text-base text-foreground">Multimodal &amp; Multi-Stage Benchmarks</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Emerging initiatives such as <strong>VLM-RobustBench (ICML 2026)</strong> and <strong>R-Bench (Li et al., 2025)</strong> evaluate compound degradations in multimodal foundation models. RobustLens provides rigorous statistical baselines by proving that non-commutative order effects survive even when low-level fidelity (PSNR/SSIM) is held constant.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-muted/30 border border-border/40 flex flex-col gap-2">
+              <h3 className="font-bold text-base text-foreground">Fidelity &amp; Resolution Normalization</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Works such as <strong>Resolution-Calibrated Corruptions (2026)</strong> investigate distortion standardization across scales. RobustLens contributes a 6-way simultaneous common-support calibration protocol that eliminates trivial PSNR/SSIM confounding across compound processing permutations.
               </p>
             </div>
           </div>

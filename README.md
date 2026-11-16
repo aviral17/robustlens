@@ -135,3 +135,7 @@ If you use RobustLens code, empirical datasets, or statistical protocols in your
 5. Milani Fard, M., et al. (2016). Churn Reduction via Distantly Supervised Models. *NeurIPS*.
 6. Goyal, S., et al. (2022). Dual Corruptions: Evaluating Vision Models Under Composed Shifts. *ICCP*.
 7. Li, Y., et al. (2025). R-Bench: Benchmarking Multi-Stage Physical Degradation in Multimodal LLMs. *IEEE JSTSP*.
+8. Wei, Y., Zhang, C., Wang, Y., Wang, X., Shao, B., Li, H., & Di, L. (2026). What Paired Evaluations Reveal under Visual Perturbations. *arXiv:2609.35583*.
+9. Erkara, E., & Mayer, C. (2026). Blind Confusion of Classification Networks: A Black Box Evaluation under Common and Structured Image Corruptions.
+10. VLM-RobustBench Authors. (2026). VLM-RobustBench: A Benchmark for Vision-Language Model Robustness under Compound Corruptions. *ICML*.
+11. Resolution-Calibrated Corruptions Authors. (2026). Resolution-Calibrated Corruptions: Standardizing Robustness Across Image Scales.

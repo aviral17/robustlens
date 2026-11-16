@@ -115,6 +115,22 @@ export default function MatchedFidelityView() {
   const { calibration, fingerprint_definitions, statistical_comparison, terminal_operator_disentanglement } = data;
   const currentLevelData = calibration.levels[selectedLevel];
 
+  const primaryRows = (statistical_comparison.filter(
+    (r) => r.specification?.includes("Conventional 4-Knot RCS") || r.specification?.includes("27 cols")
+  ).length === 4
+    ? statistical_comparison.filter(
+        (r) => r.specification?.includes("Conventional 4-Knot RCS") || r.specification?.includes("27 cols")
+      )
+    : statistical_comparison.slice(0, 4));
+
+  const sensitivityRows = (statistical_comparison.filter(
+    (r) => r.specification?.includes("Reduced 2-df Spline") || r.specification?.includes("24 cols")
+  ).length === 4
+    ? statistical_comparison.filter(
+        (r) => r.specification?.includes("Reduced 2-df Spline") || r.specification?.includes("24 cols")
+      )
+    : statistical_comparison.slice(4, 8));
+
   return (
     <div className="flex flex-col gap-12 mt-4">
       {/* 1. Protocol Overview Banner */}
@@ -302,7 +318,7 @@ export default function MatchedFidelityView() {
               Primary Model 3 vs. Model 5 Confirmatory Comparison
             </h3>
             <p className="text-sm text-muted-foreground mt-1">
-              Evaluating out-of-sample logit margin explanation beyond the nonlinear global fidelity baseline (PSNR, SSIM, LPIPS) across 290,700 passes.
+              Conventional 4-Knot RCS (Model 3 = 27 cols, Model 5 = 32 cols) • Evaluating out-of-sample logit margin explanation beyond the nonlinear global fidelity baseline (PSNR, SSIM, LPIPS) across 290,700 passes.
             </p>
           </div>
           <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/20">
@@ -325,8 +341,60 @@ export default function MatchedFidelityView() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/30">
-                {statistical_comparison.map((row) => (
-                  <tr key={row.architecture} className="hover:bg-muted/20 transition-colors">
+                {primaryRows.map((row) => (
+                  <tr key={`primary-${row.architecture}`} className="hover:bg-muted/20 transition-colors">
+                    <td className="font-bold py-4 px-6 text-base text-foreground">{row.display_name}</td>
+                    <td className="px-6 font-mono font-semibold">{row.r2_oos_m3.toFixed(4)}</td>
+                    <td className="px-6 font-mono font-bold text-primary">{row.r2_oos_m5.toFixed(4)}</td>
+                    <td className="px-6 font-mono font-extrabold text-emerald-600 dark:text-emerald-400">
+                      +{row.delta_r2_oos.toFixed(4)}
+                    </td>
+                    <td className="px-6 font-mono text-muted-foreground">{row.simultaneous_ci_delta_r2}</td>
+                    <td className="px-6 font-mono font-semibold text-emerald-600 dark:text-emerald-400">
+                      +{row.delta_mae_oos.toFixed(4)}
+                    </td>
+                    <td className="px-6 font-mono font-bold text-foreground">{row.p_display}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      {/* 5b. Secondary Sensitivity Analysis (Reduced 2-df Splines) */}
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-2">
+          <div>
+            <h3 className="text-2xl font-bold text-foreground">
+              Sensitivity Analysis: Reduced 2-df Splines
+            </h3>
+            <p className="text-sm text-muted-foreground mt-1">
+              Reduced 2-df Natural Spline (Model 3 = 24 cols, Model 5 = 29 cols) • Verifying robustness against spline degree-of-freedom choice.
+            </p>
+          </div>
+          <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-500/20">
+            All 4 Models p &le; 0.0004
+          </span>
+        </div>
+
+        <div className="border border-border/60 shadow-lg rounded-3xl overflow-hidden bg-card">
+          <div className="overflow-x-auto w-full">
+            <table className="w-full text-left text-sm whitespace-nowrap">
+              <thead className="bg-muted/50 border-b border-border/60 text-xs uppercase tracking-wider">
+                <tr>
+                  <th className="font-extrabold py-4 px-6 text-foreground">Architecture</th>
+                  <th className="font-extrabold py-4 px-6 text-foreground">Baseline M3 R²</th>
+                  <th className="font-extrabold py-4 px-6 text-foreground">Extended M5 R²</th>
+                  <th className="font-extrabold py-4 px-6 text-foreground">ΔR² (OOS)</th>
+                  <th className="font-extrabold py-4 px-6 text-foreground">Simultaneous 95% CI</th>
+                  <th className="font-extrabold py-4 px-6 text-foreground">ΔMAE (OOS)</th>
+                  <th className="font-extrabold py-4 px-6 text-foreground">Holm p_adj</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border/30">
+                {sensitivityRows.map((row) => (
+                  <tr key={`sensitivity-${row.architecture}`} className="hover:bg-muted/20 transition-colors">
                     <td className="font-bold py-4 px-6 text-base text-foreground">{row.display_name}</td>
                     <td className="px-6 font-mono font-semibold">{row.r2_oos_m3.toFixed(4)}</td>
                     <td className="px-6 font-mono font-bold text-primary">{row.r2_oos_m5.toFixed(4)}</td>

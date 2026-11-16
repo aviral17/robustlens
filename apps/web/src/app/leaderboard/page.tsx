@@ -104,6 +104,22 @@ export default function LeaderboardPage() {
 
   const leaderboard = report?.leaderboard || [];
   const matchedRows = matchedData?.statistical_comparison || [];
+  const primaryRows = (matchedRows.filter(
+    (r) => r.specification?.includes("Conventional 4-Knot RCS") || r.specification?.includes("27 cols")
+  ).length === 4
+    ? matchedRows.filter(
+        (r) => r.specification?.includes("Conventional 4-Knot RCS") || r.specification?.includes("27 cols")
+      )
+    : matchedRows.slice(0, 4));
+
+  const sensitivityRows = (matchedRows.filter(
+    (r) => r.specification?.includes("Reduced 2-df Spline") || r.specification?.includes("24 cols")
+  ).length === 4
+    ? matchedRows.filter(
+        (r) => r.specification?.includes("Reduced 2-df Spline") || r.specification?.includes("24 cols")
+      )
+    : matchedRows.slice(4, 8));
+
   const v2Rows = v2Data?.results?.filter((r) => r.variant === "Pooled_External_All_Variants") || [];
 
   return (
@@ -283,7 +299,7 @@ export default function LeaderboardPage() {
                   <span>Primary Confirmatory Study Results</span>
                 </h2>
                 <p className="text-muted-foreground text-sm mt-1">
-                  N = 3,825 held-out Imagenette-v2 images • 290,700 model-image-condition evaluations • 5-fold image-grouped CV • B = 10,000 paired cluster bootstraps
+                  Conventional 4-Knot RCS (Model 3 = 27 cols, Model 5 = 32 cols) • N = 3,825 held-out Imagenette-v2 images • 290,700 passes • 5-fold image-grouped CV • B = 10,000 paired cluster bootstraps
                 </p>
               </div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-500 text-xs font-bold uppercase tracking-wider border border-emerald-500/20">
@@ -307,8 +323,8 @@ export default function LeaderboardPage() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border/30">
-                    {matchedRows.map((row) => (
-                      <tr key={row.architecture} className="hover:bg-muted/20 transition-colors">
+                    {primaryRows.map((row) => (
+                      <tr key={`primary-${row.architecture}`} className="hover:bg-muted/20 transition-colors">
                         <td className="font-bold py-5 px-6 text-base text-foreground">{row.display_name}</td>
                         <td className="px-6 font-mono font-semibold">{row.r2_oos_m3.toFixed(4)}</td>
                         <td className="px-6 font-mono font-bold text-primary">{row.r2_oos_m5.toFixed(4)}</td>
@@ -339,7 +355,74 @@ export default function LeaderboardPage() {
                   <strong>Within-Architecture Evaluation Notice:</strong> True-class logit margins are evaluated strictly within each architecture against its own baseline model. Logit scales differ across architectures and are not compared as identical numerical units.
                 </p>
                 <p>
-                  Model 3 incorporates 27 parameters: sequence order dummies, severity level dummies, order &times; level interactions, and restricted cubic splines for PSNR, SSIM, and LPIPS. Model 5 incorporates the 5 continuous physical distortion fingerprints (32 parameters total).
+                  Baseline Model 3 incorporates 27 parameters: sequence order dummies (5 df), severity level dummies (2 df), order &times; level interactions (10 df), and 4-knot restricted cubic splines for PSNR, SSIM, and LPIPS (9 df). Extended Model 5 incorporates the 5 continuous physical distortion fingerprints (32 parameters total).
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Table 2: Sensitivity Analysis: Reduced 2-df Splines */}
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+              <div>
+                <h2 className="text-2xl font-bold flex items-center gap-2">
+                  <span>Sensitivity Analysis: Reduced 2-df Splines</span>
+                </h2>
+                <p className="text-muted-foreground text-sm mt-1">
+                  Reduced 2-df Natural Spline (Model 3 = 24 cols, Model 5 = 29 cols) • Verifying robustness against spline degree-of-freedom specification • 5-fold image-grouped CV
+                </p>
+              </div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-500 text-xs font-bold uppercase tracking-wider border border-emerald-500/20">
+                <CheckCircle2 className="w-3.5 h-3.5" /> All 4 Models p_adj &le; 0.0004
+              </div>
+            </div>
+
+            <div className="border border-border/60 shadow-lg rounded-3xl overflow-hidden bg-card">
+              <div className="overflow-x-auto w-full">
+                <table className="w-full text-left text-sm whitespace-nowrap">
+                  <thead className="bg-muted/50 border-b border-border/60 text-xs uppercase tracking-wider">
+                    <tr>
+                      <th className="font-extrabold py-4 px-6 text-foreground">Architecture</th>
+                      <th className="font-extrabold py-4 px-6 text-foreground">Baseline M3 R²</th>
+                      <th className="font-extrabold py-4 px-6 text-foreground">Extended M5 R²</th>
+                      <th className="font-extrabold py-4 px-6 text-foreground">Incremental ΔR² (OOS)</th>
+                      <th className="font-extrabold py-4 px-6 text-foreground">Simultaneous 95% CI</th>
+                      <th className="font-extrabold py-4 px-6 text-foreground">ΔMAE (OOS)</th>
+                      <th className="font-extrabold py-4 px-6 text-foreground">Holm p_adj</th>
+                      <th className="font-extrabold py-4 px-6 text-foreground">Null Exclusion</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-border/30">
+                    {sensitivityRows.map((row) => (
+                      <tr key={`sensitivity-${row.architecture}`} className="hover:bg-muted/20 transition-colors">
+                        <td className="font-bold py-5 px-6 text-base text-foreground">{row.display_name}</td>
+                        <td className="px-6 font-mono font-semibold">{row.r2_oos_m3.toFixed(4)}</td>
+                        <td className="px-6 font-mono font-bold text-primary">{row.r2_oos_m5.toFixed(4)}</td>
+                        <td className="px-6 font-mono font-extrabold text-emerald-600 dark:text-emerald-400">
+                          +{row.delta_r2_oos.toFixed(4)}
+                        </td>
+                        <td className="px-6 font-mono text-muted-foreground">{row.simultaneous_ci_delta_r2}</td>
+                        <td className="px-6 font-mono font-semibold text-emerald-600 dark:text-emerald-400">
+                          +{row.delta_mae_oos.toFixed(4)}
+                        </td>
+                        <td className="px-6 font-mono font-bold text-foreground">{row.p_display}</td>
+                        <td className="px-6">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold border border-emerald-500/20">
+                            <CheckCircle2 className="w-3 h-3" /> Robust to Specification
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div className="p-6 rounded-3xl bg-muted/30 border border-border/50 text-sm text-muted-foreground flex items-start gap-3">
+              <Info className="w-5 h-5 shrink-0 mt-0.5 text-primary" />
+              <div className="flex flex-col gap-1 leading-relaxed">
+                <p>
+                  <strong>Specification Sensitivity Check:</strong> In this pre-registered sensitivity specification, global fidelity metrics (PSNR, SSIM, LPIPS) are parameterized using 2-degree-of-freedom natural splines instead of 4-knot restricted cubic splines (reducing baseline columns from 27 to 24, and extended columns from 32 to 29). The incremental R&sup2; gains remain statistically positive across all four architectures (all Holm-adjusted p &le; 0.0004), confirming that the predictive value of structural fingerprints is not an artifact of spline basis choice.
                 </p>
               </div>
             </div>

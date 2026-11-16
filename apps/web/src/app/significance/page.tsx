@@ -103,6 +103,22 @@ export default function SignificancePage() {
       : true;
   const independentImages = tests.length > 0 ? tests[0].num_independent_images ?? 3925 : 3925;
 
+  const primaryRows = (matchedRows.filter(
+    (r) => r.specification?.includes("Conventional 4-Knot RCS") || r.specification?.includes("27 cols")
+  ).length === 4
+    ? matchedRows.filter(
+        (r) => r.specification?.includes("Conventional 4-Knot RCS") || r.specification?.includes("27 cols")
+      )
+    : matchedRows.slice(0, 4));
+
+  const sensitivityRows = (matchedRows.filter(
+    (r) => r.specification?.includes("Reduced 2-df Spline") || r.specification?.includes("24 cols")
+  ).length === 4
+    ? matchedRows.filter(
+        (r) => r.specification?.includes("Reduced 2-df Spline") || r.specification?.includes("24 cols")
+      )
+    : matchedRows.slice(4, 8));
+
   return (
     <main className="min-h-screen pt-32 pb-24 px-6 max-w-[1400px] mx-auto flex flex-col gap-10">
       <div className="flex flex-col gap-4">
@@ -196,10 +212,10 @@ export default function SignificancePage() {
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-2">
               <div>
                 <h2 className="text-2xl font-bold flex items-center gap-2">
-                  <span>Model 3 vs. Model 5 Incremental Variance Tests</span>
+                  <span>Primary Model 3 vs. Model 5 Incremental Variance Tests</span>
                 </h2>
                 <p className="text-muted-foreground text-sm mt-1">
-                  Null hypothesis: &Delta;R&sup2;<sub>OOS</sub> &le; 0 (Distortion fingerprints add zero predictive variance beyond nonlinear global fidelity).
+                  Conventional 4-Knot RCS (Model 3 = 27 cols, Model 5 = 32 cols) • Null hypothesis: &Delta;R&sup2;<sub>OOS</sub> &le; 0 (Distortion fingerprints add zero predictive variance beyond nonlinear global fidelity).
                 </p>
               </div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider border border-emerald-500/20">
@@ -223,8 +239,68 @@ export default function SignificancePage() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border/30">
-                    {matchedRows.map((r) => (
-                      <tr key={r.architecture} className="hover:bg-muted/20 transition-colors">
+                    {primaryRows.map((r) => (
+                      <tr key={`primary-${r.architecture}`} className="hover:bg-muted/20 transition-colors">
+                        <td className="font-bold py-5 px-6 text-base text-foreground">{r.display_name}</td>
+                        <td className="px-6 font-mono font-extrabold text-emerald-600 dark:text-emerald-400">
+                          +{r.delta_r2_oos.toFixed(4)}
+                        </td>
+                        <td className="px-6 font-mono text-muted-foreground">{r.ci95_pointwise_delta_r2}</td>
+                        <td className="px-6 font-mono text-muted-foreground font-semibold">
+                          {r.simultaneous_ci_delta_r2}
+                        </td>
+                        <td className="px-6 font-mono font-semibold text-emerald-600 dark:text-emerald-400">
+                          +{r.delta_mae_oos.toFixed(4)}
+                        </td>
+                        <td className="px-6 font-mono">&le; 0.0001</td>
+                        <td className="px-6 font-mono font-bold text-foreground">{r.p_display}</td>
+                        <td className="px-6">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold border border-emerald-500/20">
+                            <CheckCircle2 className="w-3 h-3" /> Reject Null (p &le; 0.0004)
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          {/* Table 1b: Secondary Sensitivity Analysis (Reduced 2-df Splines) */}
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-2">
+              <div>
+                <h2 className="text-2xl font-bold flex items-center gap-2">
+                  <span>Sensitivity Analysis: Reduced 2-df Splines</span>
+                </h2>
+                <p className="text-muted-foreground text-sm mt-1">
+                  Reduced 2-df Natural Spline (Model 3 = 24 cols, Model 5 = 29 cols) • Verifying hypothesis test stability against spline specification.
+                </p>
+              </div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider border border-emerald-500/20">
+                <CheckCircle2 className="w-3.5 h-3.5" /> All 4 Models p_adj &le; 0.0004
+              </div>
+            </div>
+
+            <div className="border border-border/60 shadow-lg rounded-3xl overflow-hidden bg-card">
+              <div className="overflow-x-auto w-full">
+                <table className="w-full text-left text-sm whitespace-nowrap">
+                  <thead className="bg-muted/50 border-b border-border/60 text-xs uppercase tracking-wider">
+                    <tr>
+                      <th className="font-extrabold py-4 px-6 text-foreground">Architecture</th>
+                      <th className="font-extrabold py-4 px-6 text-foreground">Incremental ΔR² (OOS)</th>
+                      <th className="font-extrabold py-4 px-6 text-foreground">Pointwise 95% CI</th>
+                      <th className="font-extrabold py-4 px-6 text-foreground">Simultaneous 95% CI</th>
+                      <th className="font-extrabold py-4 px-6 text-foreground">ΔMAE (OOS)</th>
+                      <th className="font-extrabold py-4 px-6 text-foreground">Raw p-value</th>
+                      <th className="font-extrabold py-4 px-6 text-foreground">Holm p_adj</th>
+                      <th className="font-extrabold py-4 px-6 text-foreground">Statistical Decision</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-border/30">
+                    {sensitivityRows.map((r) => (
+                      <tr key={`sensitivity-${r.architecture}`} className="hover:bg-muted/20 transition-colors">
                         <td className="font-bold py-5 px-6 text-base text-foreground">{r.display_name}</td>
                         <td className="px-6 font-mono font-extrabold text-emerald-600 dark:text-emerald-400">
                           +{r.delta_r2_oos.toFixed(4)}

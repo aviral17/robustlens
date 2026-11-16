@@ -87,7 +87,7 @@ class NumberedCanvas(canvas.Canvas):
         # Header (Pages 2+)
         if self._pageNumber > 1:
             self.drawString(36, 756, "RobustLens: The Complete Project Guide & Platform Walkthrough")
-            self.drawRightString(576, 756, "Aviral Choudhary | Zenodo DOI: 10.5281/zenodo.23483939")
+            self.drawRightString(576, 756, "Suryakanth V. Gangashetty & Aviral Choudhary")
             self.setStrokeColor(colors.HexColor("#94a3b8"))
             self.setLineWidth(0.6)
             self.line(36, 750, 576, 750)

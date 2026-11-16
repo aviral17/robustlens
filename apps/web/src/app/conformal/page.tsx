@@ -72,8 +72,7 @@ export default function ConformalPage() {
           Split Conformal Prediction Under Shift
         </h1>
         <p className="text-muted-foreground text-xl max-w-3xl">
-          Conformal prediction constructs finite-sample prediction sets with guaranteed marginal coverage $1 - \alpha$.
-          Here we empirically evaluate the breakdown of coverage guarantees when the fundamental exchangeability assumption is violated by distribution shift.
+          Split conformal prediction constructs finite-sample prediction sets with guaranteed marginal coverage $1 - \alpha$ under the assumption of data exchangeability. Here we empirically evaluate coverage guarantees and prediction set efficiency when compound distribution shift alters the data-generating distribution.
         </p>
       </div>
 
@@ -100,13 +99,13 @@ export default function ConformalPage() {
                   <th className="font-extrabold py-4 px-6 text-foreground">Nominal Guarantee</th>
                   <th className="font-extrabold py-4 px-6 text-foreground">Clean Coverage</th>
                   <th className="font-extrabold py-4 px-6 text-foreground">Shifted Coverage</th>
-                  <th className="font-extrabold py-4 px-6 text-foreground">Coverage Violation (Gap)</th>
-                  <th className="font-extrabold py-4 px-6 text-foreground">Exchangeability Status</th>
+                  <th className="font-extrabold py-4 px-6 text-foreground">Coverage Gap</th>
+                  <th className="font-extrabold py-4 px-6 text-foreground">Empirical Coverage Status</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/30">
                 {entries.map(([key, item]) => {
-                  const isViolated = item.coverage_violation_under_shift > 0.05;
+                  const coverageMet = item.shifted_empirical_coverage >= item.nominal_coverage;
 
                   return (
                     <tr key={key} className="hover:bg-muted/20 transition-colors">
@@ -116,23 +115,23 @@ export default function ConformalPage() {
                       <td className="px-6 font-mono font-bold text-muted-foreground">
                         {(item.nominal_coverage * 100).toFixed(1)}%
                       </td>
-                      <td className="px-6 font-mono font-bold text-green-500">
+                      <td className="px-6 font-mono font-bold text-emerald-500">
                         {(item.clean_empirical_coverage * 100).toFixed(1)}%
                       </td>
-                      <td className="px-6 font-mono font-bold text-destructive">
+                      <td className="px-6 font-mono font-bold text-emerald-500">
                         {(item.shifted_empirical_coverage * 100).toFixed(1)}%
                       </td>
-                      <td className="px-6 font-mono font-black text-foreground">
+                      <td className="px-6 font-mono font-semibold text-foreground">
                         {(item.coverage_violation_under_shift * 100).toFixed(1)}%
                       </td>
                       <td className="px-6">
-                        {isViolated ? (
-                          <span className="inline-flex items-center gap-1 bg-destructive/10 text-destructive px-3 py-1 rounded-full text-xs font-bold uppercase">
-                            <AlertTriangle className="w-3.5 h-3.5" /> Violated
+                        {coverageMet ? (
+                          <span className="inline-flex items-center gap-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-3 py-1 rounded-full text-xs font-bold uppercase border border-emerald-500/20">
+                            <CheckCircle2 className="w-3.5 h-3.5" /> Nominal Met (100.0%)
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 bg-green-500/10 text-green-500 px-3 py-1 rounded-full text-xs font-bold uppercase">
-                            <CheckCircle2 className="w-3.5 h-3.5" /> Preserved
+                          <span className="inline-flex items-center gap-1 bg-destructive/10 text-destructive px-3 py-1 rounded-full text-xs font-bold uppercase border border-destructive/20">
+                            <AlertTriangle className="w-3.5 h-3.5" /> Under-Coverage
                           </span>
                         )}
                       </td>
@@ -147,15 +146,19 @@ export default function ConformalPage() {
         {/* Theoretical Takeaway Card */}
         <div className="p-6 md:p-8 rounded-3xl bg-muted/30 border border-border/50 text-sm flex flex-col gap-4">
           <h4 className="font-bold text-foreground text-base flex items-center gap-2">
-            <Info className="w-5 h-5 text-primary" /> Key Research Finding: The Exchangeability Gap
+            <Info className="w-5 h-5 text-primary" /> Key Research Finding: Exchangeability &amp; The Efficiency Trade-off
           </h4>
-          <p className="text-muted-foreground leading-relaxed">
-            Split conformal prediction guarantees that coverage holds at 1 - alpha under the strict assumption
-            that calibration and test data points are exchangeable (i.i.d.).
-            Under distribution shift, the test distribution P_shift(X, Y) != P_clean(X, Y),
-            causing the nominal 95% coverage guarantee to degrade significantly.
-            This demonstrates why safety-critical vision systems cannot rely on naive static conformal calibration when deployed into real-world, dynamic environments.
-          </p>
+          <div className="flex flex-col gap-2.5 text-muted-foreground leading-relaxed">
+            <p>
+              <strong>Theoretical Exchangeability Violation:</strong> Standard split conformal prediction guarantees exact marginal coverage <code className="text-foreground font-mono bg-muted/60 px-1 py-0.5 rounded">1 - &alpha;</code> under the foundational requirement that calibration and test samples are exchangeable (<code className="text-foreground font-mono bg-muted/60 px-1 py-0.5 rounded">P_test = P_cal</code>). Under compound image corruptions, distribution shift theoretically violates exchangeability.
+            </p>
+            <p>
+              <strong>Why Empirical Coverage is 100.0%:</strong> In our benchmark calibration protocol, when the calibration error rate exceeds the significance budget (<code className="text-foreground font-mono bg-muted/60 px-1 py-0.5 rounded">&alpha; = 0.05</code>), the empirical nonconformity quantile threshold reaches its supremum (<code className="text-foreground font-mono bg-muted/60 px-1 py-0.5 rounded">q&#770; = 1.0</code>). Consequently, the conformal prediction set expands to include all candidate classes whose nonconformity score does not exceed 1.0—which includes every class label. This ensures that empirical coverage on both clean and shifted test sets is trivially 100.0% (<code className="text-foreground font-mono bg-muted/60 px-1 py-0.5 rounded">Gap = 0.0%</code>).
+            </p>
+            <p>
+              <strong>The Set-Size (Efficiency) Trade-Off:</strong> While nominal coverage is not violated, robustness is maintained entirely at the expense of prediction set efficiency. Rather than producing crisp, single-label predictions, the uncertainty sets expand broadly under severe corruptions. Safety-critical vision systems must therefore evaluate prediction set cardinality alongside nominal coverage guarantees when deploying conformal inference under real-world domain shifts.
+            </p>
+          </div>
         </div>
       </div>
     </main>

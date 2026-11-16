@@ -3,12 +3,13 @@
 
 ---
 
-* **Author:** Aviral Choudhary
+* **Authors:** **Suryakanth V. Gangashetty**$^1$ and **Aviral Choudhary**$^2$  
+  $^1$Department of Computer Science and Engineering, Koneru Lakshmaiah Education Foundation, India  
+  $^2$Independent Researcher, India
 * **Project Repository:** [`https://github.com/aviral17/robustlens`](https://github.com/aviral17/robustlens)
 * **Live Web Platform:** [`https://robustlens.vercel.app`](https://robustlens.vercel.app)
-* **Confirmatory Matched-Fidelity Study (November 2026):** *"At Matched Image Fidelity, Does Corruption Order Still Matter? Spatial-Frequency and Structural Fingerprints of Vision Classifier Reliability"* ($N = 3{,}825$ Confirmatory Images + $N = 300$ ImageNet-V2, $313{,}500$ Total Forward Passes)
-* **Published Research Working Paper (October 2026):** *"Order Matters Beyond Accuracy: Paired Prediction Analysis of Compound Image Corruptions"*
-* **Permanent Research Archive (Zenodo):** [DOI: 10.5281/zenodo.23483939](https://doi.org/10.5281/zenodo.23483939) (Version 1.0, October 20, 2026)
+* **Confirmatory Matched-Fidelity Study (November 2026):** *"Spatial-Frequency and Structural Distortion Fingerprints Beyond Global Image Fidelity: Predicting Vision-Model Margins under Compound Image Corruption"* ($N = 3{,}825$ Confirmatory Images + $N = 300$ ImageNet-V2, $313{,}500$ Total Forward Passes)
+* **Foundational Benchmark Paper (October 2026):** *"Order Matters Beyond Accuracy: Paired Prediction Analysis of Compound Image Corruptions"* ($N = 3{,}925$ Validation Images, $973{,}400$ Forward Passes)
 * **Target Audience:** Absolute beginners, computer science students, university professors, researchers, machine learning engineers, and curious reviewers.
 
 ---
@@ -139,9 +140,8 @@ The RobustLens project consists of three interconnected systems:
 The scientific centerpiece of RobustLens is the published research working paper:
 
 > **Title:** *Order Matters Beyond Accuracy: Paired Prediction Analysis of Compound Image Corruptions*  
-> **Author:** Aviral Choudhary  
-> **Date:** October 20, 2026  
-> **Permanent DOI:** [10.5281/zenodo.23483939](https://doi.org/10.5281/zenodo.23483939) (Zenodo Archive, Version 1.0)  
+> **Authors:** **Suryakanth V. Gangashetty**$^1$ and **Aviral Choudhary**$^2$  
+> **Date:** October 2026  
 > **Canonical Artifacts:** [`reports/final_research_package/`](file:///C:/STATISTICS%20&%20CV/robustlens/reports/final_research_package/)
 
 ### The Core Research Question
@@ -413,12 +413,7 @@ The About page provides the administrative, biographical, and archival record of
 * **Platform Module Directory:** Direct navigational cards to all six interactive research tools.
 * **Data Availability & Reproducibility Statement:** Confirmation of zero-fabrication data policies, traceable raw CSV records, and automated pytest coverage.
 * **Scope & Future Horizons:** Transparently discusses the boundaries of the 10-class validation partition and outlines plans for continuous generative matching and video perception.
-* **Permanent DOI & BibTeX Citation Card:**
-  * **Title:** *Order Matters Beyond Accuracy: Paired Prediction Analysis of Compound Image Corruptions*
-  * **Author:** Aviral Choudhary
-  * **Date:** October 20, 2026
-  * **DOI Button:** Direct link to [10.5281/zenodo.23483939](https://doi.org/10.5281/zenodo.23483939).
-  * **Copyable BibTeX block.**
+* **Publication & BibTeX Citation Cards:** Direct downloads and copyable BibTeX entries for both research publications with full author affiliations.
 
 #### C. Implementation Files
 * **Frontend:** [`apps/web/src/app/about/page.tsx`](file:///C:/STATISTICS%20&%20CV/robustlens/apps/web/src/app/about/page.tsx)
@@ -519,7 +514,7 @@ Every numerical figure published in the paper and displayed on the website has b
 2. **Audit Findings:** Read the **"WHAT THIS STUDY FINDS"** executive summary on the About page. Check the three core discoveries: Terminal Smoothing Confound, Gap Contraction Under Fidelity, and Error Migration Decoupling.
 3. **Verify Data:** Check the **Reproducibility** section. Note that all 973,400 records are archived in open compressed CSV formats with open schemas.
 4. **Inspect Equations:** Open `/methods` to review the mathematical formulations: the clustered bootstrap resampling equation, the full-rank orthogonal matrix decomposition with $\det(X) = -6$, and the 5-state churn partition identities.
-5. **Download Manuscript:** Click the Zenodo DOI badge (`10.5281/zenodo.23483939`) to inspect the official Version 1.0 PDF.
+5. **Download Manuscript:** Click *"Download Manuscript"* on the About or Methods page to inspect the official PDF with vector figures.
 
 ### Journey 3: The Machine Learning Engineer
 1. **Start:** Open the **Leaderboard** (`/leaderboard`).
@@ -573,7 +568,7 @@ The development of RobustLens progressed through several verified phases, preser
 2. **First Systematic Proof of Non-Commutativity:** Discovered that nominal order gaps reach up to 21.55% and are heavily confounded by terminal operator smoothing.
 3. **Decoupling of Net Accuracy and Prediction Churn:** Formulated and mathematically proved the churn identity $\text{Churn} \equiv |\Delta\text{Acc}| + 2\min(G, L)$, showing that models experience up to 10.97% excess churn even when net accuracy differences are near zero.
 4. **52 / 52 Automated Test Suite:** Unit and integration tests covering corruptions, dataset partitions, clustered bootstrapping, ECE calculations, conformal coverage bounds, and matrix algebra.
-5. **Open Science Publication on Zenodo:** Deposited the canonical Version 1.0 research package under permanent DOI `10.5281/zenodo.23483939`.
+5. **Open Science Publication Packages:** Released canonical research manuscripts, reproducible datasets, evaluation manifests, and vector figures.
 6. **Live Production Web Deployment:** Deployed a responsive Next.js 16 web application on Vercel at `https://robustlens.vercel.app` backed by an NVIDIA A10G ZeroGPU cluster.
 
 ---
@@ -604,17 +599,17 @@ To maintain academic honesty, the published manuscript and this guide explicitly
 ## 14. Frequently Asked Questions (FAQ)
 
 ### Q1: Is RobustLens just a web dashboard or an academic research paper?
-**Answer:** It is both! RobustLens is an end-to-end research project. It includes a published scientific working paper on Zenodo (DOI: 10.5281/zenodo.23483939), an open-source Python evaluation framework, a 52-test automated test suite, and an interactive web application on Vercel that lets anyone explore the research.
+**Answer:** It is both! RobustLens is an end-to-end research project. It includes scientific research manuscripts, an open-source Python evaluation framework, a 52-test automated test suite, and an interactive web application on Vercel that lets anyone explore the research.
 
 ### Q2: Why did you pick ResNet-50, ConvNeXt-Tiny, ViT-Base, and Swin-Tiny?
-**Answer:** These four models represent the four dominant paradigms in modern computer vision:
+**Answer:** These four models represent four major architectures in modern computer vision:
 1. **ResNet-50:** The historical gold-standard deep convolutional network (CNN) with residual skip connections.
 2. **ConvNeXt-Tiny:** A modern "convnet for the 2020s" that incorporates architectural lessons from vision transformers into pure convolutions (depthwise separable layers, $7 \times 7$ kernels).
 3. **ViT-Base/16:** An isotropic vision transformer that treats an image as a sequence of non-overlapping $16 \times 16$ patches.
 4. **Swin-Tiny:** A hierarchical vision transformer that computes self-attention within shifted local windows.
 
 ### Q3: Does the website run the full 973,400 inferences every time I open a page?
-**Answer:** No! Re-running nearly 1 million forward passes on every page load would take hours and cost hundreds of dollars in cloud GPU compute. The website reads precomputed, verified JSON data files (`order_effects_data.json`, `benchmark_report.json`, `demo_results.json`) stored in `apps/web/public/`. This allows the dashboards to load in milliseconds while displaying 100% genuine research data.
+**Answer:** No! Re-running nearly 1 million forward passes on every page load would take hours and cost hundreds of dollars in cloud GPU compute. The website reads precomputed, verified JSON data files (`order_effects_data.json`, `benchmark_report.json`, `matched_fidelity_study_data.json`) stored in `apps/web/public/`. This allows the dashboards to load in milliseconds while displaying 100% genuine research data.
 
 ### Q4: When I upload an image in the live demo, does it use fake data?
 **Answer:** Absolutely not! When you upload an image to `TryDemo`, your browser sends the image to our Next.js API route (`/api/inference`), which securely calls a live Hugging Face Space running on an NVIDIA A10G ZeroGPU. The GPU runs actual PyTorch forward passes and returns real top-5 softmax probabilities.
@@ -635,17 +630,25 @@ To maintain academic honesty, the published manuscript and this guide explicitly
 **Answer:** In any sequence of image operations, the *last* operation has the final say on the image's high-frequency content. If the last operation is Defocus Blur, the blur filters out the sharp noise and JPEG artifacts that were added earlier, acting like a restorative filter and boosting image quality by ~6 dB. If the last operation is Noise, the sharp noise sits on top and destroys model confidence.
 
 ### Q9: Can I cite RobustLens in my own paper or research?
-**Answer:** Yes! Please cite our permanent Zenodo archive:
+**Answer:** Yes! Please cite our canonical manuscripts:
 ```bibtex
-@article{choudhary2026robustlens,
+@article{gangashetty2026spatialfrequency,
+  title   = {Spatial-Frequency and Structural Distortion Fingerprints Beyond Global Image Fidelity: Predicting Vision-Model Margins under Compound Image Corruption},
+  author  = {Gangashetty, Suryakanth V. and Choudhary, Aviral},
+  year    = {2026},
+  month   = {November},
+  journal = {RobustLens Research Initiative Working Paper},
+  note    = {Confirmatory study N=3,825 held-out Imagenette-v2 images, 290,700 primary passes + ImageNet-V2 replication}
+}
+
+@article{gangashetty2026ordermatters,
   title   = {Order Matters Beyond Accuracy: Paired Prediction Analysis of Compound Image Corruptions},
-  author  = {Choudhary, Aviral},
+  author  = {Gangashetty, Suryakanth V. and Choudhary, Aviral},
   year    = {2026},
   month   = {October},
-  doi     = {10.5281/zenodo.23483939},
-  url     = {https://doi.org/10.5281/zenodo.23483939},
+  journal = {RobustLens Research Initiative Working Paper},
   version = {1.0},
-  note    = {RobustLens Research Benchmark Release}
+  note    = {Foundational compound-corruption benchmark: 973,400 forward passes on 3,925 Imagenette-v2 images}
 }
 ```
 

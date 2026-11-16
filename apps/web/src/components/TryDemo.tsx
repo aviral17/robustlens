@@ -278,7 +278,7 @@ export default function TryDemo() {
             <button
               key={p.name}
               onClick={() => selectSamplePreset(p)}
-              className="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-muted hover:bg-primary/20 hover:text-primary transition-colors border border-border/60 shadow-sm"
+              className="cursor-pointer px-3.5 py-1.5 rounded-full text-xs font-semibold bg-muted hover:bg-primary/20 hover:text-primary transition-colors border border-border/60 shadow-sm"
             >
               {p.name}
             </button>
@@ -544,7 +544,7 @@ export default function TryDemo() {
                           key={lvl}
                           type="button"
                           onClick={() => handleSeverityChange(lvl)}
-                          className={`w-7 h-7 rounded-lg text-xs font-bold transition-all ${
+                          className={`w-7 h-7 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                             severity === lvl
                               ? "bg-primary text-primary-foreground shadow-sm scale-105"
                               : "bg-muted text-muted-foreground hover:bg-muted/80"

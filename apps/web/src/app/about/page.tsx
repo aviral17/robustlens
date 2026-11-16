@@ -47,20 +47,20 @@ export default function AboutPage() {
         {/* Quick Metric Highlights */}
         <div className="mt-8 pt-8 border-t border-sky-200/60 dark:border-border/50 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
           <div className="flex flex-col gap-1">
-            <span className="text-2xl sm:text-3xl font-extrabold text-blue-600 dark:text-blue-500">313,500</span>
-            <span className="text-xs sm:text-sm text-slate-600 dark:text-muted-foreground font-medium">Forward Passes Evaluated</span>
+            <span className="text-2xl sm:text-3xl font-extrabold text-blue-600 dark:text-blue-500">1,286,900</span>
+            <span className="text-xs sm:text-sm text-slate-600 dark:text-muted-foreground font-medium">Total Passes (2 Studies)</span>
           </div>
           <div className="flex flex-col gap-1">
-            <span className="text-2xl sm:text-3xl font-extrabold text-violet-600 dark:text-violet-500">3,825</span>
-            <span className="text-xs sm:text-sm text-slate-600 dark:text-muted-foreground font-medium">Confirmatory Images (19 Cond.)</span>
+            <span className="text-2xl sm:text-3xl font-extrabold text-violet-600 dark:text-violet-500">313,500</span>
+            <span className="text-xs sm:text-sm text-slate-600 dark:text-muted-foreground font-medium">Matched-Fidelity Passes (Nov 2026)</span>
           </div>
           <div className="flex flex-col gap-1">
-            <span className="text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-500">300</span>
-            <span className="text-xs sm:text-sm text-slate-600 dark:text-muted-foreground font-medium">ImageNet-V2 External Images</span>
+            <span className="text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-500">973,400</span>
+            <span className="text-xs sm:text-sm text-slate-600 dark:text-muted-foreground font-medium">Order Benchmark Passes (Oct 2026)</span>
           </div>
           <div className="flex flex-col gap-1">
             <span className="text-2xl sm:text-3xl font-extrabold text-amber-600 dark:text-amber-500">4</span>
-            <span className="text-xs sm:text-sm text-slate-600 dark:text-muted-foreground font-medium">Canonical Architectures</span>
+            <span className="text-xs sm:text-sm text-slate-600 dark:text-muted-foreground font-medium">Canonical Vision Paradigms</span>
           </div>
         </div>
       </section>
@@ -205,27 +205,47 @@ export default function AboutPage() {
         </div>
 
         {/* Experimental Scope Detail Card */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-card border border-border/60 shadow-sm flex flex-col gap-4">
-          <h3 className="text-lg font-bold text-foreground">Factorial Benchmark Architecture & Regimes</h3>
+        <div className="p-6 sm:p-8 rounded-3xl bg-card border border-border/60 shadow-sm flex flex-col gap-6">
+          <div className="flex flex-col gap-1">
+            <span className="text-xs font-bold uppercase tracking-wider text-primary">Two Rigorous Research Phases • 1,286,900 Total Passes</span>
+            <h3 className="text-xl font-bold text-foreground">Dual Experimental Architecture & Evaluation Regimes</h3>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-muted-foreground leading-relaxed">
-            <div className="flex flex-col gap-2">
-              <strong className="text-foreground">Dataset Partition & Deterministic Seeds:</strong>
+            {/* Phase 2: Active November 2026 Study */}
+            <div className="p-5 rounded-2xl bg-muted/30 border border-border/40 flex flex-col gap-2.5">
+              <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                Phase 2 • Active Canonical Manuscript (November 2026)
+              </span>
+              <h4 className="font-bold text-base text-foreground">Matched-Fidelity Distortion Fingerprints</h4>
               <p>
-                Evaluated on the official FastAI Imagenette-v2 validation split (3,925 physical images across 10 canonical ImageNet classes). Every evaluation uses deterministically seed-matched noise realizations on identical physical images.
+                <strong>Cohort:</strong> N = 3,825 held-out Imagenette validation images + N = 300 ImageNet-V2 replication images = <strong>313,500 total forward passes</strong>.
               </p>
-              <strong className="text-foreground mt-2">Factorial Permutations:</strong>
               <p>
-                All 3! = 6 permutations of Gaussian Noise (N), Defocus Blur (B), and JPEG Compression (J)—namely NBJ, NJB, BNJ, BJN, JNB, and JBN—evaluated across 5 severity levels.
+                <strong>Common-Support Targets:</strong> 3 joint (PSNR, SSIM) target tiers: Mild (27.20 dB / 0.810), Moderate (23.80 dB / 0.650), and Severe (21.80 dB / 0.500) evaluated across all 6 sequence orders (18 corrupted conditions + 1 clean = 19 conditions/image).
+              </p>
+              <p>
+                <strong>Statistical Objective:</strong> Evaluates whether 5 spatial-frequency and structural fingerprints (&Delta;E<sub>edge</sub>, E<sub>low</sub>, E<sub>high</sub>, B<sub>JPEG</sub>, &sigma;<sub>local SSIM</sub>) improve out-of-sample logit-margin prediction (Model 5, 32 cols) beyond nonlinear four-knot restricted cubic splines on PSNR, SSIM, and LPIPS (Model 3, 27 cols).
               </p>
             </div>
-            <div className="flex flex-col gap-2">
-              <strong className="text-foreground">Nominal-Order Regime (486,700 passes):</strong>
+
+            {/* Phase 1: Foundational October 2026 Benchmark */}
+            <div className="p-5 rounded-2xl bg-muted/30 border border-border/40 flex flex-col gap-2.5">
+              <span className="text-xs font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400">
+                Phase 1 • Foundational Benchmark (October 2026)
+              </span>
+              <h4 className="font-bold text-base text-foreground">Order Matters Beyond Accuracy</h4>
               <p>
-                Evaluates fixed standard parameters (ImageNet-C severities 1–5), assessing operational robustness when degradation parameters are unconstrained.
+                <strong>Cohort:</strong> N = 3,925 official Imagenette-v2 validation images across 2 complete regimes = <strong>973,400 total forward passes</strong>.
               </p>
-              <strong className="text-foreground mt-2">Approximate-Fidelity Regime (486,700 passes):</strong>
               <p>
-                Parameters pre-calibrated on an independent training partition (N_cal = 50) targeting common (PSNR, SSIM) support to reduce low-level physical confounding.
+                <strong>Nominal Regime (486,700 passes):</strong> Fixed standard ImageNet-C parameters (severities 1–5), assessing operational robustness when degradation sequence is unconstrained.
+              </p>
+              <p>
+                <strong>Approximate-Fidelity Regime (486,700 passes):</strong> Parameters pre-calibrated on an independent partition (N<sub>cal</sub> = 50) targeting shared (PSNR, SSIM) bins, demonstrating a 63.18% aggregate range contraction.
+              </p>
+              <p>
+                <strong>Statistical Objective:</strong> Formulates 5-state joint prediction space separating correctness churn from error migration (E<sub>00_diff</sub>).
               </p>
             </div>
           </div>
@@ -240,45 +260,83 @@ export default function AboutPage() {
           </div>
           <div>
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground font-[family-name:var(--font-poppins)]">
-              Main Experimental Findings
+              Core Empirical Findings (Both Research Phases)
             </h2>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-6 rounded-3xl bg-card border border-border/60 shadow-sm flex flex-col gap-3">
-            <span className="text-xs font-bold uppercase tracking-wider text-rose-500">Finding 1</span>
-            <h3 className="font-bold text-lg text-foreground">Terminal Smoothing Confound</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Nominal evaluations show massive sequence gaps up to <strong>21.55% in ResNet-50</strong> (35.71% on BJN vs. 57.27% on JNB) and <strong>20.45% in ConvNeXt-Tiny</strong> (45.99% on BJN vs. 66.44% on NJB). These gaps are dominated by terminal operator identity: ending in Blur confers a +17.69% boost by filtering prior noise and JPEG artifacts, increasing PSNR by ~6.2 dB.
-            </p>
-          </div>
+        {/* November 2026 Matched-Fidelity Findings */}
+        <div className="flex flex-col gap-2 pt-1">
+          <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+            Phase 2 Findings • Spatial-Frequency &amp; Structural Fingerprints (November 2026)
+          </span>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="p-6 rounded-3xl bg-card border border-border/60 shadow-sm flex flex-col gap-3">
+              <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Finding 1 (Confirmatory)</span>
+              <h3 className="font-bold text-lg text-foreground">Fingerprints Add Predictive Value Beyond Global Fidelity</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Adding five spatial-frequency/structural fingerprints improves out-of-sample logit margin R&sup2; by <strong>+0.0094 to +0.0199</strong> across all four architectures (ResNet-50, ConvNeXt-Tiny, ViT-Base/16, Swin-Tiny) and reduces MAE by 0.0334&ndash;0.0535. Paired image-cluster bootstrap tests (B = 10,000) confirm <strong>p<sub>adj</sub> &le; 0.0004</strong> with simultaneous Bonferroni 95% CIs strictly above zero.
+              </p>
+            </div>
 
-          <div className="p-6 rounded-3xl bg-card border border-border/60 shadow-sm flex flex-col gap-3">
-            <span className="text-xs font-bold uppercase tracking-wider text-blue-500">Finding 2</span>
-            <h3 className="font-bold text-lg text-foreground">Gap Contraction Under Fidelity</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Targeting common (PSNR, SSIM) support contracts the cross-sequence range of the four-model mean accuracies by <strong>63.18%</strong> (from 18.43% down to 6.79%). Architecture-specific gap contractions average <strong>58.08%</strong> (77.15% in ConvNeXt, 72.62% in ResNet, 50.75% in ViT, and 31.80% in Swin).
-            </p>
-          </div>
+            <div className="p-6 rounded-3xl bg-card border border-border/60 shadow-sm flex flex-col gap-3">
+              <span className="text-xs font-bold uppercase tracking-wider text-blue-500">Finding 2 (Ablation)</span>
+              <h3 className="font-bold text-lg text-foreground">Sobel Edge-Energy is the Strongest Contributor</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Feature ablations show that <strong>Sobel edge-energy change (&Delta;E<sub>edge</sub>)</strong> produces the largest single-feature R&sup2; gain in every architecture, with Fourier residual-energy features (E<sub>low</sub>, E<sub>high</sub>) providing a second significant contribution. Full sequence order and continuous fingerprints add distinct, non-redundant predictive detail.
+              </p>
+            </div>
 
-          <div className="p-6 rounded-3xl bg-card border border-border/60 shadow-sm flex flex-col gap-3">
-            <span className="text-xs font-bold uppercase tracking-wider text-amber-500">Finding 3</span>
-            <h3 className="font-bold text-lg text-foreground">Prediction Churn & Error Migration</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              <strong>Predicted-Label Churn</strong> (40.78% nominal, 34.74% targeted) is more than double <strong>Correctness-State Churn</strong> (16.93% nominal, 12.34% targeted) due to widespread <strong>Error Migration</strong> (E00_diff ≈ 23%, where models predict different incorrect classes across orders). Pairs with near-identical accuracy exhibit up to <strong>10.97% excess churn</strong>.
-            </p>
+            <div className="p-6 rounded-3xl bg-card border border-border/60 shadow-sm flex flex-col gap-3">
+              <span className="text-xs font-bold uppercase tracking-wider text-violet-500">Finding 3 (Replication)</span>
+              <h3 className="font-bold text-lg text-foreground">ViT-Base/16 Replicates on ImageNet-V2</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                On an independent 300-image ImageNet-V2 cohort (22,800 passes across MatchedFrequency, Threshold0.7, and TopImages), <strong>ViT-Base/16 retains a statistically significant pooled R&sup2; gain</strong> after Holm correction (&Delta;R&sup2; = +0.0371, 95% CI [0.0065, 0.0675], p<sub>adj</sub> = 0.0340); the other architectures show positive point estimates with intervals crossing zero.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* October 2026 Foundational Findings */}
+        <div className="flex flex-col gap-2 pt-4">
+          <span className="text-xs font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400">
+            Phase 1 Findings • Compound Corruption Order Effects (October 2026)
+          </span>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="p-6 rounded-3xl bg-card border border-border/60 shadow-sm flex flex-col gap-3">
+              <span className="text-xs font-bold uppercase tracking-wider text-rose-500">Finding 4 (Order Sensitivity)</span>
+              <h3 className="font-bold text-lg text-foreground">Terminal Smoothing Confound</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Nominal evaluations show massive sequence gaps up to <strong>21.55% in ResNet-50</strong> (35.71% on BJN vs. 57.27% on JNB) and <strong>20.45% in ConvNeXt-Tiny</strong> (45.99% on BJN vs. 66.44% on NJB). These gaps are dominated by terminal operator identity: ending in Blur confers a +17.69% boost by filtering prior noise and JPEG artifacts, increasing PSNR by ~6.2 dB.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-3xl bg-card border border-border/60 shadow-sm flex flex-col gap-3">
+              <span className="text-xs font-bold uppercase tracking-wider text-blue-500">Finding 5 (Fidelity Contraction)</span>
+              <h3 className="font-bold text-lg text-foreground">Gap Contraction Under Shared Fidelity</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Targeting common (PSNR, SSIM) support contracts the cross-sequence range of the four-model mean accuracies by <strong>63.18%</strong> (from 18.43% down to 6.79%). Architecture-specific gap contractions average <strong>58.08%</strong> (77.15% in ConvNeXt, 72.62% in ResNet, 50.75% in ViT, and 31.80% in Swin).
+              </p>
+            </div>
+
+            <div className="p-6 rounded-3xl bg-card border border-border/60 shadow-sm flex flex-col gap-3">
+              <span className="text-xs font-bold uppercase tracking-wider text-amber-500">Finding 6 (Churn Decomposition)</span>
+              <h3 className="font-bold text-lg text-foreground">Prediction Churn & Error Migration</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                <strong>Predicted-Label Churn</strong> (40.78% nominal, 34.74% targeted) is more than double <strong>Correctness-State Churn</strong> (16.93% nominal, 12.34% targeted) due to widespread <strong>Error Migration</strong> (E<sub>00_diff</sub> &asymp; 23%, where models predict different incorrect classes across orders).
+              </p>
+            </div>
           </div>
         </div>
 
         {/* Churn Definition Callout Card */}
-        <div className="p-6 rounded-3xl bg-muted/40 border border-border/50 flex flex-col gap-2">
+        <div className="p-6 rounded-3xl bg-muted/40 border border-border/50 flex flex-col gap-2 mt-2">
           <h4 className="font-bold text-base text-foreground flex items-center gap-2">
             <RotateCcw className="h-4 w-4 text-amber-500" />
             <span>Understanding Churn: Predicted-Label vs. Correctness-State Churn</span>
           </h4>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            In standard machine learning literature, <strong>correctness-state churn</strong> only records instances where a model switches between a correct and an incorrect prediction across two conditions. In contrast, <strong>predicted-label churn</strong> measures whether the actual class label assigned by the model changes—even if both predictions are wrong. Because vision models continuously rotate between distinct incorrect classes under different degradation sequences (Error Migration, E00_diff), aggregate accuracy substantially understates model instability under non-commutative distribution shift.
+            In standard machine learning literature, <strong>correctness-state churn</strong> only records instances where a model switches between a correct and an incorrect prediction across two conditions. In contrast, <strong>predicted-label churn</strong> measures whether the actual class label assigned by the model changes—even if both predictions are wrong. Because vision models continuously rotate between distinct incorrect classes under different degradation sequences (Error Migration, E<sub>00_diff</sub>), aggregate accuracy substantially understates model instability under non-commutative distribution shift.
           </p>
         </div>
       </section>
@@ -438,7 +496,7 @@ export default function AboutPage() {
           </div>
 
           <div className="p-4 rounded-2xl bg-muted/30 border border-border/40 text-xs text-muted-foreground leading-relaxed">
-            <strong className="text-foreground">Delineation Note:</strong> The core scientific research findings presented in the paper and dashboard derive from the verified offline benchmark of 973,400 forward passes on 3,925 physical validation images. The interactive live-inference demo (/api/inference) is a lightweight playground connecting to an external Gradio endpoint for single user uploads, completely separated from the benchmark data.
+            <strong className="text-foreground">Delineation Note:</strong> The core scientific research findings presented in the publications and dashboard derive from the verified offline evaluations comprising <strong>1,286,900 forward passes</strong> (973,400 in the foundational benchmark across 3,925 validation images, and 313,500 in the matched-fidelity confirmatory and replication study across 3,825 held-out Imagenette images + 300 ImageNet-V2 images). The interactive live-inference playground (<code className="text-foreground font-mono">/api/inference</code>) is a lightweight demonstration connecting to an external GPU endpoint for single user uploads, completely separated from the audited research data.
           </div>
         </div>
       </section>
@@ -458,7 +516,7 @@ export default function AboutPage() {
 
         <div className="p-6 sm:p-8 rounded-3xl bg-card border border-border/60 shadow-sm flex flex-col gap-6">
           <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-            All code, statistical scripts, data schemas, and research deliverables are designed for complete verification:
+            All code, statistical scripts, data schemas, and research deliverables are designed for complete independent verification:
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -467,7 +525,7 @@ export default function AboutPage() {
               <div className="flex flex-col gap-1">
                 <span className="font-bold text-sm text-foreground">Zero-Fabrication Data Audit</span>
                 <span className="text-xs text-muted-foreground leading-relaxed">
-                  Every reported number traces directly to 973,400 raw evaluation records archived in open compressed CSV formats with open schemas.
+                  Every reported finding traces directly to raw evaluation records (973,400 in the foundational benchmark and 313,500 in the matched-fidelity confirmatory study) archived in open compressed CSV formats with cryptographic manifests.
                 </span>
               </div>
             </div>
@@ -641,18 +699,24 @@ export default function AboutPage() {
           {/* October 2026 Benchmark Release */}
           <div className="flex flex-col gap-4 pb-4 border-b border-border/50">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1.5">
                 <span className="text-xs font-bold uppercase tracking-wider text-purple-500">Benchmark Release (v1.0 • October 2026)</span>
                 <h3 className="text-lg sm:text-xl font-bold text-foreground">
                   Order Matters Beyond Accuracy: Paired Prediction Analysis of Compound Image Corruptions
                 </h3>
-                <p className="text-sm text-muted-foreground">
-                  <strong>Author:</strong> Aviral Choudhary &bull; <strong>Date:</strong> October 20, 2026
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  <strong>Authors:</strong> Suryakanth V. Gangashetty<sup>1</sup> &amp; Aviral Choudhary<sup>2</sup> &bull; <strong>Date:</strong> October 2026<br />
+                  <span className="text-xs text-muted-foreground">
+                    <sup>1</sup>Department of Computer Science and Engineering, Koneru Lakshmaiah Education Foundation, India &bull; <sup>2</sup>Independent Researcher, India
+                  </span>
+                </p>
+                <p className="text-xs font-semibold text-purple-600 dark:text-purple-400">
+                  Cohort: N = 3,925 Validation Images across 2 Regimes (Nominal &amp; Targeted) = 973,400 Total Forward Passes
                 </p>
               </div>
               <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 shrink-0 self-start sm:self-auto">
                 <FileText className="h-3.5 w-3.5" />
-                <span>Research Paper & Archive</span>
+                <span>Foundational Paper &amp; Archive</span>
               </span>
             </div>
 
@@ -660,11 +724,19 @@ export default function AboutPage() {
             <div className="flex flex-wrap gap-3 pt-1">
               <a
                 href="/downloads/RobustLens_Final_Paper.pdf"
-                download="RobustLens_Final_Paper.pdf"
+                download="RobustLens_Foundational_Paper.pdf"
                 className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold bg-muted hover:bg-muted/80 text-foreground transition-all border border-border/60"
               >
                 <FileText className="h-4 w-4" />
-                <span>Download Original Paper (PDF, 5 Pages)</span>
+                <span>Download Foundational Paper (PDF, 6 Pages)</span>
+              </a>
+              <a
+                href="/downloads/RobustLens_Foundational_Paper.tex"
+                download="RobustLens_Foundational_Paper.tex"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold bg-muted hover:bg-muted/80 text-foreground transition-all border border-border/60 font-mono"
+              >
+                <FileText className="h-4 w-4" />
+                <span>Download Foundational LaTeX Source (.tex)</span>
               </a>
               <a
                 href="/downloads/RobustLens_Research_Package.zip"
@@ -678,16 +750,16 @@ export default function AboutPage() {
           </div>
 
           <div className="flex flex-col gap-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">BibTeX Citation (October 2026 Benchmark)</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">BibTeX Citation (October 2026 Foundational Paper)</span>
             <div className="p-4 rounded-2xl bg-muted/50 border border-border/50 font-mono text-xs text-foreground overflow-x-auto leading-relaxed">
-              <pre>{`@article{choudhary2026robustlens,
+              <pre>{`@article{gangashetty2026ordermatters,
   title   = {Order Matters Beyond Accuracy: Paired Prediction Analysis of Compound Image Corruptions},
-  author  = {Choudhary, Aviral},
+  author  = {Gangashetty, Suryakanth V. and Choudhary, Aviral},
   year    = {2026},
   month   = {October},
   journal = {RobustLens Research Initiative Working Paper},
   version = {1.0},
-  note    = {RobustLens Research Benchmark Release}
+  note    = {Foundational compound-corruption benchmark: 973,400 forward passes on 3,925 Imagenette-v2 images}
 }`}</pre>
             </div>
           </div>

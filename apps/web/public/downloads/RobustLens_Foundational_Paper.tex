@@ -1,0 +1,606 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[10pt,twocolumn]{article}
+\usepackage{amsmath,amssymb}
+\usepackage[letterpaper,top=0.66in,bottom=0.66in,left=0.66in,right=0.66in,columnsep=0.24in]{geometry}
+\usepackage{tcolorbox}
+\usepackage{dblfloatfix}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\setlength{\parindent}{1em}
+\setlength{\parskip}{0pt}
+\usepackage{xcolor}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen}
+\setlength{\columnsep}{0.24in}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+\setlength{\textfloatsep}{9pt plus 2pt minus 2pt}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\renewcommand{\topfraction}{0.92}
+\renewcommand{\dbltopfraction}{0.92}
+\renewcommand{\textfraction}{0.06}
+\renewcommand{\floatpagefraction}{0.75}
+\renewcommand{\dblfloatpagefraction}{0.75}
+\titlespacing*{\section}{0pt}{1.05em}{0.45em}
+\titlespacing*{\subsection}{0pt}{0.8em}{0.3em}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small RobustLens}
+\fancyhead[R]{\small Compound-corruption robustness}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.35pt}
+\setlength{\headheight}{13pt}
+\captionsetup{font=small,labelfont=bf,justification=centering}
+\tcbset{colback=black!94,colframe=black!94,coltext=white,boxrule=0.5pt,arc=1.5mm,left=2.5mm,right=2.5mm,top=1.5mm,bottom=1.5mm} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Order Matters Beyond Accuracy: Paired Prediction Analysis of Compound Image Corruptions},
+  pdfauthor={Suryakanth V. Gangashetty; Aviral Choudhary},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Order Matters Beyond Accuracy: Paired Prediction Analysis of
+Compound Image Corruptions}
+\author{Suryakanth V. Gangashetty$^{1}$\\[3pt] Aviral Choudhary$^{2}$}
+\date{October 2026}
+
+\begin{document}
+\twocolumn[
+\begin{@twocolumnfalse}
+\vspace*{-0.45em}
+\begin{center}
+{\LARGE\bfseries Order Matters Beyond Accuracy: Paired Prediction Analysis of Compound Image Corruptions\par}
+\vspace{0.65em}
+{\large Suryakanth V. Gangashetty$^{1}$\par}
+\vspace{0.14em}
+{\large Aviral Choudhary$^{2}$\par}
+\vspace{0.24em}
+{\footnotesize $^{1}$Department of Computer Science and Engineering, Koneru Lakshmaiah Education Foundation, India\par}
+{\footnotesize $^{2}$Independent Researcher, India\par}
+\vspace{0.32em}
+{\small October 2026\par}
+\end{center}
+\vspace{0.45em}
+{\small\noindent\textbf{Abstract.} Classification accuracy under compound corruption depends on the order
+in which degradations are applied. We evaluate all six permutations of
+Gaussian noise (N), Gaussian blur (B), and JPEG compression on 3,925
+Imagenette-v2 validation images using four pretrained classifiers:
+ResNet-50, ConvNeXt-Tiny, ViT-Base/16, and Swin-Tiny. Under common
+nominal settings, the model-specific six-order accuracy ranges span
+17.13 to 21.55 percentage points. Two orders that both end in JPEG
+differ by about 16 percentage points in across-model mean accuracy. A
+second parameter regime selected toward shared PSNR and SSIM targets
+reduces the range of the six across-model mean accuracies from 18.43 to
+6.79 percentage points, a 63.18\% descriptive contraction. A paired
+five-state analysis shows that predicted-label churn is 40.78\% under
+nominal settings and 34.74\% under the PSNR/SSIM-targeted regime,
+compared with correctness-state churn of 16.93\% and 12.34\%. Many of
+the additional label changes occur between two incorrect classes,
+changes that an accuracy-only analysis cannot show.
+\par\vspace{0.35em}}
+{\small\noindent\textbf{Keywords:} computer vision; corruption robustness; compound
+degradations; operator order; paired prediction analysis; image fidelity}
+\vspace{0.6em}
+\begin{tcolorbox}
+{\large\bfseries WHAT THIS STUDY FINDS\par}\vspace{0.25em}
+\small
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Processing order and accuracy.} The model-specific six-order
+  accuracy ranges span 17.13--21.55 percentage points. NBJ and BNJ both
+  end in JPEG but differ by about 16 percentage points in across-model
+  mean accuracy.
+\item
+  \textbf{PSNR/SSIM-targeted settings narrow the aggregate range.} The
+  range across the six across-model mean accuracies decreases from 18.43
+  to 6.79 percentage points (63.18\%). Because the prespecified
+  PSNR/SSIM tolerances were not met, this is a descriptive comparison of
+  the two tested parameter regimes.
+\item
+  \textbf{Predicted labels change beyond correctness.} Nominal
+  predicted-label churn is 40.78\%, compared with 16.93\%
+  correctness-state churn. A further 23.85\% of paired observations
+  remain incorrect while switching to a different incorrect class.
+\end{itemize}
+\end{tcolorbox}
+\end{@twocolumnfalse}
+]
+
+\section{1. Introduction}\label{introduction}
+
+Images used by vision systems often undergo several operations during
+sensing, processing, compression, or transmission. Gaussian noise, blur,
+and JPEG compression are familiar degradations, but applying the same
+operations in a different order can change the resulting image and
+classifier output. Standard robustness benchmarks evaluate many
+degradations in isolation; work on dual corruptions, image-processing
+chains, and compositional robustness motivates evaluating composed
+pipelines {[}1-3, 6, 9{]}.
+
+This study asks: \textbf{when the same source images and fixed model
+weights are exposed to the same three degradations in different orders,
+how much do accuracy and individual predicted labels change?} We
+evaluate all six permutations of Gaussian noise, Gaussian blur, and JPEG
+compression on 3,925 Imagenette-v2 validation images using four
+pretrained classifiers. We compare common nominal parameters with a
+second regime in which sequence-specific settings are selected toward
+shared PSNR and SSIM targets.
+
+For each order, we report top-1 accuracy and image-fidelity summaries,
+then compare predicted classes for the same image-severity observations
+across order pairs. This separates changes in correctness from switches
+between incorrect labels. The five-state partition is used as an
+analysis tool; the contribution is its application to the complete
+six-order experiment, alongside the accuracy and fidelity comparisons.
+
+\section{2. Related work}\label{related-work}
+
+ImageNet-C and ImageNet-P established widely used protocols for
+corruption robustness and perturbation stability {[}1{]}. Goyal et
+al.~studied noise-blur dual corruptions {[}2{]}, and Liao et
+al.~examined image operator-chain detection {[}3{]}. Other work has
+studied compositional robustness {[}9{]}, real-world corruption chains
+for large multimodal models {[}5{]}, continuous nuisance shifts {[}6{]},
+and out-of-distribution evaluation of web-scale vision models {[}7{]}.
+Prediction churn has also been studied across model versions {[}4{]}.
+
+The closest methodological context is recent paired-evaluation work
+under visual perturbations {[}8{]}, which discusses a five-state
+refinement that distinguishes persistent wrong answers from changed
+wrong answers. The five-state partition in this paper is therefore not
+presented as a new general method. This study applies paired prediction
+comparisons to all six permutations of one fixed noise-blur-JPEG chain
+across four frozen classifiers and reports the results alongside
+order-specific accuracy and image-fidelity summaries.
+
+\section{3. Experimental design}\label{experimental-design}
+
+\subsection{3.1 Dataset and
+classifiers}\label{dataset-and-classifiers}
+
+Experiments use the ten-class FastAI Imagenette-v2 validation split,
+containing 3,925 images. The four evaluated classifiers are ResNet-50,
+ConvNeXt-Tiny, ViT-Base/16, and Swin-Tiny. All models remain frozen
+during evaluation; the experimental variation is applied to their input
+images.
+
+Each regime evaluates every combination of six operator orders, five
+severity levels, four models, and 3,925 images:
+
+\[
+6\times5\times4\times3{,}925=471{,}000
+\]
+
+compound evaluation records per regime. The clean baseline contributes
+an additional 15,700 model-image records per regime. The resulting
+accounting is 486,700 records per regime and 973,400 records across the
+two regimes.
+
+\subsection{3.2 Operator definitions and sequence
+labels}\label{operator-definitions-and-sequence-labels}
+
+The letters N, B, and J denote Gaussian noise, Gaussian blur, and JPEG
+compression. Codes list operators in the order in which they are
+applied, from left to right.
+
+\begin{center}
+\footnotesize
+\begin{tabularx}{\columnwidth}{@{}lXl@{}}
+\toprule
+Code & Processing sequence & Final operator \\
+\midrule
+NBJ & Noise $\rightarrow$ Blur $\rightarrow$ JPEG & JPEG \\
+NJB & Noise $\rightarrow$ JPEG $\rightarrow$ Blur & Blur \\
+BNJ & Blur $\rightarrow$ Noise $\rightarrow$ JPEG & JPEG \\
+BJN & Blur $\rightarrow$ JPEG $\rightarrow$ Noise & Noise \\
+JNB & JPEG $\rightarrow$ Noise $\rightarrow$ Blur & Blur \\
+JBN & JPEG $\rightarrow$ Blur $\rightarrow$ Noise & Noise \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+The nominal regime uses common severity parameters across orders and
+deterministically seed-matched Gaussian-noise realizations. Image
+identity, label, and model weights remain constant across paired order
+comparisons.
+
+\subsection{3.3 PSNR/SSIM-targeted parameter
+regime}\label{psnrssim-targeted-parameter-regime}
+
+The second regime selects sequence-specific parameter combinations using
+a 50-image calibration subset, with five target bins defined by peak
+signal-to-noise ratio (PSNR) and structural similarity (SSIM). We refer
+to it as the \textbf{PSNR/SSIM-targeted regime}. These targets guided
+parameter selection but were not achieved within the prespecified
+tolerances, as discussed in Section 7.
+
+\subsection{3.4 Outcomes and paired transition
+measures}\label{outcomes-and-paired-transition-measures}
+
+Top-1 accuracy is the primary outcome. PSNR and SSIM summarize low-level
+similarity between each transformed image and its clean source. For each
+model and sequence, accuracy is averaged across the five severity
+settings and the 3,925 validation images. For each order, the
+across-model mean is the arithmetic mean of the four model-specific
+accuracies. Its six-order range is the maximum minus minimum of those
+six means: 18.43 percentage points under nominal settings and 6.79 under
+the PSNR/SSIM-targeted regime. These quantities are not the arithmetic
+means of the four architecture-specific ranges (19.88 and 8.07 points,
+respectively). Similarly, the 63.18\% contraction of the across-model
+range differs from the mean of the four architecture-specific
+contractions (58.08\%). Reported ranges are calculated from unrounded
+accuracy values.
+
+For two sequences A and B, let \(\hat{Y}_A\) and \(\hat{Y}_B\) be the
+predicted classes and let \(C_A=\mathbb{1}[\hat{Y}_A=Y]\),
+\(C_B=\mathbb{1}[\hat{Y}_B=Y]\) indicate correctness relative to the
+true label \(Y\). Let \(L\) denote correct-to-incorrect transitions,
+\(G\) incorrect-to-correct transitions, and \(M\) examples that are
+incorrect under both sequences but receive different incorrect labels.
+Then
+
+\[
+\begin{aligned}
+\text{Correctness-state churn} &= P(C_A\ne C_B)=L+G,\\
+\text{Predicted-label churn} &= P(\hat{Y}_A\ne\hat{Y}_B)=L+G+M.
+\end{aligned}
+\]
+
+The five mutually exclusive states are: both correct; A correct/B
+incorrect; A incorrect/B correct; both incorrect with the same predicted
+class; and both incorrect with different predicted classes. For each
+regime and model, the analysis compares all 15 unordered pairs of the
+six processing orders. Each order-pair comparison aligns the same
+validation image and severity index, giving 3,925 × 5 = 19,625 paired
+image-severity observations per model and order pair. The regime-level
+percentages pool these paired observations across the four models and
+all 15 order pairs. The pooled unit is therefore an
+image-severity-model-order-pair observation, not a unique image. All
+transition measures are descriptive summaries of paired predictions.
+
+\section{4. Results}\label{results}
+
+\subsection{4.1 Order-specific
+accuracy}\label{order-specific-accuracy}
+
+The nominal results show substantial sensitivity to processing order
+across all four architectures (Table 1). The model-specific six-order
+ranges extend from 17.13 to 21.55 percentage points. ResNet-50 has the
+largest range (21.55 pp), while Swin-Tiny has the smallest (17.13 pp).
+
+\begin{table*}[!t]
+\centering
+\caption{Top-1 accuracy by processing order under nominal parameters (\%).}
+\label{tab:nominal-accuracy}
+\small
+\setlength{\tabcolsep}{7pt}
+\begin{tabular}{@{}lrrrrrrr@{}}
+\toprule
+Model & NBJ & NJB & BNJ & BJN & JNB & JBN & Range (pp) \\
+\midrule
+ResNet-50 & 53.44 & 56.88 & 37.30 & 35.71 & 57.27 & 35.79 & 21.55 \\
+ConvNeXt & 63.98 & 66.44 & 48.63 & 45.99 & 65.44 & 46.33 & 20.45 \\
+ViT-B/16 & 58.39 & 60.14 & 39.77 & 41.64 & 59.19 & 42.23 & 20.37 \\
+Swin-T & 59.81 & 61.78 & 45.81 & 50.24 & 62.94 & 50.63 & 17.13 \\
+\textbf{Mean} & \textbf{58.90} & \textbf{61.31} & \textbf{42.88} & \textbf{43.40} & \textbf{61.21} & \textbf{43.75} & \textbf{18.43} \\
+\bottomrule
+\end{tabular}
+\vspace{3pt}
+\begin{minipage}{\textwidth}
+\footnotesize\emph{Note.} For each model, the range is the maximum minus minimum of its six order accuracies. In the final row, the six accuracies are four-model means and 18.43 is the range across those six means, not the average of the four model-specific ranges (19.88 pp). The ranges are calculated from unrounded values.
+\end{minipage}
+\end{table*}
+
+
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.88\textwidth]{RobustLens_Research_Figures/figure1_order_accuracy.png}
+\caption{Order-specific accuracy for the nominal and PSNR/SSIM-targeted regimes.}
+\label{fig:figure1-order-accuracy}
+\end{figure*}
+
+The final operator alone does not determine accuracy. NBJ and BNJ both
+end in JPEG compression, yet their across-model mean accuracies are
+58.90\% and 42.88\%, a difference of about 16 percentage points. The
+operations applied before JPEG therefore matter for the image ultimately
+presented to the classifier.
+
+\subsection{4.2 Joint patterns in accuracy and image
+fidelity}\label{joint-patterns-in-accuracy-and-image-fidelity}
+
+Across the nominal orders, accuracy broadly follows the pattern of the
+PSNR and SSIM summaries (Figure 2). Blur-ending orders NJB and JNB have
+PSNR around 24.5-24.6 dB and SSIM around 0.68-0.69, while noise-ending
+orders BJN and JBN have PSNR around 18.3 dB and SSIM around 0.27. There
+is a useful exception: BNJ and BJN have similar mean accuracy (42.88\%
+and 43.40\%) but different fidelity values (21.13 versus about 18.3 dB
+PSNR; 0.386 versus about 0.27 SSIM). This is why accuracy and
+image-fidelity metrics are best reported together. Because the
+calibration tolerances were not met, these patterns are descriptive and
+do not isolate a causal effect of fidelity.
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.68\textwidth]{RobustLens_Research_Figures/figure2_accuracy_fidelity.png}
+\caption{Accuracy, PSNR, and SSIM across nominal corruption orders.}
+\label{fig:figure2-accuracy-fidelity}
+\end{figure*}
+
+The nominal setting describes the end-to-end result of a specified
+processing chain. The PSNR/SSIM-targeted regime asks how the results
+change when sequence-specific parameters are selected toward shared
+image-quality targets.
+
+\subsection{4.3 Accuracy-range contraction under the
+PSNR/SSIM-targeted
+regime}\label{accuracy-range-contraction-under-the-psnrssim-targeted-regime}
+
+Under the PSNR/SSIM-targeted regime, the range across the six
+across-model mean accuracies decreases from 18.43 to 6.79 percentage
+points, a 63.18\% descriptive contraction (Table 3). By architecture,
+the largest contractions occur for ConvNeXt-Tiny (77.15\%) and ResNet-50
+(72.62\%); ViT-B/16 contracts by 50.75\%, and Swin-Tiny by 31.80\%.
+
+\begin{table*}[!t]
+\centering
+\caption{Top-1 accuracy by order under PSNR/SSIM-targeted parameters (\%).}
+\label{tab:target-accuracy}
+\small
+\setlength{\tabcolsep}{7pt}
+\begin{tabular}{@{}lrrrrrrr@{}}
+\toprule
+Model & NBJ & NJB & BNJ & BJN & JNB & JBN & Range (pp) \\
+\midrule
+ResNet-50 & 50.15 & 46.76 & 45.18 & 50.63 & 47.05 & 51.08 & 5.90 \\
+ConvNeXt & 60.65 & 56.46 & 55.97 & 59.22 & 56.47 & 59.86 & 4.67 \\
+ViT-B/16 & 56.54 & 53.39 & 46.51 & 54.72 & 53.01 & 55.68 & 10.03 \\
+Swin-T & 57.61 & 50.44 & 53.93 & 61.23 & 52.31 & 62.12 & 11.68 \\
+\textbf{Mean} & \textbf{56.23} & \textbf{51.76} & \textbf{50.40} & \textbf{56.45} & \textbf{52.21} & \textbf{57.18} & \textbf{6.79} \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[!t]
+\centering
+\caption{Change in six-order accuracy ranges.}
+\label{tab:range-change}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}X>{\centering\arraybackslash}p{1.35in}>{\centering\arraybackslash}p{1.55in}>{\centering\arraybackslash}p{1.45in}@{}}
+\toprule
+Architecture / summary & Nominal range (pp) & PSNR/SSIM-targeted range (pp) & Descriptive contraction (\%) \\
+\midrule
+ResNet-50 & 21.55 & 5.90 & 72.62 \\
+ConvNeXt & 20.45 & 4.67 & 77.15 \\
+ViT-B/16 & 20.37 & 10.03 & 50.75 \\
+Swin-T & 17.13 & 11.68 & 31.80 \\
+\textbf{Across-model range} & \textbf{18.43} & \textbf{6.79} & \textbf{63.18} \\
+\bottomrule
+\end{tabularx}
+\vspace{3pt}
+\begin{minipage}{\textwidth}
+\footnotesize\emph{Note.} The final row reports the range of the six across-model mean accuracies in each regime; it is not the mean of the four architecture-specific ranges (19.88 pp nominal; 8.07 pp PSNR/SSIM-targeted). The 63.18\% contraction of this aggregate range differs from the arithmetic mean of the four architecture-specific contractions (58.08\%).
+\end{minipage}
+\end{table*}
+
+
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.80\textwidth]{RobustLens_Research_Figures/figure3_range_contraction.png}
+\caption{Observed six-order accuracy ranges in the nominal and PSNR/SSIM-targeted regimes.}
+\label{fig:figure3-range-contraction}
+\end{figure*}
+
+The results show why benchmark reports should state both the
+parameter-selection protocol and the measured image-fidelity profile.
+The contraction describes the difference between these two tested
+regimes; it is not an estimate under exact equal-fidelity conditions.
+
+\subsection{4.4 Paired predictions expose changes beyond
+correctness}\label{paired-predictions-expose-changes-beyond-correctness}
+
+Aggregate accuracy does not reveal whether two sequences produce the
+same predictions on the same images. The five-state paired analysis
+separates changes in correctness from changes in the identity of
+incorrect predictions. Under nominal parameters, correctness-state churn
+is 16.93\%, while predicted-label churn is 40.78\%. Under the
+PSNR/SSIM-targeted regime, the corresponding values are 12.34\% and
+34.74\% (Table 4).
+
+\begin{table*}[!t]
+\centering
+\caption{Paired-prediction transition summaries (\%).}
+\label{tab:prediction-churn}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}Xrr@{}}
+\toprule
+Measure & Nominal parameters & PSNR/SSIM-targeted regime \\
+\midrule
+Correctness-state churn, $L+G$ & 16.93 & 12.34 \\
+Error migration, $M$ & 23.85 & 22.40 \\
+\textbf{Predicted-label churn, $L+G+M$} & \textbf{40.78} & \textbf{34.74} \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.90\textwidth]{RobustLens_Research_Figures/figure4_prediction_churn.png}
+\caption{Predicted-label churn decomposed into correctness-state churn and migration between incorrect labels.}
+\label{fig:figure4-prediction-churn}
+\end{figure*}
+
+The component \(M\) counts cases that remain incorrect but receive a
+different incorrect label under the second sequence. It accounts for
+23.85\% of paired observations under nominal settings and 22.40\% under
+the PSNR/SSIM-targeted regime. These transitions are invisible to
+correctness-state churn, even though the model output has changed.
+
+The class-level results show the same pattern for ``church'': nominal
+accuracy is 18.35\%, correctness-state churn is 11.04\%, error migration
+is 39.41\%, and predicted-label churn is 50.45\%. This class-specific
+result is descriptive and is reported alongside the aggregate analysis.
+
+\section{5. Discussion}\label{discussion}
+
+Processing order materially changes classification accuracy in this
+experiment. With fixed images and model weights, the six-order accuracy
+ranges are 17.13-21.55 percentage points across architectures; even
+orders with the same final operator can differ by about 16 points.
+Reporting the full chain therefore preserves information that a label
+based only on the last corruption would miss.
+
+The second result is that the range of across-model mean accuracy is
+63.18\% smaller under the PSNR/SSIM-targeted regime. The
+architecture-specific contractions vary: ConvNeXt-Tiny and ResNet-50
+contract most, whereas ViT-B/16 and Swin-Tiny contract less. The
+calibration tolerances were not met, so this comparison describes the
+observed response to parameter selection rather than isolating a pure
+order effect at equal fidelity.
+
+The paired analysis shows a separate change that aggregate accuracy
+cannot reveal. Under nominal settings, predicted-label churn is 40.78\%,
+compared with correctness-state churn of 16.93\%; 23.85\% of paired
+observations remain incorrect while switching to a different incorrect
+class. The same pattern remains under the PSNR/SSIM-targeted regime.
+Together, accuracy, measured fidelity, and paired class transitions give
+a fuller description of the evaluated pipelines than any one summary
+alone.
+
+\section{6. Conclusion}\label{conclusion}
+
+This experiment compares all six orders of Gaussian noise, Gaussian
+blur, and JPEG compression across four frozen vision classifiers. The
+model-specific nominal six-order ranges span 17.13 to 21.55 percentage
+points, and the range of across-model mean accuracy contracts by 63.18\%
+under the PSNR/SSIM-targeted regime. Paired predictions also show that
+nominal predicted-label churn (40.78\%) substantially exceeds
+correctness-state churn (16.93\%), because some images switch between
+different incorrect classes. These results make the case for reporting
+order-specific accuracy and fidelity alongside paired prediction
+transitions.
+
+\section{7. Limitations and future work}\label{limitations-and-future-work}
+
+The next step is to repeat the experiment on a larger label space,
+additional datasets, and more model families, including external
+validation on ImageNet-V2, and to report uncertainty intervals for the
+range and transition summaries. The present results are limited to the
+ten-class Imagenette-v2 validation split and four frozen architectures.
+The PSNR/SSIM-targeted regime did not meet the prespecified calibration
+tolerances (PSNR RMSE 0.943 dB versus 0.75 dB; SSIM RMSE 0.138 versus
+0.035). Accordingly, the 63.18\% contraction is a descriptive difference
+between the two tested parameter regimes, not an estimate under exact
+equal-fidelity conditions.
+
+\section*{References}\label{references}
+
+{[}1{]} D. Hendrycks and T. Dietterich. ``Benchmarking Neural Network
+Robustness to Common Corruptions and Perturbations.''
+\emph{International Conference on Learning Representations (ICLR)},
+2019. \href{https://arxiv.org/abs/1903.12261}{arXiv:1903.12261}
+
+{[}2{]} B. Goyal, J.-F. Lalonde, Y. Li, and M. Gupta. ``Robust Scene
+Inference under Noise-Blur Dual Corruptions.'' \emph{IEEE International
+Conference on Computational Photography (ICCP)}, 2022.
+\href{https://arxiv.org/abs/2207.11643}{arXiv:2207.11643}
+
+{[}3{]} X. Liao, K. Li, X. Zhu, and K. J. R. Liu. ``Robust Detection of
+Image Operator Chain With Two-Stream Convolutional Neural Network.''
+\emph{IEEE Journal of Selected Topics in Signal Processing},
+14(5):955-968, 2020.
+\href{https://doi.org/10.1109/JSTSP.2020.3002391}{doi:10.1109/JSTSP.2020.3002391}
+
+{[}4{]} M. Milani Fard, Q. Cormier, K. Canini, and M. R. Gupta. ``Launch
+and Iterate: Reducing Prediction Churn.'' \emph{Advances in Neural
+Information Processing Systems}, 29:3179-3187, 2016.
+\href{https://proceedings.neurips.cc/paper_files/paper/2016/hash/dc5c768b5dc76a084531934b34601977-Abstract.html}{NeurIPS
+proceedings}
+
+{[}5{]} C. Li et al.~``R-Bench: Are Your Large Multimodal Model Robust
+to Real-World Corruptions?'' \emph{IEEE Journal of Selected Topics in
+Signal Processing}, 19(7):1349-1361, 2025.
+\href{https://doi.org/10.1109/JSTSP.2025.3558652}{doi:10.1109/JSTSP.2025.3558652}
+
+{[}6{]} O. Dünkel, A. Jesslen, J. Xie, C. Theobalt, C. Rupprecht, and A.
+Kortylewski. ``CNS-Bench: Benchmarking Image Classifier Robustness Under
+Continuous Nuisance Shifts.'' \emph{Proceedings of the IEEE/CVF
+International Conference on Computer Vision (ICCV)}, 19978-19988, 2025.
+\href{https://openaccess.thecvf.com/content/ICCV2025/html/Dunkel_CNS-Bench_Benchmarking_Image_Classifier_Robustness_Under_Continuous_Nuisance_Shifts_ICCV_2025_paper.html}{CVF
+Open Access}
+
+{[}7{]} F. Li, T. Klein, W. Brendel, R. Geirhos, and R. S. Zimmermann.
+``LAION-C: An Out-of-Distribution Benchmark for Web-Scale Vision
+Models.'' \emph{Proceedings of the 42nd International Conference on
+Machine Learning}, PMLR 267:35136-35167, 2025.
+\href{https://proceedings.mlr.press/v267/li25aw.html}{PMLR paper page}
+
+{[}8{]} Y. Wei, C. Zhang, Y. Wang, X. Wang, B. Shao, H. Li, and L. Di.
+``What Paired Evaluations Reveal under Visual Perturbations.''
+arXiv:2609.35583, 2026.
+\href{https://arxiv.org/abs/2609.35583}{arXiv:2609.35583}
+
+{[}9{]} I. Mason, A. Sarkar, T. Sasaki, and X. Boix. ``Modularity Trumps
+Invariance for Compositional Robustness.'' arXiv:2306.09005, 2023.
+\href{https://arxiv.org/abs/2306.09005}{arXiv:2306.09005}
+
+\end{document}

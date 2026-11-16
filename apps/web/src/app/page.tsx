@@ -76,16 +76,16 @@ export default function HomePage() {
           {/* Quick Metric Badges */}
           <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl mx-auto w-full text-left">
             <div className="p-3.5 rounded-2xl bg-card/80 border border-border/50 flex flex-col gap-0.5 backdrop-blur-sm">
-              <span className="text-xl sm:text-2xl font-extrabold text-blue-500">313,500</span>
-              <span className="text-[11px] sm:text-xs text-muted-foreground font-medium">Forward Passes (Combined)</span>
+              <span className="text-xl sm:text-2xl font-extrabold text-blue-500">1,286,900</span>
+              <span className="text-[11px] sm:text-xs text-muted-foreground font-medium">Total Passes (2 Studies)</span>
             </div>
             <div className="p-3.5 rounded-2xl bg-card/80 border border-border/50 flex flex-col gap-0.5 backdrop-blur-sm">
-              <span className="text-xl sm:text-2xl font-extrabold text-violet-500">3,825</span>
-              <span className="text-[11px] sm:text-xs text-muted-foreground font-medium">Confirmatory Images (19 Cond.)</span>
+              <span className="text-xl sm:text-2xl font-extrabold text-violet-500">313,500</span>
+              <span className="text-[11px] sm:text-xs text-muted-foreground font-medium">Matched-Fidelity Passes (Nov 2026)</span>
             </div>
             <div className="p-3.5 rounded-2xl bg-card/80 border border-border/50 flex flex-col gap-0.5 backdrop-blur-sm">
-              <span className="text-xl sm:text-2xl font-extrabold text-emerald-500">300</span>
-              <span className="text-[11px] sm:text-xs text-muted-foreground font-medium">ImageNet-V2 External Replic.</span>
+              <span className="text-xl sm:text-2xl font-extrabold text-emerald-500">973,400</span>
+              <span className="text-[11px] sm:text-xs text-muted-foreground font-medium">Order Benchmark Passes (Oct 2026)</span>
             </div>
             <div className="p-3.5 rounded-2xl bg-card/80 border border-border/50 flex flex-col gap-0.5 backdrop-blur-sm">
               <span className="text-xl sm:text-2xl font-extrabold text-amber-500">4</span>

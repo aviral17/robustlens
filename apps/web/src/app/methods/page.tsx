@@ -559,17 +559,8 @@ export default function MethodsPage() {
             href="/about"
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold bg-muted hover:bg-muted/80 text-foreground transition-colors border border-border/60"
           >
-            <span>View About & Project Overview</span>
+            <span>View About & Download Publications</span>
           </Link>
-          <a
-            href="https://doi.org/10.5281/zenodo.23483939"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold bg-purple-500/10 hover:bg-purple-500/20 text-purple-600 dark:text-purple-400 transition-colors border border-purple-500/30"
-          >
-            <span>Zenodo DOI: 10.5281/zenodo.23483939</span>
-            <ExternalLink className="h-3 w-3" />
-          </a>
         </div>
       </section>
     </main>

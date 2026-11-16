@@ -72,7 +72,7 @@ interface V2Row {
 }
 
 export default function LeaderboardPage() {
-  const [activeTab, setActiveTab] = useState<"nominal" | "matched_fidelity">("nominal");
+  const [activeTab, setActiveTab] = useState<"nominal" | "matched_fidelity">("matched_fidelity");
   const [report, setReport] = useState<BenchmarkReport | null>(null);
   const [matchedData, setMatchedData] = useState<{
     statistical_comparison: MatchedStatRow[];
@@ -119,16 +119,6 @@ export default function LeaderboardPage() {
         {/* Tab Switcher */}
         <div className="flex flex-wrap gap-3 mt-2">
           <button
-            onClick={() => setActiveTab("nominal")}
-            className={`px-5 py-2.5 rounded-2xl font-bold text-sm transition-all border ${
-              activeTab === "nominal"
-                ? "bg-primary text-primary-foreground border-primary shadow-md"
-                : "bg-card text-muted-foreground border-border/60 hover:text-foreground"
-            }`}
-          >
-            Standard Perturbations (Accuracy & ECE)
-          </button>
-          <button
             onClick={() => setActiveTab("matched_fidelity")}
             className={`px-5 py-2.5 rounded-2xl font-bold text-sm transition-all border ${
               activeTab === "matched_fidelity"
@@ -137,6 +127,16 @@ export default function LeaderboardPage() {
             }`}
           >
             Matched-Fidelity Study (Margin Prediction & Fingerprints)
+          </button>
+          <button
+            onClick={() => setActiveTab("nominal")}
+            className={`px-5 py-2.5 rounded-2xl font-bold text-sm transition-all border ${
+              activeTab === "nominal"
+                ? "bg-primary text-primary-foreground border-primary shadow-md"
+                : "bg-card text-muted-foreground border-border/60 hover:text-foreground"
+            }`}
+          >
+            Standard Perturbations (Accuracy & ECE)
           </button>
         </div>
 

@@ -193,15 +193,31 @@ export default function OrderEffectsPage() {
           Compound Corruption Order Effects
         </h1>
         <div className="flex flex-wrap items-center gap-3">
-          <span className="px-3.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 flex items-center gap-1.5">
-            <CheckCircle2 className="w-3.5 h-3.5" /> {meta?.benchmark_status || "Full Benchmark — N=3,925 (Validated)"}
-          </span>
-          <span className="px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20">
-            {meta?.hardware || "NVIDIA Tesla T4 GPU"}
-          </span>
-          <span className="text-xs text-muted-foreground">
-            {meta?.total_records?.toLocaleString() || "486,700"} Forward Passes • 31 Conditions/Image • 4 Architectures
-          </span>
+          {activeStudyTab === "matched_fidelity" ? (
+            <>
+              <span className="px-3.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5" /> Matched-Fidelity Confirmatory Study — N=3,825 + N=300 V2 (Validated)
+              </span>
+              <span className="px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20">
+                Tesla T4 GPU (Kaggle Version 4 Execution)
+              </span>
+              <span className="text-xs text-muted-foreground">
+                313,500 Forward Passes (290,700 Confirmatory + 22,800 ImageNet-V2) • 4 Vision Paradigms
+              </span>
+            </>
+          ) : (
+            <>
+              <span className="px-3.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5" /> {meta?.benchmark_status || "Full Benchmark — N=3,925 (Validated)"}
+              </span>
+              <span className="px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20">
+                {meta?.hardware || "NVIDIA Tesla T4 GPU"}
+              </span>
+              <span className="text-xs text-muted-foreground">
+                {meta?.total_records?.toLocaleString() || "486,700"} Forward Passes • 31 Conditions/Image • 4 Architectures
+              </span>
+            </>
+          )}
         </div>
         <p className="text-muted-foreground text-xl max-w-4xl leading-relaxed">
           Investigating whether the execution sequence of identical physical corruptions 

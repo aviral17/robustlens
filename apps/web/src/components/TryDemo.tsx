@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Card, Button, ProgressBar as Progress, Slider } from "@heroui/react";
 import {
   Upload,
@@ -14,6 +14,11 @@ import {
   Sparkles,
   ChevronDown,
   ChevronUp,
+  RotateCcw,
+  Sliders,
+  Layers,
+  ShieldCheck,
+  Eye,
 } from "lucide-react";
 import {
   Select,
@@ -24,6 +29,7 @@ import {
 } from "@/components/ui/select";
 import { motion, AnimatePresence } from "framer-motion";
 import { applyClientPixelCorruption, CorruptionType } from "@/lib/corruptions";
+import { computeImageDiagnostics, ComputedDiagnostics } from "@/lib/diagnostics";
 
 interface ModelPrediction {
   name: string;
@@ -40,6 +46,7 @@ interface DemoResult {
   models: ModelPrediction[];
   inferenceTime: number;
   sampleGroundTruth?: string;
+  diagnostics?: ComputedDiagnostics | null;
 }
 
 const SAMPLE_PRESETS = [
@@ -65,9 +72,15 @@ export default function TryDemo() {
   const [preview, setPreview] = useState<string | null>(null);
   const [sampleGroundTruth, setSampleGroundTruth] = useState<string | null>(null);
 
+  // Exact required defaults:
   const [model, setModel] = useState("all");
   const [corruption, setCorruption] = useState<CorruptionType>("gaussian_noise");
-  const [severity, setSeverity] = useState(3);
+  const [severity, setSeverity] = useState<number>(3);
+
+  // Live real-time preview & metrics
+  const [liveCorruptedPreview, setLiveCorruptedPreview] = useState<string | null>(null);
+  const [liveDiagnostics, setLiveDiagnostics] = useState<ComputedDiagnostics | null>(null);
+  const [isComputingPreview, setIsComputingPreview] = useState(false);
 
   const [isInferring, setIsInferring] = useState(false);
   const [stage, setStage] = useState(0);
@@ -77,6 +90,38 @@ export default function TryDemo() {
   const [expandedModel, setExpandedModel] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Update real-time preview and client-side metrics whenever preview, corruption, or severity changes
+  const updateLivePreviewAndDiagnostics = useCallback(
+    async (src: string, cType: CorruptionType, sev: number) => {
+      try {
+        setIsComputingPreview(true);
+        const corruptedDataUrl = await applyClientPixelCorruption(src, cType, sev);
+        setLiveCorruptedPreview(corruptedDataUrl);
+
+        try {
+          const diag = await computeImageDiagnostics(src, corruptedDataUrl);
+          setLiveDiagnostics(diag);
+        } catch (diagErr) {
+          console.warn("Diagnostics computation warning:", diagErr);
+        }
+      } catch (err) {
+        console.error("Failed to update live corrupted preview:", err);
+      } finally {
+        setIsComputingPreview(false);
+      }
+    },
+    []
+  );
+
+  useEffect(() => {
+    if (preview) {
+      updateLivePreviewAndDiagnostics(preview, corruption, severity);
+    } else {
+      setLiveCorruptedPreview(null);
+      setLiveDiagnostics(null);
+    }
+  }, [preview, corruption, severity, updateLivePreviewAndDiagnostics]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -107,6 +152,12 @@ export default function TryDemo() {
     }
   };
 
+  const handleSeverityChange = (val: number | number[]) => {
+    const num = typeof val === "number" ? val : Array.isArray(val) && val.length > 0 ? val[0] : 3;
+    const clamped = Math.max(1, Math.min(5, Math.round(num)));
+    setSeverity(clamped);
+  };
+
   const startInference = async () => {
     if (!preview) return;
     setIsInferring(true);
@@ -116,18 +167,13 @@ export default function TryDemo() {
 
     try {
       // 1. Generate genuinely corrupted image pixels for UI display
-      // This uses HTML5 canvas pixel transformations matching hf_space/app.py exactly
-      const genuineCorruptedDataUrl = await applyClientPixelCorruption(
-        preview,
-        corruption,
-        severity
-      );
+      const genuineCorruptedDataUrl =
+        liveCorruptedPreview ||
+        (await applyClientPixelCorruption(preview, corruption, severity));
 
       setStage(2); // Connecting to ZeroGPU Space
 
       // 2. Prepare base64 clean image for remote inference
-      // IMPORTANT: To prevent double-corruption, we transmit the CLEAN image to /api/inference.
-      // The Hugging Face ZeroGPU endpoint is the authoritative evaluation locus.
       let cleanBase64 = preview;
       if (!preview.startsWith("data:")) {
         const response = await fetch(preview);
@@ -181,6 +227,16 @@ export default function TryDemo() {
           })
         );
 
+        // Compute or reuse diagnostics
+        let diag = liveDiagnostics;
+        if (!diag) {
+          try {
+            diag = await computeImageDiagnostics(preview, genuineCorruptedDataUrl);
+          } catch {
+            diag = null;
+          }
+        }
+
         setResult({
           original: preview,
           corrupted: genuineCorruptedDataUrl,
@@ -189,6 +245,7 @@ export default function TryDemo() {
           models: mappedModels,
           inferenceTime: apiResult.inference_time_seconds ?? 0.5,
           sampleGroundTruth: sampleGroundTruth || undefined,
+          diagnostics: diag,
         });
       } else {
         throw new Error(apiResult?.message || "Invalid response structure from Gradio space");
@@ -289,48 +346,155 @@ export default function TryDemo() {
         <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="grid md:grid-cols-2 gap-10 items-start"
+          className="flex flex-col gap-8"
         >
-          {/* 400-480px width image card with natural aspect ratio */}
-          <Card className="p-6 bg-card border border-border/60 shadow-xl rounded-3xl overflow-hidden flex flex-col items-center">
-            <div className="w-full max-w-[480px] aspect-square rounded-2xl overflow-hidden border bg-muted/40 relative flex items-center justify-center">
-              <img
-                src={preview}
-                alt="Upload preview"
-                className="w-full h-full object-contain p-2"
-              />
-              <div className="absolute top-4 left-4 bg-background/90 backdrop-blur px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm border">
-                Input Image
+          {/* Side-by-Side Live Visual Preview: Clean vs. Live Perturbed */}
+          <div className="grid md:grid-cols-2 gap-8 items-start">
+            {/* Clean Input Card */}
+            <Card className="p-6 bg-card border border-border/60 shadow-xl rounded-3xl overflow-hidden flex flex-col items-center">
+              <div className="w-full flex justify-between items-center mb-3">
+                <span className="text-xs font-bold uppercase tracking-wider text-primary">Clean Input</span>
+                <span className="text-xs bg-muted text-muted-foreground font-semibold px-2.5 py-0.5 rounded-full border">
+                  Original
+                </span>
               </div>
+              <div className="w-full max-w-[480px] aspect-square rounded-2xl overflow-hidden border bg-muted/40 relative flex items-center justify-center">
+                <img
+                  src={preview}
+                  alt="Clean upload preview"
+                  className="w-full h-full object-contain p-2"
+                />
+              </div>
+              {sampleGroundTruth && (
+                <div className="mt-3 text-xs font-bold text-muted-foreground uppercase">
+                  Ground Truth: <span className="text-primary capitalize">{sampleGroundTruth}</span>
+                </div>
+              )}
+              <Button
+                variant="outline"
+                size="sm"
+                className="mt-3"
+                onPress={() => {
+                  setPreview(null);
+                  setFile(null);
+                  setSampleGroundTruth(null);
+                  setResult(null);
+                }}
+              >
+                Choose Different Image
+              </Button>
+            </Card>
+
+            {/* Real-time Perturbation Preview Card */}
+            <Card className="p-6 bg-card border border-border/60 shadow-xl rounded-3xl overflow-hidden flex flex-col items-center">
+              <div className="w-full flex justify-between items-center mb-3">
+                <div className="flex items-center gap-2">
+                  <Eye className="w-4 h-4 text-rose-500" />
+                  <span className="text-xs font-bold uppercase tracking-wider text-rose-500 capitalize">
+                    Live Shift Preview: {corruption.replace("_", " ")}
+                  </span>
+                </div>
+                <span className="text-xs bg-rose-500/10 text-rose-500 font-bold px-2.5 py-0.5 rounded-full border border-rose-500/20">
+                  Severity {severity}
+                </span>
+              </div>
+              <div className="w-full max-w-[480px] aspect-square rounded-2xl overflow-hidden border bg-muted/40 relative flex items-center justify-center">
+                {liveCorruptedPreview ? (
+                  <img
+                    src={liveCorruptedPreview}
+                    alt="Live corrupted preview"
+                    className="w-full h-full object-contain p-2"
+                  />
+                ) : (
+                  <div className="flex items-center justify-center text-xs text-muted-foreground">
+                    Generating perturbation preview...
+                  </div>
+                )}
+                {isComputingPreview && (
+                  <div className="absolute top-3 right-3 bg-background/80 backdrop-blur px-2.5 py-1 rounded-full text-[11px] font-semibold text-muted-foreground border shadow-xs animate-pulse">
+                    Rendering pixels...
+                  </div>
+                )}
+              </div>
+              <p className="text-xs text-muted-foreground mt-3 text-center">
+                Real canvas pixel perturbation updating live with slider & settings
+              </p>
+            </Card>
+          </div>
+
+          {/* Real-Time Computed Distortion Diagnostics */}
+          {liveDiagnostics && (
+            <div className="p-6 rounded-3xl bg-card border border-border/60 shadow-lg flex flex-col gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border/50 pb-3">
+                <div className="flex items-center gap-2">
+                  <Layers className="w-5 h-5 text-primary" />
+                  <h4 className="font-bold text-base text-foreground">
+                    Real-Time Pixel Diagnostics (Computed on Canvas)
+                  </h4>
+                </div>
+                <span className="text-xs text-muted-foreground font-mono">
+                  Genuine HTML5 Canvas Metrics
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                <div className="p-3.5 rounded-2xl bg-muted/30 border border-border/40 flex flex-col gap-1">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">PSNR</span>
+                  <span className="text-xl font-black text-blue-500 font-mono">
+                    {liveDiagnostics.psnr_db.toFixed(2)} <span className="text-xs font-normal text-muted-foreground">dB</span>
+                  </span>
+                  <span className="text-[10px] text-muted-foreground">Signal-to-Noise Ratio</span>
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-muted/30 border border-border/40 flex flex-col gap-1">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">SSIM</span>
+                  <span className="text-xl font-black text-emerald-500 font-mono">
+                    {liveDiagnostics.ssim.toFixed(3)}
+                  </span>
+                  <span className="text-[10px] text-muted-foreground">Structural Similarity</span>
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-muted/30 border border-border/40 flex flex-col gap-1">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Edge Energy</span>
+                  <span className="text-xl font-black text-violet-500 font-mono">
+                    {liveDiagnostics.edge_energy_retained_pct.toFixed(1)}%
+                  </span>
+                  <span className="text-[10px] text-muted-foreground">Sobel Gradients Retained</span>
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-muted/30 border border-border/40 flex flex-col gap-1">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">JPEG Discontinuity</span>
+                  <span className="text-xl font-black text-amber-500 font-mono">
+                    {liveDiagnostics.jpeg_block_ratio.toFixed(3)}x
+                  </span>
+                  <span className="text-[10px] text-muted-foreground">8×8 DCT Grid Step Ratio</span>
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-muted/30 border border-border/40 flex flex-col gap-1 col-span-2 sm:col-span-1">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">High-Freq Energy</span>
+                  <span className="text-xl font-black text-cyan-500 font-mono">
+                    {liveDiagnostics.high_freq_residual_ratio.toFixed(3)}x
+                  </span>
+                  <span className="text-[10px] text-muted-foreground">Laplacian Residual Ratio</span>
+                </div>
+              </div>
+
+              <p className="text-[11px] text-muted-foreground leading-relaxed">
+                <strong>Methodological Context:</strong> Live demo tests user-selected nominal perturbations (Severity 1–5). In our scientific research monograph, degradation parameters were calibrated on common support to equate physical distortion across sequence orders (Level 1: 27.20 dB PSNR / 0.810 SSIM; Level 2: 23.80 dB / 0.650; Level 3: 21.80 dB / 0.500).
+              </p>
             </div>
-            {sampleGroundTruth && (
-              <div className="mt-4 text-xs font-bold text-muted-foreground uppercase">
-                Known Ground Truth: <span className="text-primary capitalize">{sampleGroundTruth}</span>
-              </div>
-            )}
-            <Button
-              variant="outline"
-              size="sm"
-              className="mt-4"
-              onPress={() => {
-                setPreview(null);
-                setFile(null);
-                setSampleGroundTruth(null);
-              }}
-            >
-              Choose Different Image
-            </Button>
-          </Card>
+          )}
 
           {/* Configuration Controls */}
-          <div className="flex flex-col gap-6 py-2">
-            <div className="bg-card border border-border/60 rounded-3xl p-8 shadow-xl">
-              <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                <Settings2 className="w-6 h-6 text-primary" /> Stress Test Configuration
-              </h3>
+          <div className="bg-card border border-border/60 rounded-3xl p-8 shadow-xl">
+            <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
+              <Settings2 className="w-6 h-6 text-primary" /> Stress Test Configuration
+            </h3>
 
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Left Column: Model & Corruption Selectors */}
               <div className="space-y-6">
-                <div className="space-y-3">
+                <div className="space-y-2">
                   <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
                     Model Selection
                   </label>
@@ -348,7 +512,7 @@ export default function TryDemo() {
                   </Select>
                 </div>
 
-                <div className="space-y-3">
+                <div className="space-y-2">
                   <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
                     Corruption Shift Type
                   </label>
@@ -365,39 +529,62 @@ export default function TryDemo() {
                     </SelectContent>
                   </Select>
                 </div>
+              </div>
 
-                <div className="space-y-3 pt-2">
-                  <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground flex justify-between">
-                    <span>Corruption Severity</span>
-                    <span className="text-primary font-bold text-sm">Level {severity}</span>
-                  </label>
+              {/* Right Column: Severity Controls & Action Button */}
+              <div className="space-y-6 flex flex-col justify-between">
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                      Corruption Severity
+                    </label>
+                    <div className="flex items-center gap-1.5">
+                      {[1, 2, 3, 4, 5].map((lvl) => (
+                        <button
+                          key={lvl}
+                          type="button"
+                          onClick={() => handleSeverityChange(lvl)}
+                          className={`w-7 h-7 rounded-lg text-xs font-bold transition-all ${
+                            severity === lvl
+                              ? "bg-primary text-primary-foreground shadow-sm scale-105"
+                              : "bg-muted text-muted-foreground hover:bg-muted/80"
+                          }`}
+                        >
+                          {lvl}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
                   <Slider
                     aria-label="Corruption Severity"
                     step={1}
                     maxValue={5}
                     minValue={1}
                     value={severity}
-                    onChange={(v) => setSeverity(v as number)}
-                    className="max-w-md"
+                    onChange={handleSeverityChange}
+                    className="w-full"
                   />
+
                   <div className="flex justify-between text-xs text-muted-foreground font-medium px-1">
-                    <span>1 (Mild)</span>
-                    <span>5 (Severe)</span>
+                    <span>Level 1 (Mild)</span>
+                    <span className="text-primary font-bold">Level {severity} Selected</span>
+                    <span>Level 5 (Severe)</span>
                   </div>
                 </div>
+
+                <Button
+                  size="lg"
+                  variant="primary"
+                  className="w-full h-14 text-base sm:text-lg font-bold shadow-lg shadow-primary/20 rounded-2xl transition-transform hover:scale-[1.01]"
+                  onPress={startInference}
+                >
+                  Run Stress Test on ZeroGPU <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
               </div>
             </div>
 
-            <Button
-              size="lg"
-              variant="primary"
-              className="w-full h-16 text-lg font-bold shadow-lg shadow-primary/20 rounded-2xl transition-transform hover:scale-[1.01]"
-              onPress={startInference}
-            >
-              Run Stress Test on ZeroGPU <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-
-            <div className="text-center text-xs text-muted-foreground font-medium flex items-center justify-center gap-2">
+            <div className="mt-6 pt-4 border-t border-border/50 text-center text-xs text-muted-foreground font-medium flex items-center justify-center gap-2">
               <span
                 className={`w-2 h-2 rounded-full ${
                   errorMessage
@@ -411,7 +598,7 @@ export default function TryDemo() {
                 ? "Backend error occurred — see details above"
                 : isInferring
                 ? "Executing ZeroGPU inference job..."
-                : "Hugging Face ZeroGPU backend configured"}
+                : "Hugging Face ZeroGPU backend configured • Default: All Models, Gaussian Noise, Severity 3"}
             </div>
           </div>
         </motion.div>
@@ -463,7 +650,7 @@ export default function TryDemo() {
       {/* Real Live Results Display */}
       {result && !isInferring && (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-8">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h3 className="text-3xl font-extrabold flex items-center gap-3">
                 <BarChart2 className="w-8 h-8 text-primary" /> Live ZeroGPU Inference Results
@@ -473,9 +660,27 @@ export default function TryDemo() {
                 <span className="font-bold text-foreground">{result.inferenceTime}s</span>
               </p>
             </div>
-            <Button variant="outline" onPress={() => setResult(null)}>
-              Test Another Configuration
-            </Button>
+            <div className="flex items-center gap-3">
+              <Button
+                variant="outline"
+                onPress={() => {
+                  setResult(null);
+                }}
+              >
+                Adjust Parameters
+              </Button>
+              <Button
+                variant="outline"
+                onPress={() => {
+                  setResult(null);
+                  setPreview(null);
+                  setFile(null);
+                  setSampleGroundTruth(null);
+                }}
+              >
+                Upload New Image
+              </Button>
+            </div>
           </div>
 
           {/* Side-by-side Images: 400-480px width, aspect ratio preserved */}
@@ -512,7 +717,6 @@ export default function TryDemo() {
                   Severity {result.severity}
                 </span>
               </div>
-              {/* Clean rendering of genuine corrupted canvas pixels without fake CSS filters */}
               <div className="w-full max-w-[480px] aspect-square rounded-2xl overflow-hidden border bg-muted/30 flex items-center justify-center">
                 <img
                   src={result.corrupted}
@@ -521,10 +725,44 @@ export default function TryDemo() {
                 />
               </div>
               <p className="text-xs text-muted-foreground mt-4 text-center">
-                Genuine pixel perturbation applied: <strong className="capitalize">{result.corruption.replace("_", " ")}</strong> (Level {result.severity})
+                Genuine pixel perturbation: <strong className="capitalize">{result.corruption.replace("_", " ")}</strong> (Level {result.severity})
               </p>
             </Card>
           </div>
+
+          {/* Measured Fidelity & Distortion Fingerprints for this test */}
+          {result.diagnostics && (
+            <div className="p-6 rounded-3xl bg-card border border-border/60 shadow-md flex flex-col gap-3">
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-primary" />
+                <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  Evaluated Input Fidelity & Physical Fingerprints
+                </span>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                <div className="p-3 rounded-xl bg-muted/20 border border-border/40 text-center">
+                  <span className="text-[10px] uppercase font-bold text-muted-foreground block">PSNR</span>
+                  <span className="text-base font-extrabold text-blue-500 font-mono">{result.diagnostics.psnr_db.toFixed(2)} dB</span>
+                </div>
+                <div className="p-3 rounded-xl bg-muted/20 border border-border/40 text-center">
+                  <span className="text-[10px] uppercase font-bold text-muted-foreground block">SSIM</span>
+                  <span className="text-base font-extrabold text-emerald-500 font-mono">{result.diagnostics.ssim.toFixed(3)}</span>
+                </div>
+                <div className="p-3 rounded-xl bg-muted/20 border border-border/40 text-center">
+                  <span className="text-[10px] uppercase font-bold text-muted-foreground block">Edge Energy</span>
+                  <span className="text-base font-extrabold text-violet-500 font-mono">{result.diagnostics.edge_energy_retained_pct.toFixed(1)}%</span>
+                </div>
+                <div className="p-3 rounded-xl bg-muted/20 border border-border/40 text-center">
+                  <span className="text-[10px] uppercase font-bold text-muted-foreground block">JPEG 8×8 Ratio</span>
+                  <span className="text-base font-extrabold text-amber-500 font-mono">{result.diagnostics.jpeg_block_ratio.toFixed(3)}x</span>
+                </div>
+                <div className="p-3 rounded-xl bg-muted/20 border border-border/40 text-center col-span-2 sm:col-span-1">
+                  <span className="text-[10px] uppercase font-bold text-muted-foreground block">High-Freq Ratio</span>
+                  <span className="text-base font-extrabold text-cyan-500 font-mono">{result.diagnostics.high_freq_residual_ratio.toFixed(3)}x</span>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Model Classifications Card Grid */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -603,6 +841,38 @@ export default function TryDemo() {
                 </Card>
               );
             })}
+          </div>
+
+          {/* Quick-Tune Re-run Section right on the results view */}
+          <div className="p-6 rounded-3xl bg-muted/30 border border-border/60 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                Tune & Re-run:
+              </span>
+              <div className="flex items-center gap-1">
+                {[1, 2, 3, 4, 5].map((lvl) => (
+                  <button
+                    key={lvl}
+                    onClick={() => handleSeverityChange(lvl)}
+                    className={`w-7 h-7 rounded-lg text-xs font-bold transition-all ${
+                      severity === lvl
+                        ? "bg-primary text-primary-foreground shadow-sm"
+                        : "bg-background text-muted-foreground hover:bg-muted border border-border/50"
+                    }`}
+                  >
+                    {lvl}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <Button
+              variant="primary"
+              size="sm"
+              className="font-bold px-6 h-10 rounded-xl"
+              onPress={startInference}
+            >
+              Re-run with Level {severity} <ArrowRight className="ml-1.5 w-4 h-4" />
+            </Button>
           </div>
         </motion.div>
       )}

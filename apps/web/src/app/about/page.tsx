@@ -543,7 +543,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 10. Publication, Permanent DOI & Citation */}
+      {/* 10. Publications, Research Deliverables & Citations */}
       <section className="flex flex-col gap-4">
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/10 text-purple-500 border border-purple-500/20">
@@ -584,6 +584,14 @@ export default function AboutPage() {
                 <span>Download Final Research Report (10-Page PDF)</span>
               </a>
               <a
+                href="/downloads/RobustLens_Academic_Manuscript.pdf"
+                download="RobustLens_Academic_Manuscript.pdf"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold bg-muted hover:bg-muted/80 text-foreground transition-all border border-border/60"
+              >
+                <FileText className="h-4 w-4" />
+                <span>Download Manuscript PDF (Publication Draft)</span>
+              </a>
+              <a
                 href="/downloads/RobustLens_Academic_Manuscript.docx"
                 download="RobustLens_Academic_Manuscript.docx"
                 className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold bg-muted hover:bg-muted/80 text-foreground transition-all border border-border/60"
@@ -592,12 +600,12 @@ export default function AboutPage() {
                 <span>Download Academic Manuscript (Editable DOCX)</span>
               </a>
               <a
-                href="/downloads/RobustLens_Academic_Manuscript.pdf"
-                download="RobustLens_Academic_Manuscript.pdf"
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold bg-muted hover:bg-muted/80 text-foreground transition-all border border-border/60"
+                href="/downloads/RobustLens_Academic_Manuscript.tex"
+                download="RobustLens_Academic_Manuscript.tex"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold bg-muted hover:bg-muted/80 text-foreground transition-all border border-border/60 font-mono"
               >
                 <FileText className="h-4 w-4" />
-                <span>Download Manuscript PDF (Publication Draft)</span>
+                <span>Download LaTeX Source (.tex)</span>
               </a>
             </div>
 
@@ -616,26 +624,43 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Historical October 2026 Benchmark Release */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-border/50">
-            <div className="flex flex-col gap-1">
-              <span className="text-xs font-bold uppercase tracking-wider text-purple-500">Benchmark Release (v1.0 • October 2026)</span>
-              <h3 className="text-lg sm:text-xl font-bold text-foreground">
-                Order Matters Beyond Accuracy: Paired Prediction Analysis of Compound Image Corruptions
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                <strong>Author:</strong> Aviral Choudhary &bull; <strong>Date:</strong> October 20, 2026
-              </p>
+          {/* October 2026 Benchmark Release */}
+          <div className="flex flex-col gap-4 pb-4 border-b border-border/50">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex flex-col gap-1">
+                <span className="text-xs font-bold uppercase tracking-wider text-purple-500">Benchmark Release (v1.0 • October 2026)</span>
+                <h3 className="text-lg sm:text-xl font-bold text-foreground">
+                  Order Matters Beyond Accuracy: Paired Prediction Analysis of Compound Image Corruptions
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  <strong>Author:</strong> Aviral Choudhary &bull; <strong>Date:</strong> October 20, 2026
+                </p>
+              </div>
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 shrink-0 self-start sm:self-auto">
+                <FileText className="h-3.5 w-3.5" />
+                <span>Research Paper & Archive</span>
+              </span>
             </div>
-            <a
-              href="https://doi.org/10.5281/zenodo.23483939"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold bg-purple-600 hover:bg-purple-700 text-white transition-colors shadow-sm shrink-0 self-start sm:self-auto"
-            >
-              <span>Zenodo DOI: 10.5281/zenodo.23483939</span>
-              <ExternalLink className="h-3.5 w-3.5" />
-            </a>
+
+            {/* Direct Document Downloads for Historical Release */}
+            <div className="flex flex-wrap gap-3 pt-1">
+              <a
+                href="/downloads/RobustLens_Final_Paper.pdf"
+                download="RobustLens_Final_Paper.pdf"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold bg-muted hover:bg-muted/80 text-foreground transition-all border border-border/60"
+              >
+                <FileText className="h-4 w-4" />
+                <span>Download Original Paper (PDF, 5 Pages)</span>
+              </a>
+              <a
+                href="/downloads/RobustLens_Research_Package.zip"
+                download="RobustLens_Research_Package.zip"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold bg-muted hover:bg-muted/80 text-foreground transition-all border border-border/60"
+              >
+                <FileText className="h-4 w-4" />
+                <span>Download Complete Research Archive (.zip)</span>
+              </a>
+            </div>
           </div>
 
           <div className="flex flex-col gap-2">
@@ -646,8 +671,7 @@ export default function AboutPage() {
   author  = {Choudhary, Aviral},
   year    = {2026},
   month   = {October},
-  doi     = {10.5281/zenodo.23483939},
-  url     = {https://doi.org/10.5281/zenodo.23483939},
+  journal = {RobustLens Research Initiative Working Paper},
   version = {1.0},
   note    = {RobustLens Research Benchmark Release}
 }`}</pre>

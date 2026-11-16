@@ -1,0 +1,429 @@
+\documentclass[10pt,twocolumn]{article}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage[letterpaper,top=0.66in,bottom=0.66in,left=0.66in,right=0.66in,columnsep=0.24in]{geometry}
+\usepackage{tcolorbox}
+\usepackage{dblfloatfix}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{balance}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\setlist[itemize]{leftmargin=1.25em,itemsep=2pt,topsep=2pt}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{microtype}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{siunitx}
+\sisetup{detect-all,group-separator={,},group-minimum-digits=4}
+\setlength{\parindent}{1em}
+\setlength{\parskip}{0pt}
+\setlength{\emergencystretch}{2.5em}
+\setlength{\columnsep}{0.24in}
+\setlength{\floatsep}{7pt plus 2pt minus 2pt}
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\intextsep}{7pt plus 2pt minus 2pt}
+\renewcommand{\topfraction}{0.92}
+\renewcommand{\dbltopfraction}{0.92}
+\renewcommand{\textfraction}{0.06}
+\renewcommand{\floatpagefraction}{0.78}
+\renewcommand{\dblfloatpagefraction}{0.78}
+\setcounter{topnumber}{5}
+\setcounter{dbltopnumber}{4}
+\setcounter{totalnumber}{8}
+\titlespacing*{\section}{0pt}{1.0em}{0.38em}
+\titlespacing*{\subsection}{0pt}{0.72em}{0.25em}
+\titlespacing*{\subsubsection}{0pt}{0.55em}{0.2em}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small RobustLens}
+\fancyhead[R]{\small Matched-fidelity distortion fingerprints}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.35pt}
+\setlength{\headheight}{13pt}
+\captionsetup{font=small,labelfont=bf,justification=centering}
+\tcbset{colback=black!94,colframe=black!94,coltext=white,boxrule=0.5pt,arc=1.5mm,left=2.5mm,right=2.5mm,top=1.5mm,bottom=1.5mm}
+\hypersetup{pdftitle={Spatial-Frequency and Structural Distortion Fingerprints Beyond Global Image Fidelity},pdfauthor={Suryakanth V. Gangashetty; Aviral Choudhary},hidelinks}
+\graphicspath{{figures/}}
+\newcommand{\Rtwo}{R^2_{\mathrm{OOS}}}
+\newcommand{\dRtwo}{\Delta R^2_{\mathrm{OOS}}}
+\newcommand{\dMAE}{\Delta\mathrm{MAE}_{\mathrm{OOS}}}
+\newcommand{\ModelThree}{\mathrm{M3}}
+\newcommand{\ModelFive}{\mathrm{M5}}
+\newcommand{\Ehigh}{E_{\mathrm{high}}}
+\newcommand{\Elow}{E_{\mathrm{low}}}
+\newcommand{\Bjpeg}{B_{\mathrm{JPEG}}}
+\newcommand{\Dedge}{\Delta E_{\mathrm{edge}}}
+\newcommand{\Slocal}{\sigma_{\mathrm{local\ SSIM}}}
+\newcommand{\tighttable}{\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.12}}
+\begin{document}
+\twocolumn[
+\begin{@twocolumnfalse}
+\vspace*{-0.45em}
+\begin{center}
+{\LARGE\bfseries Spatial-Frequency and Structural Distortion Fingerprints Beyond Global Image Fidelity\par}
+\vspace{0.25em}
+{\large\bfseries Predicting Vision-Model Margins under Compound Image Corruption\par}
+\vspace{0.65em}
+{\large Suryakanth V. Gangashetty$^{1}$\par}
+\vspace{0.12em}
+{\large Aviral Choudhary$^{2}$\par}
+\vspace{0.22em}
+{\footnotesize $^{1}$Department of Computer Science and Engineering, Koneru Lakshmaiah Education Foundation, India\par}
+{\footnotesize $^{2}$Independent Researcher, India\par}
+\vspace{0.30em}
+{\small November 2026\par}
+\end{center}
+\vspace{0.35em}
+{\small\noindent\textbf{Abstract.} Global image-fidelity metrics summarize distortion but can conceal where and how image structure has changed. We test whether spatial-frequency and structural fingerprints provide additional out-of-sample information about true-class logit margins after accounting for PSNR, SSIM, and LPIPS. Six permutations of Gaussian noise, Gaussian blur, and JPEG compression were calibrated to three joint PSNR/SSIM target levels and evaluated on 3,825 held-out Imagenette-v2 validation images using ResNet-50, ConvNeXt-Tiny, ViT-Base/16, and Swin-Tiny. In five-fold image-grouped cross-validation, adding five prespecified fingerprints increased out-of-sample $R^2$ by 0.0094--0.0199 across the four architectures and reduced MAE by 0.0334--0.0535. Paired image-cluster bootstrap inference with 10,000 resamples and Holm correction supported positive incremental $R^2$ and MAE gains for all four models. Feature ablations identified Sobel edge-energy change as the strongest single-feature addition, while Fourier residual energy supplied further information. On a 300-image ImageNet-V2 replication, the pooled $R^2$ gain was statistically supported for ViT-Base/16; the other architectures had positive point estimates with intervals crossing zero. The results show that spatial structure contains predictive information about classifier margins that is not represented by global fidelity scores alone.\par\vspace{0.30em}}
+{\small\noindent\textbf{Keywords:} computer vision; corruption robustness; compound degradations; image fidelity; spatial-frequency analysis; structural fingerprints; logit margin; grouped cross-validation}
+\vspace{0.52em}
+\begin{tcolorbox}
+{\large\bfseries WHAT THIS STUDY FINDS\par}\vspace{0.22em}
+\small
+\begin{itemize}
+\item \textbf{Structural fingerprints add predictive information.} Beyond a nonlinear PSNR/SSIM/LPIPS baseline, the five-feature model improves out-of-sample $R^2$ by 0.0094--0.0199 across all four architectures, with Holm-adjusted bootstrap $p$-value bounds of $p_{\mathrm{adj}}\leq 0.0004$.
+\item \textbf{Edge structure is the strongest individual contributor.} Adding Sobel edge-energy change produces the largest single-feature $R^2$ gain for each architecture; Fourier residual-energy features provide a second contribution.
+\item \textbf{The full processing sequence matters.} Terminal-operator identity alone explains little of the variation. Full sequence order and continuous image fingerprints each add predictive information.
+\item \textbf{External replication is encouraging.} On ImageNet-V2, ViT-Base/16 retains a positive pooled $R^2$ gain after Holm correction ($\Delta R^2=+0.0371$, $p_{\mathrm{adj}}=0.0340$); the other three models show positive but statistically inconclusive point estimates.
+\end{itemize}
+\end{tcolorbox}
+\end{@twocolumnfalse}
+]
+
+\section{Introduction}
+
+Vision systems rarely encounter images that have undergone only one isolated degradation. Noise, blur, and compression can be composed in different orders, and the resulting images may differ even when the same operators are used. Robustness benchmarks have established the importance of systematic corruption evaluation, while work on dual corruptions and image-operator chains has shown that interactions between transformations deserve direct study \cite{hendrycks2019,goyal2022,liao2020}.
+
+A second issue concerns measurement. PSNR, SSIM, and perceptual metrics such as LPIPS summarize global or pooled aspects of image difference \cite{wang2004,zhang2018}. Two images with similar global scores can nevertheless differ in edge preservation, frequency content, block-boundary artifacts, and the spatial distribution of local structural changes. These differences may matter to a classifier even when global quality scores are similar.
+
+This study asks whether spatial-frequency and structural descriptors explain additional variation in a vision model's true-class decision margin after global image fidelity is accounted for. We evaluate six permutations of Gaussian noise (N), Gaussian blur (B), and JPEG compression (J), at three calibrated PSNR/SSIM target levels, using four frozen ImageNet-1K classifiers. The primary outcome is the true-class logit margin, a continuous measure of how strongly the correct class is separated from the strongest competing class.
+
+The analysis is organized around four contributions. First, it evaluates a common-support design in which sequence-specific settings are selected to place all six orders near shared PSNR/SSIM targets. Second, it compares a flexible global-fidelity baseline with an extension containing five prespecified structural fingerprints. Third, it tests whether continuous image fingerprints add information beyond the identity of the terminal operator and beyond the full six-sequence label. Fourth, it examines whether the local-SSIM association differs across convolutional, hierarchical-windowed, and global-attention architectures.
+
+\section{Related work}
+
+ImageNet-C formalized evaluation under common synthetic corruptions and remains a central reference for robustness measurement \cite{hendrycks2019}. Noise-blur dual-corruption research considers how multiple degradations interact, while image-operator-chain work explicitly studies the order in which operations are applied \cite{goyal2022,liao2020}. Recent benchmarks extend robustness evaluation to continuous nuisance changes and more realistic corruption settings \cite{dunkel2025,li2025rbench}.
+
+The present study also builds on image-quality assessment. SSIM compares local luminance, contrast, and structure, while LPIPS uses deep features to estimate perceptual distance \cite{wang2004,zhang2018}. These metrics are complementary, but none is designed to encode every spatial pattern that may influence a classifier's internal representation. Our question is not whether one global metric is universally inadequate; it is whether a compact collection of spatial-frequency and structural features contributes measurable predictive value after those metrics have been included in the same model.
+
+The evaluated architectures represent distinct design families: residual convolutional networks, modernized convolutional networks, hierarchical windowed Transformers, and global-attention Vision Transformers \cite{he2016,liu2022convnext,liu2021swin,dosovitskiy2021}. This diversity allows the study to compare feature associations across different inductive biases without interpreting coefficient differences as causal mechanisms.
+
+\section{Experimental design}
+
+\subsection{Dataset, sample partition, and classifiers}
+
+The source dataset is FastAI Imagenette-v2, a ten-class subset of ImageNet. The local 13,394-image archive was matched against the official archive by cryptographic image hashes: 9,469 training images and 3,925 validation images matched with no unmatched or duplicate files. Fifty training images were used for calibration (15 for grid search and 35 for calibration holdout). One hundred validation images were used in an earlier exploratory pilot and were excluded from the primary confirmatory evaluation. The confirmatory cohort therefore contains 3,825 unique validation images.
+
+The four frozen classifiers are ResNet-50 (`resnet50.a1\_in1k`), ConvNeXt-Tiny (`convnext\_tiny.in12k\_ft\_in1k`), ViT-Base/16 (`vit\_base\_patch16\_224.augreg\_in21k\_ft\_in1k`), and Swin-Tiny (`swin\_tiny\_patch4\_window7\_224.ms\_in1k`). Each model produces 1,000 ImageNet-1K logits. For each image, the ten Imagenette synsets were mapped to their corresponding ImageNet-1K class indices; the margin was computed against all 999 incorrect classes, not merely the other nine Imagenette classes.
+
+The confirmatory images are held out from the current calibration and exploratory pilot samples. They are nevertheless drawn from ImageNet-1K synsets used in the pretraining or fine-tuning data of the evaluated backbones. Thus, the primary cohort measures robustness to corruption for pretrained in-distribution classes; independent image collection is assessed separately on ImageNet-V2 \cite{recht2019}.
+
+\subsection{Compound-corruption design and common-support calibration}
+
+Each corruption code lists the operators in application order. The six sequences are NBJ, NJB, BNJ, BJN, JNB, and JBN. The design uses three target levels and six orders, producing 18 corrupted conditions per image, together with one clean reference condition.
+
+\begin{table}[t]
+\centering
+\caption{The six compound-corruption sequences.}
+\scriptsize\tighttable
+\begin{tabular}{lll}
+\toprule
+Code & Application order & Terminal operator\\
+\midrule
+NBJ & Noise $\rightarrow$ Blur $\rightarrow$ JPEG & JPEG\\
+NJB & Noise $\rightarrow$ JPEG $\rightarrow$ Blur & Blur\\
+BNJ & Blur $\rightarrow$ Noise $\rightarrow$ JPEG & JPEG\\
+BJN & Blur $\rightarrow$ JPEG $\rightarrow$ Noise & Noise\\
+JNB & JPEG $\rightarrow$ Noise $\rightarrow$ Blur & Blur\\
+JBN & JPEG $\rightarrow$ Blur $\rightarrow$ Noise & Noise\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Frozen PSNR/SSIM common-support target levels.}
+\small\tighttable
+\begin{tabular}{lcc}
+\toprule
+Target tier & PSNR (dB) & SSIM\\
+\midrule
+Mild & 27.20 & 0.810\\
+Moderate & 23.80 & 0.650\\
+Severe & 21.80 & 0.500\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+A discrete search over 1,296 candidate parameter configurations selected sequence-specific settings for the three target levels. The prespecified tolerances were $\pm0.75$ dB for PSNR and $\pm0.035$ for SSIM. All 18 frozen configurations passed the stated mean-target tolerances on the 50-image calibration pool, with the 35-image holdout evaluated separately. The largest reported grid-versus-holdout shift was 0.15 dB in PSNR and 0.004 in SSIM. LPIPS was not a calibration target; it was computed as a post-calibration perceptual covariate in the prediction models.
+
+\begin{figure*}[!b]
+\centering
+\includegraphics[width=0.97\textwidth]{fig1_design_pipeline.pdf}
+\caption{Matched-fidelity confirmatory workflow. The calibration pool is separate from the primary confirmatory images; the 100-image pilot is excluded from the 3,825-image confirmatory cohort.}
+\end{figure*}
+
+\subsection{Global fidelity, structural fingerprints, and the outcome}
+
+For each corrupted image, the analysis records PSNR, SSIM, and AlexNet-based LPIPS. Five structural fingerprints are added: low-frequency Fourier residual energy ($E_{\mathrm{low}}$), high-frequency Fourier residual energy ($E_{\mathrm{high}}$), an 8$\times$8 JPEG block-boundary ratio ($B_{\mathrm{JPEG}}$), Sobel edge-energy change ($\Delta E_{\mathrm{edge}}$), and the spatial standard deviation of a local SSIM map ($\sigma_{\mathrm{local\ SSIM}}$). These descriptors summarize complementary aspects of frequency content, compression structure, edge preservation, and spatial heterogeneity.
+
+Let $z_{m,c}(x)$ be the logit for class $c$ from model $m$ on image $x$, and let $y(x)$ be the true ImageNet-1K class index. The outcome is the true-class logit margin:
+\begin{equation}
+M_m(x)=z_{m,y(x)}(x)-\max_{c\neq y(x)}z_{m,c}(x).
+\end{equation}
+A larger margin indicates greater separation between the true class and the strongest incorrect class. Margins are analyzed separately by architecture; raw margin scales are not compared across architectures as if they were directly commensurate.
+
+\subsection{Grouped prediction models and inference}
+
+The baseline model (Model 3) includes an intercept, six-order indicators, three-tier indicators, order-by-tier interactions, and conventional four-knot restricted cubic spline terms for PSNR, SSIM, and LPIPS. Knots are estimated inside each training fold at the 5th, 35th, 65th, and 95th percentiles. This produces 27 columns: one intercept, five order indicators, two tier indicators, ten interactions, and nine spline basis columns. Model 5 adds the five structural fingerprints, for 32 columns.
+
+For image $i$, order $s$, target tier $\ell$, and architecture $m$, Model 3 can be written as
+\begin{equation}
+\begin{aligned}
+M_{is\ell m} &= \beta_{0m}+\alpha_{sm}+\gamma_{\ell m}+(\alpha\gamma)_{s\ell m}\\
+&\quad + f_{Pm}(P_{is\ell})+f_{Sm}(S_{is\ell})+f_{Lm}(L_{is\ell})+\varepsilon_{is\ell m}.
+\end{aligned}
+\end{equation}
+where $P$, $S$, and $L$ denote PSNR, SSIM, and LPIPS, and each $f$ is the fold-specific restricted cubic spline basis. Model 5 adds linear terms for $E_{\mathrm{low}}$, $E_{\mathrm{high}}$, $B_{\mathrm{JPEG}}$, $\Delta E_{\mathrm{edge}}$, and $\sigma_{\mathrm{local\ SSIM}}$. Models are fitted separately for each architecture, so the comparison concerns incremental predictive information within a model rather than equality of raw logit-margin scales across models.
+
+For each architecture, both models are evaluated with five-fold cross-validation grouped by physical image ID and stratified by class. All 18 corrupted observations belonging to an image remain in the same fold. Preprocessing and spline knots are fitted on training folds only; the baseline and extended model use identical folds. The reported primary metrics are pooled out-of-sample $R^2$ and MAE. Differences are paired on the same out-of-fold image-condition predictions.
+
+Uncertainty is estimated with 10,000 paired image-cluster bootstrap resamples, retaining all observations belonging to each sampled image. Holm--Bonferroni adjustment controls the family-wise error rate across the four architecture comparisons for the primary $R^2$ endpoint; MAE is analyzed as a separate secondary family. Simultaneous Bonferroni confidence intervals are reported alongside pointwise intervals.
+
+\section{Primary confirmatory results}
+
+\subsection{Incremental predictive value across architectures}
+
+Adding the five structural fingerprints improves out-of-sample prediction for all four architectures. Incremental $R^2$ ranges from $+0.0094$ for ResNet-50 to $+0.0199$ for ViT-Base/16. Every simultaneous two-sided 95\% confidence interval lies above zero, and every Holm-adjusted bootstrap result is bounded by $p_{\mathrm{adj}}\leq0.0004$ at the resolution of 10,000 resamples.
+
+\begin{table*}[t!]
+\centering
+\caption{Primary confirmatory results: conventional four-knot spline baseline (Model 3) versus structural-fingerprint extension (Model 5).}
+\scriptsize\tighttable
+\begin{tabular}{lrrrrrr}
+\toprule
+Architecture & Model 3 $R^2$ & Model 5 $R^2$ & $\Delta R^2$ & Simultaneous 95\% CI & One-sided 95\% LB & Holm $p_{\mathrm{adj}}$\\
+\midrule
+ViT-Base/16 & 0.0591 & 0.0790 & $+0.0199$ & [0.0115, 0.0278] & 0.0123 & $\leq0.0004$\\
+ConvNeXt-Tiny & 0.0728 & 0.0905 & $+0.0177$ & [0.0105, 0.0248] & 0.0113 & $\leq0.0004$\\
+Swin-Tiny & 0.0893 & 0.1057 & $+0.0164$ & [0.0098, 0.0230] & 0.0105 & $\leq0.0004$\\
+ResNet-50 & 0.1224 & 0.1318 & $+0.0094$ & [0.0048, 0.0138] & 0.0053 & $\leq0.0004$\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{figure*}[t!]
+\centering
+\includegraphics[width=0.78\textwidth]{fig2_primary_incremental_r2.pdf}
+\caption{Incremental out-of-sample $R^2$ from adding the five structural fingerprints. Error bars show simultaneous Bonferroni 95\% confidence intervals.}
+\end{figure*}
+
+MAE also decreases for all four models. The reductions range from 0.0334 to 0.0535 logit-margin units, with simultaneous confidence intervals above zero and Holm-adjusted bootstrap bounds of $p_{\mathrm{adj}}\leq0.0004$.
+
+\begin{table*}[t!]
+\centering
+\begin{minipage}[t]{0.485\textwidth}
+\centering
+\captionof{table}{Out-of-sample MAE improvement on the primary cohort.}
+\scriptsize
+\setlength{\tabcolsep}{1.8pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Architecture & M3 & M5 & Gain & Sim. 95\% CI\\
+\midrule
+ViT-Base/16 & 3.2056 & 3.1521 & $+0.0535$ & [0.0387, 0.0679]\\
+ConvNeXt-Tiny & 2.7751 & 2.7366 & $+0.0385$ & [0.0267, 0.0504]\\
+Swin-Tiny & 2.7785 & 2.7452 & $+0.0334$ & [0.0219, 0.0448]\\
+ResNet-50 & 5.5717 & 5.5234 & $+0.0483$ & [0.0302, 0.0664]\\
+\bottomrule
+\end{tabular}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.485\textwidth}
+\centering
+\captionof{table}{Reduced-spline sensitivity analysis.}
+\scriptsize
+\setlength{\tabcolsep}{1.8pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Architecture & M3 & M5 & $\Delta R^2$ & Sim. 95\% CI\\
+\midrule
+ViT-Base/16 & 0.0583 & 0.0784 & $+0.0201$ & [0.0117, 0.0280]\\
+ConvNeXt-Tiny & 0.0718 & 0.0898 & $+0.0180$ & [0.0108, 0.0251]\\
+Swin-Tiny & 0.0881 & 0.1048 & $+0.0167$ & [0.0101, 0.0233]\\
+ResNet-50 & 0.1213 & 0.1309 & $+0.0096$ & [0.0050, 0.0141]\\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\end{table*}
+\FloatBarrier
+
+\section{Independent external replication on ImageNet-V2}
+
+The frozen 18-condition corruption protocol was evaluated on 300 ImageNet-V2 images drawn from the ten matching WordNet synsets, with 100 images in each of three sampling variants: MatchedFrequency, Threshold0.7, and TopImages. No corruption parameters or feature definitions were retuned on these images. The external cohort contributes 22,800 model-image-condition evaluations.
+
+ViT-Base/16 shows a positive pooled incremental $R^2$ with a 95\% image-cluster bootstrap interval excluding zero ($\Delta R^2=+0.0371$, CI [0.0065, 0.0675], raw $p=0.0085$, Holm-adjusted $p=0.0340$). The other architectures have positive point estimates, but their pooled $R^2$ intervals include zero. Applying the standard monotone Holm step-down adjustment to the four reported raw $p$-values gives adjusted values of 0.1770 for ResNet-50 and 0.2438 for both ConvNeXt-Tiny and Swin-Tiny.
+
+\begin{table*}[t!]
+\centering
+\caption{Pooled ImageNet-V2 replication ($N=300$). Only ViT-Base/16 has an $R^2$ interval excluding zero and remains significant after Holm correction.}
+\scriptsize\tighttable
+\begin{tabular}{lrrrrrr}
+\toprule
+Architecture & Baseline $R^2$ & Model 5 $R^2$ & $\Delta R^2$ & 95\% CI & Raw $p$ & Holm $p_{\mathrm{adj}}$\\
+\midrule
+ViT-Base/16 & 0.0746 & 0.1117 & $+0.0371$ & [0.0065, 0.0675] & 0.0085 & 0.0340\\
+ResNet-50 & 0.0931 & 0.1143 & $+0.0212$ & [$-0.0070$, 0.0475] & 0.0590 & 0.1770\\
+ConvNeXt-Tiny & 0.0397 & 0.0541 & $+0.0144$ & [$-0.0099$, 0.0383] & 0.1219 & 0.2438\\
+Swin-Tiny & 0.0554 & 0.0669 & $+0.0115$ & [$-0.0126$, 0.0345] & 0.1768 & 0.2438\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{figure*}[t!]
+\centering
+\includegraphics[width=0.78\textwidth]{fig3_external_incremental_r2.pdf}
+\caption{ImageNet-V2 pooled incremental out-of-sample $R^2$. The interval for ViT-Base/16 excludes zero; the other three intervals cross zero.}
+\end{figure*}
+
+For completeness, pooled external MAE improvements were positive for all four architectures. The reported intervals were [0.0159, 0.1681] for ViT-Base/16, [0.0250, 0.2306] for ResNet-50, [$-0.0037$, 0.0929] for ConvNeXt-Tiny, and [$-0.0045$, 0.0858] for Swin-Tiny. The external inference statement is therefore centered on the prespecified $R^2$ endpoint; MAE estimates are reported as a complementary prediction-error summary.
+
+\section{Feature contributions and sequence-order disentanglement}
+
+\subsection{Ablation analysis}
+
+Ten grouped-cross-validation ablation specifications were evaluated: global-fidelity baseline; Fourier-only, JPEG-boundary-only, edge-only, and local-SSIM-only additions; the full five-feature model; and four drop-one variants. Sobel edge-energy change was the largest single-feature addition in every architecture. Fourier residual-energy features provided the next-largest contribution, while JPEG-boundary and local-SSIM additions were smaller in the combined design.
+
+\begin{table*}[t!]
+\centering
+\caption{Add-one feature-group gains in out-of-sample $R^2$ relative to Model 3. These marginal gains overlap and are not additive partitions of Model 5 gain.}
+\scriptsize\tighttable
+\begin{tabular}{lrrrrr}
+\toprule
+Architecture & Full Model 5 gain & Edge only & Fourier only & JPEG boundary only & Local SSIM only\\
+\midrule
+ViT-Base/16 & 0.0199 & \textbf{0.0176} & 0.0041 & 0.0016 & 0.0006\\
+ConvNeXt-Tiny & 0.0177 & \textbf{0.0135} & 0.0067 & 0.0018 & $-0.0003$\\
+Swin-Tiny & 0.0164 & \textbf{0.0111} & 0.0076 & 0.0014 & $-0.0001$\\
+ResNet-50 & 0.0094 & \textbf{0.0074} & 0.0030 & 0.0015 & $-0.0001$\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{figure*}[t!]
+\centering
+\includegraphics[width=0.82\textwidth]{fig4_feature_ablation.pdf}
+\caption{Add-one ablation gains by architecture. Edge-energy change is the largest single-feature addition in all four models.}
+\end{figure*}
+
+Drop-one analysis supports the same ranking: removing edge-energy change produces the largest reduction in Model 5 $R^2$ for each architecture (0.0136 for ViT-Base/16, 0.0101 for ConvNeXt-Tiny, 0.0081 for Swin-Tiny, and 0.0053 for ResNet-50). Fourier features provide a further, smaller conditional contribution. Because the descriptors are correlated, add-one gains overlap; the ablation results identify predictive contribution within the fitted models rather than isolated causal effects.
+
+\subsection{Terminal-operator identity versus full sequence structure}
+
+The terminal operator is a coarse description of a three-stage processing chain. A nested comparison shows that terminal-operator indicators alone explain only 0.0052--0.0204 of out-of-sample margin variance. Adding global-fidelity measures and terminal-operator indicators raises $R^2$, but the full six-sequence representation adds a further 0.0066--0.0145. Adding continuous fingerprints to the full sequence model contributes another 0.0094--0.0199.
+
+\begin{table*}[t!]
+\centering
+\caption{Nested model progression in out-of-sample $R^2$.}
+\scriptsize\tighttable
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lrrrrrr}
+\toprule
+Architecture & Terminal op. (A) & Fidelity + op. (B) & Fidelity + order (C) & Full + fingerprints (D) & Order gain (C$-$B) & Fingerprint gain (D$-$C)\\
+\midrule
+ViT-Base/16 & 0.0082 & 0.0525 & 0.0591 & 0.0790 & 0.0066 & 0.0199\\
+ConvNeXt-Tiny & 0.0052 & 0.0629 & 0.0728 & 0.0905 & 0.0099 & 0.0177\\
+Swin-Tiny & 0.0059 & 0.0748 & 0.0893 & 0.1057 & 0.0145 & 0.0164\\
+ResNet-50 & 0.0204 & 0.1125 & 0.1224 & 0.1318 & 0.0099 & 0.0094\\
+\bottomrule
+\end{tabular}%
+}
+\end{table*}
+
+\begin{figure*}[t!]
+\centering
+\includegraphics[width=0.86\textwidth]{fig5_operator_hierarchy.pdf}
+\caption{Out-of-sample $R^2$ increases from terminal-operator identity to full sequence order and then to continuous structural fingerprints.}
+\end{figure*}
+
+\section{Architecture-specific local-structure association}
+
+The standardized coefficient for local SSIM variability is negative for all four fitted Model 5 specifications, with the largest magnitude for ViT-Base/16 ($\beta=-0.2691$). A formal paired image-cluster bootstrap compared this coefficient across architectures. The ViT-Base coefficient differs from ConvNeXt-Tiny ($\Delta\beta=-0.2277$, 95\% CI [$-0.3446,-0.1108$], raw $p=0.00010$) and Swin-Tiny ($\Delta\beta=-0.2201$, 95\% CI [$-0.3617,-0.0726$], raw $p=0.00300$). The difference from ResNet-50 is not established ($\Delta\beta=-0.0725$, 95\% CI [$-0.3532,0.2148$], $p=0.61174$). Across the three pairwise contrasts, Holm-adjusted values are 0.00030, 0.00600, and 0.61174, respectively.
+
+\begin{table}[t]
+\centering
+\caption{Paired bootstrap contrasts in the local-SSIM coefficient.}
+\scriptsize\tighttable
+\begin{tabular}{lrrr}
+\toprule
+Comparison & $\Delta\beta$ & 95\% CI & Holm $p$\\
+\midrule
+ViT vs ConvNeXt & $-0.2277$ & [$-0.3446,-0.1108$] & 0.00030\\
+ViT vs Swin & $-0.2201$ & [$-0.3617,-0.0726$] & 0.00600\\
+ViT vs ResNet & $-0.0725$ & [$-0.3532,0.2148$] & 0.61174\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig6_local_ssim_coefficients.pdf}
+\caption{Architecture contrasts for the standardized local-SSIM coefficient.}
+\end{figure}
+
+The pattern is consistent with an architecture-specific association between spatial heterogeneity and margin variation. ViT-Base uses global patch attention, whereas Swin-Tiny restricts attention to shifted local windows and ResNet/ConvNeXt use convolutional processing. The comparison supports a difference from ConvNeXt and Swin-Tiny; it does not establish a difference from ResNet-50 or a universal causal mechanism.
+
+\section{Discussion}
+
+The primary analysis supports the central proposition: global image-fidelity measures do not exhaust the predictive information associated with a classifier's true-class margin under the tested compound corruptions. The five structural fingerprints improve out-of-sample prediction across four different architectures, with consistent direction under both the conventional and reduced spline baselines. This is not merely an in-sample fit improvement: the comparison uses image-grouped folds and paired out-of-fold predictions, with uncertainty resampled at the physical-image level.
+
+The most consistent individual contribution is edge-energy change. This finding is plausible in the context of recognition systems that depend on object boundaries and local shape cues, but the ablation design is predictive rather than interventional. Fourier residual-energy terms add information beyond edge energy, suggesting that the spatial distribution of high- and low-frequency changes complements edge summaries. JPEG boundary ratios add a smaller contribution in the combined model. The local-SSIM result is more architecture-dependent: the formal contrast is strongest for ViT-Base relative to ConvNeXt and Swin-Tiny, while the ViT--ResNet contrast remains uncertain.
+
+The nested model comparison also clarifies the role of processing order. A terminal-operator label is too coarse to capture the full transformation history. The six-sequence representation improves on terminal-operator grouping, and continuous fingerprints improve further within those sequence categories. In this sense, the physical image produced by a pipeline contains more predictive detail than the identity of its final operation.
+
+The external cohort provides an important independent check. The pooled ImageNet-V2 result supports the incremental $R^2$ gain for ViT-Base/16 after Holm correction, while the positive point estimates for the other architectures remain statistically inconclusive at the available sample size. The primary Imagenette cohort is sample-level held out from calibration and the current pilot, although its classes and source images belong to the ImageNet family used in backbone pretraining. The external ImageNet-V2 result therefore provides a separately collected image evaluation, with the clearest replication in ViT-Base/16. The evidence in this paper is specific to Gaussian noise, Gaussian blur, JPEG compression, the tested parameter envelope, and the four evaluated pretrained architectures.
+
+\section{Limitations and future work}
+
+This study provides a focused evaluation of Gaussian noise, Gaussian blur, and JPEG compression across four frozen ImageNet-1K classifiers. The primary images are held out from the study's calibration and pilot subsets, while their ImageNet-1K class provenance means that the backbones have prior class-level pretraining exposure. The independently collected ImageNet-V2 cohort provides a first external check, with the clearest pooled replication for ViT-Base/16; larger external cohorts and additional model families will help establish the breadth of the result. Finally, the fingerprints are predictive descriptors rather than causal interventions. A natural next step is to manipulate edge and frequency structure independently to test the mechanisms suggested by the present analyses.
+
+\section{Conclusion}
+
+This study shows that spatial-frequency and structural distortion fingerprints contain predictive information about vision-model true-class margins beyond a nonlinear global-fidelity baseline. On 3,825 confirmatory images, adding five fingerprints improved out-of-sample $R^2$ and reduced MAE across ResNet-50, ConvNeXt-Tiny, ViT-Base/16, and Swin-Tiny. Feature ablations identify Sobel edge-energy change as the strongest single-feature addition, with Fourier residual-energy features providing complementary information. Terminal-operator identity does not capture the full effect of processing order, and the local-SSIM association differs between ViT-Base and selected alternative architectures. On the independent ImageNet-V2 cohort, ViT-Base/16 shows a statistically supported pooled $R^2$ gain after multiplicity correction. Together, these results motivate reporting spatial structure alongside global image-fidelity scores when evaluating vision-model robustness to compound corruption.
+
+\section*{Acknowledgments}
+The authors thank the RobustLens research collaborators and the maintainers of the open-source datasets and model libraries used in this study. Any additional funding or institutional acknowledgments should be added only after author confirmation.
+
+\section*{Data and code availability}
+The study's evaluation tables, prediction outputs, execution manifests, and SHA-256 registry are maintained in the RobustLens research repository under \texttt{results/matched\_fidelity\_study/}. The archived primary cohort contains 3,825 images, 18 corrupted conditions, and four model outputs per condition, together with clean reference predictions. The corresponding external evaluation artifacts are stored under \texttt{results/matched\_fidelity\_study/imagenet\_v2/}. Repository and public data-release URLs should be inserted by the authors when the release is finalized.
+
+\balance
+\begin{thebibliography}{99}\small
+\bibitem{hendrycks2019} D. Hendrycks and T. Dietterich, ``Benchmarking neural network robustness to common corruptions and perturbations,'' in \emph{Proc. International Conference on Learning Representations (ICLR)}, 2019. arXiv:1903.12261.
+\bibitem{goyal2022} B. Goyal, J.-F. Lalonde, Y. Li, and M. Gupta, ``Robust scene inference under noise-blur dual corruptions,'' arXiv:2207.11643, 2022.
+\bibitem{liao2020} X. Liao, K. Li, X. Zhu, and K. J. R. Liu, ``Robust detection of image operator chain with two-stream convolutional neural network,'' \emph{IEEE Journal of Selected Topics in Signal Processing}, vol. 14, no. 5, pp. 955--968, 2020, doi:10.1109/JSTSP.2020.3002391.
+\bibitem{wang2004} Z. Wang, A. C. Bovik, H. R. Sheikh, and E. P. Simoncelli, ``Image quality assessment: From error visibility to structural similarity,'' \emph{IEEE Transactions on Image Processing}, vol. 13, no. 4, pp. 600--612, 2004, doi:10.1109/TIP.2003.819861.
+\bibitem{zhang2018} R. Zhang, P. Isola, A. A. Efros, E. Shechtman, and O. Wang, ``The unreasonable effectiveness of deep features as a perceptual metric,'' in \emph{Proc. IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}, pp. 586--595, 2018.
+\bibitem{he2016} K. He, X. Zhang, S. Ren, and J. Sun, ``Deep residual learning for image recognition,'' in \emph{Proc. IEEE Conference on Computer Vision and Pattern Recognition (CVPR)}, pp. 770--778, 2016.
+\bibitem{dosovitskiy2021} A. Dosovitskiy et al., ``An image is worth 16$\times$16 words: Transformers for image recognition at scale,'' in \emph{Proc. International Conference on Learning Representations (ICLR)}, 2021.
+\bibitem{liu2021swin} Z. Liu et al., ``Swin Transformer: Hierarchical vision transformer using shifted windows,'' in \emph{Proc. IEEE/CVF International Conference on Computer Vision (ICCV)}, pp. 10012--10022, 2021.
+\bibitem{liu2022convnext} Z. Liu, H. Mao, C.-Y. Wu, C. Feichtenhofer, T. Darrell, and S. Xie, ``A ConvNet for the 2020s,'' in \emph{Proc. IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}, pp. 11976--11986, 2022.
+\bibitem{recht2019} B. Recht, R. Roelofs, L. Schmidt, and V. Shankar, ``Do ImageNet classifiers generalize to ImageNet?'' in \emph{Proc. International Conference on Machine Learning}, PMLR, vol. 97, pp. 5389--5400, 2019.
+\bibitem{harrell2015} F. E. Harrell, Jr., \emph{Regression Modeling Strategies: With Applications to Linear Models, Logistic and Ordinal Regression, and Survival Analysis}, 2nd ed. Springer, 2015.
+\bibitem{dunkel2025} O. D\"unkel, A. Jesslen, J. Xie, C. Theobalt, C. Rupprecht, and A. Kortylewski, ``CNS-Bench: Benchmarking image classifier robustness under continuous nuisance shifts,'' in \emph{Proc. IEEE/CVF International Conference on Computer Vision (ICCV)}, pp. 19978--19988, 2025.
+\bibitem{li2025rbench} C. Li et al., ``R-Bench: Are your large multimodal models robust to real-world corruptions?'' \emph{IEEE Journal of Selected Topics in Signal Processing}, vol. 19, no. 7, pp. 1349--1361, 2025, doi:10.1109/JSTSP.2025.3558652.
+\bibitem{wei2026} Y. Wei, C. Zhang, Y. Wang, X. Wang, B. Shao, H. Li, and L. Di, ``What paired evaluations reveal under visual perturbations,'' arXiv:2609.35583, 2026.
+\bibitem{howard2019} J. Howard, ``Imagenette: A smaller subset of 10 easily classified classes from ImageNet,'' FastAI dataset repository, 2019. \url{https://github.com/fastai/imagenette}.
+\end{thebibliography}
+\end{document}

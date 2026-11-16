@@ -548,12 +548,19 @@ export default function MethodsPage() {
         </p>
 
         <div className="flex flex-wrap gap-3 pt-1 items-center">
-          <Link
-            href="/order-effects"
+          <a
+            href="/downloads/RobustLens_Academic_Manuscript.pdf"
+            download="RobustLens_Matched_Fidelity_Manuscript_Final.pdf"
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold bg-primary text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm"
           >
-            <span>Explore Order Effects Data</span>
+            <span>Download Manuscript (8-Page PDF)</span>
             <ArrowRight className="h-3.5 w-3.5" />
+          </a>
+          <Link
+            href="/order-effects"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold bg-muted hover:bg-muted/80 text-foreground transition-colors border border-border/60"
+          >
+            <span>Explore Order Effects Data</span>
           </Link>
           <Link
             href="/about"

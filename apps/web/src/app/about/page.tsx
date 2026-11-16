@@ -560,15 +560,21 @@ export default function AboutPage() {
           {/* New November 2026 Matched-Fidelity Study */}
           <div className="flex flex-col gap-4 pb-6 border-b border-border/50">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1.5">
                 <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-                  New Scientific Study (November 2026) • Matched-Fidelity Confirmatory Protocol
+                  New Scientific Manuscript (November 2026) • Matched-Fidelity Distortion Fingerprints
                 </span>
                 <h3 className="text-lg sm:text-xl font-extrabold text-foreground">
-                  At Matched Image Fidelity, Does Corruption Order Still Matter? Spatial-Frequency and Structural Fingerprints of Vision Classifier Reliability
+                  Spatial-Frequency and Structural Distortion Fingerprints Beyond Global Image Fidelity: Predicting Vision-Model Margins under Compound Image Corruption
                 </h3>
-                <p className="text-sm text-muted-foreground">
-                  <strong>Author:</strong> Aviral Choudhary &bull; <strong>Cohort:</strong> N = 3,825 Confirmatory + N = 300 ImageNet-V2 (313,500 Forward Passes)
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  <strong>Authors:</strong> Suryakanth V. Gangashetty<sup>1</sup> &amp; Aviral Choudhary<sup>2</sup><br />
+                  <span className="text-xs text-muted-foreground">
+                    <sup>1</sup>Department of Computer Science and Engineering, Koneru Lakshmaiah Education Foundation, India &bull; <sup>2</sup>Independent Researcher, India
+                  </span>
+                </p>
+                <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                  Cohort: N = 3,825 Confirmatory Images (290,700 passes) + N = 300 ImageNet-V2 Replication (22,800 passes) = 313,500 Total Forward Passes
                 </p>
               </div>
             </div>
@@ -576,20 +582,20 @@ export default function AboutPage() {
             {/* Direct Document Downloads */}
             <div className="flex flex-wrap gap-3 pt-2">
               <a
-                href="/downloads/RobustLens_Final_Research_Report.pdf"
-                download="RobustLens_Final_Research_Report.pdf"
+                href="/downloads/RobustLens_Academic_Manuscript.pdf"
+                download="RobustLens_Matched_Fidelity_Manuscript_Final.pdf"
                 className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold bg-primary text-primary-foreground hover:bg-primary/90 transition-all shadow-sm"
               >
                 <FileText className="h-4 w-4" />
-                <span>Download Final Research Report (10-Page PDF)</span>
+                <span>Download Canonical Manuscript (8-Page PDF with Vector Figures)</span>
               </a>
               <a
-                href="/downloads/RobustLens_Academic_Manuscript.pdf"
-                download="RobustLens_Academic_Manuscript.pdf"
+                href="/downloads/RobustLens_Final_Research_Report.pdf"
+                download="RobustLens_Final_Research_Report.pdf"
                 className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold bg-muted hover:bg-muted/80 text-foreground transition-all border border-border/60"
               >
                 <FileText className="h-4 w-4" />
-                <span>Download Manuscript PDF (Publication Draft)</span>
+                <span>Download Comprehensive Research Report (10-Page PDF)</span>
               </a>
               <a
                 href="/downloads/RobustLens_Academic_Manuscript.docx"
@@ -601,24 +607,32 @@ export default function AboutPage() {
               </a>
               <a
                 href="/downloads/RobustLens_Academic_Manuscript.tex"
-                download="RobustLens_Academic_Manuscript.tex"
+                download="RobustLens_Matched_Fidelity_Manuscript_Final.tex"
                 className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold bg-muted hover:bg-muted/80 text-foreground transition-all border border-border/60 font-mono"
               >
                 <FileText className="h-4 w-4" />
                 <span>Download LaTeX Source (.tex)</span>
               </a>
+              <a
+                href="/downloads/RobustLens_Matched_Fidelity_Final_Source.zip"
+                download="RobustLens_Matched_Fidelity_Final_Source.zip"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold bg-muted hover:bg-muted/80 text-foreground transition-all border border-border/60"
+              >
+                <FileText className="h-4 w-4" />
+                <span>Download Full LaTeX Source + Vector Figures (.zip)</span>
+              </a>
             </div>
 
             <div className="flex flex-col gap-2 pt-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">BibTeX Citation (November 2026 Study)</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">BibTeX Citation (November 2026 Manuscript)</span>
               <div className="p-4 rounded-2xl bg-muted/50 border border-border/50 font-mono text-xs text-foreground overflow-x-auto leading-relaxed">
-                <pre>{`@article{choudhary2026matchedfidelity,
-  title   = {At Matched Image Fidelity, Does Corruption Order Still Matter? Spatial-Frequency and Structural Fingerprints of Vision Classifier Reliability},
-  author  = {Choudhary, Aviral},
+                <pre>{`@article{gangashetty2026spatialfrequency,
+  title   = {Spatial-Frequency and Structural Distortion Fingerprints Beyond Global Image Fidelity: Predicting Vision-Model Margins under Compound Image Corruption},
+  author  = {Gangashetty, Suryakanth V. and Choudhary, Aviral},
   year    = {2026},
   month   = {November},
   journal = {RobustLens Research Initiative Working Paper},
-  note    = {Confirmatory study N=3,825 images, 290,700 primary passes + ImageNet-V2 replication}
+  note    = {Confirmatory study N=3,825 held-out Imagenette-v2 images, 290,700 primary passes + ImageNet-V2 replication}
 }`}</pre>
               </div>
             </div>

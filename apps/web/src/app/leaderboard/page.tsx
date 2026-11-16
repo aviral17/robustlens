@@ -283,7 +283,7 @@ export default function LeaderboardPage() {
                   <span>Primary Confirmatory Study Results</span>
                 </h2>
                 <p className="text-muted-foreground text-sm mt-1">
-                  N = 3,825 Imagenette images • 290,700 model-image-condition evaluations • 10-fold Grouped CV strictly grouped by image • B = 10,000 paired cluster bootstraps
+                  N = 3,825 held-out Imagenette-v2 images • 290,700 model-image-condition evaluations • 5-fold image-grouped CV • B = 10,000 paired cluster bootstraps
                 </p>
               </div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-500 text-xs font-bold uppercase tracking-wider border border-emerald-500/20">

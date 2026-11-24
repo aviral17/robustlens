@@ -112,6 +112,19 @@ export default function ResearchLabView({
   const [inferenceMatrix, setInferenceMatrix] = useState<Record<string, Record<string, ModelPredictionResult>> | null>(null);
   const [expandedPredKeys, setExpandedPredKeys] = useState<Record<string, boolean>>({});
 
+  // Convert any image source (URL or blob) to base64 Data URL
+  const toBase64DataUrl = async (src: string): Promise<string> => {
+    if (src.startsWith("data:")) return src;
+    const res = await fetch(src);
+    const blob = await res.blob();
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = () => reject(new Error("Failed to encode clean image to Data URL"));
+      reader.readAsDataURL(blob);
+    });
+  };
+
   // Synthesize 6 permutations with intermediate stages and exact fingerprints
   const handleSynthesize = async () => {
     if (!preview) return;
@@ -164,14 +177,21 @@ export default function ResearchLabView({
     }
   };
 
-  // Run genuine Hugging Face ZeroGPU inference across Clean + 6 Permutations
+  // Run genuine Hugging Face ZeroGPU inference across Clean Baseline + all 6 Permutations
   const handleRunInferenceMatrix = async () => {
     if (!preview || !synthesizedData) return;
     setIsInferringMatrix(true);
     setSynthesisError(null);
 
+    let cleanDataUrl = preview;
+    try {
+      cleanDataUrl = await toBase64DataUrl(preview);
+    } catch (e) {
+      console.error("Clean image base64 conversion failed:", e);
+    }
+
     const conditions: { id: string; label: string; dataUrl: string }[] = [
-      { id: "Clean", label: "Clean Baseline", dataUrl: preview },
+      { id: "Clean", label: "Clean Baseline", dataUrl: cleanDataUrl },
       { id: "NBJ", label: "NBJ (Noise→Blur→JPEG)", dataUrl: synthesizedData.NBJ.finalDataUrl },
       { id: "NJB", label: "NJB (Noise→JPEG→Blur)", dataUrl: synthesizedData.NJB.finalDataUrl },
       { id: "BNJ", label: "BNJ (Blur→Noise→JPEG)", dataUrl: synthesizedData.BNJ.finalDataUrl },
@@ -185,43 +205,67 @@ export default function ResearchLabView({
     try {
       for (let i = 0; i < conditions.length; i++) {
         const cond = conditions[i];
-        if (matrix[cond.id]) continue; // Cached
+        if (matrix[cond.id] && Object.keys(matrix[cond.id]).length >= 4) {
+          continue; // Already evaluated
+        }
 
         setInferenceProgress({
           current: i + 1,
           total: conditions.length,
-          label: `Evaluating ${cond.label}...`,
+          label: `Evaluating ${cond.label} across 4 vision architectures...`,
         });
 
-        const res = await fetch("/api/inference", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            image: cond.dataUrl,
-            model: selectedArchitecture,
-            corruption: "none",
-            severity: 1,
-          }),
-        });
+        let attempt = 0;
+        let success = false;
+        let lastError = "";
 
-        const data = await res.json();
-        if (!res.ok) {
-          throw new Error(data.error || `Inference failed on ${cond.label}`);
+        while (attempt < 2 && !success) {
+          attempt++;
+          try {
+            const res = await fetch("/api/inference", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                image: cond.dataUrl,
+                model: "all",
+                corruption: "none",
+                severity: 1,
+              }),
+            });
+
+            const data = await res.json();
+            if (!res.ok) {
+              throw new Error(data.error || `Server HTTP ${res.status} on ${cond.label}`);
+            }
+
+            const apiResult = data.result;
+            if (apiResult && apiResult.status === "success" && Array.isArray(apiResult.results)) {
+              const modelMap: Record<string, ModelPredictionResult> = {};
+              for (const m of apiResult.results) {
+                modelMap[m.model] = {
+                  model: m.model,
+                  prediction: m.prediction,
+                  confidence: m.confidence,
+                  top_k: m.top_k,
+                };
+              }
+              matrix[cond.id] = modelMap;
+              setInferenceMatrix({ ...matrix });
+              success = true;
+            } else {
+              throw new Error(data.error || "Inference response format unexpected");
+            }
+          } catch (err: unknown) {
+            lastError = err instanceof Error ? err.message : String(err);
+            if (attempt < 2) {
+              await new Promise((r) => setTimeout(r, 1200));
+            }
+          }
         }
 
-        const apiResult = data.result;
-        if (apiResult && apiResult.status === "success" && Array.isArray(apiResult.results)) {
-          const modelMap: Record<string, ModelPredictionResult> = {};
-          for (const m of apiResult.results) {
-            modelMap[m.model] = {
-              model: m.model,
-              prediction: m.prediction,
-              confidence: m.confidence,
-              top_k: m.top_k,
-            };
-          }
-          matrix[cond.id] = modelMap;
-          setInferenceMatrix({ ...matrix });
+        if (!success) {
+          console.warn(`Condition ${cond.id} inference failed:`, lastError);
+          setSynthesisError(`Inference notice on ${cond.label}: ${lastError}. Completed conditions are preserved.`);
         }
       }
     } catch (err: unknown) {
@@ -229,7 +273,7 @@ export default function ResearchLabView({
       setSynthesisError(
         err instanceof Error
           ? err.message
-          : "Inference queue encountered an error. Partial results are preserved."
+          : "Inference queue encountered an error. Completed conditions are preserved."
       );
     } finally {
       setIsInferringMatrix(false);
@@ -1112,17 +1156,23 @@ export default function ResearchLabView({
                 </p>
               </div>
 
-              {!inferenceMatrix && (
-                <Button
-                  variant="primary"
-                  size="sm"
-                  isDisabled={isInferringMatrix}
-                  onPress={handleRunInferenceMatrix}
-                  className="font-bold cursor-pointer"
-                >
-                  {isInferringMatrix ? "Running Neural Inference..." : "Evaluate All 4 Architectures"}
-                </Button>
-              )}
+              <Button
+                variant="primary"
+                size="sm"
+                isDisabled={isInferringMatrix}
+                onPress={handleRunInferenceMatrix}
+                className="font-bold cursor-pointer shadow-md text-xs"
+              >
+                {isInferringMatrix ? (
+                  <span className="flex items-center gap-1.5">
+                    <Activity className="w-3.5 h-3.5 animate-spin" /> Evaluating GPUs...
+                  </span>
+                ) : inferenceMatrix ? (
+                  "Re-evaluate All 4 Architectures"
+                ) : (
+                  "Evaluate All 4 Architectures"
+                )}
+              </Button>
             </div>
 
             {inferenceMatrix ? (
@@ -1145,11 +1195,13 @@ export default function ResearchLabView({
 
                         return (
                           <tr key={condId} className={condId === "Clean" ? "bg-muted/20 font-bold" : ""}>
-                            <td className="p-3 font-bold text-foreground">
+                            <td className="p-3 font-bold text-foreground whitespace-nowrap">
                               {condId === "Clean" ? (
-                                <span className="text-primary">Clean Baseline</span>
+                                <span className="text-primary flex items-center gap-1.5">
+                                  <span className="w-2 h-2 rounded-full bg-primary" /> Clean Baseline
+                                </span>
                               ) : (
-                                <span>{condId}</span>
+                                <span className="font-mono">{condId}</span>
                               )}
                             </td>
 
@@ -1157,38 +1209,51 @@ export default function ResearchLabView({
                               const pred = rowModels ? rowModels[mName] : null;
                               const cleanPred = cleanRow ? cleanRow[mName] : null;
                               if (!pred) {
-                                return <td key={mName} className="p-3 text-muted-foreground">Pending</td>;
+                                return (
+                                  <td key={mName} className="p-3 text-muted-foreground italic">
+                                    {isInferringMatrix ? "Evaluating..." : "Pending"}
+                                  </td>
+                                );
                               }
 
                               const isRetained = cleanPred
                                 ? cleanPred.prediction.toLowerCase() === pred.prediction.toLowerCase()
                                 : true;
-                              const confPct = Math.round(pred.confidence * 100);
+                              const confPct = (pred.confidence * 100).toFixed(1);
+                              const cleanConfPct = cleanPred ? cleanPred.confidence * 100 : null;
+                              const deltaConf = cleanConfPct !== null ? (pred.confidence * 100) - cleanConfPct : null;
                               const predKey = `${condId}_${mName}`;
                               const isExpanded = expandedPredKeys[predKey];
 
                               return (
                                 <td key={mName} className="p-3 align-top">
-                                  <div className="space-y-1">
+                                  <div className="space-y-1.5">
                                     <div className="flex items-center justify-between gap-1">
                                       <span className="font-bold text-foreground capitalize truncate max-w-[130px]" title={pred.prediction}>
                                         {pred.prediction}
                                       </span>
-                                      <span className="font-mono text-[10px] text-muted-foreground">
+                                      <span className="font-mono text-[11px] font-semibold text-primary">
                                         {confPct}%
                                       </span>
                                     </div>
 
                                     {condId !== "Clean" && (
-                                      <span
-                                        className={`px-1.5 py-0.5 rounded text-[10px] font-bold block w-fit ${
-                                          isRetained
-                                            ? "bg-emerald-500/10 text-emerald-500"
-                                            : "bg-rose-500/10 text-rose-500"
-                                        }`}
-                                      >
-                                        {isRetained ? "Retained" : "Shifted"}
-                                      </span>
+                                      <div className="flex items-center gap-1.5 flex-wrap">
+                                        <span
+                                          className={`px-1.5 py-0.5 rounded text-[10px] font-bold block w-fit ${
+                                            isRetained
+                                              ? "bg-emerald-500/10 text-emerald-500 border border-emerald-500/20"
+                                              : "bg-rose-500/10 text-rose-500 border border-rose-500/20"
+                                          }`}
+                                        >
+                                          {isRetained ? "Retained" : "Shifted"}
+                                        </span>
+                                        {deltaConf !== null && (
+                                          <span className={`text-[10px] font-mono font-medium ${deltaConf >= 0 ? "text-emerald-500" : "text-amber-500"}`}>
+                                            Δ {deltaConf >= 0 ? `+${deltaConf.toFixed(1)}` : deltaConf.toFixed(1)}%
+                                          </span>
+                                        )}
+                                      </div>
                                     )}
 
                                     {/* Top-5 toggle */}

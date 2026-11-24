@@ -99,26 +99,34 @@ export async function POST(request: Request) {
     const rawHfToken = process.env.HF_TOKEN?.trim();
     const hfToken = rawHfToken as `hf_${string}` | undefined;
 
-    // Keep corruption and severity arguments unchanged unless missing
-    const normalizedSeverity = Number(severity) || 3;
-    const normalizedCorruption = corruption || "gaussian_noise";
-    
+    // Resolve corruption: "none", "identity", "passthrough" or null means pure uncorrupted passthrough
+    const isPassthrough =
+      corruption === "none" ||
+      corruption === "identity" ||
+      corruption === "passthrough" ||
+      corruption === null ||
+      corruption === undefined;
+
+    const normalizedSeverity = Number(severity) || 1;
+    // Gradio dropdown choice allows null for uncorrupted passthrough without validation error
+    const gradioCorruption = isPassthrough ? null : (corruption || "gaussian_noise");
+
     // Connect to the Gradio space using server-side token for ZeroGPU quota
     const client = await Client.connect(hfEndpoint, {
       ...(hfToken ? { token: hfToken } : {}),
     });
-    
+
     // Convert base64 image to Blob reliably in Node
     const base64Data = image.split(',')[1];
     const mimeType = image.split(',')[0].split(':')[1].split(';')[0];
     const buffer = Buffer.from(base64Data, 'base64');
     const imageBlob = new Blob([buffer], { type: mimeType });
-    
+
     // Send prediction request with mappedModel
     const result = await client.predict("/run_inference", [
       imageBlob,
       mappedModel,
-      normalizedCorruption,
+      gradioCorruption,
       normalizedSeverity,
     ]);
     

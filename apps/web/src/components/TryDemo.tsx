@@ -968,6 +968,7 @@ export default function TryDemo() {
           className="flex flex-col gap-8"
         >
           <ResearchLabView
+            key={preview}
             preview={preview}
             sourceMeta={sourceMeta}
             sampleGroundTruth={sampleGroundTruth}

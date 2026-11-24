@@ -112,107 +112,66 @@ export default function ResearchLabView({
   const [inferenceMatrix, setInferenceMatrix] = useState<Record<string, Record<string, ModelPredictionResult>> | null>(null);
   const [expandedPredKeys, setExpandedPredKeys] = useState<Record<string, boolean>>({});
 
-  // Convert any image source (URL or blob) to base64 Data URL
-  const toBase64DataUrl = async (src: string): Promise<string> => {
-    if (src.startsWith("data:")) return src;
-    const res = await fetch(src);
-    const blob = await res.blob();
+  // Convert any image source (URL or blob) to base64 Data URL via offscreen canvas
+  const getCanvasDataUrl = (imgSrc: string): Promise<string> => {
+    if (imgSrc.startsWith("data:image/")) return Promise.resolve(imgSrc);
     return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = () => reject(new Error("Failed to encode clean image to Data URL"));
-      reader.readAsDataURL(blob);
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = () => {
+        try {
+          const canvas = document.createElement("canvas");
+          canvas.width = img.naturalWidth || 224;
+          canvas.height = img.naturalHeight || 224;
+          const ctx = canvas.getContext("2d");
+          if (!ctx) return reject(new Error("Canvas 2D context failed"));
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          resolve(canvas.toDataURL("image/jpeg", 0.95));
+        } catch (err) {
+          reject(err);
+        }
+      };
+      img.onerror = () => reject(new Error("Image load failed for data URL conversion"));
+      img.src = imgSrc;
     });
   };
 
-  // Synthesize 6 permutations with intermediate stages and exact fingerprints
-  const handleSynthesize = async () => {
-    if (!preview) return;
-    setIsSynthesizing(true);
-    setSynthesisError(null);
-
-    try {
-      const orders: CompoundSequenceOrder[] = ["NBJ", "NJB", "BNJ", "BJN", "JNB", "JBN"];
-      const levelSpec = FROZEN_CALIBRATION_3LEVELS[researchLevel];
-      const results: Partial<Record<CompoundSequenceOrder, SynthesizedSequenceFull>> = {};
-
-      for (const ord of orders) {
-        const params = levelSpec.sequences[ord];
-        const seqResult: CompoundSequenceResult = await applyCompoundSequenceWithStages(preview, ord, {
-          noise_std: params.noise_std,
-          blur_sigma: params.blur_sigma,
-          jpeg_quality: params.jpeg_quality,
-        });
-
-        // Compute exact manuscript fingerprints & visual diagnostic maps
-        const [fps, visualMaps] = await Promise.all([
-          computeManuscriptFingerprints(preview, seqResult.finalDataUrl),
-          generateFingerprintVisualMaps(preview, seqResult.finalDataUrl),
-        ]);
-
-        const psnrErr = Math.round((fps.psnr_db - levelSpec.target_psnr) * 100) / 100;
-        const ssimErr = Math.round((fps.mean_ssim - levelSpec.target_ssim) * 1000) / 1000;
-        const withinTol = Math.abs(psnrErr) <= 0.75 && Math.abs(ssimErr) <= 0.035;
-
-        results[ord] = {
-          sequence: ord,
-          finalDataUrl: seqResult.finalDataUrl,
-          stages: seqResult.stages,
-          fingerprints: fps,
-          visualMaps,
-          withinTol,
-          psnrErr,
-          ssimErr,
-        };
-      }
-
-      setSynthesizedData(
-        results as Record<CompoundSequenceOrder, SynthesizedSequenceFull>
-      );
-    } catch (err: unknown) {
-      console.error("Synthesis error:", err);
-      setSynthesisError(err instanceof Error ? err.message : "Failed to synthesize permutations");
-    } finally {
-      setIsSynthesizing(false);
-    }
-  };
-
-  // Run genuine Hugging Face ZeroGPU inference across Clean Baseline + all 6 Permutations
-  const handleRunInferenceMatrix = async () => {
-    if (!preview || !synthesizedData) return;
+  // Run genuine Hugging Face ZeroGPU inference across Clean Baseline + all 6 Permutations (28 total passes)
+  const runAutomaticInference = async (
+    srcPreview: string,
+    synthMap: Record<CompoundSequenceOrder, SynthesizedSequenceFull>
+  ) => {
     setIsInferringMatrix(true);
     setSynthesisError(null);
 
-    let cleanDataUrl = preview;
+    let cleanDataUrl = srcPreview;
     try {
-      cleanDataUrl = await toBase64DataUrl(preview);
+      cleanDataUrl = await getCanvasDataUrl(srcPreview);
     } catch (e) {
       console.error("Clean image base64 conversion failed:", e);
     }
 
     const conditions: { id: string; label: string; dataUrl: string }[] = [
       { id: "Clean", label: "Clean Baseline", dataUrl: cleanDataUrl },
-      { id: "NBJ", label: "NBJ (Noise→Blur→JPEG)", dataUrl: synthesizedData.NBJ.finalDataUrl },
-      { id: "NJB", label: "NJB (Noise→JPEG→Blur)", dataUrl: synthesizedData.NJB.finalDataUrl },
-      { id: "BNJ", label: "BNJ (Blur→Noise→JPEG)", dataUrl: synthesizedData.BNJ.finalDataUrl },
-      { id: "BJN", label: "BJN (Blur→JPEG→Noise)", dataUrl: synthesizedData.BJN.finalDataUrl },
-      { id: "JNB", label: "JNB (JPEG→Noise→Blur)", dataUrl: synthesizedData.JNB.finalDataUrl },
-      { id: "JBN", label: "JBN (JPEG→Blur→Noise)", dataUrl: synthesizedData.JBN.finalDataUrl },
+      { id: "NBJ", label: "NBJ (Noise→Blur→JPEG)", dataUrl: synthMap.NBJ.finalDataUrl },
+      { id: "NJB", label: "NJB (Noise→JPEG→Blur)", dataUrl: synthMap.NJB.finalDataUrl },
+      { id: "BNJ", label: "BNJ (Blur→Noise→JPEG)", dataUrl: synthMap.BNJ.finalDataUrl },
+      { id: "BJN", label: "BJN (Blur→JPEG→Noise)", dataUrl: synthMap.BJN.finalDataUrl },
+      { id: "JNB", label: "JNB (JPEG→Noise→Blur)", dataUrl: synthMap.JNB.finalDataUrl },
+      { id: "JBN", label: "JBN (JPEG→Blur→Noise)", dataUrl: synthMap.JBN.finalDataUrl },
     ];
 
-    const matrix: Record<string, Record<string, ModelPredictionResult>> = inferenceMatrix ? { ...inferenceMatrix } : {};
+    const matrix: Record<string, Record<string, ModelPredictionResult>> = {};
 
     try {
       for (let i = 0; i < conditions.length; i++) {
         const cond = conditions[i];
-        if (matrix[cond.id] && Object.keys(matrix[cond.id]).length >= 4) {
-          continue; // Already evaluated
-        }
+        const currentPass = (i + 1) * 4;
 
         setInferenceProgress({
-          current: i + 1,
-          total: conditions.length,
-          label: `Evaluating ${cond.label} across 4 vision architectures...`,
+          current: currentPass,
+          total: 28,
+          label: `Evaluating ${cond.label} across 4 vision architectures (${currentPass}/28 model passes)...`,
         });
 
         let attempt = 0;
@@ -264,8 +223,8 @@ export default function ResearchLabView({
         }
 
         if (!success) {
-          console.warn(`Condition ${cond.id} inference failed:`, lastError);
-          setSynthesisError(`Inference notice on ${cond.label}: ${lastError}. Completed conditions are preserved.`);
+          console.warn(`Condition ${cond.id} inference notice:`, lastError);
+          setSynthesisError(`Notice on ${cond.label}: ${lastError}. Completed conditions are preserved.`);
         }
       }
     } catch (err: unknown) {
@@ -278,6 +237,68 @@ export default function ResearchLabView({
     } finally {
       setIsInferringMatrix(false);
       setInferenceProgress(null);
+    }
+  };
+
+  // Synthesize 6 permutations with intermediate stages, compute fingerprints, and automatically evaluate predictions
+  const handleSynthesize = async () => {
+    if (!preview) return;
+    setIsSynthesizing(true);
+    setSynthesisError(null);
+    setInferenceMatrix(null);
+
+    try {
+      const orders: CompoundSequenceOrder[] = ["NBJ", "NJB", "BNJ", "BJN", "JNB", "JBN"];
+      const levelSpec = FROZEN_CALIBRATION_3LEVELS[researchLevel];
+      const results: Partial<Record<CompoundSequenceOrder, SynthesizedSequenceFull>> = {};
+
+      for (const ord of orders) {
+        const params = levelSpec.sequences[ord];
+        const seqResult: CompoundSequenceResult = await applyCompoundSequenceWithStages(preview, ord, {
+          noise_std: params.noise_std,
+          blur_sigma: params.blur_sigma,
+          jpeg_quality: params.jpeg_quality,
+        });
+
+        // Compute exact manuscript fingerprints & visual diagnostic maps
+        const [fps, visualMaps] = await Promise.all([
+          computeManuscriptFingerprints(preview, seqResult.finalDataUrl),
+          generateFingerprintVisualMaps(preview, seqResult.finalDataUrl),
+        ]);
+
+        const psnrErr = Math.round((fps.psnr_db - levelSpec.target_psnr) * 100) / 100;
+        const ssimErr = Math.round((fps.mean_ssim - levelSpec.target_ssim) * 1000) / 1000;
+        const withinTol = Math.abs(psnrErr) <= 0.75 && Math.abs(ssimErr) <= 0.035;
+
+        results[ord] = {
+          sequence: ord,
+          finalDataUrl: seqResult.finalDataUrl,
+          stages: seqResult.stages,
+          fingerprints: fps,
+          visualMaps,
+          withinTol,
+          psnrErr,
+          ssimErr,
+        };
+      }
+
+      const synthesizedMap = results as Record<CompoundSequenceOrder, SynthesizedSequenceFull>;
+      setSynthesizedData(synthesizedMap);
+      setIsSynthesizing(false);
+
+      // Automatically launch genuine 4-architecture evaluation across Clean + all 6 sequences
+      await runAutomaticInference(preview, synthesizedMap);
+    } catch (err: unknown) {
+      console.error("Synthesis error:", err);
+      setSynthesisError(err instanceof Error ? err.message : "Failed to synthesize permutations");
+      setIsSynthesizing(false);
+    }
+  };
+
+  // Re-run inference across existing synthesized sequences
+  const handleReevaluate = () => {
+    if (preview && synthesizedData) {
+      runAutomaticInference(preview, synthesizedData);
     }
   };
 
@@ -651,11 +672,18 @@ export default function ResearchLabView({
               size="lg"
               variant="primary"
               className="w-full h-12 text-sm font-bold shadow-lg shadow-primary/20 rounded-xl cursor-pointer"
-              isDisabled={isSynthesizing}
+              isDisabled={isSynthesizing || isInferringMatrix}
               onPress={handleSynthesize}
             >
               {isSynthesizing ? (
-                "Synthesizing 6 Permutations..."
+                <span className="flex items-center gap-2">
+                  <Activity className="w-4 h-4 animate-spin" /> Synthesizing 6 Permutations...
+                </span>
+              ) : isInferringMatrix ? (
+                <span className="flex items-center gap-2">
+                  <Activity className="w-4 h-4 animate-spin" />
+                  Evaluating GPUs ({inferenceProgress ? `${inferenceProgress.current}/${inferenceProgress.total}` : "..."})...
+                </span>
               ) : (
                 <>
                   Synthesize 6 Permutations <ArrowRight className="ml-1.5 w-4 h-4" />
@@ -691,7 +719,7 @@ export default function ResearchLabView({
       {/* ========================================================================= */}
       {synthesizedData && !isSynthesizing && (
         <div className="space-y-12">
-          {/* Action Bar: Export Run Passport & Run Inference */}
+          {/* Action Bar: Export Run Passport & Status */}
           <div className="p-6 rounded-3xl bg-card border border-border/60 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <div className="flex items-center gap-2">
@@ -706,7 +734,7 @@ export default function ResearchLabView({
               </p>
             </div>
 
-            {/* Passport Export Buttons (Priority 4) */}
+            {/* Passport Export Buttons (Priority 4) & Status */}
             <div className="flex flex-wrap items-center gap-2.5">
               <Button
                 variant="outline"
@@ -724,16 +752,18 @@ export default function ResearchLabView({
               >
                 <Download className="w-3.5 h-3.5 mr-1" /> Export Passport (CSV)
               </Button>
-              <Button
-                variant="primary"
-                size="sm"
-                className="text-xs font-bold cursor-pointer shadow-md"
-                isDisabled={isInferringMatrix}
-                onPress={handleRunInferenceMatrix}
-              >
-                <Cpu className="w-3.5 h-3.5 mr-1" />
-                {isInferringMatrix ? "Evaluating GPU Models..." : "Run Neural Predictions"}
-              </Button>
+              {isInferringMatrix && (
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-primary/10 border border-primary/20 text-primary text-xs font-bold">
+                  <Activity className="w-3.5 h-3.5 animate-spin" />
+                  <span>Evaluating GPUs ({inferenceProgress ? `${inferenceProgress.current}/${inferenceProgress.total}` : "..."})</span>
+                </div>
+              )}
+              {inferenceMatrix && !isInferringMatrix && (
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-xs font-bold">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  <span>28 Passes Evaluated</span>
+                </div>
+              )}
             </div>
           </div>
 
@@ -1152,30 +1182,33 @@ export default function ResearchLabView({
                 </div>
                 <h4 className="text-2xl font-black tracking-tight">Four-Architecture Prediction Comparison Matrix</h4>
                 <p className="text-xs text-muted-foreground mt-0.5">
-                  Evaluates model prediction churn and softmax score transition relative to the clean baseline across all six compound sequences.
+                  Evaluates model prediction churn and softmax score transition relative to the clean baseline across all six compound sequences (28 forward passes).
                 </p>
               </div>
 
-              <Button
-                variant="primary"
-                size="sm"
-                isDisabled={isInferringMatrix}
-                onPress={handleRunInferenceMatrix}
-                className="font-bold cursor-pointer shadow-md text-xs"
-              >
-                {isInferringMatrix ? (
-                  <span className="flex items-center gap-1.5">
-                    <Activity className="w-3.5 h-3.5 animate-spin" /> Evaluating GPUs...
-                  </span>
-                ) : inferenceMatrix ? (
-                  "Re-evaluate All 4 Architectures"
-                ) : (
-                  "Evaluate All 4 Architectures"
-                )}
-              </Button>
+              {isInferringMatrix ? (
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-primary/10 border border-primary/20 text-primary text-xs font-bold">
+                  <Activity className="w-3.5 h-3.5 animate-spin" />
+                  <span>Evaluating GPUs ({inferenceProgress ? `${inferenceProgress.current}/${inferenceProgress.total}` : "..."})</span>
+                </div>
+              ) : inferenceMatrix ? (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onPress={handleReevaluate}
+                  className="font-bold cursor-pointer text-xs"
+                >
+                  Re-evaluate Predictions
+                </Button>
+              ) : (
+                <div className="text-xs text-muted-foreground font-medium flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-primary/40 animate-pulse" />
+                  <span>Auto-evaluates on synthesis</span>
+                </div>
+              )}
             </div>
 
-            {inferenceMatrix ? (
+            {inferenceMatrix || isInferringMatrix ? (
               <div className="space-y-4">
                 <div className="overflow-x-auto rounded-2xl border border-border/60">
                   <table className="w-full text-xs text-left">
@@ -1190,8 +1223,8 @@ export default function ResearchLabView({
                     </thead>
                     <tbody className="divide-y divide-border/40">
                       {(["Clean", "NBJ", "NJB", "BNJ", "BJN", "JNB", "JBN"] as const).map((condId) => {
-                        const rowModels = inferenceMatrix[condId];
-                        const cleanRow = inferenceMatrix.Clean;
+                        const rowModels = inferenceMatrix ? inferenceMatrix[condId] : null;
+                        const cleanRow = inferenceMatrix ? inferenceMatrix.Clean : null;
 
                         return (
                           <tr key={condId} className={condId === "Clean" ? "bg-muted/20 font-bold" : ""}>
@@ -1211,7 +1244,13 @@ export default function ResearchLabView({
                               if (!pred) {
                                 return (
                                   <td key={mName} className="p-3 text-muted-foreground italic">
-                                    {isInferringMatrix ? "Evaluating..." : "Pending"}
+                                    {isInferringMatrix ? (
+                                      <span className="flex items-center gap-1.5 text-xs text-primary font-medium animate-pulse">
+                                        <Activity className="w-3 h-3 animate-spin" /> Evaluating...
+                                      </span>
+                                    ) : (
+                                      <span className="text-xs text-muted-foreground">Pending</span>
+                                    )}
                                   </td>
                                 );
                               }
@@ -1304,7 +1343,7 @@ export default function ResearchLabView({
                 <Cpu className="w-8 h-8 text-muted-foreground mx-auto mb-2 opacity-50" />
                 <p className="text-sm font-semibold text-foreground">Neural Predictions Not Yet Evaluated</p>
                 <p className="text-xs text-muted-foreground mt-1 max-w-md mx-auto">
-                  Click the button above to execute live Hugging Face ZeroGPU inference across all four vision architectures for the clean baseline and six sequence outputs.
+                  Click &ldquo;Synthesize 6 Permutations&rdquo; above to automatically execute live Hugging Face ZeroGPU inference across all four vision architectures for the clean baseline and six sequence outputs.
                 </p>
               </div>
             )}

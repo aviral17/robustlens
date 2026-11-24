@@ -74,3 +74,4 @@ temp_kernel_err2/
 temp_kernel_err3/
 tmp_check/
 results/matched_fidelity_study/imagenet_v2/imagenet_v2_extracted/
+.vercel

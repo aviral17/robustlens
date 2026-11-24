@@ -8,14 +8,11 @@ import {
   Activity,
   Settings2,
   BarChart2,
-  CheckCircle2,
   AlertCircle,
   Clock,
   Sparkles,
   ChevronDown,
   ChevronUp,
-  RotateCcw,
-  Sliders,
   Layers,
   ShieldCheck,
   Eye,
@@ -89,7 +86,7 @@ export default function TryDemo() {
   const [activeTab, setActiveTab] = useState<"quick_demo" | "research_lab">("quick_demo");
 
   // Common input states:
-  const [file, setFile] = useState<File | null>(null);
+  const [, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [sampleGroundTruth, setSampleGroundTruth] = useState<string | null>(null);
 
@@ -146,6 +143,7 @@ export default function TryDemo() {
 
   useEffect(() => {
     if (preview) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       updateLivePreviewAndDiagnostics(preview, corruption, severity);
     } else {
       setLiveCorruptedPreview(null);
@@ -1086,12 +1084,30 @@ export default function TryDemo() {
                 </div>
               </div>
 
-              {/* Action Button */}
+              {/* Architecture Target & Action Button */}
               <div className="space-y-3">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground block">
+                    Target Architecture
+                  </label>
+                  <Select value={researchModel} onValueChange={setResearchModel}>
+                    <SelectTrigger className="w-full h-11 text-xs rounded-xl font-medium" aria-label="Select target architecture">
+                      <SelectValue placeholder="Select architecture" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Compare All 4 Architectures</SelectItem>
+                      <SelectItem value="resnet">ResNet-50 (Standard CNN)</SelectItem>
+                      <SelectItem value="convnext">ConvNeXt-Tiny (Modern CNN)</SelectItem>
+                      <SelectItem value="vit">ViT-Base (Vision Transformer)</SelectItem>
+                      <SelectItem value="swin">Swin-Tiny (Shifted Windows ViT)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
                 <Button
                   size="lg"
                   variant="primary"
-                  className="w-full h-14 text-base font-bold shadow-lg shadow-primary/20 rounded-2xl cursor-pointer"
+                  className="w-full h-12 text-sm font-bold shadow-lg shadow-primary/20 rounded-xl cursor-pointer"
                   isDisabled={isSynthesizingSequences}
                   onPress={handleSynthesizeSequences}
                 >
@@ -1099,7 +1115,7 @@ export default function TryDemo() {
                     "Synthesizing 6 Sequences..."
                   ) : (
                     <>
-                      Synthesize 6 Permutations <ArrowRight className="ml-2 w-4 h-4" />
+                      Synthesize 6 Permutations <ArrowRight className="ml-1.5 w-4 h-4" />
                     </>
                   )}
                 </Button>

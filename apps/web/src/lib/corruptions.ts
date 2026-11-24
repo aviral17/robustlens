@@ -20,9 +20,9 @@ export interface CorruptionOptions {
  * Standard Box-Muller transform for generating Gaussian random variables
  */
 function gaussianRandom(mean = 0, stdev = 1): number {
-  let u = 1 - Math.random(); // Subtraction to get (0, 1]
-  let v = Math.random();
-  let z = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+  const u = 1 - Math.random(); // Subtraction to get (0, 1]
+  const v = Math.random();
+  const z = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
   return z * stdev + mean;
 }
 

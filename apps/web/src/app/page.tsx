@@ -2,7 +2,7 @@
 
 import { motion } from "motion/react";
 import Link from "next/link";
-import { ArrowRight, Activity, Zap, BarChart, Shuffle, Scale, ShieldCheck, Layers } from "lucide-react";
+import { ArrowRight, Activity, Zap, BarChart, Shuffle, ShieldCheck, Layers } from "lucide-react";
 import TryDemo from "@/components/TryDemo";
 
 const features = [

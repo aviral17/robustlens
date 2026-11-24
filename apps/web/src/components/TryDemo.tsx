@@ -961,12 +961,8 @@ export default function TryDemo() {
       {/* ========================================================================= */}
       {/* TAB 2: MATCHED-FIDELITY SIX-ORDER RESEARCH LAB                           */}
       {/* ========================================================================= */}
-      {activeTab === "research_lab" && preview && (
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex flex-col gap-8"
-        >
+      {preview && (
+        <div className={activeTab === "research_lab" ? "flex flex-col gap-8" : "hidden"}>
           <ResearchLabView
             key={preview}
             preview={preview}
@@ -975,7 +971,7 @@ export default function TryDemo() {
             onChangeImage={() => fileInputRef.current?.click()}
             onRemoveImage={handleRemoveImage}
           />
-        </motion.div>
+        </div>
       )}
     </div>
   );

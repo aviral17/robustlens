@@ -136,42 +136,56 @@ export default function ResearchLabView({
     });
   };
 
-  // Run genuine Hugging Face ZeroGPU inference across Clean Baseline + all 6 Permutations (28 total passes)
-  const runAutomaticInference = async (
-    srcPreview: string,
-    synthMap: Record<CompoundSequenceOrder, SynthesizedSequenceFull>
-  ) => {
+  // Run genuine Hugging Face ZeroGPU inference across Clean Baseline + all 6 Permutations
+  const handleEvaluatePredictions = async () => {
+    if (!preview || !synthesizedData || isInferringMatrix) return;
     setIsInferringMatrix(true);
     setSynthesisError(null);
 
-    let cleanDataUrl = srcPreview;
+    let cleanDataUrl = preview;
     try {
-      cleanDataUrl = await getCanvasDataUrl(srcPreview);
+      cleanDataUrl = await getCanvasDataUrl(preview);
     } catch (e) {
       console.error("Clean image base64 conversion failed:", e);
     }
 
     const conditions: { id: string; label: string; dataUrl: string }[] = [
       { id: "Clean", label: "Clean Baseline", dataUrl: cleanDataUrl },
-      { id: "NBJ", label: "NBJ (Noise→Blur→JPEG)", dataUrl: synthMap.NBJ.finalDataUrl },
-      { id: "NJB", label: "NJB (Noise→JPEG→Blur)", dataUrl: synthMap.NJB.finalDataUrl },
-      { id: "BNJ", label: "BNJ (Blur→Noise→JPEG)", dataUrl: synthMap.BNJ.finalDataUrl },
-      { id: "BJN", label: "BJN (Blur→JPEG→Noise)", dataUrl: synthMap.BJN.finalDataUrl },
-      { id: "JNB", label: "JNB (JPEG→Noise→Blur)", dataUrl: synthMap.JNB.finalDataUrl },
-      { id: "JBN", label: "JBN (JPEG→Blur→Noise)", dataUrl: synthMap.JBN.finalDataUrl },
+      { id: "NBJ", label: "NBJ (Noise→Blur→JPEG)", dataUrl: synthesizedData.NBJ.finalDataUrl },
+      { id: "NJB", label: "NJB (Noise→JPEG→Blur)", dataUrl: synthesizedData.NJB.finalDataUrl },
+      { id: "BNJ", label: "BNJ (Blur→Noise→JPEG)", dataUrl: synthesizedData.BNJ.finalDataUrl },
+      { id: "BJN", label: "BJN (Blur→JPEG→Noise)", dataUrl: synthesizedData.BJN.finalDataUrl },
+      { id: "JNB", label: "JNB (JPEG→Noise→Blur)", dataUrl: synthesizedData.JNB.finalDataUrl },
+      { id: "JBN", label: "JBN (JPEG→Blur→Noise)", dataUrl: synthesizedData.JBN.finalDataUrl },
     ];
 
-    const matrix: Record<string, Record<string, ModelPredictionResult>> = {};
+    const isAll = selectedArchitecture === "all";
+    const totalPasses = isAll ? conditions.length * 4 : conditions.length;
+    const archLabel = isAll
+      ? "all 4 architectures"
+      : selectedArchitecture === "resnet"
+      ? "ResNet-50"
+      : selectedArchitecture === "convnext"
+      ? "ConvNeXt-Tiny"
+      : selectedArchitecture === "vit"
+      ? "ViT-Base"
+      : selectedArchitecture === "swin"
+      ? "Swin-Tiny"
+      : selectedArchitecture;
+
+    const matrix: Record<string, Record<string, ModelPredictionResult>> = inferenceMatrix
+      ? { ...inferenceMatrix }
+      : {};
 
     try {
       for (let i = 0; i < conditions.length; i++) {
         const cond = conditions[i];
-        const currentPass = (i + 1) * 4;
+        const currentPass = isAll ? (i + 1) * 4 : i + 1;
 
         setInferenceProgress({
           current: currentPass,
-          total: 28,
-          label: `Evaluating ${cond.label} across 4 vision architectures (${currentPass}/28 model passes)...`,
+          total: totalPasses,
+          label: `Evaluating ${cond.label} on ${archLabel} (${currentPass}/${totalPasses})...`,
         });
 
         let attempt = 0;
@@ -186,7 +200,7 @@ export default function ResearchLabView({
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 image: cond.dataUrl,
-                model: "all",
+                model: selectedArchitecture,
                 corruption: "none",
                 severity: 1,
               }),
@@ -199,16 +213,16 @@ export default function ResearchLabView({
 
             const apiResult = data.result;
             if (apiResult && apiResult.status === "success" && Array.isArray(apiResult.results)) {
-              const modelMap: Record<string, ModelPredictionResult> = {};
+              const existingRow = matrix[cond.id] ? { ...matrix[cond.id] } : {};
               for (const m of apiResult.results) {
-                modelMap[m.model] = {
+                existingRow[m.model] = {
                   model: m.model,
                   prediction: m.prediction,
                   confidence: m.confidence,
                   top_k: m.top_k,
                 };
               }
-              matrix[cond.id] = modelMap;
+              matrix[cond.id] = existingRow;
               setInferenceMatrix({ ...matrix });
               success = true;
             } else {
@@ -240,12 +254,11 @@ export default function ResearchLabView({
     }
   };
 
-  // Synthesize 6 permutations with intermediate stages, compute fingerprints, and automatically evaluate predictions
+  // Synthesize 6 permutations with intermediate stages and compute fingerprints (Priority 1 & Priority 2)
   const handleSynthesize = async () => {
     if (!preview) return;
     setIsSynthesizing(true);
     setSynthesisError(null);
-    setInferenceMatrix(null);
 
     try {
       const orders: CompoundSequenceOrder[] = ["NBJ", "NJB", "BNJ", "BJN", "JNB", "JBN"];
@@ -284,21 +297,11 @@ export default function ResearchLabView({
 
       const synthesizedMap = results as Record<CompoundSequenceOrder, SynthesizedSequenceFull>;
       setSynthesizedData(synthesizedMap);
-      setIsSynthesizing(false);
-
-      // Automatically launch genuine 4-architecture evaluation across Clean + all 6 sequences
-      await runAutomaticInference(preview, synthesizedMap);
     } catch (err: unknown) {
       console.error("Synthesis error:", err);
       setSynthesisError(err instanceof Error ? err.message : "Failed to synthesize permutations");
+    } finally {
       setIsSynthesizing(false);
-    }
-  };
-
-  // Re-run inference across existing synthesized sequences
-  const handleReevaluate = () => {
-    if (preview && synthesizedData) {
-      runAutomaticInference(preview, synthesizedData);
     }
   };
 
@@ -672,17 +675,12 @@ export default function ResearchLabView({
               size="lg"
               variant="primary"
               className="w-full h-12 text-sm font-bold shadow-lg shadow-primary/20 rounded-xl cursor-pointer"
-              isDisabled={isSynthesizing || isInferringMatrix}
+              isDisabled={isSynthesizing}
               onPress={handleSynthesize}
             >
               {isSynthesizing ? (
                 <span className="flex items-center gap-2">
                   <Activity className="w-4 h-4 animate-spin" /> Synthesizing 6 Permutations...
-                </span>
-              ) : isInferringMatrix ? (
-                <span className="flex items-center gap-2">
-                  <Activity className="w-4 h-4 animate-spin" />
-                  Evaluating GPUs ({inferenceProgress ? `${inferenceProgress.current}/${inferenceProgress.total}` : "..."})...
                 </span>
               ) : (
                 <>
@@ -761,7 +759,7 @@ export default function ResearchLabView({
               {inferenceMatrix && !isInferringMatrix && (
                 <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-xs font-bold">
                   <ShieldCheck className="w-3.5 h-3.5" />
-                  <span>28 Passes Evaluated</span>
+                  <span>Predictions Evaluated</span>
                 </div>
               )}
             </div>
@@ -1195,16 +1193,21 @@ export default function ResearchLabView({
                 <Button
                   variant="outline"
                   size="sm"
-                  onPress={handleReevaluate}
+                  onPress={handleEvaluatePredictions}
                   className="font-bold cursor-pointer text-xs"
                 >
                   Re-evaluate Predictions
                 </Button>
               ) : (
-                <div className="text-xs text-muted-foreground font-medium flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-primary/40 animate-pulse" />
-                  <span>Auto-evaluates on synthesis</span>
-                </div>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onPress={handleEvaluatePredictions}
+                  className="font-bold cursor-pointer text-xs shadow-md"
+                >
+                  <Cpu className="w-3.5 h-3.5 mr-1" />
+                  Evaluate Predictions
+                </Button>
               )}
             </div>
 
@@ -1339,12 +1342,23 @@ export default function ResearchLabView({
                 </p>
               </div>
             ) : (
-              <div className="p-8 rounded-2xl bg-muted/20 border border-dashed border-border/60 text-center">
+              <div className="p-8 rounded-2xl bg-muted/20 border border-dashed border-border/60 text-center space-y-4">
                 <Cpu className="w-8 h-8 text-muted-foreground mx-auto mb-2 opacity-50" />
-                <p className="text-sm font-semibold text-foreground">Neural Predictions Not Yet Evaluated</p>
-                <p className="text-xs text-muted-foreground mt-1 max-w-md mx-auto">
-                  Click &ldquo;Synthesize 6 Permutations&rdquo; above to automatically execute live Hugging Face ZeroGPU inference across all four vision architectures for the clean baseline and six sequence outputs.
-                </p>
+                <div>
+                  <p className="text-sm font-semibold text-foreground">Neural Predictions Not Yet Evaluated</p>
+                  <p className="text-xs text-muted-foreground mt-1 max-w-md mx-auto">
+                    Click &ldquo;Evaluate Predictions&rdquo; to execute live Hugging Face ZeroGPU inference across vision architectures for the clean baseline and six sequence outputs.
+                  </p>
+                </div>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onPress={handleEvaluatePredictions}
+                  className="font-bold cursor-pointer text-xs shadow-md mx-auto"
+                >
+                  <Cpu className="w-3.5 h-3.5 mr-1" />
+                  Evaluate Predictions
+                </Button>
               </div>
             )}
           </div>

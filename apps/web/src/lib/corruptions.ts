@@ -189,21 +189,66 @@ export const FROZEN_CALIBRATION_3LEVELS: Record<ResearchLevelKey, ResearchLevelS
   },
 };
 
+export interface SequenceStageInfo {
+  stageIndex: number;
+  label: string;
+  operatorCode: 'Clean' | 'N' | 'B' | 'J';
+  operatorName: string;
+  parameterDescription: string;
+  dataUrl: string;
+}
+
+export interface CompoundSequenceResult {
+  sequence: CompoundSequenceOrder;
+  finalDataUrl: string;
+  stages: [SequenceStageInfo, SequenceStageInfo, SequenceStageInfo, SequenceStageInfo];
+}
+
 /**
- * Applies a 3-stage compound sequential distortion (N, B, J permutations) to an image
- * using exact physical order and parameters.
+ * Applies a 3-stage compound sequential distortion (N, B, J permutations) to an image,
+ * capturing all intermediate states (Stage 0..3) for microscopic inspection.
  */
-export async function applyCompoundSequence(
+export async function applyCompoundSequenceWithStages(
   imageSrc: string,
   sequence: CompoundSequenceOrder,
   params: { noise_std: number; blur_sigma: number; jpeg_quality: number }
-): Promise<string> {
-  let currentSrc = imageSrc;
-
-  // Split sequence into individual operations: e.g. 'NBJ' -> ['N', 'B', 'J']
+): Promise<CompoundSequenceResult> {
   const ops = sequence.split('') as ('N' | 'B' | 'J')[];
 
-  for (const op of ops) {
+  const getOpDetails = (op: 'N' | 'B' | 'J') => {
+    if (op === 'N') {
+      return {
+        name: 'Gaussian Noise',
+        param: `σ = ${params.noise_std}`,
+      };
+    }
+    if (op === 'B') {
+      return {
+        name: 'Defocus Blur',
+        param: `σ = ${params.blur_sigma} px`,
+      };
+    }
+    return {
+      name: 'JPEG Compression',
+      param: `Q = ${params.jpeg_quality}`,
+    };
+  };
+
+  const stage0: SequenceStageInfo = {
+    stageIndex: 0,
+    label: 'Stage 0: Clean Baseline',
+    operatorCode: 'Clean',
+    operatorName: 'Clean Source',
+    parameterDescription: 'Baseline uncorrupted input',
+    dataUrl: imageSrc,
+  };
+
+  const intermediateStages: SequenceStageInfo[] = [];
+  let currentSrc = imageSrc;
+
+  for (let i = 0; i < ops.length; i++) {
+    const op = ops[i];
+    const details = getOpDetails(op);
     const img = await loadImage(currentSrc);
     const canvas = document.createElement('canvas');
     const width = img.naturalWidth || img.width;
@@ -218,11 +263,11 @@ export async function applyCompoundSequence(
       const imgData = ctx.getImageData(0, 0, width, height);
       const data = imgData.data;
       const std = params.noise_std * 255;
-      for (let i = 0; i < data.length; i += 4) {
+      for (let p = 0; p < data.length; p += 4) {
         const noise = gaussianRandom(0, std);
-        data[i] = Math.min(255, Math.max(0, data[i] + noise));
-        data[i + 1] = Math.min(255, Math.max(0, data[i + 1] + noise));
-        data[i + 2] = Math.min(255, Math.max(0, data[i + 2] + noise));
+        data[p] = Math.min(255, Math.max(0, data[p] + noise));
+        data[p + 1] = Math.min(255, Math.max(0, data[p + 1] + noise));
+        data[p + 2] = Math.min(255, Math.max(0, data[p + 2] + noise));
       }
       ctx.putImageData(imgData, 0, 0);
       currentSrc = canvas.toDataURL('image/png');
@@ -235,7 +280,33 @@ export async function applyCompoundSequence(
       const quality = Math.max(0.01, Math.min(1.0, params.jpeg_quality / 100));
       currentSrc = canvas.toDataURL('image/jpeg', quality);
     }
+
+    intermediateStages.push({
+      stageIndex: i + 1,
+      label: `Stage ${i + 1}: ${details.name}`,
+      operatorCode: op,
+      operatorName: details.name,
+      parameterDescription: details.param,
+      dataUrl: currentSrc,
+    });
   }
 
-  return currentSrc;
+  return {
+    sequence,
+    finalDataUrl: currentSrc,
+    stages: [stage0, intermediateStages[0], intermediateStages[1], intermediateStages[2]],
+  };
+}
+
+/**
+ * Applies a 3-stage compound sequential distortion (N, B, J permutations) to an image
+ * using exact physical order and parameters.
+ */
+export async function applyCompoundSequence(
+  imageSrc: string,
+  sequence: CompoundSequenceOrder,
+  params: { noise_std: number; blur_sigma: number; jpeg_quality: number }
+): Promise<string> {
+  const res = await applyCompoundSequenceWithStages(imageSrc, sequence, params);
+  return res.finalDataUrl;
 }

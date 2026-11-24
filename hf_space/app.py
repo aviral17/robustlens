@@ -151,7 +151,7 @@ demo = gr.Interface(
     inputs=[
         gr.Image(type="pil", label="Input Image"),
         gr.Dropdown(choices=["ResNet-50", "ConvNeXt-Tiny", "ViT-Base", "Swin-Tiny", "Compare All Models"], label="Model"),
-        gr.Dropdown(choices=["gaussian_noise", "defocus_blur", "jpeg_compression", "brightness", "contrast"], label="Corruption"),
+        gr.Dropdown(choices=["none", "gaussian_noise", "defocus_blur", "jpeg_compression", "brightness", "contrast"], label="Corruption", value="gaussian_noise"),
         gr.Slider(minimum=1, maximum=5, step=1, label="Severity")
     ],
     outputs="json",

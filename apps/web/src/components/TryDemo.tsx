@@ -17,8 +17,6 @@ import {
   ShieldCheck,
   Eye,
   FlaskConical,
-  Info,
-  FileCode,
 } from "lucide-react";
 import {
   Select,
@@ -31,12 +29,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   applyClientPixelCorruption,
   CorruptionType,
-  CompoundSequenceOrder,
-  ResearchLevelKey,
-  FROZEN_CALIBRATION_3LEVELS,
-  applyCompoundSequence,
 } from "@/lib/corruptions";
 import { computeImageDiagnostics, ComputedDiagnostics } from "@/lib/diagnostics";
+import ResearchLabView, { SourceImageMeta } from "./ResearchLabView";
 
 interface ModelPrediction {
   name: string;
@@ -54,14 +49,6 @@ interface DemoResult {
   inferenceTime: number;
   sampleGroundTruth?: string;
   diagnostics?: ComputedDiagnostics | null;
-}
-
-interface SynthesizedSequenceItem {
-  dataUrl: string;
-  diag: ComputedDiagnostics;
-  withinTol: boolean;
-  psnrErr: number;
-  ssimErr: number;
 }
 
 const SAMPLE_PRESETS = [
@@ -88,6 +75,7 @@ export default function TryDemo() {
   // Common input states:
   const [, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const [sourceMeta, setSourceMeta] = useState<SourceImageMeta | null>(null);
   const [sampleGroundTruth, setSampleGroundTruth] = useState<string | null>(null);
 
   // Quick Demo parameters (nominal severities 1-5):
@@ -107,14 +95,6 @@ export default function TryDemo() {
   const [isQuotaError, setIsQuotaError] = useState(false);
   const [result, setResult] = useState<DemoResult | null>(null);
   const [expandedModel, setExpandedModel] = useState<string | null>(null);
-
-  // Research Mode states (Matched-Fidelity Six-Order Lab):
-  const [researchLevel, setResearchLevel] = useState<ResearchLevelKey>("Level_1_Mild");
-  const [researchModel, setResearchModel] = useState<string>("all");
-  const [isSynthesizingSequences, setIsSynthesizingSequences] = useState(false);
-  const [synthesizedSequences, setSynthesizedSequences] = useState<
-    Record<CompoundSequenceOrder, SynthesizedSequenceItem> | null
-  >(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -151,26 +131,72 @@ export default function TryDemo() {
     }
   }, [preview, corruption, severity, updateLivePreviewAndDiagnostics]);
 
+  const handleRemoveImage = useCallback(() => {
+    if (preview && preview.startsWith("blob:")) {
+      URL.revokeObjectURL(preview);
+    }
+    setPreview(null);
+    setFile(null);
+    setSourceMeta(null);
+    setSampleGroundTruth(null);
+    setResult(null);
+    setErrorMessage(null);
+    setIsQuotaError(false);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  }, [preview]);
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const f = e.target.files[0];
+      if (preview && preview.startsWith("blob:")) {
+        URL.revokeObjectURL(preview);
+      }
+      const url = URL.createObjectURL(f);
       setFile(f);
-      setPreview(URL.createObjectURL(f));
+      setPreview(url);
       setSampleGroundTruth(null);
       setResult(null);
-      setSynthesizedSequences(null);
       setErrorMessage(null);
       setIsQuotaError(false);
+
+      const img = new Image();
+      img.onload = () => {
+        const dims = `${img.naturalWidth} × ${img.naturalHeight} px`;
+        const format = f.type ? f.type.replace("image/", "").toUpperCase() : "IMAGE";
+        const sizeKb = (f.size / 1024).toFixed(1) + " KB";
+        setSourceMeta({
+          name: f.name,
+          dimensions: dims,
+          format: format,
+          size: sizeKb,
+        });
+      };
+      img.src = url;
     }
   };
 
   const selectSamplePreset = async (preset: (typeof SAMPLE_PRESETS)[0]) => {
+    if (preview && preview.startsWith("blob:")) {
+      URL.revokeObjectURL(preview);
+    }
     setSampleGroundTruth(preset.groundTruth);
     setPreview(preset.url);
     setResult(null);
-    setSynthesizedSequences(null);
     setErrorMessage(null);
     setIsQuotaError(false);
+
+    const img = new Image();
+    img.onload = () => {
+      setSourceMeta({
+        name: `${preset.name}.jpg`,
+        dimensions: `${img.naturalWidth} × ${img.naturalHeight} px`,
+        format: "JPEG",
+        size: "~45 KB",
+      });
+    };
+    img.src = preset.url;
 
     try {
       const res = await fetch(preset.url);
@@ -288,54 +314,16 @@ export default function TryDemo() {
     }
   };
 
-  // Research Mode: Synthesize 6 compound order sequences and compute achieved physical fidelity
-  const handleSynthesizeSequences = async () => {
-    if (!preview) return;
-    setIsSynthesizingSequences(true);
-    setErrorMessage(null);
-
-    try {
-      const orders: CompoundSequenceOrder[] = ["NBJ", "NJB", "BNJ", "BJN", "JNB", "JBN"];
-      const levelSpec = FROZEN_CALIBRATION_3LEVELS[researchLevel];
-      const results: Partial<Record<CompoundSequenceOrder, SynthesizedSequenceItem>> = {};
-
-      for (const ord of orders) {
-        const params = levelSpec.sequences[ord];
-        const seqDataUrl = await applyCompoundSequence(preview, ord, {
-          noise_std: params.noise_std,
-          blur_sigma: params.blur_sigma,
-          jpeg_quality: params.jpeg_quality,
-        });
-
-        const diag = await computeImageDiagnostics(preview, seqDataUrl);
-        const psnrErr = Math.round((diag.psnr_db - levelSpec.target_psnr) * 100) / 100;
-        const ssimErr = Math.round((diag.ssim - levelSpec.target_ssim) * 1000) / 1000;
-        const withinTol = Math.abs(psnrErr) <= 0.75 && Math.abs(ssimErr) <= 0.035;
-
-        results[ord] = {
-          dataUrl: seqDataUrl,
-          diag,
-          withinTol,
-          psnrErr,
-          ssimErr,
-        };
-      }
-
-      setSynthesizedSequences(
-        results as Record<CompoundSequenceOrder, SynthesizedSequenceItem>
-      );
-    } catch (err: unknown) {
-      console.error("Failed to synthesize sequences:", err);
-      setErrorMessage(
-        err instanceof Error ? err.message : "Failed to synthesize 6 compound sequences."
-      );
-    } finally {
-      setIsSynthesizingSequences(false);
-    }
-  };
-
   return (
     <div className="w-full max-w-[1300px] mx-auto mt-16 mb-24 relative font-[family-name:var(--font-poppins)]">
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleFileChange}
+        accept="image/png, image/jpeg, image/webp"
+        className="hidden"
+      />
+
       {/* Header & Scientific Context */}
       <div className="text-center mb-8">
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider mb-3">
@@ -435,13 +423,6 @@ export default function TryDemo() {
               WEBP
             </span>
           </div>
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleFileChange}
-            accept="image/png, image/jpeg, image/webp"
-            className="hidden"
-          />
         </motion.div>
       )}
 
@@ -479,14 +460,8 @@ export default function TryDemo() {
               <Button
                 variant="outline"
                 size="sm"
-                className="mt-3"
-                onPress={() => {
-                  setPreview(null);
-                  setFile(null);
-                  setSampleGroundTruth(null);
-                  setResult(null);
-                  setSynthesizedSequences(null);
-                }}
+                className="mt-3 cursor-pointer"
+                onPress={handleRemoveImage}
               >
                 Choose Different Image
               </Button>
@@ -778,13 +753,8 @@ export default function TryDemo() {
               </Button>
               <Button
                 variant="outline"
-                onPress={() => {
-                  setResult(null);
-                  setPreview(null);
-                  setFile(null);
-                  setSampleGroundTruth(null);
-                  setSynthesizedSequences(null);
-                }}
+                className="cursor-pointer"
+                onPress={handleRemoveImage}
               >
                 Upload New Image
               </Button>
@@ -997,386 +967,13 @@ export default function TryDemo() {
           animate={{ opacity: 1, y: 0 }}
           className="flex flex-col gap-8"
         >
-          {/* Research Lab Header & Configuration Card */}
-          <div className="bg-card border border-border/60 rounded-3xl p-8 shadow-xl">
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6 pb-6 border-b border-border/50">
-              <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider mb-2">
-                  <FlaskConical className="w-3.5 h-3.5" /> November 2026 Common-Support Protocol
-                </div>
-                <h3 className="text-2xl font-black tracking-tight">
-                  Matched-Fidelity Six-Order Permutation Lab
-                </h3>
-                <p className="text-sm text-muted-foreground mt-1 max-w-2xl">
-                  Evaluates all six compound sequences (NBJ, NJB, BNJ, BJN, JNB, JBN) using strictly frozen parameter triples calibrated on joint common support.
-                </p>
-              </div>
-
-              <Button
-                variant="outline"
-                size="sm"
-                onPress={() => {
-                  setPreview(null);
-                  setFile(null);
-                  setSampleGroundTruth(null);
-                  setSynthesizedSequences(null);
-                }}
-              >
-                Change Clean Image
-              </Button>
-            </div>
-
-            {/* Level & Model Selector Grid */}
-            <div className="grid md:grid-cols-3 gap-6 items-end">
-              {/* Research Level Selector */}
-              <div className="md:col-span-2 space-y-3">
-                <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground block">
-                  Select Calibrated Research Level (Joint PSNR / SSIM Target)
-                </label>
-                <div className="grid sm:grid-cols-3 gap-3">
-                  {(
-                    [
-                      {
-                        key: "Level_1_Mild",
-                        name: "Level 1: Mild",
-                        psnr: "27.20 dB",
-                        ssim: "0.810",
-                      },
-                      {
-                        key: "Level_2_Moderate",
-                        name: "Level 2: Moderate",
-                        psnr: "23.80 dB",
-                        ssim: "0.650",
-                      },
-                      {
-                        key: "Level_3_SevereCommon",
-                        name: "Level 3: Severe",
-                        psnr: "21.80 dB",
-                        ssim: "0.500",
-                      },
-                    ] as const
-                  ).map((lvl) => (
-                    <button
-                      key={lvl.key}
-                      onClick={() => {
-                        setResearchLevel(lvl.key);
-                        setSynthesizedSequences(null);
-                      }}
-                      className={`p-4 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
-                        researchLevel === lvl.key
-                          ? "bg-primary/10 border-primary text-foreground shadow-sm ring-1 ring-primary"
-                          : "bg-muted/30 border-border/50 text-muted-foreground hover:bg-muted/60"
-                      }`}
-                    >
-                      <div>
-                        <span className="text-xs font-extrabold uppercase tracking-wider block">
-                          {lvl.name}
-                        </span>
-                        <span className="text-lg font-black text-foreground mt-1 block">
-                          {lvl.psnr}
-                        </span>
-                      </div>
-                      <div className="mt-2 text-xs font-medium">
-                        Target SSIM: <span className="font-bold text-foreground">{lvl.ssim}</span>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Architecture Target & Action Button */}
-              <div className="space-y-3">
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground block">
-                    Target Architecture
-                  </label>
-                  <Select value={researchModel} onValueChange={setResearchModel}>
-                    <SelectTrigger className="w-full h-11 text-xs rounded-xl font-medium" aria-label="Select target architecture">
-                      <SelectValue placeholder="Select architecture" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">Compare All 4 Architectures</SelectItem>
-                      <SelectItem value="resnet">ResNet-50 (Standard CNN)</SelectItem>
-                      <SelectItem value="convnext">ConvNeXt-Tiny (Modern CNN)</SelectItem>
-                      <SelectItem value="vit">ViT-Base (Vision Transformer)</SelectItem>
-                      <SelectItem value="swin">Swin-Tiny (Shifted Windows ViT)</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <Button
-                  size="lg"
-                  variant="primary"
-                  className="w-full h-12 text-sm font-bold shadow-lg shadow-primary/20 rounded-xl cursor-pointer"
-                  isDisabled={isSynthesizingSequences}
-                  onPress={handleSynthesizeSequences}
-                >
-                  {isSynthesizingSequences ? (
-                    "Synthesizing 6 Sequences..."
-                  ) : (
-                    <>
-                      Synthesize 6 Permutations <ArrowRight className="ml-1.5 w-4 h-4" />
-                    </>
-                  )}
-                </Button>
-              </div>
-            </div>
-
-            {/* Target Spec Notice */}
-            <div className="mt-6 pt-4 border-t border-border/50 flex flex-wrap items-center justify-between text-xs text-muted-foreground gap-2">
-              <span>
-                Prespecified Research Tolerances: <strong>±0.75 dB PSNR</strong> and <strong>±0.035 SSIM</strong>
-              </span>
-              <span className="font-mono text-[11px]">
-                {FROZEN_CALIBRATION_3LEVELS[researchLevel].description}
-              </span>
-            </div>
-          </div>
-
-          {/* Synthesizing Progress State */}
-          {isSynthesizingSequences && (
-            <div className="p-12 rounded-3xl bg-card border border-border/60 text-center shadow-lg">
-              <Activity className="w-10 h-10 text-primary animate-pulse mx-auto mb-4" />
-              <h4 className="text-xl font-bold">Applying 3-Stage Compound Pipelines in Browser Canvas...</h4>
-              <p className="text-sm text-muted-foreground mt-2 max-w-lg mx-auto">
-                Synthesizing NBJ, NJB, BNJ, BJN, JNB, and JBN in exact physical order, measuring pixel MSE, windowed SSIM, and directional frequency gradients.
-              </p>
-            </div>
-          )}
-
-          {/* Synthesized 6-Order Comparative Display */}
-          {synthesizedSequences && !isSynthesizingSequences && (
-            <div className="space-y-8">
-              {/* Group Summary Banner */}
-              <div className="p-6 rounded-3xl bg-card border border-border/60 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                  <span className="text-xs font-bold uppercase tracking-wider text-primary">
-                    Evaluation Target: {FROZEN_CALIBRATION_3LEVELS[researchLevel].name}
-                  </span>
-                  <h4 className="text-2xl font-black mt-1">
-                    Achieved Physical Fidelity across 6 Degradation Sequences
-                  </h4>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Comparing compound permutations under identical operator sets (Gaussian Noise N, Defocus Blur B, JPEG Compression J).
-                  </p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
-                    6/6 Permutations Evaluated
-                  </span>
-                </div>
-              </div>
-
-              {/* 3 Operator Groupings: Terminal Noise, Terminal Blur, Terminal JPEG */}
-              {(
-                [
-                  {
-                    groupTitle: "Terminal Operator: Defocus Blur (NJB, JNB)",
-                    description: "Orders terminating in low-pass filtering. In the nominal regime, terminal blur preserved higher average accuracy than terminal noise.",
-                    keys: ["NJB", "JNB"] as CompoundSequenceOrder[],
-                    terminalBadge: "Terminal: Blur",
-                    badgeColor: "bg-blue-500/10 text-blue-500 border-blue-500/20",
-                  },
-                  {
-                    groupTitle: "Terminal Operator: Gaussian Noise (BJN, JBN)",
-                    description: "Orders terminating in additive high-frequency noise. Noise injection as the final stage confounds early high-pass features.",
-                    keys: ["BJN", "JBN"] as CompoundSequenceOrder[],
-                    terminalBadge: "Terminal: Noise",
-                    badgeColor: "bg-rose-500/10 text-rose-500 border-rose-500/20",
-                  },
-                  {
-                    groupTitle: "Terminal Operator: JPEG Compression (NBJ, BNJ)",
-                    description: "Orders terminating in 8×8 block DCT quantization. High-frequency noise is severely attenuated by late-stage quantization.",
-                    keys: ["NBJ", "BNJ"] as CompoundSequenceOrder[],
-                    terminalBadge: "Terminal: JPEG",
-                    badgeColor: "bg-amber-500/10 text-amber-500 border-amber-500/20",
-                  },
-                ] as const
-              ).map((grp) => (
-                <div key={grp.groupTitle} className="space-y-4">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border/50 pb-2">
-                    <div>
-                      <h4 className="text-lg font-bold text-foreground flex items-center gap-2">
-                        {grp.groupTitle}
-                      </h4>
-                      <p className="text-xs text-muted-foreground">{grp.description}</p>
-                    </div>
-                    <span className={`text-xs px-2.5 py-1 rounded-full font-bold uppercase border self-start sm:self-auto ${grp.badgeColor}`}>
-                      {grp.terminalBadge}
-                    </span>
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-6">
-                    {grp.keys.map((seqKey) => {
-                      const item = synthesizedSequences[seqKey];
-                      const params = FROZEN_CALIBRATION_3LEVELS[researchLevel].sequences[seqKey];
-                      const targetPsnr = FROZEN_CALIBRATION_3LEVELS[researchLevel].target_psnr;
-                      const targetSsim = FROZEN_CALIBRATION_3LEVELS[researchLevel].target_ssim;
-
-                      const seqDescriptions: Record<CompoundSequenceOrder, string> = {
-                        NBJ: "Noise → Blur → JPEG",
-                        NJB: "Noise → JPEG → Blur",
-                        BNJ: "Blur → Noise → JPEG",
-                        BJN: "Blur → JPEG → Noise",
-                        JNB: "JPEG → Noise → Blur",
-                        JBN: "JPEG → Blur → Noise",
-                      };
-
-                      return (
-                        <Card
-                          key={seqKey}
-                          className="p-6 rounded-3xl bg-card border border-border/60 shadow-lg flex flex-col justify-between"
-                        >
-                          <div>
-                            {/* Card Header */}
-                            <div className="flex justify-between items-start mb-4">
-                              <div>
-                                <h5 className="text-xl font-black tracking-tight">{seqKey}</h5>
-                                <span className="text-xs text-muted-foreground font-semibold">
-                                  {seqDescriptions[seqKey]}
-                                </span>
-                              </div>
-                              <span
-                                className={`text-[11px] px-2.5 py-1 rounded-full font-bold uppercase border ${
-                                  item.withinTol
-                                    ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
-                                    : "bg-amber-500/10 text-amber-500 border-amber-500/20"
-                                }`}
-                              >
-                                {item.withinTol ? "Within Tolerance" : "Spectrum Variation"}
-                              </span>
-                            </div>
-
-                            {/* Corrupted Preview Image */}
-                            <div className="w-full aspect-square max-w-[420px] mx-auto rounded-2xl overflow-hidden border bg-muted/40 relative flex items-center justify-center mb-4">
-                              <img
-                                src={item.dataUrl}
-                                alt={`Corrupted preview ${seqKey}`}
-                                className="w-full h-full object-contain p-2"
-                              />
-                            </div>
-
-                            {/* Frozen Calibration Parameters */}
-                            <div className="p-3 rounded-2xl bg-muted/30 border border-border/40 text-xs mb-4">
-                              <span className="text-[10px] uppercase font-bold text-muted-foreground block mb-1">
-                                Frozen Calibration Parameters:
-                              </span>
-                              <div className="grid grid-cols-3 gap-2 font-mono text-[11px]">
-                                <div>
-                                  <span className="text-muted-foreground">Noise σ:</span>{" "}
-                                  <strong>{params.noise_std}</strong>
-                                </div>
-                                <div>
-                                  <span className="text-muted-foreground">Blur σ:</span>{" "}
-                                  <strong>{params.blur_sigma} px</strong>
-                                </div>
-                                <div>
-                                  <span className="text-muted-foreground">JPEG Q:</span>{" "}
-                                  <strong>{params.jpeg_quality}</strong>
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* Achieved Physical Metrics */}
-                            <div className="grid grid-cols-2 gap-2 text-center mb-3">
-                              <div className="p-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20">
-                                <span className="text-[10px] uppercase font-bold text-muted-foreground block">
-                                  Achieved PSNR
-                                </span>
-                                <span className="text-lg font-black text-blue-500 font-mono">
-                                  {item.diag.psnr_db.toFixed(2)} dB
-                                </span>
-                                <span className="text-[10px] text-muted-foreground block">
-                                  Target {targetPsnr} (Δ {item.psnrErr >= 0 ? "+" : ""}{item.psnrErr.toFixed(2)})
-                                </span>
-                              </div>
-
-                              <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-                                <span className="text-[10px] uppercase font-bold text-muted-foreground block">
-                                  Achieved SSIM
-                                </span>
-                                <span className="text-lg font-black text-emerald-500 font-mono">
-                                  {item.diag.ssim.toFixed(3)}
-                                </span>
-                                <span className="text-[10px] text-muted-foreground block">
-                                  Target {targetSsim} (Δ {item.ssimErr >= 0 ? "+" : ""}{item.ssimErr.toFixed(3)})
-                                </span>
-                              </div>
-                            </div>
-
-                            {/* Additional Canvas Fingerprints */}
-                            <div className="grid grid-cols-3 gap-1.5 text-center text-[10px] text-muted-foreground pt-2 border-t border-border/40 font-mono">
-                              <div>
-                                Sobel: <strong>{item.diag.edge_energy_retained_pct.toFixed(0)}%</strong>
-                              </div>
-                              <div>
-                                JPEG 8×8: <strong>{item.diag.jpeg_block_ratio.toFixed(2)}x</strong>
-                              </div>
-                              <div>
-                                Laplacian: <strong>{item.diag.high_freq_residual_ratio.toFixed(2)}x</strong>
-                              </div>
-                            </div>
-                          </div>
-                        </Card>
-                      );
-                    })}
-                  </div>
-                </div>
-              ))}
-
-              {/* Rigorous Scientific Disclosures & Methodological Notes */}
-              <div className="p-6 rounded-3xl bg-card border border-border/60 shadow-lg space-y-4">
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-5 h-5 text-primary" />
-                  <h4 className="font-extrabold text-base text-foreground">
-                    Scientific Disclosures & Verification Requirements
-                  </h4>
-                </div>
-
-                <div className="grid sm:grid-cols-2 gap-4 text-xs text-muted-foreground">
-                  <div className="p-4 rounded-2xl bg-muted/20 border border-border/40 space-y-1.5">
-                    <strong className="text-foreground block flex items-center gap-1.5">
-                      <Info className="w-4 h-4 text-blue-500 shrink-0" />
-                      Exploratory Single-Image Demonstration
-                    </strong>
-                    <p className="leading-relaxed">
-                      Frozen calibration parameter triples were derived using density-union estimation across the 50-image Imagenette calibration corpus to guarantee simultaneous joint common support. Because arbitrary uploaded images possess idiosyncratic natural sharpness and spatial-frequency distributions, single-image achieved fidelity may deviate slightly from calibration targets. These outputs are exploratory single-image demonstrations, not confirmatory population statistics.
-                    </p>
-                  </div>
-
-                  <div className="p-4 rounded-2xl bg-muted/20 border border-border/40 space-y-1.5">
-                    <strong className="text-foreground block flex items-center gap-1.5">
-                      <Info className="w-4 h-4 text-amber-500 shrink-0" />
-                      No Ground-Truth Class Assumption
-                    </strong>
-                    <p className="leading-relaxed">
-                      Unless a verified benchmark label is supplied, model evaluations on arbitrary uploads measure class prediction agreement and confidence shifts relative to the clean baseline. They do not constitute true-class margins or classification accuracy.
-                    </p>
-                  </div>
-
-                  <div className="p-4 rounded-2xl bg-muted/20 border border-border/40 space-y-1.5">
-                    <strong className="text-foreground block flex items-center gap-1.5">
-                      <Info className="w-4 h-4 text-emerald-500 shrink-0" />
-                      Strictly Frozen Parameters
-                    </strong>
-                    <p className="leading-relaxed">
-                      Parameters are strictly frozen per the November 2026 pre-registration and are never re-tuned per image to prevent post-hoc overfitting and ensure comparability with reported research outcomes.
-                    </p>
-                  </div>
-
-                  <div className="p-4 rounded-2xl bg-muted/20 border border-border/40 space-y-1.5">
-                    <strong className="text-foreground block flex items-center gap-1.5">
-                      <FileCode className="w-4 h-4 text-violet-500 shrink-0" />
-                      ZeroGPU Inference Backend Notice
-                    </strong>
-                    <p className="leading-relaxed">
-                      To run remote neural predictions on pre-corrupted compound sequence images without introducing a second unary corruption, the Hugging Face ZeroGPU Gradio endpoint requires an <code className="text-foreground">identity</code> / <code className="text-foreground">passthrough</code> option in its corruption dropdown. To safeguard live production stability without risking remote downtime, this research lab stages the exact 6-order compound generation and canvas fidelity engine on the client side, while documenting the isolated backend patch below.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+          <ResearchLabView
+            preview={preview}
+            sourceMeta={sourceMeta}
+            sampleGroundTruth={sampleGroundTruth}
+            onChangeImage={() => fileInputRef.current?.click()}
+            onRemoveImage={handleRemoveImage}
+          />
         </motion.div>
       )}
     </div>

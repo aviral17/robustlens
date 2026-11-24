@@ -133,8 +133,13 @@ export default function HomePage() {
           className="rounded-[2.5rem] bg-card border border-border/50 p-8 shadow-xl md:p-12"
         >
           <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-muted/80 text-muted-foreground text-xs font-semibold uppercase tracking-wider mb-3 border border-border/50">
+              Illustrative Single-Image Example
+            </div>
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl">The Anatomy of a Distribution Shift</h2>
-            <p className="mt-4 text-lg text-muted-foreground">How image corruptions impact model prediction certainty.</p>
+            <p className="mt-4 text-lg text-muted-foreground">
+              Qualitative demonstration of prediction churn in ResNet-50 under nominal Gaussian Noise (Severity 3).
+            </p>
           </div>
           
           <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-4 relative">

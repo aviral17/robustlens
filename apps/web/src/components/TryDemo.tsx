@@ -19,6 +19,9 @@ import {
   Layers,
   ShieldCheck,
   Eye,
+  FlaskConical,
+  Info,
+  FileCode,
 } from "lucide-react";
 import {
   Select,
@@ -28,7 +31,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { motion, AnimatePresence } from "framer-motion";
-import { applyClientPixelCorruption, CorruptionType } from "@/lib/corruptions";
+import {
+  applyClientPixelCorruption,
+  CorruptionType,
+  CompoundSequenceOrder,
+  ResearchLevelKey,
+  FROZEN_CALIBRATION_3LEVELS,
+  applyCompoundSequence,
+} from "@/lib/corruptions";
 import { computeImageDiagnostics, ComputedDiagnostics } from "@/lib/diagnostics";
 
 interface ModelPrediction {
@@ -47,6 +57,14 @@ interface DemoResult {
   inferenceTime: number;
   sampleGroundTruth?: string;
   diagnostics?: ComputedDiagnostics | null;
+}
+
+interface SynthesizedSequenceItem {
+  dataUrl: string;
+  diag: ComputedDiagnostics;
+  withinTol: boolean;
+  psnrErr: number;
+  ssimErr: number;
 }
 
 const SAMPLE_PRESETS = [
@@ -68,20 +86,24 @@ const SAMPLE_PRESETS = [
 ];
 
 export default function TryDemo() {
+  const [activeTab, setActiveTab] = useState<"quick_demo" | "research_lab">("quick_demo");
+
+  // Common input states:
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [sampleGroundTruth, setSampleGroundTruth] = useState<string | null>(null);
 
-  // Exact required defaults:
+  // Quick Demo parameters (nominal severities 1-5):
   const [model, setModel] = useState("all");
   const [corruption, setCorruption] = useState<CorruptionType>("gaussian_noise");
   const [severity, setSeverity] = useState<number>(3);
 
-  // Live real-time preview & metrics
+  // Quick Demo live preview & diagnostics:
   const [liveCorruptedPreview, setLiveCorruptedPreview] = useState<string | null>(null);
   const [liveDiagnostics, setLiveDiagnostics] = useState<ComputedDiagnostics | null>(null);
   const [isComputingPreview, setIsComputingPreview] = useState(false);
 
+  // Quick Demo inference execution:
   const [isInferring, setIsInferring] = useState(false);
   const [stage, setStage] = useState(0);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -89,9 +111,17 @@ export default function TryDemo() {
   const [result, setResult] = useState<DemoResult | null>(null);
   const [expandedModel, setExpandedModel] = useState<string | null>(null);
 
+  // Research Mode states (Matched-Fidelity Six-Order Lab):
+  const [researchLevel, setResearchLevel] = useState<ResearchLevelKey>("Level_1_Mild");
+  const [researchModel, setResearchModel] = useState<string>("all");
+  const [isSynthesizingSequences, setIsSynthesizingSequences] = useState(false);
+  const [synthesizedSequences, setSynthesizedSequences] = useState<
+    Record<CompoundSequenceOrder, SynthesizedSequenceItem> | null
+  >(null);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Update real-time preview and client-side metrics whenever preview, corruption, or severity changes
+  // Update quick demo real-time preview and client-side metrics
   const updateLivePreviewAndDiagnostics = useCallback(
     async (src: string, cType: CorruptionType, sev: number) => {
       try {
@@ -130,6 +160,7 @@ export default function TryDemo() {
       setPreview(URL.createObjectURL(f));
       setSampleGroundTruth(null);
       setResult(null);
+      setSynthesizedSequences(null);
       setErrorMessage(null);
       setIsQuotaError(false);
     }
@@ -139,6 +170,7 @@ export default function TryDemo() {
     setSampleGroundTruth(preset.groundTruth);
     setPreview(preset.url);
     setResult(null);
+    setSynthesizedSequences(null);
     setErrorMessage(null);
     setIsQuotaError(false);
 
@@ -158,22 +190,21 @@ export default function TryDemo() {
     setSeverity(clamped);
   };
 
+  // Quick Demo live inference execution
   const startInference = async () => {
     if (!preview) return;
     setIsInferring(true);
     setErrorMessage(null);
     setIsQuotaError(false);
-    setStage(1); // Preparing image
+    setStage(1);
 
     try {
-      // 1. Generate genuinely corrupted image pixels for UI display
       const genuineCorruptedDataUrl =
         liveCorruptedPreview ||
         (await applyClientPixelCorruption(preview, corruption, severity));
 
-      setStage(2); // Connecting to ZeroGPU Space
+      setStage(2);
 
-      // 2. Prepare base64 clean image for remote inference
       let cleanBase64 = preview;
       if (!preview.startsWith("data:")) {
         const response = await fetch(preview);
@@ -186,7 +217,7 @@ export default function TryDemo() {
         });
       }
 
-      setStage(3); // Running model inference on ZeroGPU (NVIDIA A10G)
+      setStage(3);
 
       const apiResponse = await fetch("/api/inference", {
         method: "POST",
@@ -208,7 +239,7 @@ export default function TryDemo() {
         throw new Error(data.error || "Inference API returned an error response");
       }
 
-      setStage(5); // Parsing classifications
+      setStage(5);
 
       const apiResult = data.result;
 
@@ -227,7 +258,6 @@ export default function TryDemo() {
           })
         );
 
-        // Compute or reuse diagnostics
         let diag = liveDiagnostics;
         if (!diag) {
           try {
@@ -260,16 +290,92 @@ export default function TryDemo() {
     }
   };
 
+  // Research Mode: Synthesize 6 compound order sequences and compute achieved physical fidelity
+  const handleSynthesizeSequences = async () => {
+    if (!preview) return;
+    setIsSynthesizingSequences(true);
+    setErrorMessage(null);
+
+    try {
+      const orders: CompoundSequenceOrder[] = ["NBJ", "NJB", "BNJ", "BJN", "JNB", "JBN"];
+      const levelSpec = FROZEN_CALIBRATION_3LEVELS[researchLevel];
+      const results: Partial<Record<CompoundSequenceOrder, SynthesizedSequenceItem>> = {};
+
+      for (const ord of orders) {
+        const params = levelSpec.sequences[ord];
+        const seqDataUrl = await applyCompoundSequence(preview, ord, {
+          noise_std: params.noise_std,
+          blur_sigma: params.blur_sigma,
+          jpeg_quality: params.jpeg_quality,
+        });
+
+        const diag = await computeImageDiagnostics(preview, seqDataUrl);
+        const psnrErr = Math.round((diag.psnr_db - levelSpec.target_psnr) * 100) / 100;
+        const ssimErr = Math.round((diag.ssim - levelSpec.target_ssim) * 1000) / 1000;
+        const withinTol = Math.abs(psnrErr) <= 0.75 && Math.abs(ssimErr) <= 0.035;
+
+        results[ord] = {
+          dataUrl: seqDataUrl,
+          diag,
+          withinTol,
+          psnrErr,
+          ssimErr,
+        };
+      }
+
+      setSynthesizedSequences(
+        results as Record<CompoundSequenceOrder, SynthesizedSequenceItem>
+      );
+    } catch (err: unknown) {
+      console.error("Failed to synthesize sequences:", err);
+      setErrorMessage(
+        err instanceof Error ? err.message : "Failed to synthesize 6 compound sequences."
+      );
+    } finally {
+      setIsSynthesizingSequences(false);
+    }
+  };
+
   return (
     <div className="w-full max-w-[1300px] mx-auto mt-16 mb-24 relative font-[family-name:var(--font-poppins)]">
-      <div className="text-center mb-10">
+      {/* Header & Scientific Context */}
+      <div className="text-center mb-8">
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider mb-3">
           <Sparkles className="w-3.5 h-3.5" /> Live Hugging Face ZeroGPU Service
         </div>
         <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">Try RobustLens Live</h2>
         <p className="mt-4 text-xl text-muted-foreground font-medium max-w-2xl mx-auto">
-          Upload any image and evaluate vision model predictions under calibrated distribution shifts in real-time.
+          Upload any image and evaluate vision model predictions under controlled image corruptions in real-time.
         </p>
+        <p className="mt-2 text-xs text-muted-foreground/80 max-w-3xl mx-auto">
+          The quick stress test evaluates nominal user-selected severities (1–5) for instantaneous feedback. In contrast, our November 2026 confirmatory research monograph enforces frozen common-support calibration parameters across three matched-fidelity research levels (Level 1: 27.20 dB / 0.810; Level 2: 23.80 dB / 0.650; Level 3: 21.80 dB / 0.500). Explore both paradigms below.
+        </p>
+
+        {/* Mode Selector Tabs */}
+        <div className="mt-8 flex justify-center">
+          <div className="inline-flex p-1.5 rounded-2xl bg-muted/60 border border-border/60 shadow-inner">
+            <button
+              onClick={() => setActiveTab("quick_demo")}
+              className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                activeTab === "quick_demo"
+                  ? "bg-card text-foreground shadow-md border border-border/50"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Interactive Quick Demo (Nominal Severities 1–5)
+            </button>
+            <button
+              onClick={() => setActiveTab("research_lab")}
+              className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer flex items-center gap-2 ${
+                activeTab === "research_lab"
+                  ? "bg-primary text-primary-foreground shadow-md"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <FlaskConical className="w-4 h-4" /> Matched-Fidelity Six-Order Research Lab
+            </button>
+          </div>
+        </div>
 
         {/* Sample Image Presets */}
         <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
@@ -300,14 +406,14 @@ export default function TryDemo() {
           <AlertCircle className="w-6 h-6 shrink-0 mt-0.5" />
           <div className="space-y-1">
             <h4 className="font-bold text-lg">
-              {isQuotaError ? "Hugging Face ZeroGPU Limit Reached" : "Inference Request Failed"}
+              {isQuotaError ? "Hugging Face ZeroGPU Limit Reached" : "Request Notice"}
             </h4>
             <p className="text-sm opacity-90">{errorMessage}</p>
           </div>
         </motion.div>
       )}
 
-      {/* Image Upload Box */}
+      {/* Image Upload Box (shared when no image selected) */}
       {!preview && !result && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -341,8 +447,10 @@ export default function TryDemo() {
         </motion.div>
       )}
 
-      {/* Image Uploaded — Configuration Screen */}
-      {preview && !result && !isInferring && (
+      {/* ========================================================================= */}
+      {/* TAB 1: INTERACTIVE QUICK DEMO (NOMINAL SEVERITIES 1-5)                   */}
+      {/* ========================================================================= */}
+      {activeTab === "quick_demo" && preview && !result && !isInferring && (
         <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -379,6 +487,7 @@ export default function TryDemo() {
                   setFile(null);
                   setSampleGroundTruth(null);
                   setResult(null);
+                  setSynthesizedSequences(null);
                 }}
               >
                 Choose Different Image
@@ -429,7 +538,7 @@ export default function TryDemo() {
                 <div className="flex items-center gap-2">
                   <Layers className="w-5 h-5 text-primary" />
                   <h4 className="font-bold text-base text-foreground">
-                    Real-Time Pixel Diagnostics (Computed on Canvas)
+                    Real-Time Client-Side Visual Estimations (Computed in Browser Canvas)
                   </h4>
                 </div>
                 <span className="text-xs text-muted-foreground font-mono">
@@ -443,7 +552,7 @@ export default function TryDemo() {
                   <span className="text-xl font-black text-blue-500 font-mono">
                     {liveDiagnostics.psnr_db.toFixed(2)} <span className="text-xs font-normal text-muted-foreground">dB</span>
                   </span>
-                  <span className="text-[10px] text-muted-foreground">Signal-to-Noise Ratio</span>
+                  <span className="text-[10px] text-muted-foreground">Peak Signal-to-Noise Ratio</span>
                 </div>
 
                 <div className="p-3.5 rounded-2xl bg-muted/30 border border-border/40 flex flex-col gap-1">
@@ -451,15 +560,15 @@ export default function TryDemo() {
                   <span className="text-xl font-black text-emerald-500 font-mono">
                     {liveDiagnostics.ssim.toFixed(3)}
                   </span>
-                  <span className="text-[10px] text-muted-foreground">Structural Similarity</span>
+                  <span className="text-[10px] text-muted-foreground">Structural Similarity (8×8)</span>
                 </div>
 
                 <div className="p-3.5 rounded-2xl bg-muted/30 border border-border/40 flex flex-col gap-1">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Edge Energy</span>
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Sobel Energy</span>
                   <span className="text-xl font-black text-violet-500 font-mono">
                     {liveDiagnostics.edge_energy_retained_pct.toFixed(1)}%
                   </span>
-                  <span className="text-[10px] text-muted-foreground">Sobel Gradients Retained</span>
+                  <span className="text-[10px] text-muted-foreground">Relative to Clean (can exceed 100%)</span>
                 </div>
 
                 <div className="p-3.5 rounded-2xl bg-muted/30 border border-border/40 flex flex-col gap-1">
@@ -471,16 +580,16 @@ export default function TryDemo() {
                 </div>
 
                 <div className="p-3.5 rounded-2xl bg-muted/30 border border-border/40 flex flex-col gap-1 col-span-2 sm:col-span-1">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">High-Freq Energy</span>
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Laplacian Spatial Ratio</span>
                   <span className="text-xl font-black text-cyan-500 font-mono">
                     {liveDiagnostics.high_freq_residual_ratio.toFixed(3)}x
                   </span>
-                  <span className="text-[10px] text-muted-foreground">Laplacian Residual Ratio</span>
+                  <span className="text-[10px] text-muted-foreground">3×3 Spatial (distinct from Fourier)</span>
                 </div>
               </div>
 
               <p className="text-[11px] text-muted-foreground leading-relaxed">
-                <strong>Methodological Context:</strong> Live demo tests user-selected nominal perturbations (Severity 1–5). In our scientific research monograph, degradation parameters were calibrated on common support to equate physical distortion across sequence orders (Level 1: 27.20 dB PSNR / 0.810 SSIM; Level 2: 23.80 dB / 0.650; Level 3: 21.80 dB / 0.500).
+                <strong>Methodological Context:</strong> Live demo tests user-selected nominal perturbations (Severity 1–5). In our November 2026 confirmatory research monograph, degradation parameters were calibrated on common support to equate physical distortion across sequence orders (Level 1: 27.20 dB PSNR / 0.810 SSIM; Level 2: 23.80 dB / 0.650; Level 3: 21.80 dB / 0.500). Switch to the <strong>Matched-Fidelity Six-Order Research Lab</strong> above to explore these exact calibrated permutations.
               </p>
             </div>
           )}
@@ -604,7 +713,7 @@ export default function TryDemo() {
         </motion.div>
       )}
 
-      {/* Loading Progress State */}
+      {/* Loading Progress State for Quick Demo */}
       {isInferring && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -647,7 +756,7 @@ export default function TryDemo() {
         </motion.div>
       )}
 
-      {/* Real Live Results Display */}
+      {/* Real Live Results Display for Quick Demo */}
       {result && !isInferring && (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-8">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -676,6 +785,7 @@ export default function TryDemo() {
                   setPreview(null);
                   setFile(null);
                   setSampleGroundTruth(null);
+                  setSynthesizedSequences(null);
                 }}
               >
                 Upload New Image
@@ -736,7 +846,7 @@ export default function TryDemo() {
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-primary" />
                 <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                  Evaluated Input Fidelity & Physical Fingerprints
+                  Evaluated Input Fidelity & Physical Fingerprints (Canvas Estimation)
                 </span>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
@@ -749,16 +859,19 @@ export default function TryDemo() {
                   <span className="text-base font-extrabold text-emerald-500 font-mono">{result.diagnostics.ssim.toFixed(3)}</span>
                 </div>
                 <div className="p-3 rounded-xl bg-muted/20 border border-border/40 text-center">
-                  <span className="text-[10px] uppercase font-bold text-muted-foreground block">Edge Energy</span>
+                  <span className="text-[10px] uppercase font-bold text-muted-foreground block">Sobel Energy</span>
                   <span className="text-base font-extrabold text-violet-500 font-mono">{result.diagnostics.edge_energy_retained_pct.toFixed(1)}%</span>
+                  <span className="text-[9px] text-muted-foreground block">Relative to clean</span>
                 </div>
                 <div className="p-3 rounded-xl bg-muted/20 border border-border/40 text-center">
                   <span className="text-[10px] uppercase font-bold text-muted-foreground block">JPEG 8×8 Ratio</span>
                   <span className="text-base font-extrabold text-amber-500 font-mono">{result.diagnostics.jpeg_block_ratio.toFixed(3)}x</span>
+                  <span className="text-[9px] text-muted-foreground block">Grid step ratio</span>
                 </div>
                 <div className="p-3 rounded-xl bg-muted/20 border border-border/40 text-center col-span-2 sm:col-span-1">
-                  <span className="text-[10px] uppercase font-bold text-muted-foreground block">High-Freq Ratio</span>
+                  <span className="text-[10px] uppercase font-bold text-muted-foreground block">Laplacian Ratio</span>
                   <span className="text-base font-extrabold text-cyan-500 font-mono">{result.diagnostics.high_freq_residual_ratio.toFixed(3)}x</span>
+                  <span className="text-[9px] text-muted-foreground block">3×3 Spatial</span>
                 </div>
               </div>
             </div>
@@ -811,7 +924,7 @@ export default function TryDemo() {
                     <div className="mt-4 pt-3 border-t border-border/50">
                       <button
                         onClick={() => setExpandedModel(isExpanded ? null : m.name)}
-                        className="text-xs font-bold text-muted-foreground hover:text-foreground flex items-center justify-between w-full"
+                        className="text-xs font-bold text-muted-foreground hover:text-foreground flex items-center justify-between w-full cursor-pointer"
                       >
                         <span>Top 5 Probabilities</span>
                         {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
@@ -854,7 +967,7 @@ export default function TryDemo() {
                   <button
                     key={lvl}
                     onClick={() => handleSeverityChange(lvl)}
-                    className={`w-7 h-7 rounded-lg text-xs font-bold transition-all ${
+                    className={`w-7 h-7 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                       severity === lvl
                         ? "bg-primary text-primary-foreground shadow-sm"
                         : "bg-background text-muted-foreground hover:bg-muted border border-border/50"
@@ -874,6 +987,380 @@ export default function TryDemo() {
               Re-run with Level {severity} <ArrowRight className="ml-1.5 w-4 h-4" />
             </Button>
           </div>
+        </motion.div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* TAB 2: MATCHED-FIDELITY SIX-ORDER RESEARCH LAB                           */}
+      {/* ========================================================================= */}
+      {activeTab === "research_lab" && preview && (
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex flex-col gap-8"
+        >
+          {/* Research Lab Header & Configuration Card */}
+          <div className="bg-card border border-border/60 rounded-3xl p-8 shadow-xl">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6 pb-6 border-b border-border/50">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider mb-2">
+                  <FlaskConical className="w-3.5 h-3.5" /> November 2026 Common-Support Protocol
+                </div>
+                <h3 className="text-2xl font-black tracking-tight">
+                  Matched-Fidelity Six-Order Permutation Lab
+                </h3>
+                <p className="text-sm text-muted-foreground mt-1 max-w-2xl">
+                  Evaluates all six compound sequences (NBJ, NJB, BNJ, BJN, JNB, JBN) using strictly frozen parameter triples calibrated on joint common support.
+                </p>
+              </div>
+
+              <Button
+                variant="outline"
+                size="sm"
+                onPress={() => {
+                  setPreview(null);
+                  setFile(null);
+                  setSampleGroundTruth(null);
+                  setSynthesizedSequences(null);
+                }}
+              >
+                Change Clean Image
+              </Button>
+            </div>
+
+            {/* Level & Model Selector Grid */}
+            <div className="grid md:grid-cols-3 gap-6 items-end">
+              {/* Research Level Selector */}
+              <div className="md:col-span-2 space-y-3">
+                <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground block">
+                  Select Calibrated Research Level (Joint PSNR / SSIM Target)
+                </label>
+                <div className="grid sm:grid-cols-3 gap-3">
+                  {(
+                    [
+                      {
+                        key: "Level_1_Mild",
+                        name: "Level 1: Mild",
+                        psnr: "27.20 dB",
+                        ssim: "0.810",
+                      },
+                      {
+                        key: "Level_2_Moderate",
+                        name: "Level 2: Moderate",
+                        psnr: "23.80 dB",
+                        ssim: "0.650",
+                      },
+                      {
+                        key: "Level_3_SevereCommon",
+                        name: "Level 3: Severe",
+                        psnr: "21.80 dB",
+                        ssim: "0.500",
+                      },
+                    ] as const
+                  ).map((lvl) => (
+                    <button
+                      key={lvl.key}
+                      onClick={() => {
+                        setResearchLevel(lvl.key);
+                        setSynthesizedSequences(null);
+                      }}
+                      className={`p-4 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
+                        researchLevel === lvl.key
+                          ? "bg-primary/10 border-primary text-foreground shadow-sm ring-1 ring-primary"
+                          : "bg-muted/30 border-border/50 text-muted-foreground hover:bg-muted/60"
+                      }`}
+                    >
+                      <div>
+                        <span className="text-xs font-extrabold uppercase tracking-wider block">
+                          {lvl.name}
+                        </span>
+                        <span className="text-lg font-black text-foreground mt-1 block">
+                          {lvl.psnr}
+                        </span>
+                      </div>
+                      <div className="mt-2 text-xs font-medium">
+                        Target SSIM: <span className="font-bold text-foreground">{lvl.ssim}</span>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Action Button */}
+              <div className="space-y-3">
+                <Button
+                  size="lg"
+                  variant="primary"
+                  className="w-full h-14 text-base font-bold shadow-lg shadow-primary/20 rounded-2xl cursor-pointer"
+                  isDisabled={isSynthesizingSequences}
+                  onPress={handleSynthesizeSequences}
+                >
+                  {isSynthesizingSequences ? (
+                    "Synthesizing 6 Sequences..."
+                  ) : (
+                    <>
+                      Synthesize 6 Permutations <ArrowRight className="ml-2 w-4 h-4" />
+                    </>
+                  )}
+                </Button>
+              </div>
+            </div>
+
+            {/* Target Spec Notice */}
+            <div className="mt-6 pt-4 border-t border-border/50 flex flex-wrap items-center justify-between text-xs text-muted-foreground gap-2">
+              <span>
+                Prespecified Research Tolerances: <strong>±0.75 dB PSNR</strong> and <strong>±0.035 SSIM</strong>
+              </span>
+              <span className="font-mono text-[11px]">
+                {FROZEN_CALIBRATION_3LEVELS[researchLevel].description}
+              </span>
+            </div>
+          </div>
+
+          {/* Synthesizing Progress State */}
+          {isSynthesizingSequences && (
+            <div className="p-12 rounded-3xl bg-card border border-border/60 text-center shadow-lg">
+              <Activity className="w-10 h-10 text-primary animate-pulse mx-auto mb-4" />
+              <h4 className="text-xl font-bold">Applying 3-Stage Compound Pipelines in Browser Canvas...</h4>
+              <p className="text-sm text-muted-foreground mt-2 max-w-lg mx-auto">
+                Synthesizing NBJ, NJB, BNJ, BJN, JNB, and JBN in exact physical order, measuring pixel MSE, windowed SSIM, and directional frequency gradients.
+              </p>
+            </div>
+          )}
+
+          {/* Synthesized 6-Order Comparative Display */}
+          {synthesizedSequences && !isSynthesizingSequences && (
+            <div className="space-y-8">
+              {/* Group Summary Banner */}
+              <div className="p-6 rounded-3xl bg-card border border-border/60 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                  <span className="text-xs font-bold uppercase tracking-wider text-primary">
+                    Evaluation Target: {FROZEN_CALIBRATION_3LEVELS[researchLevel].name}
+                  </span>
+                  <h4 className="text-2xl font-black mt-1">
+                    Achieved Physical Fidelity across 6 Degradation Sequences
+                  </h4>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Comparing compound permutations under identical operator sets (Gaussian Noise N, Defocus Blur B, JPEG Compression J).
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+                    6/6 Permutations Evaluated
+                  </span>
+                </div>
+              </div>
+
+              {/* 3 Operator Groupings: Terminal Noise, Terminal Blur, Terminal JPEG */}
+              {(
+                [
+                  {
+                    groupTitle: "Terminal Operator: Defocus Blur (NJB, JNB)",
+                    description: "Orders terminating in low-pass filtering. In the nominal regime, terminal blur preserved higher average accuracy than terminal noise.",
+                    keys: ["NJB", "JNB"] as CompoundSequenceOrder[],
+                    terminalBadge: "Terminal: Blur",
+                    badgeColor: "bg-blue-500/10 text-blue-500 border-blue-500/20",
+                  },
+                  {
+                    groupTitle: "Terminal Operator: Gaussian Noise (BJN, JBN)",
+                    description: "Orders terminating in additive high-frequency noise. Noise injection as the final stage confounds early high-pass features.",
+                    keys: ["BJN", "JBN"] as CompoundSequenceOrder[],
+                    terminalBadge: "Terminal: Noise",
+                    badgeColor: "bg-rose-500/10 text-rose-500 border-rose-500/20",
+                  },
+                  {
+                    groupTitle: "Terminal Operator: JPEG Compression (NBJ, BNJ)",
+                    description: "Orders terminating in 8×8 block DCT quantization. High-frequency noise is severely attenuated by late-stage quantization.",
+                    keys: ["NBJ", "BNJ"] as CompoundSequenceOrder[],
+                    terminalBadge: "Terminal: JPEG",
+                    badgeColor: "bg-amber-500/10 text-amber-500 border-amber-500/20",
+                  },
+                ] as const
+              ).map((grp) => (
+                <div key={grp.groupTitle} className="space-y-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border/50 pb-2">
+                    <div>
+                      <h4 className="text-lg font-bold text-foreground flex items-center gap-2">
+                        {grp.groupTitle}
+                      </h4>
+                      <p className="text-xs text-muted-foreground">{grp.description}</p>
+                    </div>
+                    <span className={`text-xs px-2.5 py-1 rounded-full font-bold uppercase border self-start sm:self-auto ${grp.badgeColor}`}>
+                      {grp.terminalBadge}
+                    </span>
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {grp.keys.map((seqKey) => {
+                      const item = synthesizedSequences[seqKey];
+                      const params = FROZEN_CALIBRATION_3LEVELS[researchLevel].sequences[seqKey];
+                      const targetPsnr = FROZEN_CALIBRATION_3LEVELS[researchLevel].target_psnr;
+                      const targetSsim = FROZEN_CALIBRATION_3LEVELS[researchLevel].target_ssim;
+
+                      const seqDescriptions: Record<CompoundSequenceOrder, string> = {
+                        NBJ: "Noise → Blur → JPEG",
+                        NJB: "Noise → JPEG → Blur",
+                        BNJ: "Blur → Noise → JPEG",
+                        BJN: "Blur → JPEG → Noise",
+                        JNB: "JPEG → Noise → Blur",
+                        JBN: "JPEG → Blur → Noise",
+                      };
+
+                      return (
+                        <Card
+                          key={seqKey}
+                          className="p-6 rounded-3xl bg-card border border-border/60 shadow-lg flex flex-col justify-between"
+                        >
+                          <div>
+                            {/* Card Header */}
+                            <div className="flex justify-between items-start mb-4">
+                              <div>
+                                <h5 className="text-xl font-black tracking-tight">{seqKey}</h5>
+                                <span className="text-xs text-muted-foreground font-semibold">
+                                  {seqDescriptions[seqKey]}
+                                </span>
+                              </div>
+                              <span
+                                className={`text-[11px] px-2.5 py-1 rounded-full font-bold uppercase border ${
+                                  item.withinTol
+                                    ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
+                                    : "bg-amber-500/10 text-amber-500 border-amber-500/20"
+                                }`}
+                              >
+                                {item.withinTol ? "Within Tolerance" : "Spectrum Variation"}
+                              </span>
+                            </div>
+
+                            {/* Corrupted Preview Image */}
+                            <div className="w-full aspect-square max-w-[420px] mx-auto rounded-2xl overflow-hidden border bg-muted/40 relative flex items-center justify-center mb-4">
+                              <img
+                                src={item.dataUrl}
+                                alt={`Corrupted preview ${seqKey}`}
+                                className="w-full h-full object-contain p-2"
+                              />
+                            </div>
+
+                            {/* Frozen Calibration Parameters */}
+                            <div className="p-3 rounded-2xl bg-muted/30 border border-border/40 text-xs mb-4">
+                              <span className="text-[10px] uppercase font-bold text-muted-foreground block mb-1">
+                                Frozen Calibration Parameters:
+                              </span>
+                              <div className="grid grid-cols-3 gap-2 font-mono text-[11px]">
+                                <div>
+                                  <span className="text-muted-foreground">Noise σ:</span>{" "}
+                                  <strong>{params.noise_std}</strong>
+                                </div>
+                                <div>
+                                  <span className="text-muted-foreground">Blur σ:</span>{" "}
+                                  <strong>{params.blur_sigma} px</strong>
+                                </div>
+                                <div>
+                                  <span className="text-muted-foreground">JPEG Q:</span>{" "}
+                                  <strong>{params.jpeg_quality}</strong>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Achieved Physical Metrics */}
+                            <div className="grid grid-cols-2 gap-2 text-center mb-3">
+                              <div className="p-2.5 rounded-xl bg-blue-500/10 border border-blue-500/20">
+                                <span className="text-[10px] uppercase font-bold text-muted-foreground block">
+                                  Achieved PSNR
+                                </span>
+                                <span className="text-lg font-black text-blue-500 font-mono">
+                                  {item.diag.psnr_db.toFixed(2)} dB
+                                </span>
+                                <span className="text-[10px] text-muted-foreground block">
+                                  Target {targetPsnr} (Δ {item.psnrErr >= 0 ? "+" : ""}{item.psnrErr.toFixed(2)})
+                                </span>
+                              </div>
+
+                              <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+                                <span className="text-[10px] uppercase font-bold text-muted-foreground block">
+                                  Achieved SSIM
+                                </span>
+                                <span className="text-lg font-black text-emerald-500 font-mono">
+                                  {item.diag.ssim.toFixed(3)}
+                                </span>
+                                <span className="text-[10px] text-muted-foreground block">
+                                  Target {targetSsim} (Δ {item.ssimErr >= 0 ? "+" : ""}{item.ssimErr.toFixed(3)})
+                                </span>
+                              </div>
+                            </div>
+
+                            {/* Additional Canvas Fingerprints */}
+                            <div className="grid grid-cols-3 gap-1.5 text-center text-[10px] text-muted-foreground pt-2 border-t border-border/40 font-mono">
+                              <div>
+                                Sobel: <strong>{item.diag.edge_energy_retained_pct.toFixed(0)}%</strong>
+                              </div>
+                              <div>
+                                JPEG 8×8: <strong>{item.diag.jpeg_block_ratio.toFixed(2)}x</strong>
+                              </div>
+                              <div>
+                                Laplacian: <strong>{item.diag.high_freq_residual_ratio.toFixed(2)}x</strong>
+                              </div>
+                            </div>
+                          </div>
+                        </Card>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+
+              {/* Rigorous Scientific Disclosures & Methodological Notes */}
+              <div className="p-6 rounded-3xl bg-card border border-border/60 shadow-lg space-y-4">
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="w-5 h-5 text-primary" />
+                  <h4 className="font-extrabold text-base text-foreground">
+                    Scientific Disclosures & Verification Requirements
+                  </h4>
+                </div>
+
+                <div className="grid sm:grid-cols-2 gap-4 text-xs text-muted-foreground">
+                  <div className="p-4 rounded-2xl bg-muted/20 border border-border/40 space-y-1.5">
+                    <strong className="text-foreground block flex items-center gap-1.5">
+                      <Info className="w-4 h-4 text-blue-500 shrink-0" />
+                      Exploratory Single-Image Demonstration
+                    </strong>
+                    <p className="leading-relaxed">
+                      Frozen calibration parameter triples were derived using density-union estimation across the 50-image Imagenette calibration corpus to guarantee simultaneous joint common support. Because arbitrary uploaded images possess idiosyncratic natural sharpness and spatial-frequency distributions, single-image achieved fidelity may deviate slightly from calibration targets. These outputs are exploratory single-image demonstrations, not confirmatory population statistics.
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-2xl bg-muted/20 border border-border/40 space-y-1.5">
+                    <strong className="text-foreground block flex items-center gap-1.5">
+                      <Info className="w-4 h-4 text-amber-500 shrink-0" />
+                      No Ground-Truth Class Assumption
+                    </strong>
+                    <p className="leading-relaxed">
+                      Unless a verified benchmark label is supplied, model evaluations on arbitrary uploads measure class prediction agreement and confidence shifts relative to the clean baseline. They do not constitute true-class margins or classification accuracy.
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-2xl bg-muted/20 border border-border/40 space-y-1.5">
+                    <strong className="text-foreground block flex items-center gap-1.5">
+                      <Info className="w-4 h-4 text-emerald-500 shrink-0" />
+                      Strictly Frozen Parameters
+                    </strong>
+                    <p className="leading-relaxed">
+                      Parameters are strictly frozen per the November 2026 pre-registration and are never re-tuned per image to prevent post-hoc overfitting and ensure comparability with reported research outcomes.
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-2xl bg-muted/20 border border-border/40 space-y-1.5">
+                    <strong className="text-foreground block flex items-center gap-1.5">
+                      <FileCode className="w-4 h-4 text-violet-500 shrink-0" />
+                      ZeroGPU Inference Backend Notice
+                    </strong>
+                    <p className="leading-relaxed">
+                      To run remote neural predictions on pre-corrupted compound sequence images without introducing a second unary corruption, the Hugging Face ZeroGPU Gradio endpoint requires an <code className="text-foreground">identity</code> / <code className="text-foreground">passthrough</code> option in its corruption dropdown. To safeguard live production stability without risking remote downtime, this research lab stages the exact 6-order compound generation and canvas fidelity engine on the client side, while documenting the isolated backend patch below.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </motion.div>
       )}
     </div>

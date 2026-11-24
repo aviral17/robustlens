@@ -123,3 +123,119 @@ export async function applyClientPixelCorruption(
 
   return canvas.toDataURL('image/png');
 }
+
+export type CompoundSequenceOrder = 'NBJ' | 'NJB' | 'BNJ' | 'BJN' | 'JNB' | 'JBN';
+export type ResearchLevelKey = 'Level_1_Mild' | 'Level_2_Moderate' | 'Level_3_SevereCommon';
+
+export interface SequenceParameters {
+  final_op: 'Noise' | 'Blur' | 'JPEG';
+  noise_std: number;
+  blur_sigma: number;
+  jpeg_quality: number;
+  achieved_psnr: number;
+  achieved_ssim: number;
+}
+
+export interface ResearchLevelSpec {
+  name: string;
+  target_psnr: number;
+  target_ssim: number;
+  description: string;
+  sequences: Record<CompoundSequenceOrder, SequenceParameters>;
+}
+
+export const FROZEN_CALIBRATION_3LEVELS: Record<ResearchLevelKey, ResearchLevelSpec> = {
+  Level_1_Mild: {
+    name: 'Level 1: Mild Common Support',
+    target_psnr: 27.20,
+    target_ssim: 0.810,
+    description: 'Target: 27.20 dB PSNR / 0.810 SSIM (Tolerance: ±0.75 dB, ±0.035 SSIM)',
+    sequences: {
+      NBJ: { final_op: 'JPEG', noise_std: 0.070, blur_sigma: 1.0, jpeg_quality: 75, achieved_psnr: 27.22, achieved_ssim: 0.820 },
+      NJB: { final_op: 'Blur', noise_std: 0.070, blur_sigma: 1.0, jpeg_quality: 35, achieved_psnr: 27.08, achieved_ssim: 0.820 },
+      BNJ: { final_op: 'JPEG', noise_std: 0.035, blur_sigma: 1.0, jpeg_quality: 55, achieved_psnr: 27.10, achieved_ssim: 0.803 },
+      BJN: { final_op: 'Noise', noise_std: 0.015, blur_sigma: 1.0, jpeg_quality: 75, achieved_psnr: 27.33, achieved_ssim: 0.801 },
+      JNB: { final_op: 'Blur', noise_std: 0.070, blur_sigma: 1.0, jpeg_quality: 90, achieved_psnr: 27.26, achieved_ssim: 0.807 },
+      JBN: { final_op: 'Noise', noise_std: 0.015, blur_sigma: 1.0, jpeg_quality: 55, achieved_psnr: 27.42, achieved_ssim: 0.808 },
+    },
+  },
+  Level_2_Moderate: {
+    name: 'Level 2: Moderate Common Support',
+    target_psnr: 23.80,
+    target_ssim: 0.650,
+    description: 'Target: 23.80 dB PSNR / 0.650 SSIM (Tolerance: ±0.75 dB, ±0.035 SSIM)',
+    sequences: {
+      NBJ: { final_op: 'JPEG', noise_std: 0.200, blur_sigma: 1.0, jpeg_quality: 75, achieved_psnr: 23.69, achieved_ssim: 0.647 },
+      NJB: { final_op: 'Blur', noise_std: 0.200, blur_sigma: 1.0, jpeg_quality: 35, achieved_psnr: 23.55, achieved_ssim: 0.651 },
+      BNJ: { final_op: 'JPEG', noise_std: 0.120, blur_sigma: 0.5, jpeg_quality: 10, achieved_psnr: 23.75, achieved_ssim: 0.646 },
+      BJN: { final_op: 'Noise', noise_std: 0.015, blur_sigma: 1.8, jpeg_quality: 20, achieved_psnr: 23.81, achieved_ssim: 0.647 },
+      JNB: { final_op: 'Blur', noise_std: 0.120, blur_sigma: 1.0, jpeg_quality: 10, achieved_psnr: 23.96, achieved_ssim: 0.646 },
+      JBN: { final_op: 'Noise', noise_std: 0.015, blur_sigma: 1.8, jpeg_quality: 10, achieved_psnr: 23.65, achieved_ssim: 0.656 },
+    },
+  },
+  Level_3_SevereCommon: {
+    name: 'Level 3: Severe Common Support',
+    target_psnr: 21.80,
+    target_ssim: 0.500,
+    description: 'Target: 21.80 dB PSNR / 0.500 SSIM (Tolerance: ±0.75 dB, ±0.035 SSIM)',
+    sequences: {
+      NBJ: { final_op: 'JPEG', noise_std: 0.200, blur_sigma: 0.5, jpeg_quality: 35, achieved_psnr: 21.71, achieved_ssim: 0.515 },
+      NJB: { final_op: 'Blur', noise_std: 0.200, blur_sigma: 0.5, jpeg_quality: 20, achieved_psnr: 21.65, achieved_ssim: 0.515 },
+      BNJ: { final_op: 'JPEG', noise_std: 0.070, blur_sigma: 2.8, jpeg_quality: 35, achieved_psnr: 22.01, achieved_ssim: 0.496 },
+      BJN: { final_op: 'Noise', noise_std: 0.070, blur_sigma: 0.5, jpeg_quality: 20, achieved_psnr: 22.03, achieved_ssim: 0.486 },
+      JNB: { final_op: 'Blur', noise_std: 0.120, blur_sigma: 0.5, jpeg_quality: 35, achieved_psnr: 21.96, achieved_ssim: 0.496 },
+      JBN: { final_op: 'Noise', noise_std: 0.070, blur_sigma: 0.5, jpeg_quality: 20, achieved_psnr: 22.19, achieved_ssim: 0.496 },
+    },
+  },
+};
+
+/**
+ * Applies a 3-stage compound sequential distortion (N, B, J permutations) to an image
+ * using exact physical order and parameters.
+ */
+export async function applyCompoundSequence(
+  imageSrc: string,
+  sequence: CompoundSequenceOrder,
+  params: { noise_std: number; blur_sigma: number; jpeg_quality: number }
+): Promise<string> {
+  let currentSrc = imageSrc;
+
+  // Split sequence into individual operations: e.g. 'NBJ' -> ['N', 'B', 'J']
+  const ops = sequence.split('') as ('N' | 'B' | 'J')[];
+
+  for (const op of ops) {
+    const img = await loadImage(currentSrc);
+    const canvas = document.createElement('canvas');
+    const width = img.naturalWidth || img.width;
+    const height = img.naturalHeight || img.height;
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) throw new Error('Could not get 2D canvas context');
+
+    if (op === 'N') {
+      ctx.drawImage(img, 0, 0, width, height);
+      const imgData = ctx.getImageData(0, 0, width, height);
+      const data = imgData.data;
+      const std = params.noise_std * 255;
+      for (let i = 0; i < data.length; i += 4) {
+        const noise = gaussianRandom(0, std);
+        data[i] = Math.min(255, Math.max(0, data[i] + noise));
+        data[i + 1] = Math.min(255, Math.max(0, data[i + 1] + noise));
+        data[i + 2] = Math.min(255, Math.max(0, data[i + 2] + noise));
+      }
+      ctx.putImageData(imgData, 0, 0);
+      currentSrc = canvas.toDataURL('image/png');
+    } else if (op === 'B') {
+      ctx.filter = `blur(${params.blur_sigma}px)`;
+      ctx.drawImage(img, 0, 0, width, height);
+      currentSrc = canvas.toDataURL('image/png');
+    } else if (op === 'J') {
+      ctx.drawImage(img, 0, 0, width, height);
+      const quality = Math.max(0.01, Math.min(1.0, params.jpeg_quality / 100));
+      currentSrc = canvas.toDataURL('image/jpeg', quality);
+    }
+  }
+
+  return currentSrc;
+}

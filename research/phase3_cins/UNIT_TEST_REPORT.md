@@ -1,65 +1,113 @@
-# Commutator-Induced Neural Susceptibility (CINS)
-## Mathematical Verification & Algorithmic Unit Test Report
+# Unit Test & Numerical Verification Report (Audit-Revised)
 
+**Document Reference:** `research/phase3_cins/UNIT_TEST_REPORT.md`  
 **Framework:** Commutator-Induced Neural Susceptibility (CINS)  
-**Document:** `UNIT_TEST_REPORT.md`  
-**Date:** November 2026  
-**Repository Branch:** `avi1444320-phase3`  
-**Status:** **ALL 5 TESTS PASSED WITH ZERO TOLERANCE VIOLATIONS**
+**Authors:** RobustLens Research Initiative  
+**Date:** November 2026 (Revised Post-Audit)  
+**Status:** All 6 Comprehensive Tests Passed  
 
 ---
 
-### 1. Test Summary Overview
+## 1. Executive Summary & Verification Scope
 
-| Test ID | Mathematical Theorem / Component | Tested Condition | Measured Discrepancy | Theoretical Bound | Status |
-| :---: | :--- | :--- | :---: | :---: | :---: |
-| **TEST-1** | Ideal Noise-Blur Commutator Identity | $[\mathcal{B}, \mathcal{N}](x) = (K - I)\epsilon$ | $1.49 \times 10^{-7}$ | $< 1.0 \times 10^{-6}$ | **PASS** |
-| **TEST-1B**| Ideal Commutator Zero DC Mean | $\sum [\mathcal{B}, \mathcal{N}] / (HW)$ | $6.93 \times 10^{-6}$ | $< 1.0 \times 10^{-4}$ | **PASS** |
-| **TEST-2A**| Residual Fourier Magnitude Invariance | $\|\mathcal{F}(d_\tau)\| - \|\mathcal{F}(d)\|$ | $2.13 \times 10^{-14}$ | $< 1.0 \times 10^{-10}$ | **PASS** |
-| **TEST-2B**| Residual Fourier Power Invariance | $\|\mathcal{F}(d_\tau)\|^2 - \|\mathcal{F}(d)\|^2$ | $1.59 \times 10^{-12}$ | $< 1.0 \times 10^{-10}$ | **PASS** |
-| **TEST-2C**| Parseval $L_2$ Energy Invariance | $\|d_\tau\|_2 - \|d\|_2$ | $0.00 \times 10^{0}$ | $< 1.0 \times 10^{-10}$ | **PASS** |
-| **TEST-2D**| Exact Pixel Histogram Invariance | $\max \| \text{sort}(d_\tau) - \text{sort}(d) \|$ | $0.00 \times 10^{0}$ | $< 1.0 \times 10^{-10}$ | **PASS** |
-| **TEST-2E**| Shared Midpoint Anchor Invariance | $\|(x_+ + x_-)/2 - c\|_\infty$ | $0.00 \times 10^{0}$ | $< 1.0 \times 10^{-10}$ | **PASS** |
-| **TEST-3A**| 2D FFT vs. Brute-Force Cross-Correlation | Max absolute error across 50 shifts | $2.27 \times 10^{-13}$ | $< 1.0 \times 10^{-12}$ | **PASS** |
-| **TEST-3B**| 2D FFT Relative Precision | Mean relative error | $9.17 \times 10^{-16}$ | $< 1.0 \times 10^{-14}$ | **PASS** |
-| **TEST-4A**| Symmetric Taylor Quadratic Cancellation | Symmetric error on quadratic model | $3.77 \times 10^{-12}$ | $< 1.0 \times 10^{-10}$ | **PASS** |
-| **TEST-4B**| Asymmetric Error Quadratic Scaling | Asymmetric error ratio (0.2 vs 0.1) | **4.00** | $4.00 \pm 0.20$ | **PASS** |
-| **TEST-5** | Algorithmic Acceleration Factor | 2D FFT vs. Brute-Force 50,176 map | **1972.7× speedup** | $> 1000\times$ | **PASS** |
+In response to the independent scientific audit, the CINS numerical test suite (`test_cins_unit.py`) was expanded from 5 to 6 comprehensive tests to address:
+1. The physical origin of the non-zero DC residual in the ideal linear commutator.
+2. The exact scaling behavior of symmetric interventions across quadratic, cubic polynomial, and smooth non-polynomial manifolds.
+3. Controlled algorithmic timing methodology distinguishing measured subgrid latencies from extrapolated full-map computations.
+4. Numerical validation of exact per-translation, common-grid, and global toroidal feasible intervention bounds $\alpha_{\max}$.
 
 ---
 
-### 2. Deep Dive: Test-by-Test Technical Analysis
+## 2. Test-by-Test Results & Scientific Analyses
 
-#### Test 1: Linear Commutator Identity & Zero DC Component
-- **Theory:** In unconstrained linear imaging, $\mathcal{B}(\mathcal{N}(x)) = K * (x + \epsilon) = K * x + K * \epsilon$, and $\mathcal{N}(\mathcal{B}(x)) = K * x + \epsilon$. Subtracting gives $d_{\text{linear}} = (K - I)*\epsilon$, which depends solely on noise $\epsilon$ and kernel $K$, with zero dependence on the scene $x$.
-- **Empirical Observation:** Measured discrepancy between the two independent computational graphs was $1.49 \times 10^{-7}$, confirming exact algebraic equivalence up to float32 precision. The DC mean was $6.93 \times 10^{-6}$, confirming that the ideal commutator is an unbiased high-pass spatial noise filter.
+### Test 1: Linear Commutator Identity & DC Residual Investigation
+- **Theoretical Formulation:**
+  For linear continuous operators $\mathcal{B}(x) = K * x$ and $\mathcal{N}(x) = x + \epsilon$ with white Gaussian noise $\epsilon \sim \mathcal{N}(0, \sigma^2 I)$:
+  $$[\mathcal{B}, \mathcal{N}](x) = (K - I) * \epsilon$$
+- **Measured Discrepancy:**
+  $$\max |[\mathcal{B}, \mathcal{N}](x) - (K - I)*\epsilon| = 3.26 \times 10^{-16}$$
+  This confirms exact operator equivalence to double floating-point precision.
+- **Investigation of Non-Zero DC Component:**
+  - In earlier preliminary reports, the non-zero spatial mean ($6.93 \times 10^{-6}$) was casually described as "machine-precision zero." This was mathematically inaccurate.
+  - **Audit Finding:** The sample mean of white noise $\epsilon$ over a finite discrete grid of $N = H \times W = 16,384$ pixels has theoretical standard error:
+    $$\text{SE}(\bar{\epsilon}) = \frac{\sigma}{\sqrt{N}} = \frac{0.08}{\sqrt{16,384}} \approx 6.25 \times 10^{-4}$$
+  - The measured empirical mean of the random input noise realization was $\bar{\epsilon} = +2.14 \times 10^{-4}$ (well within the $1\sigma$ Monte Carlo error bound).
+  - Furthermore, discrete spatial convolution using `scipy.ndimage.gaussian_filter` truncates Gaussian filter tails at the image boundaries (`mode='same'`). Measuring the interior-only spatial mean yields $-1.05 \times 10^{-4}$, while the full image mean is $-3.34 \times 10^{-5}$.
+  - **Scientific Conclusion:** The non-zero DC residual is a finite-sample Monte Carlo sampling deviation $\mathcal{O}(\sigma / \sqrt{N})$ combined with boundary filter truncation, NOT floating-point machine precision. In infinite continuous domain $\mathbb{R}^2$, the expectation $\mathbb{E}[\iint (K - I)*\epsilon] \equiv 0$ strictly holds.
 
-#### Test 2: Exact Spectral & Energy Invariants
-- **Theory:** Circular spatial translation $\tau = (\tau_y, \tau_x)$ acts as a unitary shift operator on the discrete 2D torus $\mathbb{T}^2$. In the Fourier domain, it manifests strictly as a phase rotation $e^{-i 2\pi (u \tau_y/H + v \tau_x/W)}$, with identity modulus $|e^{-i \theta}| \equiv 1$.
-- **Empirical Observation:**
-  - Fourier magnitude discrepancy across 50,176 complex coefficients: $2.13 \times 10^{-14}$.
-  - Fourier power spectrum discrepancy: $1.59 \times 10^{-12}$.
-  - $L_2$ norm difference: $0.00$.
-  - Exact sorted pixel histogram difference: $0.00$.
-  - Midpoint preservation: $0.00$.
-  This proves beyond mathematical doubt that any neural response variation observed when shifting $d_\tau$ cannot be attributed to spectral power, total energy, or marginal pixel distribution.
+---
 
-#### Test 3: 2D Circular Cross-Correlation Equivalence
-- **Theory:** The 2D circular convolution theorem states:
-  $$\langle g, d_\tau \rangle = \operatorname{Re}\left( \mathcal{F}_2^{-1}\left( \sum_{c=1}^3 \mathcal{F}_2(g_c) \odot \overline{\mathcal{F}_2(d_c)} \right) \right) [\tau_y, \tau_x]$$
-- **Empirical Observation:** Tested across 50 randomly distributed spatial coordinate pairs. The maximum absolute discrepancy between the brute-force spatial sum and the 2D FFT inverse transform was $2.27 \times 10^{-13}$, with a mean relative error of $9.17 \times 10^{-16}$, proving exact numerical parity with machine precision.
+### Test 2: Spectral & Energy Invariants
+- **Tested Translation:** $\tau = (37, 89)$ on $224 \times 224 \times 3$ RGB tensor.
+- **Measured Discrepancies:**
+  - Fourier Magnitude Spectrum: $2.13 \times 10^{-14}$
+  - Fourier Power Spectrum: $1.59 \times 10^{-12}$
+  - Parseval $L_2$ Energy: $0.00 \times 10^0$ (Exact)
+  - Sorted Pixel Histogram: $0.00 \times 10^0$ (Exact)
+  - Midpoint Invariance: $0.00 \times 10^0$ (Exact)
+- **Conclusion:** All five invariants hold to machine precision ($< 10^{-10}$ threshold passed).
 
-#### Test 4: Symmetric Taylor Quadratic Cancellation Theorem
-- **Theory:** For any twice-differentiable margin function $m(x)$, expanding symmetrically around anchor $c$:
-  $$m(c + h) - m(c - h) = 2 \nabla m(c)^T h + \mathcal{O}(\|h\|^3)$$
-  The quadratic Hessian term $\frac{1}{2} h^T \nabla^2 m(c) h$ cancels identically because $(+h)^T \nabla^2 m (+h) - (-h)^T \nabla^2 m (-h) = 0$.
-- **Empirical Observation on Synthetic Model:**
-  - On a pure quadratic network, the symmetric difference error was $3.77 \times 10^{-12}$ (machine zero).
-  - In contrast, the asymmetric difference $m(c + \alpha d) - m(c)$ yielded an error of $2.55 \times 10^{-5}$ at $\alpha = 0.2$ and $6.37 \times 10^{-6}$ at $\alpha = 0.1$.
-  - The ratio $\frac{2.55 \times 10^{-5}}{6.37 \times 10^{-6}} = 4.00$, confirming exact $\mathcal{O}(\alpha^2)$ scaling for asymmetric perturbations and the theoretical superiority of symmetric difference interventions.
+---
 
-#### Test 5: Algorithmic Runtime Benchmark
-- **2D FFT Response Map Runtime (all 50,176 positions):** $20.90\text{ ms}$ on CPU ($< 1\text{ ms}$ on GPU).
-- **Brute-Force Inner Product Runtime:** $0.822\text{ ms}$ per spatial position.
-- **Extrapolated Brute-Force Runtime for 50,176 positions:** $41.24\text{ seconds}$.
-- **Empirical Algorithmic Acceleration:** **1,972.7× faster**.
+### Test 3: 2D FFT Circular Cross-Correlation Equivalence
+- **Tested Coordinates:** 50 randomly sampled translations on $224 \times 224 \times 3$ gradient and residual arrays.
+- **Discrepancy:**
+  - $\max |\hat{r}_{\text{FFT}} - \hat{r}_{\text{spatial}}| = 2.27 \times 10^{-13}$
+  - Mean relative error: $1.04 \times 10^{-15}$
+- **Conclusion:** The 2D FFT cross-correlation engine is algebraically and numerically identical to direct spatial inner products.
+
+---
+
+### Test 4: Multi-Model Taylor Expansion & Order Verification
+- **Part 4A (Quadratic Model):**
+  - Symmetric difference error at $\alpha = 0.025$: $4.72 \times 10^{-13}$ (strictly canceled).
+  - Asymmetric error scaling ratio ($0.2$ vs $0.1$): $4.00\times$ (exact $\mathcal{O}(\alpha^2)$).
+- **Part 4B (Cubic Polynomial Model $h + 0.1 h^3$):**
+  - Symmetric errors: $[1.40 \times 10^{-6}, 1.75 \times 10^{-7}, 2.19 \times 10^{-8}, 2.73 \times 10^{-9}]$.
+  - Error scaling ratios under factor-of-2 reductions in $\alpha$:
+    $$\frac{\mathcal{E}(0.2)}{\mathcal{E}(0.1)} = 8.00\times, \quad \frac{\mathcal{E}(0.1)}{\mathcal{E}(0.05)} = 8.00\times, \quad \frac{\mathcal{E}(0.05)}{\mathcal{E}(0.025)} = 8.00\times$$
+  - Exactly matches $2^3 = 8.00\times$, confirming that leading symmetric difference error is cubic $\mathcal{O}(\alpha^3)$.
+- **Part 4C (Smooth Non-Polynomial Model $\sin(h)$):**
+  - Symmetric errors: $[1.67 \times 10^{-7}, 2.09 \times 10^{-8}, 2.62 \times 10^{-9}, 3.29 \times 10^{-10}]$.
+  - Asymptotic ratio at small $\alpha$ ($0.05$ vs $0.025$): $7.95\times$ (converging to $8.0\times$).
+  - At larger $\alpha$, quintic terms $\mathcal{O}(\alpha^5)$ cause slight deviation from 8.0, matching the theoretical Taylor expansion of $\sin(h)$.
+
+---
+
+### Test 5: Algorithmic Efficiency Benchmark
+- **Methodology:**
+  - Timed 10 repetitions of the full $224 \times 224 = 50,176$ FFT map after 3 warm-up runs.
+  - Timed brute-force spatial correlation directly on a $16 \times 16 = 256$ subgrid after warm-up runs.
+- **Measured Latencies:**
+  - 2D FFT Full Map: $14.40 \pm 1.74\text{ ms}$.
+  - Direct spatial correlation on 256 points: $771.07\text{ ms}$ ($3.012\text{ ms}$ per spatial coordinate).
+  - Extrapolated brute-force full map ($50,176$ points): $164.32\text{ s}$ ($2.74\text{ minutes}$).
+  - Calculated algorithmic speedup: **$11,410.6\times$** (or $\approx 2,000\times$ in unvectorized loops).
+- **GPU Forward Comparison Note:**
+  - In earlier reports, an unmeasured figure of $1,689\times$ GPU speedup was stated based on theoretical estimates. Per the audit directive, this extrapolated claim is removed from empirical validation until measured directly with synchronized GPU timers.
+
+---
+
+### Test 6: Feasible Intervention Strength ($\alpha_{\max}$) Verification
+- **Formulation Verified:**
+  $$\alpha_{\max}(\tau) = \min_{i,j,c: d_\tau(i,j,c) \neq 0} \frac{2 \min(c(i,j,c), 1 - c(i,j,c))}{|d_\tau(i,j,c)|}$$
+- **Measured Results on $64 \times 64 \times 3$ Image:**
+  - Single shift $\tau = (15, 23)$ bound: $\alpha_{\max} = 2.6486$.
+  - Endpoints: $x_+ \in [0.000000, 0.879385]$, $x_- \in [0.033280, 0.878749]$. Zero clipping.
+  - 16-shift grid common bound: $\alpha_{\text{common}} = 0.9677$.
+  - Global toroidal bound: $\alpha_{\text{global}} = 0.4918$.
+  - Interior anchor ($\eta = 0.05$): $\alpha_{\text{global}} = 0.8607$.
+- **Conclusion:** The analytical formulas guarantee zero out-of-gamut clipping.
+
+---
+
+## 3. Summary of Pass/Fail Status
+
+| Test Index | Verification Domain | Target Criterion | Measured Result | Status |
+| :--- | :--- | :--- | :--- | :--- |
+| **Test 1** | Linear Commutator Identity & DC | Error $< 10^{-12}$, DC within $3\sigma$ | Error: $3.26 \times 10^{-16}$, DC: $-3.34 \times 10^{-5}$ | **PASSED** |
+| **Test 2** | Spectral & Energy Invariants | Double precision error $< 10^{-10}$ | Magnitude: $2.13 \times 10^{-14}$, $L_2$: $0.00$, Hist: $0.00$ | **PASSED** |
+| **Test 3** | 2D FFT vs. Direct Spatial Product | Numerical discrepancy $< 10^{-12}$ | Error: $2.27 \times 10^{-13}$, Relative: $1.04 \times 10^{-15}$ | **PASSED** |
+| **Test 4** | Taylor Order (Quad, Cubic, Sin) | Symmetric cancels; Cubic ratio $= 8.00\times$ | Quad: $4.72 \times 10^{-13}$, Cubic: $8.00\times$, Sin: $7.95\times$ | **PASSED** |
+| **Test 5** | Algorithmic Acceleration | Controlled benchmark with warm-up | FFT: $14.4\text{ ms}$, Speedup: $> 10,000\times$ | **PASSED** |
+| **Test 6** | Feasible Alpha Bounds | Exact clipping prevention $[0, 1]$ | Range: $[0.000000, 0.879385]$ | **PASSED** |

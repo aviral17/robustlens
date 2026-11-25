@@ -5,7 +5,8 @@ Provides:
 2. Spectral invariance verification (Fourier magnitude, power, L2, histogram).
 3. 2D FFT circular cross-correlation engine for full 50,176-point response maps.
 4. Mathematical verification comparing brute-force spatial inner products vs. FFT.
-5. Synthetic differentiable models for Taylor quadratic cancellation proofs.
+5. Exact pixel-validity bound calculators: alpha_max(tau), alpha_common, and global toroidal bounds.
+6. Synthetic differentiable models (linear, quadratic, cubic, smooth-nonlinear, piecewise-linear ReLU).
 """
 
 import numpy as np
@@ -87,7 +88,7 @@ def verify_spectral_invariants(d, tau_y=17, tau_x=43):
     l2_tau = float(np.sqrt(np.sum(d_tau ** 2)))
     l2_diff = abs(l2_orig - l2_tau)
 
-    # 3. Pixel histogram invariance (Wasserstein / sorted absolute difference)
+    # 3. Pixel histogram invariance (sorted absolute difference)
     hist_diff = 0.0
     for c in range(C):
         sorted_orig = np.sort(d_64[:, :, c].flatten())
@@ -109,45 +110,74 @@ def verify_spectral_invariants(d, tau_y=17, tau_x=43):
         "midpoint_invariance_discrepancy": midpoint_diff,
     }
 
+def compute_exact_feasible_alpha(anchor, residual, tau_y, tau_x, tol=1e-8):
+    """
+    Derives exact feasible symmetric-intervention strength for translation tau:
+    alpha_max(tau) = min_{nonzero d_tau} [ 2 * min(c, 1 - c) / |d_tau| ]
+    Guarantees x_+ = c + alpha/2 * d_tau in [0, 1] and x_- = c - alpha/2 * d_tau in [0, 1].
+    """
+    d_tau = circular_shift(residual, tau_y, tau_x)
+    abs_d = np.abs(d_tau)
+    headroom = np.minimum(anchor, 1.0 - anchor)
+    
+    nonzero_mask = abs_d > tol
+    if not np.any(nonzero_mask):
+        return float("inf")
+    
+    alpha_map = 2.0 * headroom[nonzero_mask] / abs_d[nonzero_mask]
+    return float(np.min(alpha_map))
+
+def compute_common_feasible_alpha(anchor, residual, translation_coords, tol=1e-8):
+    """
+    Computes common feasible bound over a specific set of evaluated translations:
+    alpha_common = min_{tau in coords} alpha_max(tau)
+    """
+    alphas = [compute_exact_feasible_alpha(anchor, residual, ty, tx, tol=tol) for ty, tx in translation_coords]
+    return float(np.min(alphas))
+
+def compute_global_toroidal_alpha_bound(anchor, residual, tol=1e-8):
+    """
+    Computes conservative global bound across all possible circular translations:
+    alpha_global = 2 * min_{i,j,c} min(c, 1-c) / max_{i,j,c} |d|
+    """
+    min_headroom = float(np.min(np.minimum(anchor, 1.0 - anchor)))
+    max_abs_d = float(np.max(np.abs(residual)))
+    if max_abs_d < tol:
+        return float("inf")
+    return float(2.0 * min_headroom / max_abs_d)
+
 def compute_fft_response_map(gradient, residual, alpha=1.0):
     """
     Computes full H x W predicted response map via 2D circular cross-correlation.
     gradient: H x W x C (spatial gradient of margin at anchor c)
     residual: H x W x C (untranslated residual d = u - v)
     alpha: intervention scaling factor
-
-    Returns:
-    response_map: H x W float array where response_map[ty, tx] = alpha * <gradient, circular_shift(residual, ty, tx)>
     """
     H, W, C = gradient.shape
     cross_spec_sum = np.zeros((H, W), dtype=np.complex128)
 
     for c in range(C):
-        G_c = np.fft.fft2(gradient[:, :, c])
-        D_c = np.fft.fft2(residual[:, :, c])
-        # Cross-correlation in frequency domain: G * conj(D)
+        G_c = np.fft.fft2(gradient[:, :, c].astype(np.float64))
+        D_c = np.fft.fft2(residual[:, :, c].astype(np.float64))
         cross_spec_sum += G_c * np.conj(D_c)
 
-    # Inverse 2D FFT to recover spatial cross-correlation
     spatial_corr = np.real(np.fft.ifft2(cross_spec_sum))
-    return alpha * spatial_corr
+    return (alpha * spatial_corr).astype(np.float64)
 
 def brute_force_spatial_inner_product(gradient, residual, tau_y, tau_x, alpha=1.0):
     """
     Brute-force O(H x W x C) calculation of alpha * <gradient, circular_shift(residual, ty, tx)>
     """
     d_tau = circular_shift(residual, tau_y, tau_x)
-    return alpha * float(np.sum(gradient * d_tau))
+    return float(alpha * np.sum(gradient.astype(np.float64) * d_tau.astype(np.float64)))
 
 def verify_fft_vs_brute_force(gradient, residual, num_test_points=25, alpha=1.0):
     """
-    Verifies that the 2D FFT circular cross-correlation matches brute-force spatial inner products
-    at random and extreme spatial translations to within floating-point machine precision.
+    Verifies that 2D FFT circular cross-correlation matches brute-force spatial inner products.
     """
     H, W, _ = gradient.shape
     fft_map = compute_fft_response_map(gradient, residual, alpha=alpha)
 
-    # Test random translations
     rng = np.random.RandomState(1337)
     test_y = rng.randint(0, H, size=num_test_points)
     test_x = rng.randint(0, W, size=num_test_points)
@@ -171,10 +201,12 @@ def verify_fft_vs_brute_force(gradient, residual, num_test_points=25, alpha=1.0)
 
 class SyntheticDifferentiableModel:
     """
-    A controllable synthetic model to verify:
-    1. Perfect linear network: error is identically zero.
-    2. Quadratic/C3 smooth network: second-order error strictly cancels for symmetric differences!
-    3. Piecewise linear (ReLU) network: activation boundary crossings cause error.
+    Controllable synthetic model supporting:
+    1. 'linear': exactly linear, zero error everywhere.
+    2. 'quadratic': second-order smooth, verifies exact quadratic curvature cancellation.
+    3. 'cubic': third-order smooth, verifies exact O(alpha^3) scaling (8.0x per factor of 2).
+    4. 'smooth_nonlinear': sin(h) non-polynomial smooth, verifies asymptotic cubic scaling with quintic remainder.
+    5. 'relu': piecewise linear, verifies activation boundary crossings.
     """
     def __init__(self, in_dim=(16, 16, 1), mode="quadratic"):
         self.H, self.W, self.C = in_dim
@@ -182,10 +214,9 @@ class SyntheticDifferentiableModel:
         self.mode = mode
         rng = np.random.RandomState(42)
         self.W1 = rng.normal(0, 0.1, (self.D, 16)).astype(np.float64)
-        self.W2 = rng.normal(0, 0.1, (16, 2)).astype(np.float64) # 2 classes: class 0 (true), class 1 (competing)
+        self.W2 = rng.normal(0, 0.1, (16, 2)).astype(np.float64)
 
     def forward_logits(self, x_flat):
-        # x_flat: (N, D)
         h = x_flat @ self.W1
         if self.mode == "linear":
             pass
@@ -193,19 +224,19 @@ class SyntheticDifferentiableModel:
             h = h + 0.1 * (h ** 2)
         elif self.mode == "cubic":
             h = h + 0.1 * (h ** 3)
+        elif self.mode == "smooth_nonlinear":
+            h = h + 0.1 * np.sin(h)
         elif self.mode == "relu":
             h = np.maximum(0.0, h)
         logits = h @ self.W2
         return logits
 
     def margin(self, x):
-        # x: (H, W, C)
         x_flat = x.flatten()[np.newaxis, :]
         logits = self.forward_logits(x_flat)[0]
         return logits[0] - logits[1]
 
     def gradient_margin(self, x, eps=1e-6):
-        # Numerical gradient via central differences
         grad = np.zeros_like(x, dtype=np.float64)
         flat_x = x.copy().flatten()
         for i in range(len(flat_x)):

@@ -1,80 +1,77 @@
 # Approximation Error Analysis: Commutator-Induced Neural Susceptibility (CINS)
+## Theoretical Characterization & Regularity Breakdown (Post-Audit Revised)
 
 **Document Reference:** `research/phase3_cins/APPROXIMATION_ERROR_ANALYSIS.md`  
 **Framework:** Commutator-Induced Neural Susceptibility (CINS)  
 **Authors:** RobustLens Research Initiative  
-**Date:** November 2026  
-**Status:** Canonical Theoretical & Empirical Error Characterization  
+**Date:** November 2026 (Post-Audit Revised)  
+**Status:** Canonical Error Characterization & Methodological Hypotheses  
 
 ---
 
 ## 1. Executive Summary & Objective
 
-The central theoretical hypothesis of the CINS framework posits that the spatial decision response map:
+The CINS framework investigates whether the spatial decision response map:
 $$r(\tau) = m\left(c + \frac{1}{2}\alpha d_\tau\right) - m\left(c - \frac{1}{2}\alpha d_\tau\right)$$
-can be predicted across all $H \times W$ spatial circular translation offsets $\tau \in \{0, \dots, H-1\} \times \{0, \dots, W-1\}$ via a single 2D circular cross-correlation:
+can be predicted across spatial translations $\tau \in \{0, \dots, H-1\} \times \{0, \dots, W-1\}$ via a single 2D circular cross-correlation:
 $$\hat{r}(\tau) = \alpha \langle g, d_\tau \rangle = \alpha \operatorname{Re}\left(\mathcal{F}^{-1}\left(\sum_{c=1}^C G_c \odot \overline{D_c}\right)\right)(\tau)$$
-where $g = \nabla_x m(c) \in \mathbb{R}^{H \times W \times C}$ is the neural gradient evaluated at the shared anchor midpoint $c = \frac{1}{2}(u + v)$.
+where $g = \nabla_x m(c) \in \mathbb{R}^{H \times W \times C}$ is the spatial gradient of a decision margin evaluated at the anchor $c = \frac{1}{2}(u + v)$.
 
-While this enables an algorithmic acceleration factor of $\approx 2,000\times$ (evaluating $50,176$ spatial hypotheses in $20.9\text{ ms}$ on a CPU rather than $50,176$ GPU neural forward passes), the approximation is inherently an asymptotic first-order linearization.
+While 2D FFT computation provides an algorithmic speedup of over $2,000\times$ on CPU compared to brute-force spatial inner products, the prediction $\hat{r}(\tau)$ is a first-order Taylor approximation.
 
-This document presents a comprehensive mathematical and empirical investigation into:
-1. **The Exact Order of Convergence:** Why symmetric difference interventions achieve cubic $\mathcal{O}(\alpha^3)$ leading error rather than quadratic $\mathcal{O}(\alpha^2)$.
-2. **Piecewise Linearity & Activation Boundary Crossings:** The impact of non-smooth activation manifolds ($\text{ReLU}$, $\text{GELU}$, LayerNorm, Softmax).
-3. **The Argmax Cliff (Decision Boundary Discontinuity):** Why top-1 classification margin $m(x) = z_{y^*}(x) - \max_{j \neq y^*} z_j(x)$ develops non-differentiable ridges when runner-up classes switch.
-4. **Architectural Vulnerability Spectrum:** Comparative error scaling across Convolutional Networks (ResNet-50, ConvNeXt-Tiny) vs. Hierarchical and Global Vision Transformers (ViT-Base/16, Swin-Tiny).
-5. **Practical Diagnostic Bounds:** Analytical conditions for identifying when $\hat{r}(\tau)$ is trustworthy vs. when it degrades.
+This document presents a rigorous theoretical and empirical analysis of:
+1. **The Exact Order of Convergence:** Why symmetric difference interventions nullify the second-order Hessian $\nabla^2 m(c)$ on sufficiently smooth manifolds, yielding cubic $\mathcal{O}(\alpha^3)$ leading error.
+2. **Smoothness Assumptions:** The explicit $\mathcal{C}^5$ Fréchet differentiability requirement and how activation boundaries violate it.
+3. **Activation Geometries:** The mathematical distinction between piecewise-affine networks (pure ReLU) and smooth non-linear networks (GELU, SiLU, Softmax, LayerNorm).
+4. **The Argmax Cliff:** Discontinuities in margin gradient when runner-up classes switch.
+5. **Architectural Hypotheses:** How convolutional networks (ResNet-50, ConvNeXt-Tiny) and Vision Transformers (ViT-Base/16, Swin-Tiny) differ in regularity.
 
 ---
 
 ## 2. Multi-Scale Taylor Expansion & Error Derivations
 
-Let $m: \mathbb{R}^{H \times W \times C} \to \mathbb{R}$ denote a scalar neural response function (e.g., the logit difference or margin of the target class). Suppose $m$ is at least three times continuously Fréchet differentiable in a neighborhood around the anchor $c$.
-
-Let $h_\tau = \frac{1}{2} \alpha d_\tau \in \mathbb{R}^D$ where $D = H \times W \times C$.
+Let $m: \mathcal{U} \to \mathbb{R}$ denote a scalar neural response function defined on an open neighborhood $\mathcal{U} \subset \mathbb{R}^D$ containing the line segment $[c - h_\tau, c + h_\tau]$, where $h_\tau = \frac{1}{2} \alpha d_\tau$ and $D = H \times W \times C$.
 
 ### 2.1 Asymmetric vs. Symmetric Intervention Expansions
 
 Consider first the **asymmetric intervention** (evaluating only the forward perturbation relative to the anchor):
 $$r_{\text{asym}}(\tau) = m(c + \alpha d_\tau) - m(c)$$
 
-Expanding via Taylor's theorem with integral remainder:
-$$m(c + \alpha d_\tau) = m(c) + \alpha \langle \nabla m(c), d_\tau \rangle + \frac{1}{2}\alpha^2 d_\tau^T \nabla^2 m(c) d_\tau + \frac{1}{6}\alpha^3 \nabla^3 m(c)[d_\tau, d_\tau, d_\tau] + \mathcal{O}(\alpha^4)$$
-
-Thus, the asymmetric error is dominated by the Hessian curvature:
+Assuming $m \in \mathcal{C}^2(\mathcal{U})$:
+$$m(c + \alpha d_\tau) = m(c) + \alpha \langle \nabla m(c), d_\tau \rangle + \frac{1}{2}\alpha^2 d_\tau^T \nabla^2 m(c) d_\tau + \mathcal{O}(\alpha^3)$$
 $$\mathcal{E}_{\text{asym}}(\tau) = |r_{\text{asym}}(\tau) - \hat{r}_{\text{asym}}(\tau)| = \frac{1}{2}\alpha^2 \left| d_\tau^T \nabla^2 m(c) d_\tau \right| + \mathcal{O}(\alpha^3)$$
 **Convergence rate:** $\mathcal{O}(\alpha^2)$.
 
 Now consider the **symmetric difference intervention**:
 $$r_{\text{sym}}(\tau) = m(c + h_\tau) - m(c - h_\tau)$$
 
-Expanding both branches around $c$:
-$$m(c + h_\tau) = m(c) + \nabla m(c)^T h_\tau + \frac{1}{2} h_\tau^T \nabla^2 m(c) h_\tau + \frac{1}{6} \nabla^3 m(c)[h_\tau, h_\tau, h_\tau] + \frac{1}{24}\nabla^4 m(c)[h_\tau^4] + \mathcal{O}(\|h_\tau\|^5)$$
-$$m(c - h_\tau) = m(c) - \nabla m(c)^T h_\tau + \frac{1}{2} h_\tau^T \nabla^2 m(c) h_\tau - \frac{1}{6} \nabla^3 m(c)[h_\tau, h_\tau, h_\tau] + \frac{1}{24}\nabla^4 m(c)[h_\tau^4] + \mathcal{O}(\|h_\tau\|^5)$$
+Assuming $m \in \mathcal{C}^5(\mathcal{U})$:
+$$m(c + h_\tau) = m(c) + \nabla m(c)^T h_\tau + \frac{1}{2} h_\tau^T \nabla^2 m(c) h_\tau + \frac{1}{6} \nabla^3 m(c)[h_\tau^3] + \frac{1}{24}\nabla^4 m(c)[h_\tau^4] + \mathcal{O}(\|h_\tau\|^5)$$
+$$m(c - h_\tau) = m(c) - \nabla m(c)^T h_\tau + \frac{1}{2} h_\tau^T \nabla^2 m(c) h_\tau - \frac{1}{6} \nabla^3 m(c)[h_\tau^3] + \frac{1}{24}\nabla^4 m(c)[h_\tau^4] + \mathcal{O}(\|h_\tau\|^5)$$
 
 Subtracting $m(c - h_\tau)$ from $m(c + h_\tau)$:
-$$r_{\text{sym}}(\tau) = 2 \nabla m(c)^T h_\tau + \frac{2}{6} \nabla^3 m(c)[h_\tau, h_\tau, h_\tau] + \mathcal{O}(\|h_\tau\|^5)$$
+$$r_{\text{sym}}(\tau) = 2 \nabla m(c)^T h_\tau + \frac{1}{3} \nabla^3 m(c)[h_\tau^3] + \mathcal{O}(\|h_\tau\|^5)$$
 
 Substituting $h_\tau = \frac{1}{2}\alpha d_\tau$:
 $$2 \nabla m(c)^T \left(\frac{1}{2}\alpha d_\tau\right) = \alpha \langle \nabla m(c), d_\tau \rangle = \hat{r}(\tau)$$
-$$\frac{2}{6} \nabla^3 m(c)\left[\frac{1}{2}\alpha d_\tau, \frac{1}{2}\alpha d_\tau, \frac{1}{2}\alpha d_\tau\right] = \frac{1}{3} \cdot \frac{1}{8} \alpha^3 \nabla^3 m(c)[d_\tau, d_\tau, d_\tau] = \frac{1}{24}\alpha^3 \nabla^3 m(c)[d_\tau, d_\tau, d_\tau]$$
+$$\frac{1}{3} \nabla^3 m(c)\left[\left(\frac{1}{2}\alpha d_\tau\right)^3\right] = \frac{\alpha^3}{24} \nabla^3 m(c)[d_\tau^3]$$
 
-### 2.2 Strict Curvature Cancellation Theorem
+### 2.2 Quadratic Curvature Cancellation Theorem
 
 **Theorem 1 (Quadratic Curvature Nullification):**  
-*Under symmetric difference formulation, all even-order Taylor terms—including the entire second-order Hessian matrix $\nabla^2 m(c)$—identically cancel.*
+*On any open domain $\mathcal{U}$ where $m \in \mathcal{C}^5(\mathcal{U})$, all even-order Taylor terms—including the entire second-order Hessian matrix $\nabla^2 m(c)$—identically cancel under symmetric difference interventions:*
 
-$$\mathcal{E}_{\text{sym}}(\tau) = |r_{\text{sym}}(\tau) - \hat{r}(\tau)| = \frac{\alpha^3}{24} \left| \nabla^3 m(c)[d_\tau, d_\tau, d_\tau] \right| + \mathcal{O}(\alpha^5)$$
+$$\mathcal{E}_{\text{sym}}(\tau) = |r_{\text{sym}}(\tau) - \hat{r}(\tau)| = \frac{\alpha^3}{24} \left| \nabla^3 m(c)[d_\tau^3] \right| + \mathcal{O}(\alpha^5)$$
 
 **Numerical Consequence:**
-1. The leading error term is cubic: doubling the intervention strength $\alpha \to 2\alpha$ increases the error by a factor of $2^3 = 8\times$, whereas halving $\alpha \to 0.5\alpha$ diminishes the error by $8\times$.
-2. In contrast to asymmetric perturbations where highly curved local loss valleys (large eigenvalues of $\nabla^2 m(c)$) immediately invalidate first-order predictions, the symmetric CINS formulation is strictly immune to local quadratic curvature.
+- In contrast to asymmetric interventions where local quadratic curvature creates $\mathcal{O}(\alpha^2)$ error, symmetric interventions nullify Hessian curvature.
+- Halving $\alpha \to 0.5\alpha$ diminishes the leading error term by a factor of $2^3 = 8.00\times$, as numerically verified in `test_cins_unit.py` (Test 4B and 4C).
 
 ---
 
 ## 3. Structural Mechanisms of Approximation Breakdown
 
-Despite the cancellation of $\nabla^2 m(c)$, practical deep networks deviate from the ideal third-order asymptotic regime under five specific conditions:
+The theoretical $\mathcal{O}(\alpha^3)$ rate strictly requires $\mathcal{C}^5$ Fréchet smoothness. Real neural networks violate this assumption in four specific ways:
 
 ```
                           ┌───────────────────────────────────────────────┐
@@ -92,110 +89,62 @@ Despite the cancellation of $\nabla^2 m(c)$, practical deep networks deviate fro
 
 ### 3.1 Mechanism I: The "Argmax Cliff" (Runner-Up Class Switching)
 
-In classification benchmarks, the most interpretable metric is the **True-Class Margin**:
-$$M(x) = z_{y^*}(x) - \max_{j \neq y^*} z_j(x)$$
+In classification benchmarks, the true-class decision margin is:
+$$m(x) = z_{y^*}(x) - \max_{j \neq y^*} z_j(x)$$
 where $z_j(x)$ is the pre-softmax logit for class $j$, and $y^*$ is the ground-truth class.
 
-The margin function is non-differentiable at any point $x$ where the runner-up class is degenerate:
+The margin function is non-differentiable at any point $x$ where two or more runner-up classes have identical logits:
 $$\mathcal{S}_{\text{cliff}} = \left\{ x \in \mathbb{R}^D \;\middle|\; \exists j_1 \neq j_2 \neq y^* \text{ s.t. } z_{j_1}(x) = z_{j_2}(x) = \max_{j \neq y^*} z_j(x) \right\}$$
 
-Moreover, when evaluating $g = \nabla_x M(c)$, the gradient is:
+Moreover, the gradient evaluated at anchor $c$ is:
 $$g = \nabla_x z_{y^*}(c) - \nabla_x z_{j^*(c)}(c), \quad \text{where } j^*(c) = \arg\max_{j \neq y^*} z_j(c)$$
 
-If the perturbation $h_\tau$ causes a different class $k \neq j^*(c)$ to surpass $j^*(c)$ as the runner-up:
+If the perturbation $h_\tau$ causes a different class $k \neq j^*(c)$ to become the leading runner-up:
 $$\arg\max_{j \neq y^*} z_j(c + h_\tau) = k \neq j^*(c)$$
 the true response reflects $\nabla z_k$, whereas the predicted response was linear in $\nabla z_{j^*(c)}$.
 
-**Analytical Error Bound:**
-$$\mathcal{E}_{\text{margin}}(\tau) \le \alpha \|d_\tau\|_2 \cdot \|\nabla z_k(c) - \nabla z_{j^*(c)}(c)\|_2$$
-*Diagnostic:* The approximation remains highly linear when evaluated on the raw un-maxed logit $z_{y^*}(x)$, but exhibits sharp directional kinks when evaluated on margin $M(x)$ if top-2 runner-up margins are within $\Delta z < 0.5$.
+*Methodological Solution:* In the Kaggle GPU experiment, we log three distinct margin formulations:
+1. True-class maximum-competitor margin: $m(x) = z_{y^*} - \max_{j \ne y^*} z_j$
+2. Fixed anchor-competitor margin: $m_{\text{fixed}}(x) = z_{y^*} - z_{j^*(c)}$ (strictly differentiable if $z$ is smooth)
+3. Smooth log-sum-exp margin: $m_{\text{LSE}}(x; T) = z_{y^*} - T \ln \sum_{j \ne y^*} \exp(z_j / T)$
 
-### 3.2 Mechanism II: Activation Boundary Polytope Crossings
+### 3.2 Mechanism II: Activation Boundary Crossings vs. Smooth Non-Linearities
 
-Modern deep architectures are piecewise affine (for networks with pure ReLU activations) or locally non-linear (GELU, SiLU).
-A deep network $f(x)$ with $L$ ReLU layers partitions the input space $\mathbb{R}^D$ into a huge number of convex polytopes:
-$$\mathbb{R}^D = \bigcup_{k=1}^K \mathcal{P}_k$$
-Within any single polytope $\mathcal{P}_k$, the network is an exact affine map:
-$$f(x) = W_k x + b_k, \quad \forall x \in \mathcal{P}_k$$
-
-When the intervention endpoints $x_+(\tau) = c + h_\tau$ and $x_-(\tau) = c - h_\tau$ reside within the **same linear polytope** as the anchor $c$:
-$$\{c, x_+(\tau), x_-(\tau)\} \subset \mathcal{P}_0 \implies \nabla^2 f(c) \equiv 0, \quad \nabla^3 f(c) \equiv 0$$
-In this regime, the first-order approximation is **exact**:
-$$r(\tau) \equiv \hat{r}(\tau)$$
-
-However, as $\alpha$ increases, the line segment $[c - h_\tau, c + h_\tau]$ punctures $N(\alpha)$ activation boundaries. Each crossed hyperplane flips the state of one or more ReLU units from active to inactive (or vice versa), rotating the effective gradient vector:
-$$g(\tau) = g_0 + \sum_{i=1}^{N(\alpha)} \Delta W_i$$
-*Consequence:* The correlation $\rho(r, \hat{r})$ decays monotonically with the number of traversed activation hyperplanes.
+- **Piecewise-Affine Architectures (Pure ReLU Networks):**  
+  Networks with pure ReLU activations (without LayerNorm, BatchNorm, or smooth non-linearities) partition input space $\mathbb{R}^D$ into a finite collection of convex polytopes. Inside a single polytope, the network is affine ($W_k x + b_k$), and all higher derivatives $\nabla^2 m \equiv 0$ and $\nabla^3 m \equiv 0$. The approximation $\hat{r}(\tau) = r(\tau)$ is exact within that polytope. However, when the line segment $[c - h_\tau, c + h_\tau]$ crosses an activation hyperplane, $\nabla m$ undergoes a jump discontinuity.
+- **Smooth Non-Linear Architectures (GELU, SiLU, Swish):**  
+  GELU ($\text{GELU}(x) = x \Phi(x)$) is **not** piecewise affine. It is infinitely differentiable ($\mathcal{C}^\infty$), with smooth, non-zero derivatives of all orders. Networks with GELU activations (ConvNeXt, ViT, Swin) have continuously varying gradients without jump discontinuities, but higher-order derivatives $\nabla^3 m \ne 0$ are non-zero throughout input space.
 
 ### 3.3 Mechanism III: Softmax Compression and Logit Saturation
 
 When researchers evaluate post-softmax probabilities $p_{y^*}(x) = \frac{\exp(z_{y^*}(x))}{\sum_j \exp(z_j(x))}$ rather than logits:
-$$\frac{\partial p_i}{\partial x} = \sum_j \frac{\partial p_i}{\partial z_j} \frac{\partial z_j}{\partial x} = p_i \left( \nabla z_i - \sum_j p_j \nabla z_j \right)$$
-
-The Hessian of the softmax contains terms proportional to $p_i(1 - p_i)$ and $p_i p_j$.
-When a model is highly confident ($p_{y^*} > 0.99$), $p_i(1 - p_i) \to 0$, causing the probability response to saturate (vanishing sensitivity). Conversely, near the decision threshold ($p_{y^*} \approx 0.50$), the curvature is maximal.
-*Recommendation:* CINS evaluations should preferentially target pre-softmax logits $z_{y^*}$ or log-odds $\log \frac{p_{y^*}}{1 - p_{y^*}}$ rather than bounded probabilities $[0, 1]$ to avoid artificial non-linear compression.
+$$\frac{\partial p_i}{\partial x} = p_i \left( \nabla z_i - \sum_j p_j \nabla z_j \right)$$
+When a model is highly confident ($p_{y^*} > 0.99$), $p_i(1 - p_i) \to 0$, causing the probability response to saturate (vanishing sensitivity).  
+*Rule:* CINS evaluations must primarily evaluate un-normalized pre-softmax logits $z_{y^*}$ and margins $m(x)$ to avoid artificial saturation.
 
 ---
 
-## 4. Architectural Comparison: ConvNet vs. Vision Transformer
+## 4. Architectural Regularity Hypotheses
 
-| Property | ResNet-50 | ConvNeXt-Tiny | ViT-Base/16 | Swin-Tiny |
+| Property | ResNet-50 (`resnet50.a1_in1k`) | ConvNeXt-Tiny (`convnext_tiny.in12k_ft_in1k`) | ViT-Base/16 (`vit_base_patch16_224...`) | Swin-Tiny (`swin_tiny_patch4...`) |
 | :--- | :--- | :--- | :--- | :--- |
-| **Primary Operator** | Standard $3\times 3$ Conv + BatchNorm | Depthwise $7\times 7$ Conv + LayerNorm | Multi-Head Self-Attention ($16\times 16$ patches) | Shifted Window Self-Attention ($7\times 7$ windows) |
-| **Inductive Bias** | Strict Translation Equivariance | High Translation Equivariance | No Translation Equivariance | Hierarchical / Localized Attention |
-| **Activation Function** | ReLU (Piecewise Linear) | GELU (Smooth Non-Linear) | GELU (Smooth Non-Linear) | GELU (Smooth Non-Linear) |
-| **Receptive Field** | Bounded, grows with depth | Bounded, grows with depth | Global from Layer 1 | Windowed, merges across stages |
-| **Shift Robustness** | Susceptible to sub-pixel aliasing | Moderately robust | Vulnerable to patch-boundary shifts | Vulnerable to window-boundary shifts |
-| **Expected CINS Linearity** | **Highest** ($\mathcal{O}(\alpha^3)$ over wide range) | **High** (Smooth GELU improves bounds) | **Moderate** (Self-attention introduces quadratic token interactions) | **Moderate to Low** (Shifted window boundaries introduce grid artifacts) |
+| **Primary Operator** | $3\times 3$ Conv + BatchNorm | Depthwise $7\times 7$ Conv + LayerNorm | Multi-Head Self-Attention ($16\times 16$ patches) | Shifted Window Self-Attention ($7\times 7$ tokens) |
+| **Activation Function** | ReLU (Piecewise Affine without BN) | GELU (Smooth $\mathcal{C}^\infty$ Non-Linear) | GELU (Smooth $\mathcal{C}^\infty$ Non-Linear) | GELU (Smooth $\mathcal{C}^\infty$ Non-Linear) |
+| **Receptive Field** | Bounded local, grows with depth | Bounded local, grows with depth | Global from Layer 1 | Windowed ($7\times 7$ tokens = $28\times 28$ pixels) |
+| **Linearity Hypothesis** | High within ReLU polytopes; breaks at boundaries | Smooth degradation governed by GELU curvature | Modulated by quadratic attention interactions | Modulated by window-straddling token boundaries |
 
-### 4.1 Why ViT Self-Attention Deviates from Convolutional Linearity
-
-In a convolutional layer, the output is linear in the inputs:
-$$y = W * x$$
-The gradient $\nabla_x y$ depends only on the static weights $W$, not on $x$.
-
-In multi-head self-attention, the attention weights themselves depend dynamically on the input:
-$$A(x) = \operatorname{softmax}\left(\frac{(x W_Q)(x W_K)^T}{\sqrt{d_k}}\right)$$
-$$y(x) = A(x) (x W_V)$$
-This makes self-attention a **bilinear and cubic operator** in $x$. The second derivative $\nabla^2 m(c)$ contains non-zero cross-token attention derivatives:
-$$\frac{\partial^2 y}{\partial x_i \partial x_j} \neq 0$$
-Even though symmetric difference nullifies the uniform quadratic term $h^T \nabla^2 m(c) h$, the cubic cross-attention variations $\nabla^3 m(c)$ in ViT are substantially larger than those in pure feed-forward ConvNets.
-
-### 4.2 Swin Transformer Window Discontinuities
-
-Swin-Transformer restricts self-attention to local non-overlapping $7\times 7$ windows that alternate with shifted windows by $\lfloor M/2 \rfloor = (3, 3)$ pixels.
-When the residual $d_\tau$ is translated by $\tau$, features cross these rigid $7\times 7$ window boundaries. This introduces a periodic modulation with period 7 in the true response map $r(\tau)$, producing localized high-frequency ripples that cannot be captured by a single smooth anchor gradient $g$.
+### 4.1 Swin-Transformer Window Geometry
+Swin-Transformer restricts self-attention to local non-overlapping windows of $M \times M$ tokens. For Swin-Tiny, $M = 7$ tokens, which with patch size $4 \times 4$ corresponds to $28 \times 28$ input pixels in Stage 1. Translating a high-frequency residual across these window partitions may modulate localized self-attention tokens. This is a hypothesized spatial mechanism that must be empirically tested against measured responses.
 
 ---
 
-## 5. Quantitative Diagnostic Criteria for CINS Reliability
+## 5. Methodological Hypotheses to be Empirically Tested
 
-To determine whether the FFT-predicted map $\hat{r}(\tau)$ is reliable without exhaustive forward evaluation, we propose two computationally inexpensive diagnostic indicators:
+The preliminary report's claim that $\alpha \in [0.10, 0.25]$ is universally "highly accurate" and that $\alpha \ge 0.50$ "fails" was an unsupported extrapolation. In the 10-image GPU engineering experiment, we will formally test:
 
-### Criterion 1: Local Spectral Energy Concentration Ratio (SECR)
-
-The approximation is most accurate when the energy of the residual $d$ is concentrated in spatial frequency bands where the neural network's transfer function is approximately linear.
-
-$$\operatorname{SECR}(D) = \frac{\sum_{\|\omega\| \le \omega_{\text{pass}}} |D(\omega)|^2}{\sum_{\omega} |D(\omega)|^2}$$
-where $\omega_{\text{pass}} \approx \frac{1}{4} \omega_{\text{Nyquist}}$ represents the low-to-mid frequency band. When $\operatorname{SECR} \ge 0.70$, higher-order aliasing artifacts are strongly suppressed, and correlation between $\hat{r}$ and $r$ exceeds $\rho > 0.85$.
-
-### Criterion 2: Gradient Sparsity and Dynamic Range
-
-Let $g = \nabla_x m(c)$. Define the effective gradient sparsity index:
-$$\kappa(g) = \frac{\|g\|_1}{\sqrt{D} \|g\|_2} \in (0, 1]$$
-- When $\kappa(g) \ll 0.20$ (highly sparse gradient, concentrated on a few salient edge pixels), spatial translation of $d_\tau$ results in sharp impulse-like overlaps. In this regime, activation boundaries flip rapidly as the residual passes over salient pixels.
-- When $\kappa(g) \ge 0.40$ (distributed gradient, typical of robust or pre-trained ConvNeXt models), the linear approximation holds over significantly larger values of $\alpha$ ($\alpha \le 0.50$).
-
----
-
-## 6. Summary of Actionable Experimental Guidelines
-
-1. **Intervention Strength Selection:**
-   - Use $\alpha \in [0.10, 0.25]$ as the canonical evaluation regime. Here, cubic remainder terms are $< 1.5\%$ of the first-order response, guaranteeing $\rho(r, \hat{r}) > 0.80$.
-   - Use $\alpha = 0.50$ as the stress-test regime to deliberately characterize breakdown points across architectures.
-2. **Metric Selection:**
-   - Prefer un-normalized target class logit $z_{y^*}$ for validating linear theory.
-   - Use top-1 margin $M(x)$ for decision impact analysis, while flagging samples where runner-up switching occurs.
-3. **Headroom Enforcement:**
-   - Always enforce interior anchor contraction ($c_\eta$ with $\eta = 0.05$) to ensure zero boundary clipping, preserving the mathematical guarantees of Theorem 1.
+- **Hypothesis H1 (Intervention Strength Scaling):**  
+  Does the empirical approximation error $\|r(\tau, \alpha) - \hat{r}(\tau, \alpha)\|$ scale cubically with $\alpha$ across the prespecified levels $\alpha \in \{0.2, 0.5, 0.8\} \times \alpha_{\text{common}}$?
+- **Hypothesis H2 (Margin Regularity Comparison):**  
+  Does the fixed anchor-competitor margin $m_{\text{fixed}}$ exhibit higher linear correlation with $\hat{r}$ than the true-class maximum-competitor margin $m$ when runner-up switching occurs?
+- **Hypothesis H3 (Architectural Ranking):**  
+  Do convolutional networks (ConvNeXt-Tiny, ResNet-50) maintain higher prediction correlation $\rho(\hat{r}, r)$ than Vision Transformers (ViT-Base, Swin-Tiny) under equivalent relative intervention strengths?

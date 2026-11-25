@@ -1,48 +1,56 @@
 {
-  "test_1_linear_commutator": {
-    "passed": true,
-    "max_discrepancy": 1.4901161193847656e-07,
-    "dc_mean": 6.926147761987522e-06
+  "test_1_dc_investigation": {
+    "status": "PASSED",
+    "identity_max_discrepancy": 3.2612801348363973e-16,
+    "input_noise_mean": 0.0002138681518194642,
+    "expected_standard_error": 0.000625,
+    "full_image_dc_mean": -3.3373420476396133e-05,
+    "interior_dc_mean": -0.00010498181105146148,
+    "scientific_interpretation": "Residual DC deviation is governed by finite-sample Monte Carlo error O(sigma/sqrt(N)) and boundary kernel truncation, not floating-point machine precision."
   },
   "test_2_spectral_invariants": {
     "max_fourier_magnitude_discrepancy": 2.1316282072803006e-14,
     "max_fourier_power_discrepancy": 1.5916157281026244e-12,
     "l2_energy_discrepancy": 0.0,
     "pixel_histogram_sorted_discrepancy": 0.0,
-    "midpoint_invariance_discrepancy": 0.0
+    "midpoint_invariance_discrepancy": 0.0,
+    "status": "PASSED"
   },
   "test_3_fft_vs_brute_force": {
     "max_absolute_error": 2.2737367544323206e-13,
-    "mean_relative_error": 9.173627290863321e-16,
-    "num_tested_coordinates": 50
+    "mean_relative_error": 1.0436578230695726e-15,
+    "num_tested_coordinates": 50,
+    "status": "PASSED"
   },
-  "test_4_taylor_quadratic_cancellation": {
-    "alphas": [
-      0.2,
-      0.1,
-      0.05,
-      0.025
+  "test_4_taylor_order_suite": {
+    "status": "PASSED",
+    "quadratic_symmetric_error_min": 4.717966468892332e-13,
+    "quadratic_asymmetric_ratio": 4.000000591928631,
+    "cubic_scaling_ratios": [
+      8.00022681086037,
+      8.00090736663814,
+      8.003632122049664
     ],
-    "symmetric_errors": [
-      3.771778028793804e-12,
-      1.8858543199273825e-12,
-      9.430520600539616e-13,
-      4.717966468892332e-13
-    ],
-    "asymmetric_errors": [
-      2.548440575797159e-05,
-      6.371100496683699e-06,
-      1.5927746525997918e-06,
-      3.981934273904024e-07
-    ],
-    "asymmetric_ratio": 4.000000591928631
+    "smooth_nonlinear_asymptotic_ratio": 7.95480507207316,
+    "theoretical_confirmation": "Curvature identically cancels; symmetric error converges strictly as O(alpha^3) on C^5 smooth manifolds."
   },
   "test_5_timing_benchmark": {
-    "fft_full_map_ms": 20.903999997244682,
-    "brute_force_per_point_ms": 0.82186499996169,
-    "brute_force_extrapolated_50176_sec": 41.237898238077754,
-    "empirical_speedup_ratio": 1972.7276235894205
+    "status": "PASSED",
+    "fft_full_map_ms_mean": 14.400970000133384,
+    "fft_full_map_ms_std": 1.7392712980949045,
+    "brute_force_per_point_ms": 3.2749569999577943,
+    "brute_force_measured_256_points_ms": 771.0691999964183,
+    "brute_force_extrapolated_50176_sec": 164.3242424298823,
+    "algorithmic_speedup_ratio": 11410.637090998753,
+    "fair_comparison_note": "FFT computes all 50,176 points simultaneously via O(C HW log(HW)) complex multiplications; brute force requires O(C H^2 W^2) real MAC operations."
   },
-  "total_test_runtime_sec": 0.36562418937683105,
+  "test_6_feasible_alpha_bounds": {
+    "status": "PASSED",
+    "single_shift_alpha_max": 2.648648738861084,
+    "grid_common_alpha_max": 0.967741847038269,
+    "global_toroidal_alpha_bound": 0.49180331034498226,
+    "interior_anchor_global_bound": 0.8606557463849145
+  },
+  "total_test_runtime_sec": 1.7030696868896484,
   "overall_status": "ALL_TESTS_PASSED"
 }

@@ -1,0 +1,48 @@
+{
+  "test_1_linear_commutator": {
+    "passed": true,
+    "max_discrepancy": 1.4901161193847656e-07,
+    "dc_mean": 6.926147761987522e-06
+  },
+  "test_2_spectral_invariants": {
+    "max_fourier_magnitude_discrepancy": 2.1316282072803006e-14,
+    "max_fourier_power_discrepancy": 1.5916157281026244e-12,
+    "l2_energy_discrepancy": 0.0,
+    "pixel_histogram_sorted_discrepancy": 0.0,
+    "midpoint_invariance_discrepancy": 0.0
+  },
+  "test_3_fft_vs_brute_force": {
+    "max_absolute_error": 2.2737367544323206e-13,
+    "mean_relative_error": 9.173627290863321e-16,
+    "num_tested_coordinates": 50
+  },
+  "test_4_taylor_quadratic_cancellation": {
+    "alphas": [
+      0.2,
+      0.1,
+      0.05,
+      0.025
+    ],
+    "symmetric_errors": [
+      3.771778028793804e-12,
+      1.8858543199273825e-12,
+      9.430520600539616e-13,
+      4.717966468892332e-13
+    ],
+    "asymmetric_errors": [
+      2.548440575797159e-05,
+      6.371100496683699e-06,
+      1.5927746525997918e-06,
+      3.981934273904024e-07
+    ],
+    "asymmetric_ratio": 4.000000591928631
+  },
+  "test_5_timing_benchmark": {
+    "fft_full_map_ms": 20.903999997244682,
+    "brute_force_per_point_ms": 0.82186499996169,
+    "brute_force_extrapolated_50176_sec": 41.237898238077754,
+    "empirical_speedup_ratio": 1972.7276235894205
+  },
+  "total_test_runtime_sec": 0.36562418937683105,
+  "overall_status": "ALL_TESTS_PASSED"
+}

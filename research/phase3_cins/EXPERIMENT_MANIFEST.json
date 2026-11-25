@@ -1,0 +1,219 @@
+{
+  "protocol": "CINS Phase III Feasibility Experiment",
+  "date": "November 2026",
+  "git_branch": "avi1444320-phase3",
+  "git_commit": "fce29ff566b43e7951c440659e3e5815c16d91cb",
+  "total_images": 10,
+  "results": [
+    {
+      "image_id": 0,
+      "filename": "img_0_clean.jpg",
+      "fft_map_runtime_ms": 22.730500000761822,
+      "response_landscape_std": 3.9265365019540113,
+      "response_landscape_range": 32.284295860629186,
+      "tau_predicted_max": [
+        106,
+        218
+      ],
+      "tau_predicted_min": [
+        54,
+        190
+      ],
+      "alphas_tested": [
+        0.1,
+        0.25,
+        0.5
+      ],
+      "num_sampled_translations": 35
+    },
+    {
+      "image_id": 1,
+      "filename": "img_1_clean.jpg",
+      "fft_map_runtime_ms": 22.47460000216961,
+      "response_landscape_std": 3.91915528472229,
+      "response_landscape_range": 34.144940787921165,
+      "tau_predicted_max": [
+        4,
+        132
+      ],
+      "tau_predicted_min": [
+        81,
+        109
+      ],
+      "alphas_tested": [
+        0.1,
+        0.25,
+        0.5
+      ],
+      "num_sampled_translations": 35
+    },
+    {
+      "image_id": 2,
+      "filename": "img_2_clean.jpg",
+      "fft_map_runtime_ms": 21.144300000742078,
+      "response_landscape_std": 4.422860894010207,
+      "response_landscape_range": 98.68507461559611,
+      "tau_predicted_max": [
+        223,
+        0
+      ],
+      "tau_predicted_min": [
+        1,
+        0
+      ],
+      "alphas_tested": [
+        0.1,
+        0.25,
+        0.5
+      ],
+      "num_sampled_translations": 35
+    },
+    {
+      "image_id": 3,
+      "filename": "img_3_clean.jpg",
+      "fft_map_runtime_ms": 19.8688000018592,
+      "response_landscape_std": 3.138363976757923,
+      "response_landscape_range": 25.988082472152687,
+      "tau_predicted_max": [
+        29,
+        108
+      ],
+      "tau_predicted_min": [
+        48,
+        110
+      ],
+      "alphas_tested": [
+        0.1,
+        0.25,
+        0.5
+      ],
+      "num_sampled_translations": 35
+    },
+    {
+      "image_id": 4,
+      "filename": "img_4_clean.jpg",
+      "fft_map_runtime_ms": 17.33349999994971,
+      "response_landscape_std": 5.89823871162867,
+      "response_landscape_range": 48.93030316521208,
+      "tau_predicted_max": [
+        9,
+        4
+      ],
+      "tau_predicted_min": [
+        144,
+        38
+      ],
+      "alphas_tested": [
+        0.1,
+        0.25,
+        0.5
+      ],
+      "num_sampled_translations": 35
+    },
+    {
+      "image_id": 5,
+      "filename": "58fbc3e79ef15162b7726de04e98c90bb91a3055.jpeg",
+      "fft_map_runtime_ms": 16.674200000124983,
+      "response_landscape_std": 5.301041997814914,
+      "response_landscape_range": 40.7333843139491,
+      "tau_predicted_max": [
+        223,
+        2
+      ],
+      "tau_predicted_min": [
+        106,
+        116
+      ],
+      "alphas_tested": [
+        0.1,
+        0.25,
+        0.5
+      ],
+      "num_sampled_translations": 35
+    },
+    {
+      "image_id": 6,
+      "filename": "64f661b97cfd6db73bd6c30325597cf7c7b322d5.jpeg",
+      "fft_map_runtime_ms": 18.917000001238193,
+      "response_landscape_std": 4.983697831240786,
+      "response_landscape_range": 48.36564752834341,
+      "tau_predicted_max": [
+        223,
+        223
+      ],
+      "tau_predicted_min": [
+        0,
+        1
+      ],
+      "alphas_tested": [
+        0.1,
+        0.25,
+        0.5
+      ],
+      "num_sampled_translations": 35
+    },
+    {
+      "image_id": 7,
+      "filename": "66123ec1b806abff544bb89e11653ef5185af4be.jpeg",
+      "fft_map_runtime_ms": 18.181599996751174,
+      "response_landscape_std": 6.0675616552801825,
+      "response_landscape_range": 46.0409163657946,
+      "tau_predicted_max": [
+        191,
+        198
+      ],
+      "tau_predicted_min": [
+        63,
+        19
+      ],
+      "alphas_tested": [
+        0.1,
+        0.25,
+        0.5
+      ],
+      "num_sampled_translations": 35
+    },
+    {
+      "image_id": 8,
+      "filename": "7e4a8987a9a330189cc38c4098b1c57ac301713f.jpeg",
+      "fft_map_runtime_ms": 16.9194999980391,
+      "response_landscape_std": 5.0551757035394775,
+      "response_landscape_range": 50.891213567037106,
+      "tau_predicted_max": [
+        222,
+        1
+      ],
+      "tau_predicted_min": [
+        94,
+        138
+      ],
+      "alphas_tested": [
+        0.1,
+        0.25,
+        0.5
+      ],
+      "num_sampled_translations": 35
+    },
+    {
+      "image_id": 9,
+      "filename": "8e1374a4e20d7af22665b7749158b7eb9fa3826e.jpeg",
+      "fft_map_runtime_ms": 17.053500007023104,
+      "response_landscape_std": 3.9607662591936474,
+      "response_landscape_range": 39.059579243482005,
+      "tau_predicted_max": [
+        0,
+        1
+      ],
+      "tau_predicted_min": [
+        0,
+        223
+      ],
+      "alphas_tested": [
+        0.1,
+        0.25,
+        0.5
+      ],
+      "num_sampled_translations": 35
+    }
+  ]
+}

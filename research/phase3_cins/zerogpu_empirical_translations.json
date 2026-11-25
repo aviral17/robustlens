@@ -1,0 +1,338 @@
+{
+  "image": "img_0_clean.jpg (Tench)",
+  "alpha": 0.25,
+  "anchor_baseline": {
+    "ResNet-50": {
+      "model": "ResNet-50",
+      "prediction": "tench",
+      "confidence": 0.9999988079071045,
+      "top_k": [
+        {
+          "class": "tench",
+          "probability": 0.9999988079071045
+        },
+        {
+          "class": "axolotl",
+          "probability": 2.3357339173912806e-08
+        },
+        {
+          "class": "miniature pinscher",
+          "probability": 1.497966550800811e-08
+        },
+        {
+          "class": "Chihuahua",
+          "probability": 1.1156088497443761e-08
+        },
+        {
+          "class": "squirrel monkey",
+          "probability": 1.1143200140395493e-08
+        }
+      ]
+    },
+    "ConvNeXt-Tiny": {
+      "model": "ConvNeXt-Tiny",
+      "prediction": "tench",
+      "confidence": 0.8924182057380676,
+      "top_k": [
+        {
+          "class": "tench",
+          "probability": 0.8924182057380676
+        },
+        {
+          "class": "goldfish",
+          "probability": 0.004104628227651119
+        },
+        {
+          "class": "barracouta",
+          "probability": 0.0027171559631824493
+        },
+        {
+          "class": "axolotl",
+          "probability": 0.0006871811929158866
+        },
+        {
+          "class": "gar",
+          "probability": 0.0005512795178219676
+        }
+      ]
+    },
+    "ViT-Base": {
+      "model": "ViT-Base",
+      "prediction": "tench",
+      "confidence": 0.9974222183227539,
+      "top_k": [
+        {
+          "class": "tench",
+          "probability": 0.9974222183227539
+        },
+        {
+          "class": "goldfish",
+          "probability": 0.0006370158516801894
+        },
+        {
+          "class": "barracouta",
+          "probability": 0.00030129222432151437
+        },
+        {
+          "class": "axolotl",
+          "probability": 0.00018832209752872586
+        },
+        {
+          "class": "rock beauty",
+          "probability": 0.00011468822049209848
+        }
+      ]
+    },
+    "Swin-Tiny": {
+      "model": "Swin-Tiny",
+      "prediction": "tench",
+      "confidence": 0.8511078357696533,
+      "top_k": [
+        {
+          "class": "tench",
+          "probability": 0.8511078357696533
+        },
+        {
+          "class": "axolotl",
+          "probability": 0.0035686178598552942
+        },
+        {
+          "class": "barracouta",
+          "probability": 0.0014577250694856048
+        },
+        {
+          "class": "goldfish",
+          "probability": 0.0014158867998048663
+        },
+        {
+          "class": "platypus",
+          "probability": 0.0011443751864135265
+        }
+      ]
+    }
+  },
+  "evaluations": [
+    {
+      "shift_name": "unshifted_origin",
+      "tau_y": 0,
+      "tau_x": 0,
+      "predicted_response_proxy": -1.2004295972251235,
+      "eval_time_sec": 2.8990039825439453,
+      "models": {
+        "ResNet-50": {
+          "pred_plus": "tench",
+          "conf_plus": 0.9999980926513672,
+          "pred_minus": "tench",
+          "conf_minus": 0.9999991655349731,
+          "actual_response_conf_delta": -1.0728836059570312e-06
+        },
+        "ConvNeXt-Tiny": {
+          "pred_plus": "tench",
+          "conf_plus": 0.8894528746604919,
+          "pred_minus": "tench",
+          "conf_minus": 0.8929464817047119,
+          "actual_response_conf_delta": -0.0034936070442199707
+        },
+        "ViT-Base": {
+          "pred_plus": "tench",
+          "conf_plus": 0.997751772403717,
+          "pred_minus": "tench",
+          "conf_minus": 0.9970922470092773,
+          "actual_response_conf_delta": 0.0006595253944396973
+        },
+        "Swin-Tiny": {
+          "pred_plus": "tench",
+          "conf_plus": 0.8536657691001892,
+          "pred_minus": "tench",
+          "conf_minus": 0.8044424057006836,
+          "actual_response_conf_delta": 0.049223363399505615
+        }
+      }
+    },
+    {
+      "shift_name": "predicted_max",
+      "tau_y": 106,
+      "tau_x": 218,
+      "predicted_response_proxy": 4.14552921339754,
+      "eval_time_sec": 2.7101497650146484,
+      "models": {
+        "ResNet-50": {
+          "pred_plus": "tench",
+          "conf_plus": 0.9999990463256836,
+          "pred_minus": "tench",
+          "conf_minus": 0.9999986886978149,
+          "actual_response_conf_delta": 3.5762786865234375e-07
+        },
+        "ConvNeXt-Tiny": {
+          "pred_plus": "tench",
+          "conf_plus": 0.8900420665740967,
+          "pred_minus": "tench",
+          "conf_minus": 0.893937349319458,
+          "actual_response_conf_delta": -0.003895282745361328
+        },
+        "ViT-Base": {
+          "pred_plus": "tench",
+          "conf_plus": 0.9971575736999512,
+          "pred_minus": "tench",
+          "conf_minus": 0.9974341988563538,
+          "actual_response_conf_delta": -0.0002766251564025879
+        },
+        "Swin-Tiny": {
+          "pred_plus": "tench",
+          "conf_plus": 0.8326336145401001,
+          "pred_minus": "tench",
+          "conf_minus": 0.8449686765670776,
+          "actual_response_conf_delta": -0.012335062026977539
+        }
+      }
+    },
+    {
+      "shift_name": "predicted_min",
+      "tau_y": 54,
+      "tau_x": 190,
+      "predicted_response_proxy": -3.1184364634161463,
+      "eval_time_sec": 3.060763120651245,
+      "models": {
+        "ResNet-50": {
+          "pred_plus": "tench",
+          "conf_plus": 0.9999986886978149,
+          "pred_minus": "tench",
+          "conf_minus": 0.9999980926513672,
+          "actual_response_conf_delta": 5.960464477539062e-07
+        },
+        "ConvNeXt-Tiny": {
+          "pred_plus": "tench",
+          "conf_plus": 0.8886848092079163,
+          "pred_minus": "tench",
+          "conf_minus": 0.8947261571884155,
+          "actual_response_conf_delta": -0.006041347980499268
+        },
+        "ViT-Base": {
+          "pred_plus": "tench",
+          "conf_plus": 0.9976612329483032,
+          "pred_minus": "tench",
+          "conf_minus": 0.9974182844161987,
+          "actual_response_conf_delta": 0.0002429485321044922
+        },
+        "Swin-Tiny": {
+          "pred_plus": "tench",
+          "conf_plus": 0.8529608249664307,
+          "pred_minus": "tench",
+          "conf_minus": 0.8398130536079407,
+          "actual_response_conf_delta": 0.01314777135848999
+        }
+      }
+    },
+    {
+      "shift_name": "grid_shift_44",
+      "tau_y": 44,
+      "tau_x": 44,
+      "predicted_response_proxy": 0.5329389773451251,
+      "eval_time_sec": 5.564042091369629,
+      "models": {
+        "ResNet-50": {
+          "pred_plus": "tench",
+          "conf_plus": 0.9999990463256836,
+          "pred_minus": "tench",
+          "conf_minus": 0.999998927116394,
+          "actual_response_conf_delta": 1.1920928955078125e-07
+        },
+        "ConvNeXt-Tiny": {
+          "pred_plus": "tench",
+          "conf_plus": 0.8884940147399902,
+          "pred_minus": "tench",
+          "conf_minus": 0.8922315239906311,
+          "actual_response_conf_delta": -0.003737509250640869
+        },
+        "ViT-Base": {
+          "pred_plus": "tench",
+          "conf_plus": 0.9975311160087585,
+          "pred_minus": "tench",
+          "conf_minus": 0.9974797368049622,
+          "actual_response_conf_delta": 5.137920379638672e-05
+        },
+        "Swin-Tiny": {
+          "pred_plus": "tench",
+          "conf_plus": 0.8171690702438354,
+          "pred_minus": "tench",
+          "conf_minus": 0.8540897965431213,
+          "actual_response_conf_delta": -0.03692072629928589
+        }
+      }
+    },
+    {
+      "shift_name": "grid_shift_88",
+      "tau_y": 88,
+      "tau_x": 88,
+      "predicted_response_proxy": 0.7160699673529344,
+      "eval_time_sec": 3.02427339553833,
+      "models": {
+        "ResNet-50": {
+          "pred_plus": "tench",
+          "conf_plus": 0.9999994039535522,
+          "pred_minus": "tench",
+          "conf_minus": 0.9999984502792358,
+          "actual_response_conf_delta": 9.5367431640625e-07
+        },
+        "ConvNeXt-Tiny": {
+          "pred_plus": "tench",
+          "conf_plus": 0.8952463865280151,
+          "pred_minus": "tench",
+          "conf_minus": 0.8846170902252197,
+          "actual_response_conf_delta": 0.01062929630279541
+        },
+        "ViT-Base": {
+          "pred_plus": "tench",
+          "conf_plus": 0.9971948862075806,
+          "pred_minus": "tench",
+          "conf_minus": 0.9972913861274719,
+          "actual_response_conf_delta": -9.649991989135742e-05
+        },
+        "Swin-Tiny": {
+          "pred_plus": "tench",
+          "conf_plus": 0.8285319209098816,
+          "pred_minus": "tench",
+          "conf_minus": 0.8433982133865356,
+          "actual_response_conf_delta": -0.014866292476654053
+        }
+      }
+    },
+    {
+      "shift_name": "grid_shift_132",
+      "tau_y": 132,
+      "tau_x": 132,
+      "predicted_response_proxy": 0.6422102251081255,
+      "eval_time_sec": 2.8495516777038574,
+      "models": {
+        "ResNet-50": {
+          "pred_plus": "tench",
+          "conf_plus": 0.9999990463256836,
+          "pred_minus": "tench",
+          "conf_minus": 0.9999986886978149,
+          "actual_response_conf_delta": 3.5762786865234375e-07
+        },
+        "ConvNeXt-Tiny": {
+          "pred_plus": "tench",
+          "conf_plus": 0.8932962417602539,
+          "pred_minus": "tench",
+          "conf_minus": 0.8913568258285522,
+          "actual_response_conf_delta": 0.0019394159317016602
+        },
+        "ViT-Base": {
+          "pred_plus": "tench",
+          "conf_plus": 0.9973813891410828,
+          "pred_minus": "tench",
+          "conf_minus": 0.9972994923591614,
+          "actual_response_conf_delta": 8.189678192138672e-05
+        },
+        "Swin-Tiny": {
+          "pred_plus": "tench",
+          "conf_plus": 0.8514622449874878,
+          "pred_minus": "tench",
+          "conf_minus": 0.82979816198349,
+          "actual_response_conf_delta": 0.021664083003997803
+        }
+      }
+    }
+  ]
+}
